@@ -1,0 +1,27 @@
+{
+    "DATABASE": {
+        "DB_ROOT_USER": "",
+        "DB_ROOT_PASSWORD": "",
+        "DB_USER": "",
+        "DB_PASSWORD": "",
+        "DB_NAME": "",
+        "DB_HOST": "",
+        "DB_PORT": 3306
+    },
+    "SERVER_PORT": 9000,
+    "S3": {
+        "BUCKET_NAME": "",
+        "CONFIG": {
+            "accessKeyId": "",
+            "secretAccessKey": "",
+            "region": "",
+            "signatureVersion": ""
+        }
+    },
+    "EMAIL": {
+        "FROM_EMAIL": "",
+        "CONSENT_TEMPLATE_ID": "",
+        "SIGNUP_TEMPLATE_ID": "",
+        "SENDGRID_KEY": ""
+    }
+}

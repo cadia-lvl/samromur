@@ -1,0 +1,85 @@
+import { Demographic } from '../types/user';
+
+export const dialects: Array<Demographic> = [
+    { id: "0", name: 'Harðmæli' },
+    { id: "1", name: 'Raddaður framburður' },
+    { id: "2", name: 'ngl-framburður' },
+    { id: "3", name: 'bð/gð-framburður' },
+    { id: "4", name: 'Vestfirskur einhljóðaframburður' },
+    { id: "5", name: 'Vestfirsk áhersla' },
+    { id: "6", name: 'hv-framburður' },
+    { id: "7", name: 'Skaftfellskur einhljóðaframburður' },
+    { id: "8", name: 'rn/rl-framburður' },
+];
+
+export const ages: Array<Demographic> = [
+    { id: 'barn', name: 'undir 18' },
+    { id: 'unglingur', name: '18-19' },
+    { id: 'tvitugt', name: '20-29' },
+    { id: 'thritugt', name: '30-39' },
+    { id: 'fertugt', name: '40-49' },
+    { id: 'fimmtugt', name: '50-59' },
+    { id: 'sextugt', name: '60-69' },
+    { id: 'sjotugt', name: '70-79' },
+    { id: 'attraett', name: '80-89' },
+    { id: 'niraett', name: '90+' }
+];
+
+export const genders: Array<Demographic> = [
+    { id: 'karl', name: 'Karl' },
+    { id: 'kona', name: 'Kona' },
+    { id: 'annad', name: 'Annað' }
+]
+
+export const nativeLanguages: Array<Demographic> = [
+    { id: 'albanska', name: 'Albanska' },
+    { id: 'arabiska', name: 'Arabíska' },
+    { id: 'bulgarska', name: 'Búlgarska' },
+    { id: 'danska', name: 'Danska' },
+    { id: 'eistneska', name: 'Eistneska' },
+    { id: 'enska', name: 'Enska' },
+    { id: 'faereyska', name: 'Færeyska' },
+    { id: 'filippseyskt_mal', name: 'Filippseyskt mál' },
+    { id: 'finnska', name: 'Finnska' },
+    { id: 'franska', name: 'Franska' },
+    { id: 'graenlenska', name: 'Grænlenska' },
+    { id: 'griska', name: 'Gríska' },
+    { id: 'hebreska', name: 'Hebreska' },
+    { id: 'hindi', name: 'Hindi' },
+    { id: 'hollenska', name: 'Hollenska' },
+    { id: 'indonesiska', name: 'Indónesíska' },
+    { id: 'islenska', name: 'Íslenska' },
+    { id: 'italska', name: 'Ítalska' },
+    { id: 'japanska', name: 'Japanska' },
+    { id: 'kinverska', name: 'Kínverska' },
+    { id: 'koreska', name: 'Kóreska' },
+    { id: 'kurdiska', name: 'Kúrdíska' },
+    { id: 'lettneska', name: 'Lettneska' },
+    { id: 'litaiska', name: 'Litáíska' },
+    { id: 'makedonska', name: 'Makedónska' },
+    { id: 'mongolska', name: 'Mongólska' },
+    { id: 'nepalska', name: 'Nepalska' },
+    { id: 'norska', name: 'Norska' },
+    { id: 'persneska', name: 'Persneska' },
+    { id: 'polska', name: 'Pólska' },
+    { id: 'portugalska', name: 'Portúgalska' },
+    { id: 'rumenska', name: 'Rúmenska' },
+    { id: 'russneska', name: 'Rússneska' },
+    { id: 'saenska', name: 'Sænska' },
+    { id: 'serbokroatiska', name: 'Serbókróatíska' },
+    { id: 'singhalesiska', name: 'Singhalesíska' },
+    { id: 'slovakiska', name: 'Slóvakíska' },
+    { id: 'slovenska', name: 'Slóvenska' },
+    { id: 'spaenska', name: 'Spænska' },
+    { id: 'svahili', name: 'Svahilí' },
+    { id: 'tailenska', name: 'Taílenska' },
+    { id: 'tamil', name: 'Tamíl' },
+    { id: 'tekkneska', name: 'Tékkneska' },
+    { id: 'thyska', name: 'Þýska' },
+    { id: 'tyrkneska', name: 'Tyrkneska' },
+    { id: 'ukrainska', name: 'Úkraínska' },
+    { id: 'ungverska', name: 'Ungverska' },
+    { id: 'urdu', name: 'Úrdu' },
+    { id: 'vietnamska', name: 'Víetnamska' },
+    { id: 'annad', name: 'Annað' }
+]

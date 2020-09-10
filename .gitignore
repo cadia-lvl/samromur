@@ -1,0 +1,12 @@
+node_modules
+.next
+dist
+db.sqlite3
+.DS_Store
+tmp
+!tmp/gitkeep
+config.json
+database.json
+playground
+public/sw.js*
+public/workbox*

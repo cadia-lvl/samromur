@@ -1,0 +1,280 @@
+import {
+    audioFormat,
+    AudioInfo,
+    AudioError,
+    RecordingError,
+    BlobEvent
+} from '../../../types/audio';
+
+export default class Recorder {
+    microphone?: MediaStream;
+    analyzerNode!: AnalyserNode;
+    audioContext!: AudioContext;
+    recorder: any;
+    chunks!: any[];
+    frequencyBins!: Uint8Array;
+    volumeCallback!: Function;
+    jsNode: any;
+    recorderListeners: {
+        start: Function | null;
+        dataavailable: Function | null;
+        stop: Function | null;
+    };
+
+    // Migrate
+    private minRecordingMS: number;
+    private maxRecordingMS: number;
+    private minVolume: number;
+    private maxVolume!: number;
+    private startTime!: Date;
+    isRecordingSupported: boolean;
+    isRecording!: boolean;
+
+    constructor() {
+        this.recorderListeners = {
+            start: null,
+            dataavailable: null,
+            stop: null,
+        };
+
+        this.analyze = this.analyze.bind(this);
+
+        // Migrate
+        this.minRecordingMS = 1000;
+        this.maxRecordingMS = 1500000;
+        this.minVolume = 8; // Range: [0, 255]
+        this.setVolumeCallback(this.updateVolume.bind(this));
+        this.isRecordingSupported = this.isAudioRecordingSupported() &&
+            this.isMicrophoneSupported();
+    }
+
+    private updateVolume = (volume: number) => {
+        const { maxVolume } = this;
+        if (volume > maxVolume) {
+            this.maxVolume = volume;
+        }
+    };
+
+    private isReady = (): boolean => {
+        return !!this.microphone;
+    }
+
+    private getMicrophone = (): Promise<MediaStream> => {
+        return new Promise((resolve, reject) => {
+            const deny = (error: MediaStreamError) => {
+                reject(
+                    ({
+                        NotAllowedError: AudioError.NOT_ALLOWED,
+                        NotFoundError: AudioError.NO_MIC,
+                    } as { [errorName: string]: AudioError })[error.name] || error
+                )
+            }
+
+            if (navigator.mediaDevices?.getUserMedia) {
+                navigator.mediaDevices
+                    .getUserMedia({ audio: true })
+                    .then(resolve, deny);
+            } else if (navigator.getUserMedia) {
+                navigator.getUserMedia({ audio: true }, resolve, deny);
+            } else if (navigator.webkitGetUserMedia) {
+                navigator.webkitGetUserMedia({ audio: true }, resolve, deny);
+            } else if (navigator.mozGetUserMedia) {
+                navigator.mozGetUserMedia({ audio: true }, resolve, deny);
+            } else {
+                // Browser does not support getUserMedia
+                reject(AudioError.NO_SUPPORT);
+            }
+        });
+    }
+
+    // Check all the browser prefixes for microhpone support.
+    isMicrophoneSupported = (): boolean => {
+        return !!(
+            navigator.mediaDevices?.getUserMedia ||
+            navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia
+        );
+    }
+
+    // Check if audio recording is supported
+    isAudioRecordingSupported = () => (
+        typeof window.MediaRecorder !== 'undefined' &&
+        !window.MediaRecorder.notSupported
+    );
+
+    private analyze = () => {
+        this.analyzerNode.getByteFrequencyData(this.frequencyBins);
+
+        if (this.volumeCallback) {
+            this.volumeCallback(this.frequencyBins.reduce((prev, current) => {
+                return prev > current ? prev : current;
+            }));
+        }
+    }
+
+    setVolumeCallback(cb: Function) {
+        this.volumeCallback = cb;
+    }
+
+    /**
+     * Initialize the recorder, opening the microphone media stream.
+     *
+     * If microphone access is currently denied, the user is asked to grant
+     * access. Since these permission changes take effect only after a reload,
+     * the page is reloaded if the user decides to do so.
+     *
+     */
+    init = async (): Promise<void> => {
+        if (this.isReady()) {
+            return;
+        }
+
+        const microphone = await this.getMicrophone();
+        this.microphone = microphone;
+
+        const audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+        const sourceNode = audioContext.createMediaStreamSource(microphone);
+        const volumeNode = audioContext.createGain();
+        const analyzerNode = audioContext.createAnalyser();
+        const outputNode = audioContext.createMediaStreamDestination();
+
+        // Make sure we're doing mono everywhere.
+        sourceNode.channelCount = 1;
+        volumeNode.channelCount = 1;
+        analyzerNode.channelCount = 1;
+        outputNode.channelCount = 1;
+
+        // Connect the nodes together
+        sourceNode.connect(volumeNode);
+        volumeNode.connect(analyzerNode);
+        analyzerNode.connect(outputNode);
+
+        // and set up the recorder.
+        this.recorder = new window.MediaRecorder(outputNode.stream);
+
+        // Set up the analyzer node, and allocate an array for its data
+        // FFT size 64 gives us 32 bins. But those bins hold frequencies up to
+        // 22kHz or more, and we only care about lower frequencies which is where
+        // most human voice lies, so we use fewer bins.
+        analyzerNode.fftSize = 128;
+        analyzerNode.smoothingTimeConstant = 0.96;
+        this.frequencyBins = new Uint8Array(analyzerNode.frequencyBinCount);
+
+        // Setup jsNode for audio analysis callbacks.
+        // TODO: `createScriptProcessor` is deprecated, and is a heavy solution for
+        //       what it’s doing (checking recording volume). It should be replaced
+        //       with something lighter, or AudioWorklets once they become more
+        //       widely adopted.
+        this.jsNode = audioContext.createScriptProcessor(256, 1, 1);
+        this.jsNode.connect(audioContext.destination);
+
+        this.analyzerNode = analyzerNode;
+        this.audioContext = audioContext;
+    }
+
+    startRecording = async (): Promise<void> => {
+        if (!this.isRecordingSupported) {
+            return;
+        }
+        await this.init();
+        await this.start();
+        this.isRecording = true;
+        this.startTime = new Date();
+    }
+
+    start = (): Promise<void> => {
+        if (!this.isReady()) {
+            console.error('Cannot record audio before microhphone is ready.');
+            return Promise.reject();
+        }
+
+        return new Promise((resolve, reject) => {
+            this.chunks = [];
+            // Remove the old listeners.
+            this.recorder.removeEventListener('start', this.recorderListeners.start);
+            this.recorder.removeEventListener(
+                'dataavailable',
+                this.recorderListeners.dataavailable
+            );
+
+            // Update the stored listeners.
+            this.recorderListeners.start = (e: Event) => resolve();
+            this.recorderListeners.dataavailable = (e: BlobEvent) => {
+                this.chunks.push(e.data);
+            };
+
+            // Add the new listeners.
+            this.recorder.addEventListener('start', this.recorderListeners.start);
+            this.recorder.addEventListener(
+                'dataavailable',
+                this.recorderListeners.dataavailable
+            );
+
+            // Finally, start it up.
+            // We want to be able to record up to 60s of audio in a single blob.
+            // Without this argument to start(), Chrome will call dataavailable
+            // very frequently.
+            this.jsNode.onaudioprocess = this.analyze;
+            this.recorder.start(20000);
+        });
+    }
+
+    stopRecording = async (): Promise<AudioInfo> => {
+        this.isRecording = false;
+        return this.stop().then((recording: AudioInfo) => {
+            const recordingError = this.validateRecording();
+            if (recordingError) {
+                return Promise.reject(recordingError);
+            } else {
+                return Promise.resolve(recording);
+            }
+        });
+    }
+
+    stop = (): Promise<AudioInfo> => {
+        if (!this.isReady()) {
+            console.error('Cannot stop audio before microphone is ready.');
+            return Promise.reject();
+        }
+
+        return new Promise((resolve, reject) => {
+            this.jsNode.onaudioprocess = undefined;
+            this.recorder.removeEventListener('stop', this.recorderListeners.stop);
+            this.recorderListeners.stop = (e: Event) => {
+                let blob = new Blob(this.chunks, { type: audioFormat });
+                resolve({
+                    url: URL.createObjectURL(blob),
+                    blob: blob,
+                });
+            };
+            this.recorder.addEventListener('stop', this.recorderListeners.stop);
+            this.recorder.stop();
+        });
+    }
+
+    validateRecording = (): RecordingError | null => {
+        const { maxVolume, startTime } = this;
+        const duration = new Date().getTime() - (startTime ? startTime.getTime() : 0);
+        if (duration < this.minRecordingMS) {
+            return RecordingError.TOO_SHORT;
+        }
+        if (duration > this.maxRecordingMS) {
+            return RecordingError.TOO_LONG;
+        }
+        if (maxVolume !== -1 && maxVolume < this.minVolume) {
+            return RecordingError.TOO_QUIET;
+        }
+        return null;
+    }
+
+    release = () => {
+        if (this.microphone) {
+            for (const track of this.microphone.getTracks()) {
+                track.stop();
+            }
+        }
+        this.microphone = undefined;
+    }
+}
