@@ -1,11 +1,12 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
+
 import {
     SentenceBatch,
     SentenceBatchResponse,
     SentenceGroupInfo,
 } from '../types/sentences';
 
-const serverPrefix = 'http://localhost:9000';
+import { SSRRequest } from '../types/ssr';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm'
@@ -19,7 +20,7 @@ export const confirmSentences = async (id: string): Promise<boolean> => {
         return response.data;
     }).catch((error: AxiosError) => {
         return Promise.reject(error.code);
-    })
+    });
 }
 
 export const uploadSentences = async (batch: SentenceBatch): Promise<SentenceBatchResponse> => {
@@ -40,9 +41,9 @@ export const uploadSentences = async (batch: SentenceBatch): Promise<SentenceBat
     });
 }
 
-export const fetchAllSentencesInfo = async (isServer: boolean = false): Promise<Array<SentenceGroupInfo>> => {
+export const fetchAllSentencesInfo = async (payload: SSRRequest): Promise<Array<SentenceGroupInfo>> => {
     const endpoint = '/api/admin/sentences';
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url

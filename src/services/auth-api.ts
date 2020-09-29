@@ -1,8 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import {
-    AuthRequest,
-    AuthError,
-} from '../types/auth';
+
+import { AuthRequest, AuthError } from '../types/auth';
 
 export const signUp = async (payload: AuthRequest): Promise<string> => {
     const { email, password } = payload;

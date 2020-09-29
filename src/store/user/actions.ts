@@ -8,6 +8,7 @@ import {
   UserClient,
   UserConsents,
 } from '../../types/user';
+import { FetchUserRequest } from '../../services/user-api';
 
 export const setDemographics = createAction(
   'SET_DEMOGRAPHICS',
@@ -41,4 +42,4 @@ export const fetchUser = createAsyncAction(
   'UPDATE_USER_REQUEST',
   'UPDATE_USER_SUCCESS',
   'UPDATE_USER_FAILED',
-)<{ isServer: boolean, id: string }, UserClient, string>();
+)<FetchUserRequest, UserClient, string>();

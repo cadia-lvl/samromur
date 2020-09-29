@@ -1,14 +1,15 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-import {
-    UserClient
-} from '../types/user';
+import { UserClient } from '../types/user';
+import { SSRRequest } from '../types/ssr';
 
-const serverPrefix = 'http://localhost:9000';
+export interface FetchUserRequest extends SSRRequest {
+    id: string;
+}
 
-export const fetchUser = async (payload: { isServer: boolean, id: string }): Promise<UserClient> => {
+export const fetchUser = async (payload: FetchUserRequest): Promise<UserClient> => {
     const endpoint = `/api/users`;
-    const url = payload.isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,

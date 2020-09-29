@@ -3,18 +3,17 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
+
 import { withRouter } from 'next/router';
 import { WithRouterProps } from "next/dist/client/with-router";
-import { Subject } from 'rxjs'
-import { ActionsObservable, StateObservable } from 'redux-observable'
-import rootEpic from '../store/root-epic';
-import services from '../services';
 
-import { fetchSentences, FetchSamplesPayload } from '../services/contribute-api';
 import { fetchWeeklyClips } from '../store/stats/actions';
-import { SimpleSentence, WheelSentence } from '../types/sentences';
-
 import { resetContribute } from '../store/contribute/actions';
+
+import { fetchSentences } from '../services/contribute-api';
+import { WheelSentence } from '../types/sentences';
+
+import makeSSRDispatch from '../utilities/ssr-request';
 
 import ContributePage from '../components/contribute/setup/contribute';
 
@@ -46,23 +45,20 @@ class SpeakPage extends React.Component<Props, State> {
     }
 
     static async getInitialProps(ctx: NextPageContext) {
-        const { isServer, req, res, store } = ctx;
-        store.dispatch(resetContribute())
+        const { isServer, req, store } = ctx;
 
-        const state$ = new StateObservable(new Subject(), store.getState())
-        const action$ = ActionsObservable.of(fetchWeeklyClips.request(isServer));
-        const resultAction = await rootEpic(
-            action$,
-            state$,
-            services
-        ).toPromise();
+        // Reset session progress
+        store.dispatch(resetContribute());
 
-        store.dispatch(resultAction);
+        // Fetch some stats to display at the end of the session
+        makeSSRDispatch(ctx, fetchWeeklyClips.request);
 
+        // Fetch sentences to prompt the user with
+        const host = (isServer && req) ? 'http://' + req.headers.host : undefined;
         const initialSentences = await fetchSentences({
             clientId: req?.headers.client_id as string || '',
             count: sentencesChunkSize,
-            isServer,
+            host
         });
 
         return ({

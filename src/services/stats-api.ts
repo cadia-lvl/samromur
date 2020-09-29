@@ -1,17 +1,11 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { TimelineStat, TimelineSumStat } from '../types/stats';
 
-const serverPrefix = 'http://localhost:9000';
+import { SSRRequest } from '../types/ssr';
 
-export interface FetchSamplesPayload {
-    clientId?: string;
-    count: number;
-    isServer?: boolean;
-}
-
-export const fetchWeeklyClips = async (isServer?: boolean): Promise<TimelineStat[]> => {
+export const fetchWeeklyClips = async (payload: SSRRequest): Promise<TimelineStat[]> => {
     const endpoint = `/api/stats/weekly?type=tala`;
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
@@ -23,9 +17,9 @@ export const fetchWeeklyClips = async (isServer?: boolean): Promise<TimelineStat
     });
 }
 
-export const fetchWeeklyVotes = async (isServer?: boolean): Promise<TimelineStat[]> => {
+export const fetchWeeklyVotes = async (payload: SSRRequest): Promise<TimelineStat[]> => {
     const endpoint = `/api/stats/weekly?type=hlusta`;
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
@@ -37,9 +31,9 @@ export const fetchWeeklyVotes = async (isServer?: boolean): Promise<TimelineStat
     });
 }
 
-export const fetchTotalClipsTimeline = async (isServer?: boolean): Promise<TimelineSumStat[]> => {
+export const fetchTotalClipsTimeline = async (payload: SSRRequest): Promise<TimelineSumStat[]> => {
     const endpoint = `/api/stats/clips/timeline`;
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
@@ -51,9 +45,9 @@ export const fetchTotalClipsTimeline = async (isServer?: boolean): Promise<Timel
     });
 }
 
-export const fetchTotalClipsClients = async (isServer?: boolean): Promise<number> => {
+export const fetchTotalClipsClients = async (payload: SSRRequest): Promise<number> => {
     const endpoint = `/api/stats/clips/clients`;
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
@@ -65,9 +59,9 @@ export const fetchTotalClipsClients = async (isServer?: boolean): Promise<number
     });
 }
 
-export const fetchTotalClips = async (isServer?: boolean): Promise<number> => {
+export const fetchTotalClips = async (payload: SSRRequest): Promise<number> => {
     const endpoint = `/api/stats/clips/total`;
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
@@ -79,9 +73,9 @@ export const fetchTotalClips = async (isServer?: boolean): Promise<number> => {
     });
 }
 
-export const fetchTodayClips = async (isServer?: boolean): Promise<number> => {
+export const fetchTodayClips = async (payload: SSRRequest): Promise<number> => {
     const endpoint = `/api/stats/clips/today`;
-    const url = isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,

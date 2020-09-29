@@ -1,22 +1,18 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-import { SimpleSentence } from '../types/sentences';
-import { AudioInfo } from '../types/audio';
-import { Clip, ClipVote, WheelClip, UploadError } from '../types/samples';
-import { Demographics, UserClient } from '../types/user';
 import { UserState } from '../store/user/state';
+import { Clip, ClipVote, WheelClip, UploadError } from '../types/samples';
+import { SimpleSentence } from '../types/sentences';
+import { SSRRequest } from '../types/ssr';
 
-const serverPrefix = 'http://localhost:9000';
-
-export interface FetchSamplesPayload {
+export interface FetchSamplesPayload extends SSRRequest {
     clientId?: string;
     count: number;
-    isServer?: boolean;
 }
 
 export const fetchSentences = async (payload: FetchSamplesPayload): Promise<SimpleSentence[]> => {
     const endpoint = `/api/contribute/sentences?count=${payload.count}`;
-    const url = payload.isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
@@ -33,7 +29,8 @@ export const fetchSentences = async (payload: FetchSamplesPayload): Promise<Simp
 
 export const fetchClips = async (payload: FetchSamplesPayload): Promise<Clip[]> => {
     const endpoint = `/api/contribute/clips?count=${payload.count}`;
-    const url = payload.isServer ? serverPrefix + endpoint : endpoint;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+
     return axios({
         method: 'GET',
         url,
@@ -62,7 +59,7 @@ export const uploadClip = async (clip: WheelClip, user: UserState): Promise<numb
 
     const { recording, sentence } = clip;
     const { demographics, userAgent } = user;
-    
+
     const {
         age,
         gender

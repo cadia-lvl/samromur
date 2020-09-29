@@ -15,10 +15,8 @@ import { setUserCookie } from '../utilities/cookies';
 import { setAuthenticated, setUserAgent, setDemographics, setConsents, fetchUser } from '../store/user/actions';
 import { getUserAgent } from '../utilities/browser';
 
-import { Subject } from 'rxjs'
-import { ActionsObservable, StateObservable } from 'redux-observable'
-import rootEpic from '../store/root-epic';
-import services from '../services';
+import makeSSRDispatch from '../utilities/ssr-request';
+
 import { Store } from 'typesafe-actions';
 import { appWithTranslation } from '../server/i18n';
 
@@ -51,22 +49,15 @@ type Props = ReturnType<typeof mapStateToProps> & AppProps & CustomAppProps & ty
 class MyApp extends App<Props> {
 
     static async getInitialProps({ Component, ctx }: AppContext) {
-        const { store, isServer } = ctx;
+        const { isServer, req, store } = ctx;
         const allCookies = cookies(ctx);
         const { client_id } = allCookies;
         const hasCookie = !!client_id;
         const clientId = client_id || store.getState().user.client.id;
-        const state$ = new StateObservable(new Subject(), store.getState());
+
         const isAuthenticated = ctx.req?.headers['is_authenticated'] === 'true';
 
-        // To-do: Move fetchUser to a better location
-        const action$ = ActionsObservable.of(fetchUser.request({ isServer, id: clientId }));
-        const resultAction = await rootEpic(
-            action$,
-            state$,
-            services
-        ).toPromise();
-        store.dispatch(resultAction);
+        makeSSRDispatch(ctx, fetchUser.request, { id: clientId });
 
         const appProps = {
             user: {

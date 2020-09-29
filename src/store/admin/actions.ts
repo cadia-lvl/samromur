@@ -1,12 +1,7 @@
-import {
-  createAction,
-  createAsyncAction
-} from 'typesafe-actions';
+import { createAsyncAction } from 'typesafe-actions';
 
-import {
-  SentenceGroupInfo,
-  SentenceBatch,
-  SentenceBatchResponse } from '../../types/sentences';
+import { SentenceGroupInfo } from '../../types/sentences';
+import { SSRRequest } from '../../types/ssr';
 
 export const confirmSentences = createAsyncAction(
   'CONFIRM_SENTENCES_REQUEST',
@@ -18,4 +13,4 @@ export const fetchAllSentencesInfo = createAsyncAction(
   'FETCH_ALL_SENTENCES_INFO_REQUEST',
   'FETCH_ALL_SENTENCES_INFO_SUCCESS',
   'FETCH_ALL_SENTENCES_INFO_FAILED',
-)<boolean, Array<SentenceGroupInfo>, undefined>(); // TO-DO: undefined hack
+)<SSRRequest, Array<SentenceGroupInfo>, undefined>(); // TO-DO: undefined hack

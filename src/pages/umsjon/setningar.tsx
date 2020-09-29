@@ -11,6 +11,8 @@ import { fetchAllSentencesInfo } from '../../store/admin/actions';
 import rootEpic from '../../store/root-epic';
 import services from '../../services';
 
+import makeSSRDispatch from '../../utilities/ssr-request';
+
 import { FloatingContainer } from '../../components/ui/containers';
 
 import Layout from '../../components/layout/layout';
@@ -57,15 +59,9 @@ class SentencesPage extends React.Component<Props, State> {
         }
     }
 
-    static async getInitialProps({ store, isServer }: NextPageContext) {
-        const state$ = new StateObservable(new Subject(), store.getState())
-        const action$ = ActionsObservable.of(fetchAllSentencesInfo.request(isServer));
-        const resultAction = await rootEpic(
-            action$,
-            state$,
-            services
-        ).toPromise();
-        store.dispatch(resultAction);
+    static async getInitialProps(ctx: NextPageContext) {
+
+        makeSSRDispatch(ctx, fetchAllSentencesInfo.request);
 
         return ({
             namespacesRequired: ['common'],

@@ -1,20 +1,17 @@
 import { NextPageContext } from 'next';
 import * as React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
-import styled from 'styled-components';
-import { Subject } from 'rxjs'
-import { ActionsObservable, StateObservable } from 'redux-observable'
-import rootEpic from '../store/root-epic';
-import services from '../services';
-import { fetchTotalClips, fetchTotalClipsTimeline, fetchTotalClipsClients } from '../store/stats/actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
-
 import { withRouter } from 'next/router';
 import { WithRouterProps } from "next/dist/client/with-router";
+
+import { fetchTotalClips, fetchTotalClipsTimeline, fetchTotalClipsClients } from '../store/stats/actions';
+import makeSSRDispatch from '../utilities/ssr-request';
 import { pages } from '../constants/paths';
 
-// Our components
+// Components
 import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
 import ArrowRightIcon from '../components/ui/icons/arrow-right';
@@ -237,36 +234,16 @@ class IndexPage extends React.Component<Props> {
         super(props);
     }
 
-    static getInitialProps = async ({ store, isServer }: NextPageContext) => {
-        const state$ = new StateObservable(new Subject(), store.getState())
+    static getInitialProps = async (ctx: NextPageContext) => {
 
         // Total clips chart
-        const totalClipsAction$ = ActionsObservable.of(fetchTotalClipsTimeline.request(isServer));
-        const totalClipsResultAction = await rootEpic(
-            totalClipsAction$,
-            state$,
-            services
-        ).toPromise();
+        await makeSSRDispatch(ctx, fetchTotalClipsTimeline.request);
 
-        // Clips count
-        const clipsCountAction$ = ActionsObservable.of(fetchTotalClips.request(isServer));
-        const clipsCountResultAction = await rootEpic(
-            clipsCountAction$,
-            state$,
-            services
-        ).toPromise();
+        // Clips count chart
+        await makeSSRDispatch(ctx, fetchTotalClips.request);
 
-        // Client count
-        const clientCountAction$ = ActionsObservable.of(fetchTotalClipsClients.request(isServer));
-        const clientCountResultAction = await rootEpic(
-            clientCountAction$,
-            state$,
-            services
-        ).toPromise();
-
-        store.dispatch(totalClipsResultAction);
-        store.dispatch(clipsCountResultAction);
-        store.dispatch(clientCountResultAction);
+        // Client count chart
+        await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
 
         return ({
             namespacesRequired: ['common'],

@@ -1,22 +1,17 @@
 import { NextPageContext } from 'next';
 import * as React from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
 
-import { Subject } from 'rxjs'
-import { ActionsObservable, StateObservable } from 'redux-observable'
-import rootEpic from '../store/root-epic';
-import services from '../services';
-
-import { fetchClips, FetchSamplesPayload } from '../services/contribute-api';
-import { setDemographics, setClientId } from '../store/user/actions';
+import { fetchClips } from '../services/contribute-api';
 import { fetchWeeklyVotes } from '../store/stats/actions';
-import { Clip, ClipVote, WheelClip } from '../types/samples';
+import { Clip, WheelClip } from '../types/samples';
 import { resetContribute } from '../store/contribute/actions';
 
-import { saveVote, SaveVoteRequest } from '../services/contribute-api';
+import makeSSRDispatch from '../utilities/ssr-request';
+
+import { saveVote } from '../services/contribute-api';
 
 import ContributePage from '../components/contribute/setup/contribute';
 
@@ -48,23 +43,20 @@ class SpeakPage extends React.Component<Props, State> {
 
     static async getInitialProps(ctx: NextPageContext) {
         const { isServer, req, res, store } = ctx;
-        const fetchRequest: FetchSamplesPayload = {
+
+        // Reset session progress
+        store.dispatch(resetContribute());
+
+        // Fetch some stats to display at the end of the session
+        makeSSRDispatch(ctx, fetchWeeklyVotes.request);
+
+        // Fetch clips to prompt the user with
+        const host = (isServer && req) ? 'http://' + req.headers.host : undefined;
+        const initialClips = await fetchClips({
             clientId: req?.headers.client_id as string || '',
             count: sentencesChunkSize,
-            isServer,
-        }
-        store.dispatch(resetContribute())
-        const state$ = new StateObservable(new Subject(), store.getState())
-        const action$ = ActionsObservable.of(fetchWeeklyVotes.request(isServer));
-        const resultAction = await rootEpic(
-            action$,
-            state$,
-            services
-        ).toPromise();
-
-        store.dispatch(resultAction);
-
-        const initialClips = await fetchClips(fetchRequest);
+            host
+        });
 
         return ({
             namespacesRequired: ['common'],
