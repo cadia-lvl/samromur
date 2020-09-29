@@ -99,12 +99,16 @@ export interface ThemeWrapper {
 
 // Defining global styles which are injected in _app.tsx
 export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
+    * {
+        box-sizing: border-box;
+    }
     html, body {
         margin: 0;
         padding: 0;
         font-family: ${({ theme }) => theme.fonts.transcript};
         font-size: 12px;
-
+        font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
         @media (min-width: 320px) {
             font-size: 14px;
         }

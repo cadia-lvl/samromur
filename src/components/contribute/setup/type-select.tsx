@@ -81,13 +81,13 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>Yfirfara upptökur</p>
                 </Title>
             </CardContainer>
-            <CardContainer wide onClick={() => { }}>
+{/*             <CardContainer wide onClick={() => { }}>
                 <PhoneIcon height={40} width={40} fill={'gray'} />
                 <Title>
                     <h3>Samræður</h3>
                     <p>Hringja í aðra þátttakendur og taka upp samræður</p>
                 </Title>
-            </CardContainer>
+            </CardContainer> */}
         </CardGrid>
     );
 }

@@ -16,7 +16,8 @@ const HeaderContainer = styled.div`
     left: 0;
     right: 0;
     height: ${({ theme }) => theme.layout.headerHeight};
-
+    box-shadow: 0 0 15px rgba(0,0,0,.08);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.14);
     ${({ theme }) => theme.media.small} {
         box-shadow: 0 0 15px rgba(0,0,0,.08);
         -webkit-box-shadow: 0 0 10px rgba(0,0,0,.14);
@@ -42,11 +43,11 @@ const Header = styled.header`
     }
 `;
 
-const Heading = styled.p`
-    margin: 0 10px;
+const Heading = styled.h1`
+    margin: 0 1rem;
     font-family: ${props => props.theme.fonts.title};
     font-weight: 900;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
 `;
 
 const HamburgerMenuButton = styled.div`

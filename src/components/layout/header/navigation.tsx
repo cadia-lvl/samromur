@@ -17,9 +17,9 @@ interface NavLinkProps {
 const NavLink = styled.a<NavLinkProps>`
     margin-right: 3rem;
     cursor: pointer;
-    color: ${ ({ theme, isActive }) => isActive && theme.colors.red} !important;
+    color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
     & : hover {
-        color: ${ ({ theme, isActive }) => isActive && theme.colors.red} !important;
+        color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
     }
 `;
 
@@ -36,7 +36,7 @@ const NavigationContainer = styled.div<Props>`
         flex: 1;
         justify-content: space-between;
         align-items: center;
-        text-transform: uppercase;
+
         ${theme.media.small} {
             display: none;
         }
@@ -57,28 +57,14 @@ const NavigationLinks = styled.div<Props>`
             border-bottom: 1px solid ${theme.colors.borderGray};
         }
     ` : `
-        font-size: 0.9rem;
-        font-weight: 600;
+        font-size: 1.2rem;
         padding: 0 2rem 0 5rem;
         align-items: center;
-        text-transform: uppercase;
 
         ${theme.media.mediumDown} {
             padding: 0 1rem 0 2rem;
         }
     `}
-`;
-
-const LoginContainer = styled.div`
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 0 1rem;
-    align-items: center;
-    text-transform: uppercase;
-
-    & > * {
-        margin-right: 0;
-    }
 `;
 
 interface NavigationProps {
@@ -99,64 +85,20 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
 
     return (
         <NavigationContainer {...props}>
-            {
-                (admin && !floating) ? (
-                    <NavigationLinks {...props}>
-                        {
-                            adminPaths.map((path: string, index: number) => {
-                                const appendix = index > 0 ? adminPaths.splice(0, index + 1).reduce(
-                                    (prev: string, curr: string) => {
-                                        const prepended = '/' + curr;
-                                        return prev += prepended;
-                                    }
-                                ) : path;
-                                const href = '/' + appendix
-                                return (
-                                    <Link href={href} key={index}>
-                                        <NavLink isActive={pathname == href}>{t(path)}</NavLink>
-                                    </Link>
-                                );
-                            })
-                        }
-                    </NavigationLinks>
-                ) : (
-                        <NavigationLinks {...props}>
-                            <Link href='/'>
-                                <NavLink isActive={pathname == '/'}>Forsíða</NavLink>
-                            </Link>
-                            <Link href='/takathatt'>
-                                <NavLink isActive={pathname == '/takathatt'}>Taka þátt</NavLink>
-                            </Link>
-                            <Link href='/gagnasafn'>
-                                <NavLink isActive={pathname == '/gagnasafn'}>Gagnasafnið</NavLink>
-                            </Link>
-                            <Link href='/um'>
-                                <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
-                            </Link>
-                            {
-                                floating && (
-                                    <Link href='/innskraning'>
-                                        <NavLink isActive={pathname == '/innskraning'}>Innskráning</NavLink>
-                                    </Link>
-                                )
-                            }
-                        </NavigationLinks>
-                    )
-            }
-            <LoginContainer>
-                {
-                    !user.isAuthenticated ? (
-                        <NavLink href={'/innskraning'} isActive={pathname == '/innskraning'}>Innskráning</NavLink>
-                    ) : (
-                            <React.Fragment>
-                                <NavLink href={'/minar-sidur'} isActive={pathname == '/minar-sidur'}>Mínar síður</NavLink>
-                                <Button transparent color="red" onClick={logout}>Útskrá</Button>
-                            </React.Fragment>
-
-                        )
-                }
-
-            </LoginContainer>
+            <NavigationLinks {...props}>
+                <Link href='/'>
+                    <NavLink isActive={pathname == '/'}>Forsíða</NavLink>
+                </Link>
+                <Link href='/takathatt'>
+                    <NavLink isActive={pathname == '/takathatt'}>Taka þátt</NavLink>
+                </Link>
+                <Link href='/gagnasafn'>
+                    <NavLink isActive={pathname == '/gagnasafn'}>Gagnasafnið</NavLink>
+                </Link>
+                <Link href='/um'>
+                    <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
+                </Link>
+            </NavigationLinks>
         </NavigationContainer>
     );
 }

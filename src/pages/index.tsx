@@ -14,11 +14,12 @@ import { pages } from '../constants/paths';
 // Components
 import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
-import ArrowRightIcon from '../components/ui/icons/arrow-right';
+import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
 
 const FrontPageContainer = styled.div`
     background: url(/images/light-waves.svg) repeat-x bottom;
+    background-color: ${({ theme }) => theme.colors.lightGray};
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -41,14 +42,13 @@ const BottomContent = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 1rem;
+    gap: 1rem;
+    padding: 1.5rem;
     align-items: center;
     margin-bottom: 2rem;
 `;
 
 const RobotMessage = styled.div`
-    width: 100%;
-    max-width: 20rem;
     font-size: 1.5rem;
 `;
 
@@ -103,13 +103,6 @@ const RobotAndTitle = styled.div`
     align-items: center;
     width: 50rem;
     max-width: 100%;
-
-    ${({ theme }) => theme.media.small} {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
 `;
 
 const MarsContainer = styled.div`
@@ -133,26 +126,12 @@ const TitleContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    ${({ theme }) => theme.media.small} {
-        margin-bottom: 3rem;
-    }
-`;
-
-const ReadMore = styled.div`
-    position: absolute;
-    bottom: -2rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-
-    & :active {
-        transform: translateY(2px);
-    }
+    gap: 1rem;
 `;
 
 const CTATitle = styled.h3`
+    margin: 0;
+    margin-top: 1rem;
     text-align: center;
 `;
 
@@ -175,19 +154,6 @@ const CTAButton = styled.div<ButtonProps>`
     max-width: 30rem;
     & :active {
         transform: translateY(2px);
-    }
-`;
-
-const CTAStats = styled.div`
-    margin: 1rem 0;
-    width: 40rem;
-    max-width: 100%;
-    font-size: 1.3rem;
-    text-align: center;
-    
-    & span {
-        font-size: 1.5rem;
-        font-weight: 600;
     }
 `;
 
@@ -263,14 +229,15 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>Saman ætlum við að búa til stærsta íslenska raddgagnasafnið</CTATitle>
-                                    <ReadMore onClick={() => router.push(pages.about)} ><span>Lesa meira um Samróm</span><ArrowRightIcon fill={'gray'} height={12} width={12} /></ReadMore>
+                                    <CTATitle>Við ætlum að búa til stærsta íslenska raddgagnasafnið</CTATitle>
+                                    <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira</CTAButton>
+                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'green'}>Taka þátt</CTAButton>
                                 </TitleContainer>
                             </RobotAndTitle>
-                            <CTAButton onClick={() => router.push(pages.contribute)} color={'blue'}>Taka þátt</CTAButton>
-                            <CTAStats>
-                                Hingað til hafa <span>{stats.totalClipsClients.toLocaleString('is').replace(',', '.')}</span> þátttakendur lesið inn <span>{stats.totalClips.toLocaleString('is').replace(',', '.')}</span> setningar
-                            </CTAStats>
+                            <FrontPageStats
+                                clients={stats.totalClipsClients}
+                                clips={stats.totalClips}
+                            />
                         </CallToAction>
                         <ChartsContainer>
                             <HeroChart>

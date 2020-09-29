@@ -42,7 +42,6 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                     borderWidth: 6,
                     lineTension: 0.2,
                     borderColor: 'rgba(0,153,255,1)',
-                    //hoverBackgroundColor: ['rgba(0,153,255,1)', 'rgba(0,153,255,1)', 'rgba(0,153,255,1)', 'rgba(0,153,255,1)', 'rgba(0,153,255,1)', 'rgba(0,153,255,1)', 'rgba(96,193,151,1)'],
                     data: data.map((stat: TimelineSumStat) => stat.sum)
                 }
             ]
@@ -83,7 +82,7 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                                 fontSize: 16,
                                 min: chartData().min,
                                 max: chartData().max,
-                                maxTicksLimit: 8,
+                                maxTicksLimit: 6,
                                 callback: tickFormatter,
                             }
                         }
