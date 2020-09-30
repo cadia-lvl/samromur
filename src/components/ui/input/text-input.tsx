@@ -11,6 +11,15 @@ const InputContainer = styled.div<InputProps>`
     & :active, :focus {
         outline: none;
     }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active,
+    input:-webkit-autofill::first-line {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        font-size: 1rem !important;
+    }
 `;
 
 
@@ -31,6 +40,7 @@ const TextInputContainer = styled.input`
     ::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
+    
 `;
 
 const Label = styled.span`

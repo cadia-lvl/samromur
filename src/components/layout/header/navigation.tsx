@@ -5,17 +5,13 @@ import { withRouter } from 'next/router'
 import { WithRouterProps } from "next/dist/client/with-router";
 
 import { useTranslation, nextI18next } from '../../../server/i18n';
-import { logout } from '../../../services/auth-api';
-
-
 import { UserClient } from '../../../types/user';
-import { Button } from '../../ui/buttons';
+
 interface NavLinkProps {
     isActive?: boolean;
 }
 
 const NavLink = styled.a<NavLinkProps>`
-    margin-right: 3rem;
     cursor: pointer;
     color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
     & : hover {
@@ -26,7 +22,7 @@ const NavLink = styled.a<NavLinkProps>`
 // Different styles for the floating navigation
 const NavigationContainer = styled.div<Props>`
     display: flex;
-    ${({ theme, floating, visible, admin }) => floating ? `
+    ${({ theme, floating, visible }) => floating ? `
         position: fixed;
         top: ${theme.layout.headerHeight};
         z-index: ${theme.z.middle};
@@ -45,9 +41,10 @@ const NavigationContainer = styled.div<Props>`
 `;
 
 const NavigationLinks = styled.div<Props>`
+    width: 100%;
     display: flex;
     flex-direction: ${({ floating }) => floating ? 'column' : 'row'};
-    ${({ floating, theme, admin }) => floating ? `
+    ${({ floating, theme }) => floating ? `
         height: 100vh;
         width: 100vw;
         background-color: white;
@@ -57,18 +54,15 @@ const NavigationLinks = styled.div<Props>`
             border-bottom: 1px solid ${theme.colors.borderGray};
         }
     ` : `
+        justify-content: space-around;
+        gap: 2rem;
         font-size: 1.2rem;
-        padding: 0 2rem 0 5rem;
+        padding: 0 2rem;
         align-items: center;
-
-        ${theme.media.mediumDown} {
-            padding: 0 1rem 0 2rem;
-        }
     `}
 `;
 
 interface NavigationProps {
-    admin?: boolean;
     className?: string;
     floating?: boolean;
     visible?: boolean;
@@ -78,9 +72,8 @@ interface NavigationProps {
 type Props = NavigationProps & WithRouterProps;
 
 export const Navigation: React.FunctionComponent<Props> = (props) => {
-    const { admin, floating, router, user } = props;
+    const { floating, router, user } = props;
     const { pathname } = router;
-    const adminPaths = pathname.split('/').splice(1);
     const { t } = useTranslation(['links'], { i18n: nextI18next.i18n });
 
     return (

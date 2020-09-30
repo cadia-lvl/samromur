@@ -62,7 +62,6 @@ const HamburgerMenuButton = styled.div`
 `;
 
 interface HeaderProps {
-    admin?: boolean;
     toggleMenu: () => void;
     user: UserClient;
 }
@@ -87,14 +86,14 @@ class HeaderComponent extends React.Component<Props, State>{
     }
 
     render() {
-        const { admin, router, toggleMenu, user } = this.props;
+        const { router, toggleMenu, user } = this.props;
         return (
             <HeaderContainer>
                 <Header>
                     <Heading>
                         <Link href="/"><a>Samrómur</a></Link>
                     </Heading>
-                    <Navigation admin={admin} user={user} />
+                    <Navigation user={user} />
                     <HamburgerMenuButton onClick={toggleMenu}>
                         <MenuIcon height={24} width={24} />
                     </HamburgerMenuButton>

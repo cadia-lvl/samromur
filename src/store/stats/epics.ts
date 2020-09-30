@@ -68,6 +68,22 @@ export const fetchTotalClipsEpic: Epic<
             )
         );
 
+export const fetchTotalValidatedClipsEpic: Epic<
+    RootAction,
+    RootAction,
+    RootState,
+    Services
+> = (action$, state$, { api }) =>
+        action$.pipe(
+            filter(isActionOf(statsActions.fetchTotalValidatedClips.request)),
+            switchMap(action =>
+                from(api.stats.fetchTotalValidatedClips(action.payload)).pipe(
+                    map(statsActions.fetchTotalValidatedClips.success),
+                    catchError((message: string) => of(statsActions.fetchTotalValidatedClips.failure(message)))
+                )
+            )
+        );
+
 export const fetchTotalClipsClientsEpic: Epic<
     RootAction,
     RootAction,

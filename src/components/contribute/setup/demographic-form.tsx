@@ -88,7 +88,6 @@ const AgreeContainer = styled.div`
     grid-template-columns: 10% auto;
     justify-items: center;
     align-items: center;
-    cursor: pointer;
     & span {
         margin-left: 1rem;
     }
@@ -107,6 +106,14 @@ const ShowMoreContainer = styled(ShowMore)`
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
         max-width: 100%;
+    }
+`;
+
+const StyledLink = styled.a`
+    color: ${({ theme }) => theme.colors.blue};
+    :visited, :focus, :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blue};
     }
 `;
 
@@ -200,7 +207,7 @@ class DemographicForm extends React.Component<Props, State> {
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
-                    selected={age.name}
+                    selected={age ? age.name : ''}
                 />
                 <ShowMoreContainer active={showConsentForm}>
                     <ConsentForm visible={showConsentForm} />
@@ -209,7 +216,7 @@ class DemographicForm extends React.Component<Props, State> {
                     content={genders.map((gender: Demographic) => gender.name)}
                     label={'Kyn'}
                     onSelect={this.onGenderSelect}
-                    selected={gender.name}
+                    selected={gender ? gender.name : ''}
                 />
                 <DropdownButton
                     content={nativeLanguages.map((language: Demographic) => language.name)}
@@ -222,9 +229,9 @@ class DemographicForm extends React.Component<Props, State> {
                         Ofantaldar upplýsingar eru notaðar til að meta hversu lýðfræðilega dreift gagnasafnið Samrómur er. Því dreifðara og fjölbreyttara sem það er, því betra. Sjá skilmála og persónuverndaryfirlýsingu verkefnisins.
                     </p>
                 </Information>
-                <AgreeContainer onClick={this.handleAgree}>
+                <AgreeContainer>
                     <Checkbox checked={agreed} onChange={this.handleAgree} />
-                    <span>Ég staðfesti að hafa kynnt mér skilmála og persónuverndaryfirlýsingu verkefnisins.</span>
+                    <span>Ég staðfesti að hafa kynnt mér <StyledLink href='/skilmalar'>skilmála</StyledLink> og <StyledLink href='/skilmalar'>persónuverndaryfirlýsingu</StyledLink> verkefnisins.</span>
                 </AgreeContainer>
                 <SubmitButton onClick={this.onSubmit} disabled={!agreed}>Áfram</SubmitButton>
             </DemographicContainer>

@@ -27,6 +27,12 @@ export const fetchTotalClips = createAsyncAction(
   'FETCH_TOTAL_CLIPS_FAILED',
 )<SSRRequest, number, string>();
 
+export const fetchTotalValidatedClips = createAsyncAction(
+  'FETCH_TOTAL_VALIDATED_CLIPS_REQUEST',
+  'FETCH_TOTAL_VALIDATED_CLIPS_SUCCESS',
+  'FETCH_TOTAL_VALIDATED_CLIPS_FAILED',
+)<SSRRequest, number, string>();
+
 export const fetchTotalClipsClients = createAsyncAction(
   'FETCH_TOTAL_CLIPS_CLIENTS_REQUEST',
   'FETCH_TOTAL_CLIPS_CLIENTS_SUCCESS',

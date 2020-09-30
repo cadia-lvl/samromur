@@ -4,6 +4,7 @@ export interface StatsState {
     todayClips: number,
     totalClipsClients: number,
     totalClips: number,
+    totalValidatedClips: number;
     totalClipsTimeline: TimelineSumStat[],
     weekly: {
         clips: TimelineStat[],

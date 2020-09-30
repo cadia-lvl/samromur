@@ -35,20 +35,6 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
         align-items: center;
     `}
 `;
-/* 
-const LayoutContainer = styled.div`
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
-    ${({ theme }) => theme.media.small} {
-        overflow-y: visible;
-    }
-
-    ${({ theme }) => theme.media.smallUp} {
-        overflow-y: scroll;
-    }
-`; */
 
 const ContentAndFooter = styled.div`
     z-index: ${({ theme }) => theme.z.bottom};
@@ -89,18 +75,6 @@ const FloatingNavigation = styled(Navigation)`
     };
 `;
 
-const GameLayoutContainer = styled.div`
-    position: relative;
-    width: 100vw;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-color: ${({ theme }) => theme.colors.lightGray};
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
 interface GameContentProps {
     gaming: boolean;
 }
@@ -124,7 +98,6 @@ const Notifications = styled.div`
 `;
 
 interface LayoutProps {
-    admin?: boolean;
     children?: React.ReactNode;
     game?: boolean;
 }
@@ -150,7 +123,6 @@ class Layout extends React.Component<Props, State> {
 
     render() {
         const {
-            admin,
             contribute: {
                 expanded,
                 gaming,
@@ -172,8 +144,8 @@ class Layout extends React.Component<Props, State> {
                 )}
                 {!game ? (
                     <React.Fragment>
-                        <Header admin={admin} user={user.client} toggleMenu={this.toggleMenu} />
-                        <FloatingNavigation admin={admin} user={user.client} floating visible={menuVisible} />
+                        <Header user={user.client} toggleMenu={this.toggleMenu} />
+                        <FloatingNavigation user={user.client} floating visible={menuVisible} />
                         <ContentAndFooter>
                             {children}
                             <Footer />

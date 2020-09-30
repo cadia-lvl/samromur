@@ -230,8 +230,9 @@ class IndexPage extends React.Component<Props> {
                                 </MarsContainer>
                                 <TitleContainer>
                                     <CTATitle>Við ætlum að búa til stærsta íslenska raddgagnasafnið</CTATitle>
-                                    <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira</CTAButton>
                                     <CTAButton onClick={() => router.push(pages.contribute)} color={'green'}>Taka þátt</CTAButton>
+                                    <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira</CTAButton>
+                                    
                                 </TitleContainer>
                             </RobotAndTitle>
                             <FrontPageStats
@@ -252,7 +253,7 @@ class IndexPage extends React.Component<Props> {
                         </ChartsContainer>
                     </FrontPageContent>
                     <BottomContent>
-                        <RobotMessage>Ertu tilbúin(n) að gefa raddsýni?</RobotMessage>
+                        <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
                         <MicButton onClick={() => router.push(pages.speak)} >
                             <MicIcon fill={'blue'} height={35} width={35} />
                         </MicButton>

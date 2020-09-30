@@ -77,6 +77,20 @@ export default class Clips {
         return Promise.resolve(row.count);
     }
 
+    fetchTotalValidatedClips = async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    COUNT(*) as count
+                FROM
+                    clips
+                WHERE
+                    is_valid = 1
+            `
+        );
+        return Promise.resolve(row.count);
+    }
+
     fetchTotalVotes = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `

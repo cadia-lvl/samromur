@@ -53,7 +53,9 @@ export const theme = {
         lightGray: '#f9f9f9',
         warmGray: '#959595',
         richBlack: '#02122B',
-        blackOlive: '#30332E'
+        blackOlive: '#30332E',
+        validGreen: '#59cbb7',
+        
     },
     layout: {
         desktopWidth: '76rem',
@@ -102,6 +104,7 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
     * {
         box-sizing: border-box;
     }
+    
     html, body {
         margin: 0;
         padding: 0;

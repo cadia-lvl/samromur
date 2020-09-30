@@ -14,6 +14,7 @@ const CheckboxContainer = styled.div<CheckProps>`
     justify-content: center;
     align-items: center;
     padding: 0.2rem;
+    cursor: pointer;
     border: 2px solid ${({ active, theme }) => active ? 'black' : theme.colors.borderGray};
 
     & :hover {

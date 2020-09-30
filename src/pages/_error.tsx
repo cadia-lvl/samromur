@@ -39,8 +39,8 @@ class Error extends React.Component<Props> {
                 <ErrorContainer>
                     <h5>
                         {statusCode
-                            ? `An error ${statusCode} occurred on server`
-                            : "An error occurred on client"}
+                            ? `Úps, ${statusCode} villa á vefþjóni!`
+                            : "Úps, villa í vafra!"}
                     </h5>
                 </ErrorContainer>
             </Layout>

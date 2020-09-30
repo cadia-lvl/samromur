@@ -77,9 +77,6 @@ const Content = styled.div<{ position: number }>`
             ${({ position }) => position != 0 && `opacity: 0;`}
         }
         filter: blur(${({ position }) => position == 0 ? 0 : 5}px);
-        transition:
-            filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 `;
 

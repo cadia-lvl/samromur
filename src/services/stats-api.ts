@@ -73,6 +73,20 @@ export const fetchTotalClips = async (payload: SSRRequest): Promise<number> => {
     });
 }
 
+export const fetchTotalValidatedClips = async (payload: SSRRequest): Promise<number> => {
+    const endpoint = `/api/stats/clips/total-validated`;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+    return axios({
+        method: 'GET',
+        url,
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        console.error(error);
+        return Promise.reject(error.code);
+    });
+}
+
 export const fetchTodayClips = async (payload: SSRRequest): Promise<number> => {
     const endpoint = `/api/stats/clips/today`;
     const url = payload.host ? payload.host + endpoint : endpoint;

@@ -5,6 +5,7 @@ import * as StatsActions from './actions';
 const initialState: StatsState = {
     todayClips: 0,
     totalClips: 0,
+    totalValidatedClips: 0,
     totalClipsClients: 0,
     totalClipsTimeline: [],
     weekly: {
@@ -53,6 +54,15 @@ export default createReducer(initialState)
             return {
                 ...state,
                 totalClips: action.payload,
+            }
+        }
+    )
+    .handleAction(
+        StatsActions.fetchTotalValidatedClips.success,
+        (state, action) => {
+            return {
+                ...state,
+                totalValidatedClips: action.payload,
             }
         }
     )
