@@ -61,7 +61,7 @@ class AdminPage extends React.Component<Props, State> {
         } = this.state;
 
         return (
-            <Layout admin>
+            <Layout>
                 <AdminContainer>
                     <ButtonsContainer>
                         <Link href='/umsjon/setningar'>

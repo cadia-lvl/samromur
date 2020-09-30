@@ -84,7 +84,7 @@ class SentencesPage extends React.Component<Props, State> {
         } = this.props;
 
         return (
-            <Layout admin>
+            <Layout>
                 <SentencesPageContainer title={'Setningar'}>
                     <SentencesPageGrid>
                         <AddSentences onClose={this.closeContribute} />

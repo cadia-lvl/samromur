@@ -43,7 +43,7 @@ class TextPage extends React.Component<Props, State> {
     render() {
 
         return (
-            <Layout admin>
+            <Layout>
                 <TextPageContainer>
                     <MarkdownEditor />
                 </TextPageContainer>
