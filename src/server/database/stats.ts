@@ -46,20 +46,33 @@ export default class Clips {
         const [rows] = await this.sql.query(
             `
             SELECT
-            count,
-            sum,
-            date
-        FROM (
-            SELECT
-                COUNT(id) as count,
-                SUM(COUNT(id)) OVER(ORDER BY DATE(created_at)) as sum,
-                DATE(created_at) as date
-            FROM
-                clips
+                SUM(t2.count) as count,
+                t1.date as date
+            FROM (
+                SELECT
+                    COUNT(id) as count,
+                    DATE(created_at) as date
+                FROM
+                    clips
+                GROUP BY
+                    date
+            ) t1
+            JOIN
+            ( SELECT
+                    COUNT(id) as count,
+                    DATE(created_at) as date
+                FROM
+                    clips
+                GROUP BY
+                    date
+            ) t2
+            ON t1.date >= t2.date
+            WHERE
+                t1.date >= SUBDATE(NOW(), INTERVAL 1 MONTH)
             GROUP BY
-                date
-        ) c
-        WHERE date >= SUBDATE(NOW(), INTERVAL 1 MONTH)
+                t1.date
+            ORDER BY
+                t1.date
             `
         );
         return Promise.resolve(rows);
