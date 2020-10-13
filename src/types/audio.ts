@@ -1,8 +1,8 @@
-export const audioFormat = 'audio/wav';
-
 export interface AudioInfo {
-    url: string;
     blob?: Blob;
+    duration?: number;
+    sampleRate?: number;
+    url: string;
 }
 
 export interface BlobEvent extends Event {

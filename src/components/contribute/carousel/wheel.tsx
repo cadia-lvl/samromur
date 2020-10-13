@@ -120,6 +120,7 @@ class CarouselWheel extends React.Component<Props, State> {
 
     componentDidMount = async () => {
         if (!!this.props.sentences) {
+            // To-do: Handle recording not supporteds
             // To-do: Stop microphone when idle to remove recording indicator from browser tab
             this.recorder = new Recorder();
             this.recorder.isRecordingSupported && await this.recorder.init();
