@@ -4,7 +4,6 @@ export interface TimelineStat {
 }
 
 export interface TimelineSumStat {
-    count: number;
     sum: number;
     date: string;
 }
