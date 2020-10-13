@@ -46,7 +46,7 @@ export default class Clips {
         const [rows] = await this.sql.query(
             `
             SELECT
-                SUM(t2.count) as count,
+                SUM(t2.count) as sum,
                 t1.date as date
             FROM (
                 SELECT

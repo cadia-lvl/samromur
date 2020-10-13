@@ -244,7 +244,7 @@ class IndexPage extends React.Component<Props> {
                             <HeroChart>
                                 <ChartLegend>
                                     <ChartTitle>Innlesnar setningar</ChartTitle>
-                                    <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle>
+                                    <ChartSubTitle>síðastliðinn mánuður</ChartSubTitle>
                                 </ChartLegend>
                                 <ChartContainer>
                                     <TotalChart />
