@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 const auth = data.split(" ")[1];
                 const decoded = Buffer.from(auth, 'base64').toString('utf8');
                 const [oldPassword, password] = decoded.split(':');
-                console.log(oldPassword, password);
+
                 return db.userClients.changePassword(oldPassword, password, clientId).then(() => {
                     return res.status(200).end();
                 }).catch((error: AuthError) => {

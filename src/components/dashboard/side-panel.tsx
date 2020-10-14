@@ -10,7 +10,7 @@ const SidePanelContainer = styled.div`
     gap: 1.5rem;
 `;
 
-const Title = styled.h3`
+const Title = styled.h4`
     ${({ theme }) => theme.media.small} {
         display: none;
     }
