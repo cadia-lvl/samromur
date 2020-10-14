@@ -15,12 +15,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(500).json(error);
         });
     } else {
-        // For url in e-mail to work in development
-        const host = headers.host?.includes('localhost') ? `http://${headers.host}` : `https://${headers.host}`;
-
         const email = decodeURIComponent(headers.email as string);
         const id = await db.consents.createConsent(email, kennitala as string);
-        const url = `${host}/samthykki/${id}`;
+        const url = `${headers.origin}/samthykki/${id}`;
         return emailClient.sendConsentEmail(email, kennitala as string, url).then(() => {
             res.status(200).json(true);
         }).catch((error) => {
