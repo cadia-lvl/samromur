@@ -39,6 +39,16 @@ const DemographicContainer = styled.div`
     }
 `;
 
+interface ConsentMessageProps {
+    active: boolean;
+}
+
+const ConsentMessage = styled.div<ConsentMessageProps>`
+    display: ${({ active }) => active ? 'flex' : 'none'};
+    align-items: center;
+    text-decoration: underline;
+`;
+
 const Information = styled(Info)`
     grid-column: 1 / 3;
     ${({ theme }) => theme.media.small} {
@@ -130,6 +140,7 @@ interface State {
     agreed: boolean;
     age: Demographic;
     gender: Demographic;
+    hasConsent: boolean;
     nativeLanguage: Demographic;
     showConsentForm: boolean;
 }
@@ -165,8 +176,13 @@ class DemographicForm extends React.Component<Props, State> {
         const showConsentForm = !!age && age.id == 'barn';
         this.setState({
             age,
+            hasConsent: false,
             showConsentForm,
         });
+    }
+
+    onConsent = () => {
+        this.setState({ hasConsent: true });
     }
 
     onGenderSelect = (value: string) => {
@@ -180,8 +196,8 @@ class DemographicForm extends React.Component<Props, State> {
     }
 
     onSubmit = () => {
-        const { age, agreed, gender, nativeLanguage } = this.state;
-        if (!agreed) {
+        const { age, agreed, gender, hasConsent, nativeLanguage, showConsentForm } = this.state;
+        if (!agreed || (showConsentForm && !hasConsent)) {
             return;
         }
         let language;
@@ -193,6 +209,7 @@ class DemographicForm extends React.Component<Props, State> {
         this.props.setDemographics({
             age,
             gender,
+            hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
         });
         this.props.setTermsConsent(true);
@@ -200,7 +217,7 @@ class DemographicForm extends React.Component<Props, State> {
     }
 
     render() {
-        const { age, agreed, gender, nativeLanguage, showConsentForm } = this.state;
+        const { age, agreed, gender, hasConsent, nativeLanguage, showConsentForm } = this.state;
         return (
             <DemographicContainer>
                 <DropdownButton
@@ -209,8 +226,14 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onAgeSelect}
                     selected={age ? age.name : ''}
                 />
-                <ShowMoreContainer active={showConsentForm}>
-                    <ConsentForm visible={showConsentForm} />
+                <ConsentMessage active={hasConsent}>
+                    Leyfi staðfest
+                </ConsentMessage>
+                <ShowMoreContainer active={showConsentForm && !hasConsent}>
+                    <ConsentForm
+                        onConsent={this.onConsent}
+                        visible={showConsentForm}
+                    />
                 </ShowMoreContainer>
                 <DropdownButton
                     content={genders.map((gender: Demographic) => gender.name)}
@@ -233,7 +256,7 @@ class DemographicForm extends React.Component<Props, State> {
                     <Checkbox checked={agreed} onChange={this.handleAgree} />
                     <span>Ég staðfesti að hafa kynnt mér <StyledLink href='/skilmalar'>skilmála</StyledLink> og <StyledLink href='/skilmalar'>persónuverndaryfirlýsingu</StyledLink> verkefnisins.</span>
                 </AgreeContainer>
-                <SubmitButton onClick={this.onSubmit} disabled={!agreed}>Áfram</SubmitButton>
+                <SubmitButton onClick={this.onSubmit} disabled={!agreed || (showConsentForm && !hasConsent)}>Áfram</SubmitButton>
             </DemographicContainer>
         );
     }

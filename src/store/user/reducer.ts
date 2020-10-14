@@ -19,6 +19,7 @@ const initialState: UserState = {
             id: '',
             name: '',
         },
+        hasConsent: false,
         nativeLanguage: {
             id: '',
             name: '',

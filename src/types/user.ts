@@ -7,6 +7,7 @@ export enum DemographicError {
 export interface Demographics {
     age: Demographic;
     gender: Demographic;
+    hasConsent: boolean;
     nativeLanguage: Demographic;
 }
 
@@ -35,6 +36,7 @@ export const initialDemographics: Demographics = {
         id: '',
         name: '',
     },
+    hasConsent: false,
     nativeLanguage: {
         id: '',
         name: '',
