@@ -102,7 +102,7 @@ export default class UserClients {
         })
     }
 
-    loginUser = async (email: string, password: string, clientId: string): Promise<void> => {
+    loginUser = async (email: string, password: string): Promise<string> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -123,11 +123,11 @@ export default class UserClients {
                 return Promise.reject(AuthError.USER_NOT_FOUND);
             }
         } else {
-            const { email_confirmed } = row;
+            const { client_id, email_confirmed } = row;
             if (!email_confirmed) {
                 return Promise.reject(AuthError.EMAIL_NOT_CONFIRMED);
             }
-            return Promise.resolve();
+            return Promise.resolve(client_id);
         }
     }
 

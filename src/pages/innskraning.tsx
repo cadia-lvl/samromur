@@ -4,8 +4,11 @@ import { RootState } from 'typesafe-actions';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import {
+    setAuthenticated,
+    setClientId
+} from '../store/user/actions';
 
-import { setAuthenticated } from '../store/user/actions';
 import * as authApi from '../services/auth-api';
 import cookies from 'next-cookies';
 
@@ -25,7 +28,8 @@ const LoginPageContainer = styled.div`
 `;
 
 const dispatchProps = {
-    setAuthenticated
+    setAuthenticated,
+    setClientId,
 }
 
 interface LoginProps {
@@ -75,7 +79,8 @@ class LoginPage extends React.Component<Props, State> {
                 this.setState({ email, signupSuccess: true });
             }).catch(this.handleError);
         } else {
-            return authApi.login(auth).then(() => {
+            return authApi.login(auth).then((clientId: string) => {
+                this.props.setClientId(clientId);
                 window.location.replace(this.props.redirect);
             }).catch(this.handleError);
         }

@@ -3,6 +3,7 @@ import { UserState } from './state';
 import * as userActions from './actions';
 import { generateGUID } from '../../utilities/id';
 import { injectDemographics, injectConsents } from '../../utilities/local-storage';
+import { setUserCookie } from '../../utilities/cookies';
 
 const initialState: UserState = {
     client: {
@@ -89,6 +90,7 @@ export default createReducer(initialState)
     .handleAction(
         userActions.setClientId,
         (state, action) => {
+            setUserCookie(action.payload);
             return {
                 ...state,
                 client: {

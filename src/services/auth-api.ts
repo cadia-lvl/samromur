@@ -21,7 +21,7 @@ export const signUp = async (payload: AuthRequest): Promise<string> => {
     });
 }
 
-export const login = async (payload: AuthRequest): Promise<void> => {
+export const login = async (payload: AuthRequest): Promise<string> => {
     const { email, password } = payload;
 
     const endpoint = '/api/users/login';
@@ -34,7 +34,7 @@ export const login = async (payload: AuthRequest): Promise<void> => {
             'Authorization': `Basic ${auth}`,
         }
     }).then((response: AxiosResponse) => {
-        return Promise.resolve();
+        return Promise.resolve(response.data);
     }).catch((error: AxiosError) => {
         return Promise.reject(error.response?.data as keyof AuthError);
     });
