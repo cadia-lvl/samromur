@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
 
+import * as consentsApi from '../../../services/consents-api';
+import { Kennitala, KennitalaType } from './kennitala-validator';
+
 import ShowMore from '../../ui/animated/show-more';
 import SwipeSwap from '../../ui/animated/swipe';
 import TextInput from '../../ui/input/text-input';
 import Information from './information';
-import { Kennitala, KennitalaType } from './kennitala-validator';
 
 const ConsentFormContainer = styled.div`
     width: 100%;
@@ -48,7 +50,8 @@ const SubmitButton = styled.div<SubmitButtonProps>`
 `;
 
 const Instructions = styled.div`
-    text-align: center;
+    display: flex;
+    flex-direction: column;
     grid-column: 1 / 3;
 
     ${({ theme }) => theme.media.small} {
@@ -88,11 +91,14 @@ const dispatchProps = {
 interface State {
     email: string;
     emailPrompt: boolean;
+    emailSent: boolean;
     error: string;
+    hasConsent: boolean;
     kennitala: string;
 }
 
 interface ConsentFormProps {
+    onConsent: () => void;
     visible: boolean;
 }
 
@@ -106,7 +112,9 @@ class ConsentForm extends React.Component<Props, State> {
         this.state = {
             email: '',
             emailPrompt: false,
+            emailSent: false,
             error: '',
+            hasConsent: false,
             kennitala: ''
         }
     }
@@ -141,17 +149,35 @@ class ConsentForm extends React.Component<Props, State> {
         this.setState({ email });
     }
 
-    handleSubmit = () => {
-        const { email, kennitala } = this.state;
-        if (!this.state.emailPrompt) {
+    handleSubmit = async () => {
+        const { email, emailPrompt, emailSent, kennitala } = this.state;
+        if (!emailPrompt) {
             if (!this.validateKennitala(kennitala)) {
                 return;
             } else {
-                this.setState({ emailPrompt: true });
+                const consent = await consentsApi.fetchConsent(kennitala);
+                if (consent) {
+                    this.props.onConsent();
+                } else {
+                    if (emailSent) {
+                        this.setState({ error: 'Samþykki hefur ekki verið veitt.' })
+                    } else {
+                        this.setState({ emailPrompt: true });
+                    }
+                }
             }
         } else {
             if (!this.validateEmail(email)) {
                 this.setState({ error: 'Ógilt tölvupóstfang' });
+            } else {
+                consentsApi.sendEmail(kennitala, email).then(() => {
+                    this.setState({
+                        emailPrompt: false,
+                        emailSent: true
+                    });
+                }).catch((error) => {
+                    this.setState({ error: 'Villa kom upp við sendingu tölvupósts' });
+                });
             }
         }
     }
@@ -174,7 +200,7 @@ class ConsentForm extends React.Component<Props, State> {
         const valid = Kennitala.Validate(kennitala);
         let error;
         if (valid == KennitalaType.Individual) {
-            if (this.ageFromKennitala(kennitala) <= 17) {
+            if (this.ageFromKennitala(kennitala) > 17) {
                 error = 'Kennitala lögráða einstaklings';
             }
         } else {
@@ -194,12 +220,21 @@ class ConsentForm extends React.Component<Props, State> {
     };
 
     render() {
-        const { email, emailPrompt, error, kennitala } = this.state;
+        const { email, emailPrompt, emailSent, error, kennitala } = this.state;
         const submittable = !emailPrompt ? kennitala.length == 10 : this.validateEmail(email);
         return (
             <ConsentFormContainer>
                 <Instructions>
-                    Vinsamlegast sláðu inn kennitölu og netfang foreldris/forsjáraðila hér að neðan.
+                    {
+                        emailSent
+                            ?
+                            <React.Fragment>
+                                <span>Tölvupóstur sendur!</span>
+                                <span>Þegar leyfi hefur verið gefið má staðfesta kennitöluna hér að neðan.</span>
+                            </React.Fragment>
+                            :
+                            'Vinsamlegast sláðu inn kennitölu og netfang foreldris/forsjáraðila hér að neðan.'
+                    }
                 </Instructions>
                 <Error active={!!error} calculate >
                     <span>{error}</span>
