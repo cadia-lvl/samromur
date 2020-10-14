@@ -7,6 +7,7 @@ import { Goal } from '../../../types/contribute';
 const CardGrid = styled.div`
     min-width: 80%;
     display: grid;
+    text-align: center;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     grid-gap: 1rem;

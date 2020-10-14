@@ -43,7 +43,7 @@ export const theme = {
     colors: {
         offwhite: '#FCFCFC',
         borderGray: '#e2e2e2',
-        blue: '#0099ff',
+        blue: '#629ff4',
         darkerBlue: '#2D7FF0',
         red: '#ff4f5e',
         darkerRed: '#FF0A1F',
@@ -55,7 +55,6 @@ export const theme = {
         richBlack: '#02122B',
         blackOlive: '#30332E',
         validGreen: '#59cbb7',
-        
     },
     layout: {
         desktopWidth: '76rem',

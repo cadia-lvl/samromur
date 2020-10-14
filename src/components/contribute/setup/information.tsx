@@ -7,6 +7,7 @@ import ShowMore from '../../ui/animated/show-more';
 const InformationContainer = styled.div`
     width: 100%;
     padding-left: 1rem;
+    align-items: center;
     border-left: 2px solid ${({ theme }) => theme.colors.blue};
 `;
 
@@ -57,8 +58,8 @@ export const Information: React.FC<Props> = ({ children, className, ref, title }
     return (
         <InformationContainer className={className} ref={ref}>
             <TitleContainer onClick={handleClick}>
-                <h5>{title}</h5>
-                <Arrow height={15} width={15} active={readMore} fill={'blue'} />
+                <h6>{title}</h6>
+                <Arrow height={10} width={10} active={readMore} fill={'blue'} />
             </TitleContainer>
             <ReadMoreContainer active={readMore}>
                 {children}

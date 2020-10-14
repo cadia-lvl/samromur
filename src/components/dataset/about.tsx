@@ -18,6 +18,18 @@ const AboutDatasetContainer = styled.div`
     }
     gap: 3rem;
 `;
+const StyledLink = styled.a`
+    color: ${({ theme }) => theme.colors.blue};
+    :visited, :focus {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blue};
+    }
+    
+    :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blackOlive};
+    }
+`;
 
 const StatsContainer = styled.div`
     display: flex;
@@ -68,7 +80,7 @@ export const AboutDataset: React.FunctionComponent<Props> = ({ clips, clients, v
                 <h2>Gagnasafnið Samrómur</h2>
                 <span>Samrómur er opið og aðgengilegt gagnasafn radda sem öllum er frjálst að nýta við þróun hugbúnaðar á íslensku.</span>
                 <span>Gagnasafnið samanstendur af setningum og hljóðbrotum af upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í gagnasafninu inniheldur WAV-hljóðbrot og samsvarandi textaskrá.</span>
-                <span>Opnað verður fyrir niðurhal á Samróm innan fljótlega Skráðu þig á póstlistann hér fyrir neðan til þess að fá tilkynningu þegar gagnasafnið verður gert aðgengilegt.</span>
+                <span>Gagnasafnið verður gefið út á <StyledLink target={'blank'} href={'https://clarin.is/ '}>Clarin</StyledLink>. Skráðu þig á póstlistann hér fyrir neðan til þess að fá tilkynningu þegar gagnasafnið verður gert aðgengilegt.</span>
             </AboutContainer>
         </AboutDatasetContainer>
     );

@@ -18,8 +18,10 @@ import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
 
 const FrontPageContainer = styled.div`
-    background: url(/images/light-waves.svg) repeat-x bottom;
-    background-color: ${({ theme }) => theme.colors.lightGray};
+/*     background: url(/images/wave-footer.png) repeat-x bottom;*/
+    background: url(/images/wave-footer@3x.png) no-repeat bottom;
+    background-size: 100% auto;
+    background-color: ${({ theme }) => theme.colors.white};
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -47,6 +49,18 @@ const BottomContent = styled.div`
     align-items: center;
     margin-bottom: 2rem;
 `;
+
+
+const MiddleContent = styled.div`
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    align-items: center;
+`;
+
 
 const RobotMessage = styled.div`
     font-size: 1.5rem;
@@ -79,8 +93,9 @@ const ChartLegend = styled.div`
 `;
 
 const ChartTitle = styled.span`
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1rem;
+    color: grey;
+    font-weight: 500;
 `;
 
 const ChartSubTitle = styled.span`
@@ -229,9 +244,8 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>Við ætlum að búa til stærsta íslenska raddgagnasafnið</CTATitle>
-                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'green'}>Taka þátt</CTAButton>
-                                    <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira</CTAButton>
+                                    <CTATitle>Það er á okkar valdi að alltaf megi finna svar á íslensku.</CTATitle>
+                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'validGreen'}>Taka þátt</CTAButton>
                                     
                                 </TitleContainer>
                             </RobotAndTitle>
@@ -240,24 +254,31 @@ class IndexPage extends React.Component<Props> {
                                 clips={stats.totalClips}
                             />
                         </CallToAction>
+                        <MiddleContent>
+                            
+                            <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
+
+                        </MiddleContent>
+
                         <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
-                                    <ChartTitle>Innlesnar setningar</ChartTitle>
-                                    <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle>
-                                </ChartLegend>
+                                    <ChartTitle>Innlesnar setningar síðastliðinn mánuð</ChartTitle>
+{/*                                     <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle>
+ */}                                </ChartLegend>
                                 <ChartContainer>
                                     <TotalChart />
                                 </ChartContainer>
                             </HeroChart>
                         </ChartsContainer>
-                    </FrontPageContent>
-                    <BottomContent>
-                        <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
+                        <BottomContent>
+                        
+                     {/*    <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
                         <MicButton onClick={() => router.push(pages.speak)} >
-                            <MicIcon fill={'blue'} height={35} width={35} />
-                        </MicButton>
-                    </BottomContent>
+                            <MicIcon fill={'green'} height={35} width={35} />
+                        </MicButton> */}
+                        </BottomContent>
+                    </FrontPageContent>
                 </FrontPageContainer>
             </Layout >
         );

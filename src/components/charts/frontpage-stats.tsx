@@ -22,7 +22,7 @@ const Stat = styled.span`
 const SubStat = styled.span`
     & span {
         font-size: 1.8rem;
-        color: ${({ theme }) => theme.colors.darkerBlue};
+        color: ${({ theme }) => theme.colors.blue};
         font-weight: 600;
     }
 `;

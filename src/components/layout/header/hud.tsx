@@ -115,9 +115,9 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         }
         switch (pathname) {
             case '/tala':
-                return path ? pages.contribute : goal ? 'Velja magn' : 'Taka þátt';
+                return path ? pages.contribute : goal ? 'Velja fjölda' : 'Taka þátt';
             case '/hlusta':
-                return path ? pages.contribute : goal ? 'Velja magn' : 'Taka þátt';
+                return path ? pages.contribute : goal ? 'Velja fjölda' : 'Taka þátt';
             default:
                 return path ? pages.frontPage : 'Forsíða';
         }

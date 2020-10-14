@@ -26,6 +26,7 @@ interface ContributeContainerProps {
 const ContributeContainer = styled.div<ContributeContainerProps>`
     display: grid;
     width: 100%;
+ 
     max-width: ${({ expanded, theme }) => expanded ? '100vw' : theme.layout.gameWidth};
     transition:
         top 0.5s ${({ theme }) => theme.transitions.main},
@@ -33,6 +34,7 @@ const ContributeContainer = styled.div<ContributeContainerProps>`
     grid-template-columns: 1fr;
     grid-template-rows: ${({ gaming, theme }) => !gaming && theme.layout.hudHeight} auto auto;
     justify-items: center;
+    
     padding: ${({ gaming }) => !gaming ? '1rem' : '0rem'};
 `;
 

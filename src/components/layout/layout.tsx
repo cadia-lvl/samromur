@@ -29,7 +29,8 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
     ` : `
         min-height: 100vh;
         overflow-y: hidden;
-        background-color: ${theme.colors.lightGray};
+        background-color: ${theme.colors.white};
+        
         display: flex;
         flex-direction: column;
         align-items: center;

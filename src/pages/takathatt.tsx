@@ -8,8 +8,12 @@ import { WithRouterProps } from "next/dist/client/with-router";
 import styled from 'styled-components';
 
 import { resetContribute, setGoal } from '../store/contribute/actions';
-import { Goal } from '../types/contribute';
 import Contribute from '../components/contribute/setup/contribute';
+
+/* 
+### Not used?
+
+import { Goal } from '../types/contribute';
 import Layout from '../components/layout/layout';
 import TypeSelect from '../components/contribute/setup/type-select';
 
@@ -29,7 +33,7 @@ const Instruction = styled.h2`
     margin-bottom: 2rem;
 `;
 
-const FakeDiv = styled.div``;
+const FakeDiv = styled.div``; */
 
 const dispatchProps = {
     setGoal
@@ -78,6 +82,7 @@ const mapStateToProps = (state: RootState) => ({
     contribute: state.contribute,
     user: state.user,
 });
+
 
 export default connect(
     mapStateToProps,
