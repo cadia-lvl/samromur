@@ -8,7 +8,10 @@ const initialState: UserState = {
     client: {
         id: generateGUID(),
         isAuthenticated: false,
-        clips: 0
+        stats: {
+            clips: undefined,
+            votes: undefined,
+        }
     },
     demographics: {
         age: {

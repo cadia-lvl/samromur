@@ -2,7 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Database, { getDatabaseInstance } from '../../../server/database/database';
 
 import {
-    UserClient
+    UserClient,
+    TotalUserClips,
+    TotalUserVotes
 } from '../../../types/user';
 
 const db: Database = getDatabaseInstance();
@@ -14,10 +16,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
         const clientId = decodeURIComponent(req.headers.client_id as string) || '';
         try {
-            const clips: number = await db.userClients.fetchUserClipCount(clientId);
+            const clips: TotalUserClips  = await db.userClients.fetchUserClipsStats(clientId);
+            const votesCount: number  = await db.userClients.fetchUserVoteCount(clientId);
             const user: Partial<UserClient> = {
                 id: clientId,
-                clips
+                stats: {
+                    clips,
+                    votes: {
+                        count: votesCount
+                    }
+                },
             }
             res.status(200).json(user);
         } catch (error) {

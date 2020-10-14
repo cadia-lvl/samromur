@@ -4,6 +4,8 @@ import Sql from './sql';
 import { AuthError } from '../../types/auth';
 import { sha512hash } from '../../utilities/hash';
 
+import { TotalUserClips } from '../../types/user';
+
 export default class UserClients {
     private sql: Sql;
 
@@ -65,6 +67,41 @@ export default class UserClients {
         );
     }
 
+    changePassword = async (oldPassword: string, password: string, clientId: string): Promise<void> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    *
+                FROM
+                    user_clients
+                WHERE
+                    client_id = ?
+                AND
+                    password = ?
+            `,
+            [clientId, sha512hash(oldPassword)]
+        );
+        if (!row) {
+            return Promise.reject(AuthError.WRONG_PASSWORD);
+        }
+
+        return this.sql.query(
+            `
+                UPDATE
+                    user_clients
+                SET
+                    password = ?
+                WHERE
+                    client_id = ?
+            `,
+            [sha512hash(password), clientId]
+        ).then(() => {
+            return Promise.resolve();
+        }).catch((error) => {
+            return Promise.reject();
+        })
+    }
+
     loginUser = async (email: string, password: string, clientId: string): Promise<void> => {
         const [[row]] = await this.sql.query(
             `
@@ -124,5 +161,40 @@ export default class UserClients {
 
         const { clips } = row;
         return clips;
+    }
+
+    fetchUserClipsStats = async (id: string): Promise<TotalUserClips> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    count(*) AS count,
+                    count(CASE is_valid WHEN 1 THEN 1 ELSE NULL END) AS valid,
+                    count(CASE is_valid WHEN 0 THEN 1 ELSE NULL END) AS invalid
+                FROM
+                    clips
+                WHERE 
+                    client_id = ?
+            `,
+            [id]
+        )
+
+        return row;
+    }
+
+    fetchUserVoteCount = async (id: string): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    COUNT(*) as votes
+                FROM
+                    votes
+                WHERE
+                    client_id = ?
+            `,
+            [id]
+        );
+
+        const { votes } = row;
+        return votes;
     }
 }

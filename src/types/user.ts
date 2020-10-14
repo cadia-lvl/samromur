@@ -15,10 +15,25 @@ export interface Demographic {
     name: string;
 }
 
+export interface TotalUserClips {
+    count: number;
+    valid: number;
+    invalid: number;
+}
+
+export interface TotalUserVotes {
+    count: number;
+}
+
+export interface UserStats {
+    clips?: TotalUserClips;
+    votes?: TotalUserVotes;
+}
+
 export interface UserClient {
     id: string;
     isAuthenticated: boolean;
-    clips?: number;
+    stats: UserStats;
 }
 
 export interface UserConsents {

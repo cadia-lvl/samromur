@@ -91,6 +91,7 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                 <Link href='/um'>
                     <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
                 </Link>
+                <NavLink href='/minar-sidur' isActive={pathname == '/minar-sidur'}>Mínar síður</NavLink>
             </NavigationLinks>
         </NavigationContainer>
     );

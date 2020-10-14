@@ -40,6 +40,24 @@ export const login = async (payload: AuthRequest): Promise<void> => {
     });
 }
 
+export const changePassword = async (oldPassword: string, newPassword: string,): Promise<void> => {
+    const url = `/api/users/password`;
+    const auth = Buffer.from(`${oldPassword}:${newPassword}`, 'utf8').toString('base64');
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            'Authorization': `Basic ${auth}`,
+        }
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        console.error(error);
+        return Promise.reject(error.code);
+    });
+}
+
 export const logout = async () => {
     document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.reload();
