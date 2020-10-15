@@ -52,7 +52,6 @@ const ProgressContainer = styled.div`
     font-size: 1.1rem;
     font-weight: 600;
     color: grey;
-    gap: 0.5rem;
 `;
 
 const TextBar = styled.div`

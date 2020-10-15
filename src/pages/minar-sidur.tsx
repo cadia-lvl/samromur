@@ -34,11 +34,19 @@ const DashboardContainer = styled.div`
 
 const SidePanel = styled(DashboardSidePanel)`
     border-right: 2px solid ${({ theme }) => theme.colors.borderGray};
+    & > * {
+        margin-bottom: 1.5rem;
+    }
 
     ${({ theme }) => theme.media.small} {
         flex-direction: row;
         border-right: none;
         border-bottom: 2px solid ${({ theme }) => theme.colors.borderGray};
+
+        & > * {
+            margin-bottom: 0;
+            margin-right: 1.5rem;
+        }
     }
 `;
 

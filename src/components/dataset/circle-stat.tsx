@@ -11,14 +11,19 @@ const CircleStatContainer = styled.div<ContainerProps>`
     grid-template-columns: 1fr 6fr 2fr;
     border-bottom: 2px solid ${({ color, theme }) => theme.colors[color]};
     gap: 0.5rem;
+    max-height: 6rem;
     padding-bottom: 1rem;
 `;
 
 const TextContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     margin: auto 0;
+
+    & span {
+        margin-bottom: 0.6rem;
+    }
+    
     & h2 {
         font-weight: 900;
     }
