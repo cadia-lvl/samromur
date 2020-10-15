@@ -4,6 +4,9 @@ import Link from 'next/link';
 
 import { IconButton } from '../../ui/buttons';
 
+import FacebookIcon from '../../ui/icons/facebook';
+import TwitterIcon from '../../ui/icons/twitter';
+
 const Social = styled.div`
     display: grid;
     grid-template-columns: 100%;
@@ -25,19 +28,30 @@ const Links = styled.div`
     }
 `
 
+const IconLink = styled.a`
+    cursor: pointer;
+`;
+
 interface Props {
 
 }
 
 export const SocialLinks: React.FunctionComponent<Props> = (props) => {
+    const shareUrl = 'https://samromur.is';
+    const shareText = `Ljáðu íslenskri tungu rödd þína, gefðu raddsýni á ${shareUrl}}`
+
     return (
         <Social>
             <SocialMessage>Viltu hvetja aðra til þátttöku?</SocialMessage>
             <Links>
-                <IconButton icon={{ height: 30, width: 30, fill: "white", hoverFill: "blue" }} onClickHandler={() => { }} type='facebook' />
-                <IconButton icon={{ height: 30, width: 30, fill: "white", hoverFill: "blue" }} onClickHandler={() => { }} type='twitter' />
-            </Links>
-        </Social>
+                <IconLink href={'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl)}>
+                    <FacebookIcon height={30} width={30} fill={'white'} hoverFill={'blue'} />
+                </IconLink>
+                <IconLink href={'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText)}>
+                    <TwitterIcon height={30} width={30} fill={'white'} hoverFill={'blue'} />
+                </IconLink>
+            </Links >
+        </Social >
     )
 }
 
