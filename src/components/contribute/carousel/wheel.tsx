@@ -346,6 +346,11 @@ class CarouselWheel extends React.Component<Props, State> {
             await this.saveClip(recording, sentences[this.activeIndex]);
             this.handleUpload(clipIndex);
             this.onSpin(1, true);
+            const { contribute: { goal, progress } } = this.props;
+            const isDone = !!(goal && goal.count == progress);
+            if (!isDone) {
+                this.recorder?.initMicrophone();
+            }
             return Promise.resolve();
         }).catch((error: RecordingError) => {
             this.setState({ recordingError: error });

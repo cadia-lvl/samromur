@@ -222,10 +222,15 @@ export default class Recorder {
         return Promise.resolve();
     }
 
+    initMicrophone = async (): Promise<void> => {
+        this.microphone = await this.getMicrophone();
+    }
+
     stopRecording = async (): Promise<AudioInfo> => {
         this.isRecording = false;
         return this.stop().then((recording: AudioInfo) => {
             const recordingError = this.validateRecording();
+            this.release();
             if (recordingError) {
                 return Promise.reject(recordingError);
             } else {
