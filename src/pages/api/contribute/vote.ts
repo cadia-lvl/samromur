@@ -5,15 +5,16 @@ import { ClipVote } from '../../../types/samples';
 const db: Database = getDatabaseInstance();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { method } = req;
+    const { headers, method } = req;
     if (method != 'POST') {
         res.status(400).send('Invalid method.');
     } else {
-        const clientId = decodeURIComponent(req.headers.client_id as string) || '';
-        const clipId = parseInt(decodeURIComponent(req.headers.clip_id as string));
-        const vote = decodeURIComponent(req.headers.vote as string) as ClipVote;
+        const clientId = decodeURIComponent(headers.client_id as string) || '';
+        const clipId = parseInt(decodeURIComponent(headers.clip_id as string));
+        const isSuper = decodeURIComponent(headers.is_super as string) == '1';
+        const vote = decodeURIComponent(headers.vote as string) as ClipVote;
         try {
-            const voteId = await db.votes.saveVote(clientId, clipId, vote);
+            const voteId = await db.votes.saveVote(clientId, clipId, isSuper, vote);
             return res.status(200).send(voteId);
         } catch (error) {
             console.error(error);

@@ -8,7 +8,9 @@ import { setUserCookie } from '../../utilities/cookies';
 const initialState: UserState = {
     client: {
         id: generateGUID(),
+        isAdmin: false,
         isAuthenticated: false,
+        isSuperUser: false,
         stats: {
             clips: undefined,
             votes: undefined,

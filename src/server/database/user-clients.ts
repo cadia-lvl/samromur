@@ -4,7 +4,10 @@ import Sql from './sql';
 import { AuthError } from '../../types/auth';
 import { sha512hash } from '../../utilities/hash';
 
-import { TotalUserClips } from '../../types/user';
+import {
+    TotalUserClips,
+    UserClient
+} from '../../types/user';
 
 export default class UserClients {
     private sql: Sql;
@@ -196,5 +199,22 @@ export default class UserClients {
 
         const { votes } = row;
         return votes;
+    }
+
+    fetchUserAccess = async (id: string): Promise<Partial<UserClient>> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    is_admin,
+                    is_super_user
+                FROM
+                    user_clients
+                WHERE
+                    client_id = ?
+            `,
+            [id]
+        );
+        const { is_admin, is_super_user } = row;
+        return { isAdmin: is_admin, isSuperUser: is_super_user }
     }
 }

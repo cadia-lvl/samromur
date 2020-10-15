@@ -16,10 +16,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
         const clientId = decodeURIComponent(req.headers.client_id as string) || '';
         try {
-            const clips: TotalUserClips  = await db.userClients.fetchUserClipsStats(clientId);
-            const votesCount: number  = await db.userClients.fetchUserVoteCount(clientId);
+            const clips: TotalUserClips = await db.userClients.fetchUserClipsStats(clientId);
+            const votesCount: number = await db.userClients.fetchUserVoteCount(clientId);
+            const { isAdmin, isSuperUser } = await db.userClients.fetchUserAccess(clientId);
+
             const user: Partial<UserClient> = {
                 id: clientId,
+                isAdmin,
+                isSuperUser,
                 stats: {
                     clips,
                     votes: {

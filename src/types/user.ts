@@ -33,7 +33,9 @@ export interface UserStats {
 
 export interface UserClient {
     id: string;
+    isAdmin: boolean;
     isAuthenticated: boolean;
+    isSuperUser: boolean;
     stats: UserStats;
 }
 

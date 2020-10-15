@@ -283,8 +283,11 @@ class CarouselWheel extends React.Component<Props, State> {
         this.onSpin(1);
         const { clipIndex } = this.state;
         const clip = await this.updateClip(clipIndex, { vote });
+
+        const { user: { client: { isSuperUser } } } = this.props;
         const payload = {
             clipId: clip.id as number,
+            isSuper: isSuperUser,
             vote: clip.vote as ClipVote,
             voteId: clip.voteId
         }
