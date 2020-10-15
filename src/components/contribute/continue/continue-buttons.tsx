@@ -10,10 +10,8 @@ import {
     setGoal,
     setExpanded,
 } from '../../../store/contribute/actions';
-import { speakGoals } from '../../../constants/packages';
+import { listenGoals, speakGoals } from '../../../constants/packages';
 import { Goal } from '../../../types/contribute';
-
-import OpacitySwap from '../../ui/animated/opacity';
 
 const ContinueButtonsContainer = styled.div`
     width: 100%;
@@ -73,7 +71,7 @@ const ButtonContainer = styled.div<ButtonProps>`
     }
 `;
 
-const MessageContainer = styled(OpacitySwap)`
+const MessageContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -127,8 +125,8 @@ class ContinueButtons extends React.Component<Props, State> {
         const { onContinue, setExpanded, setGoal, resetContribute } = this.props;
         resetContribute();
         setGoal(goal);
+        onContinue();
         setExpanded(false);
-        setTimeout(() => onContinue(), 1);
     }
 
     handleSwitch = () => {
@@ -150,11 +148,11 @@ class ContinueButtons extends React.Component<Props, State> {
     render() {
         const { shouldContinue } = this.state;
         const { contribute: { goal } } = this.props;
+        const goals = goal && goal.contributeType == 'tala' ? speakGoals : listenGoals;
         return (
             <ContinueButtonsContainer>
-                <MessageContainer second={shouldContinue}>
-                    <span>Viltu halda áfram?</span>
-                    <span>Hversu lengi viltu halda áfram?</span>
+                <MessageContainer>
+                    <span>{shouldContinue ? 'Hversu lengi viltu halda áfram' : 'Viltu halda áfram?'}</span>
                 </MessageContainer>
                 <SlidingButtons>
                     <ButtonsContainer position={shouldContinue ? -1 : 0}>
@@ -166,17 +164,17 @@ class ContinueButtons extends React.Component<Props, State> {
                         </ButtonContainer>
                     </ButtonsContainer>
                     <ButtonsContainer position={shouldContinue ? 0 : 1}>
-                        <ButtonContainer color={'blue'} onClick={() => this.handleGoal(speakGoals[0])}>
-                            <>Lítið</>
-                            <span>10 setningar</span>
+                        <ButtonContainer color={'blue'} onClick={() => this.handleGoal(goals[0])}>
+                            <>{goals[0].name}</>
+                            <span>{goals[0].text}</span>
                         </ButtonContainer>
-                        <ButtonContainer color={'blue'} onClick={() => this.handleGoal(speakGoals[1])}>
-                            <>Miðlungs</>
-                            <span>20 setningar</span>
+                        <ButtonContainer color={'blue'} onClick={() => this.handleGoal(goals[1])}>
+                            <>{goals[1].name}</>
+                            <span>{goals[1].text}</span>
                         </ButtonContainer>
-                        <ButtonContainer color={'green'} onClick={() => this.handleGoal(speakGoals[2])}>
-                            <>Mikið</>
-                            <span>50 setningar</span>
+                        <ButtonContainer color={'green'} onClick={() => this.handleGoal(goals[2])}>
+                            <>{goals[2].name}</>
+                            <span>{goals[2].text}</span>
                         </ButtonContainer>
                     </ButtonsContainer>
                 </SlidingButtons>

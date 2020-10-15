@@ -114,7 +114,6 @@ class ContinueModal extends React.Component<Props, State> {
             onContinue,
         } = this.props;
         const {
-            clipsToday,
             shouldDraw
         } = this.state;
 
@@ -131,7 +130,7 @@ class ContinueModal extends React.Component<Props, State> {
                     Takk fyrir að gefa í Samróm!
                 </Title>
                 <ChartContainer>
-                    {shouldDraw && <ContinueChart count={goal?.count || 0} />}
+                    {shouldDraw && <ContinueChart contributeType={goal?.contributeType || ''} count={goal?.count || 0} />}
                 </ChartContainer>
                 <StatsMessageContainer>
                     <StatsMessage>
