@@ -1,10 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { IconButton } from '../../ui/buttons';
+
+import * as userApi from '../../../services/user-api';
+
+import SubscribeIcon from '../../ui/icons/subscribe';
 
 const SubscribeContainer = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
 `
 
 const SubscribeText = styled.label`
@@ -12,7 +16,7 @@ const SubscribeText = styled.label`
     text-transform: uppercase;
 `;
 
-const InputWithButton = styled.div`
+const InputWithButton = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -32,10 +36,28 @@ const TextInput = styled.input`
     font-family: ${({ theme }) => theme.fonts.transcript};
 `;
 
-const SubmitButton = styled.div`
+const SubmitButton = styled.button`
     background-color: ${({ theme }) => theme.colors.blue};
     text-align: center;
     width: 1.8rem;
+    cursor: pointer;
+
+    border: none;
+    :active {
+        transform: translateY(2px);
+        outline: none;
+    }
+    :focus {
+        outline: none;
+    }
+`;
+
+const Message = styled.div`
+    margin-top: 0.5rem;
+    color: white;
+    font-weight: 500;
+    position: absolute;
+    bottom: -1rem;
 `;
 
 interface Props {
@@ -43,7 +65,9 @@ interface Props {
 }
 
 interface State {
+    done: boolean;
     email: string;
+    success: boolean;
 }
 
 export default class SubscribeForm extends React.Component<Props, State> {
@@ -52,7 +76,9 @@ export default class SubscribeForm extends React.Component<Props, State> {
         super(props);
 
         this.state = {
+            done: false,
             email: '',
+            success: false,
         }
     }
 
@@ -61,14 +87,23 @@ export default class SubscribeForm extends React.Component<Props, State> {
         this.setState({ email });
     }
 
-    render() {
+    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const { email } = this.state;
+        userApi.subscribeToNewsletter(email).then(() => {
+            this.setState({ done: true, success: true });
+        }).catch((error) => {
+            this.setState({ done: true, success: false });
+        });
+    }
+
+    render() {
+        const { done, email, success } = this.state;
         return (
             <SubscribeContainer>
                 <SubscribeText>Skráning á póstlista Samróms.</SubscribeText>
-                <InputWithButton>
+                <InputWithButton onSubmit={this.handleSubmit}>
                     <TextInput
-                        type={'email'}
                         ref={this.textRef}
                         spellCheck='false'
                         placeholder='Tölvupóstfang'
@@ -77,9 +112,18 @@ export default class SubscribeForm extends React.Component<Props, State> {
                         onChange={this.onChange}
                     />
                     <SubmitButton>
-                        <IconButton icon={{ height: 15, width: 15, fill: "white" }} onClickHandler={() => { }} type="subscribe" />
+                        <SubscribeIcon height={15} width={15} fill={'white'} />
                     </SubmitButton>
                 </InputWithButton>
+                {
+                    done && (
+                        <Message>
+                            {
+                                success ? 'Skráning tókst!' : 'Skráning mistókst'
+                            }
+                        </Message>
+                    )
+                }
             </SubscribeContainer>
         );
     }

@@ -23,3 +23,19 @@ export const fetchUser = async (payload: FetchUserRequest): Promise<UserClient> 
         return Promise.reject(error.code);
     });
 }
+
+export const subscribeToNewsletter = async (email: string): Promise<void> => {
+    const url = `/api/email/subscribe`;
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            email: encodeURIComponent(email),
+        }
+    }).then(() => {
+        return Promise.resolve();
+    }).catch((error) => {
+        return Promise.reject(error);
+    })
+}

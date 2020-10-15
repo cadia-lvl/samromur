@@ -1,8 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
-
-import { IconButton } from '../../ui/buttons';
 
 import FacebookIcon from '../../ui/icons/facebook';
 import TwitterIcon from '../../ui/icons/twitter';
