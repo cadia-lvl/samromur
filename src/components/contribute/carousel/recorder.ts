@@ -171,6 +171,7 @@ export default class Recorder {
         // Microphone and context
         this.microphone = await this.getMicrophone();
         this.sampleRate = this.microphone.getAudioTracks()[0].getSettings().sampleRate as number;
+        
         this.encoder.postMessage({
             command: 'settings',
             sampleRate: this.sampleRate
@@ -214,6 +215,11 @@ export default class Recorder {
         }
 
         this.processorNode.connect(this.audioContext.destination);
+        if (!this.microphone) {
+            this.microphone = await this.getMicrophone();
+        }
+        this.sourceNode = this.audioContext.createMediaStreamSource(this.microphone);
+        this.sourceNode.channelCount = 1;
         this.sourceNode.connect(this.processorNode);
         await this.start();
         this.isRecording = true;

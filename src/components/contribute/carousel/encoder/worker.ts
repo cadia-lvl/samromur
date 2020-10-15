@@ -56,7 +56,6 @@ class WavEncoder {
         view.setUint32(40, dataSize, true);
         this.dataViews.unshift(view);
         const blob = new Blob(this.dataViews, { type: 'audio/wav' });
-        this.reset();
         return Promise.resolve(blob);
     }
 }
@@ -67,6 +66,7 @@ export const ctx: Worker = self as any;
 
 const finish = async () => {
     const blob = await encoder.finish();
+    encoder.reset();
     ctx.postMessage({
         command: 'finish',
         blob
