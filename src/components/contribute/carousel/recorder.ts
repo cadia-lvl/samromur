@@ -34,7 +34,7 @@ export default class Recorder {
 
     constructor() {
         this.encoder = new WavEncoder();
-        this.sampleRate = 16000;
+        this.sampleRate = 16000; // Initial value
         this.minRecordingMS = 1000; // 1 second
         this.maxRecordingMS = 15000; // 15 seconds
         this.minVolume = 8; // Range: [0, 255]
@@ -86,7 +86,6 @@ export default class Recorder {
             const options = {
                 audio: true,
                 channelCount: 1,
-                sampleRate: this.sampleRate,
             }
 
             const deny = (error: MediaStreamError) => reject(
@@ -171,6 +170,12 @@ export default class Recorder {
 
         // Microphone and context
         this.microphone = await this.getMicrophone();
+        this.sampleRate = this.microphone.getAudioTracks()[0].getSettings().sampleRate as number;
+        this.encoder.postMessage({
+            command: 'settings',
+            sampleRate: this.sampleRate
+        });
+
         this.audioContext =
             new (window.AudioContext || window.webkitAudioContext)({ sampleRate: this.sampleRate });
 

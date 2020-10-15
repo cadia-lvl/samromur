@@ -3,10 +3,14 @@ class WavEncoder {
     private numSamples: number;
     private dataViews: DataView[];
 
-    constructor(sampleRate: number) {
-        this.sampleRate = sampleRate;
+    constructor() {
+        this.sampleRate = 16000;
         this.numSamples = 0;
         this.dataViews = [];
+    }
+
+    setSampleRate = (sampleRate: number) => {
+        this.sampleRate = sampleRate;
     }
 
     encode = (buffer: Float32Array) => {
@@ -57,7 +61,7 @@ class WavEncoder {
     }
 }
 
-const encoder = new WavEncoder(16000);
+const encoder = new WavEncoder();
 
 export const ctx: Worker = self as any;
 
@@ -73,6 +77,8 @@ ctx.onmessage = (event) => {
     const data = event.data;
     if (data.command == 'encode') {
         encoder.encode(data.buffer)
+    } else if (data.command == 'settings') {
+        encoder.setSampleRate(data.sampleRate);
     } else {
         finish();
     }
