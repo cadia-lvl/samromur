@@ -15,6 +15,7 @@ import Layout from '../components/layout/layout';
 import DashboardSidePanel from '../components/dashboard/side-panel';
 import DashboardStats from '../components/dashboard/stats';
 import DashboardSettings from '../components/dashboard/settings';
+import DashboardAdmin from '../components/dashboard/admin/admin';
 
 const DashboardContainer = styled.div`
     width: 100%;
@@ -87,12 +88,15 @@ class DashboardPage extends React.Component<Props, State> {
         return (
             <Layout>
                 <DashboardContainer>
-                    <SidePanel onSelect={this.onSelect} selected={selected} />
+                    <SidePanel isAdmin={user.client.isAdmin} onSelect={this.onSelect} selected={selected} />
                     {
-                        selected == 'tolfraedi' && <DashboardStats stats={user.client.stats} />
+                        selected == 'tolfraedi' && <DashboardStats key={selected} client={user.client} />
                     }
                     {
-                        selected == 'stillingar' && <DashboardSettings />
+                        selected == 'stillingar' && <DashboardSettings key={selected} />
+                    }
+                    {
+                        selected == 'stjornandi' && <DashboardAdmin key={selected} />
                     }
                 </DashboardContainer>
             </Layout>

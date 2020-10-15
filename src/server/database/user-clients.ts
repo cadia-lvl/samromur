@@ -2,10 +2,13 @@ import { v4 as uuid } from 'uuid';
 
 import Sql from './sql';
 import { AuthError } from '../../types/auth';
+import { generateGUID } from '../../utilities/id';
 import { sha512hash } from '../../utilities/hash';
 
 import {
+    SuperUserStat,
     TotalUserClips,
+    TotalUserVotes,
     UserClient
 } from '../../types/user';
 
@@ -29,11 +32,13 @@ export default class UserClients {
         );
     }
 
-    signUpUser = async (email: string, password: string, clientId: string): Promise<string> => {
+    signUpUser = async (email: string, password: string): Promise<string> => {
         if (await this.hasAccount(email)) {
             return Promise.reject(AuthError.HAS_ACCOUNT);
         }
         const confirmId = uuid();
+        const clientId = generateGUID();
+
         return this.sql.query(
             `
                 INSERT INTO
@@ -184,11 +189,12 @@ export default class UserClients {
         return row;
     }
 
-    fetchUserVoteCount = async (id: string): Promise<number> => {
+    fetchUserVotesStats = async (id: string): Promise<TotalUserVotes> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
-                    COUNT(*) as votes
+                    COUNT(*) as count,
+                    COUNT(case is_super WHEN 1 THEN 1 ELSE NULL END) super
                 FROM
                     votes
                 WHERE
@@ -197,8 +203,7 @@ export default class UserClients {
             [id]
         );
 
-        const { votes } = row;
-        return votes;
+        return row;
     }
 
     fetchUserAccess = async (id: string): Promise<Partial<UserClient>> => {
@@ -215,6 +220,66 @@ export default class UserClients {
             [id]
         );
         const { is_admin, is_super_user } = row;
-        return { isAdmin: is_admin, isSuperUser: is_super_user }
+        return { isAdmin: !!is_admin, isSuperUser: !!is_super_user }
+    }
+
+    makeSuperUser = async (email: string): Promise<void> => {
+        return this.sql.query(
+            `
+                UPDATE
+                    user_clients
+                SET
+                    is_super_user = ?
+                WHERE
+                    email = ?
+            `,
+            [true, email]
+        ).then(([{ affectedRows }]) => {
+            return !!affectedRows ? Promise.resolve() : Promise.reject();
+        }).catch((error) => {
+            return Promise.reject(error);
+        })
+    }
+
+    fetchSuperUserStats = async (id: string): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    COUNT(case is_super WHEN 1 THEN 1 ELSE NULL END) as count
+                FROM
+                    votes
+                WHERE
+                    client_id = ?
+            `,
+            [id]
+        );
+        const { count } = row;
+        return count;
+    }
+
+    fetchSuperUsers = async (): Promise<SuperUserStat[]> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT
+                client_id,
+                email
+            FROM
+                user_clients
+            WHERE
+                is_super_user = true
+            `
+        );
+
+        return Promise.all(
+            rows.map(async (row: { client_id: string, email: string }) =>
+                new Promise(async (resolve) => {
+                    const count = await this.fetchSuperUserStats(row.client_id);
+                    resolve({
+                        email: row.email,
+                        count
+                    });
+                })
+            )
+        );
     }
 }

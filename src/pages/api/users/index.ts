@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const clientId = decodeURIComponent(req.headers.client_id as string) || '';
         try {
             const clips: TotalUserClips = await db.userClients.fetchUserClipsStats(clientId);
-            const votesCount: number = await db.userClients.fetchUserVoteCount(clientId);
+            const votes: TotalUserVotes = await db.userClients.fetchUserVotesStats(clientId);
             const { isAdmin, isSuperUser } = await db.userClients.fetchUserAccess(clientId);
 
             const user: Partial<UserClient> = {
@@ -26,9 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 isSuperUser,
                 stats: {
                     clips,
-                    votes: {
-                        count: votesCount
-                    }
+                    votes
                 },
             }
             res.status(200).json(user);

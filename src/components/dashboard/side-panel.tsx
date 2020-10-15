@@ -27,12 +27,13 @@ const Item = styled.span<ItemProps>`
 
 interface Props {
     className?: string;
+    isAdmin: boolean;
     onSelect: (selected: string) => void;
     ref?: React.Ref<HTMLDivElement>;
     selected: string;
 }
 
-const DashboardSidePanel: React.FunctionComponent<Props> = ({ className, onSelect, selected }) => {
+const DashboardSidePanel: React.FunctionComponent<Props> = ({ className, isAdmin, onSelect, selected }) => {
 
     const logout = () => {
         authApi.logout();
@@ -42,6 +43,7 @@ const DashboardSidePanel: React.FunctionComponent<Props> = ({ className, onSelec
             <Title>Mínar síður</Title>
             <Item active={selected == 'tolfraedi'} onClick={() => onSelect('tolfraedi')}>Tölfræði</Item>
             <Item active={selected == 'stillingar'} onClick={() => onSelect('stillingar')}>Stillingar</Item>
+            { isAdmin && <Item active={selected == 'stjornandi'} onClick={() => onSelect('stjornandi')}>Stjórnandi</Item>}
             <Item active={false} onClick={logout}>Útskrá</Item>
         </SidePanelContainer>
     );
