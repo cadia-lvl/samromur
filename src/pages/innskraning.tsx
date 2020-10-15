@@ -2,15 +2,19 @@ import { NextPageContext } from 'next';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import * as React from 'react';
-import Router from 'next/router'
 import styled from 'styled-components';
 
-import Layout from '../components/layout/layout';
-import LoginForm from '../components/login/login-form';
-import { setAuthenticated } from '../store/user/actions';
+import {
+    setAuthenticated,
+    setClientId
+} from '../store/user/actions';
 
 import * as authApi from '../services/auth-api';
 import cookies from 'next-cookies';
+
+import Layout from '../components/layout/layout';
+import LoginForm from '../components/login/login-form';
+import SignupSuccess from '../components/login/signup-success';
 
 import {
     AuthError,
@@ -24,7 +28,8 @@ const LoginPageContainer = styled.div`
 `;
 
 const dispatchProps = {
-    setAuthenticated
+    setAuthenticated,
+    setClientId,
 }
 
 interface LoginProps {
@@ -32,7 +37,9 @@ interface LoginProps {
 }
 
 interface State {
+    email: string;
     error?: AuthError;
+    signupSuccess: boolean;
 }
 
 type Props = LoginProps & typeof dispatchProps;
@@ -43,7 +50,9 @@ class LoginPage extends React.Component<Props, State> {
         super(props);
 
         this.state = {
+            email: '',
             error: undefined,
+            signupSuccess: false,
         }
     }
 
@@ -65,11 +74,13 @@ class LoginPage extends React.Component<Props, State> {
 
     handleSubmit = async (auth: AuthRequest, isSignup: boolean) => {
         if (isSignup) {
+            const { email } = auth;
             return authApi.signUp(auth).then(() => {
-                // Handle signup
+                this.setState({ email, signupSuccess: true });
             }).catch(this.handleError);
         } else {
-            return authApi.login(auth).then(() => {
+            return authApi.login(auth).then((clientId: string) => {
+                this.props.setClientId(clientId);
                 window.location.replace(this.props.redirect);
             }).catch(this.handleError);
         }
@@ -77,15 +88,23 @@ class LoginPage extends React.Component<Props, State> {
     }
 
     render() {
-        const { error } = this.state;
+        const { email, error, signupSuccess } = this.state;
         return (
             <Layout>
                 <LoginPageContainer>
-                    <LoginForm
-                        error={error}
-                        onSubmit={this.handleSubmit}
-                        removeError={this.removeError}
-                    />
+                    {
+                        signupSuccess
+                            ?
+                            <SignupSuccess
+                                email={email}
+                            />
+                            : <LoginForm
+                                error={error}
+                                onSubmit={this.handleSubmit}
+                                removeError={this.removeError}
+                            />
+                    }
+
                 </LoginPageContainer>
             </Layout>
         );

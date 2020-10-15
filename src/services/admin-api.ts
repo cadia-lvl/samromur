@@ -7,6 +7,7 @@ import {
 } from '../types/sentences';
 
 import { SSRRequest } from '../types/ssr';
+import { SuperUserStat } from '../types/user';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm'
@@ -47,6 +48,33 @@ export const fetchAllSentencesInfo = async (payload: SSRRequest): Promise<Array<
     return axios({
         method: 'GET',
         url
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        return Promise.reject(error.code);
+    })
+}
+
+export const makeSuperUser = async (userEmail: string): Promise<void> => {
+    const url = '/api/admin/users/update';
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            email: encodeURIComponent(userEmail),
+        }
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        return Promise.reject(error.code);
+    })
+}
+
+export const fetchSuperUsers = async (): Promise<SuperUserStat[]> => {
+    const url = '/api/admin/users/fetch-stats';
+    return axios({
+        method: 'GET',
+        url,
     }).then((response: AxiosResponse) => {
         return response.data;
     }).catch((error: AxiosError) => {

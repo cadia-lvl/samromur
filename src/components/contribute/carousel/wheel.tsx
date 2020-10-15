@@ -103,7 +103,6 @@ class CarouselWheel extends React.Component<Props, State> {
         }
 
         this.activeIndex = 0;
-
     }
 
     setColor = (color: WheelColor) => {
@@ -283,8 +282,11 @@ class CarouselWheel extends React.Component<Props, State> {
         this.onSpin(1);
         const { clipIndex } = this.state;
         const clip = await this.updateClip(clipIndex, { vote });
+
+        const { user: { client: { isSuperUser } } } = this.props;
         const payload = {
             clipId: clip.id as number,
+            isSuper: isSuperUser,
             vote: clip.vote as ClipVote,
             voteId: clip.voteId
         }
@@ -370,24 +372,16 @@ class CarouselWheel extends React.Component<Props, State> {
 
     handleContinue = () => {
         const { clips, isSpeak, sentences } = this.state;
-        if (isSpeak) {
-            const newSentences = sentences.filter((sentence) => !sentence.removed && !sentence.hasClip);
-            this.setState({
-                clips: [],
-                sentences: newSentences
-            });
-        } else {
-            const newClips = clips.filter((clip) => !clip.vote);
-            this.setState({
-                clips: newClips,
-                sentences: this.sentencesFromClips(newClips),
-            });
-        }
+
+        const newClips = isSpeak ? [] : clips.filter((clip) => !clip.vote);
+        const newSentences = isSpeak ? sentences.filter((sentence) => !sentence.removed && !sentence.hasClip) : this.sentencesFromClips(newClips);
         this.activeIndex = 0;
         this.setState({
             clipIndex: 0,
             sentenceIndex: 0,
-        })
+            clips: newClips,
+            sentences: newSentences
+        });
     }
 
     render() {

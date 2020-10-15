@@ -16,10 +16,33 @@ export interface Demographic {
     name: string;
 }
 
+export interface TotalUserClips {
+    count: number;
+    valid: number;
+    invalid: number;
+}
+
+export interface TotalUserVotes {
+    count: number;
+    super: number;
+}
+
+export interface UserStats {
+    clips?: TotalUserClips;
+    votes?: TotalUserVotes;
+}
+
+export interface SuperUserStat {
+    email: string;
+    count: number;
+}
+
 export interface UserClient {
     id: string;
+    isAdmin: boolean;
     isAuthenticated: boolean;
-    clips?: number;
+    isSuperUser: boolean;
+    stats: UserStats;
 }
 
 export interface UserConsents {

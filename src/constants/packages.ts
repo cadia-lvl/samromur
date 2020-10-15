@@ -31,13 +31,13 @@ export const listenGoals: Goal[] = [
     {
         contributeType: 'hlusta',
         name: 'Hlusta 2',
-        text: '15 upptökur',
-        count: 15
+        text: '20 upptökur',
+        count: 20
     },
     {
         contributeType: 'hlusta',
         name: 'Hlusta 3',
-        text: '30 upptökur',
-        count: 30
+        text: '50 upptökur',
+        count: 50
     }
 ];

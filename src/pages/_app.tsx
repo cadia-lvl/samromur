@@ -57,8 +57,7 @@ class MyApp extends App<Props> {
 
         const isAuthenticated = ctx.req?.headers['is_authenticated'] === 'true';
 
-        makeSSRDispatch(ctx, fetchUser.request, { id: clientId });
-
+        await makeSSRDispatch(ctx, fetchUser.request, { id: clientId });
         const appProps = {
             user: {
                 clientId,

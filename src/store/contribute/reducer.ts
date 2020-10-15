@@ -52,6 +52,7 @@ export default createReducer(initialState)
         (state, action) => {
             return {
                 ...initialState,
+                gaming: state.gaming,
             }
         }
     )

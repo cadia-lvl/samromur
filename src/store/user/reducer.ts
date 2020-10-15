@@ -3,12 +3,18 @@ import { UserState } from './state';
 import * as userActions from './actions';
 import { generateGUID } from '../../utilities/id';
 import { injectDemographics, injectConsents } from '../../utilities/local-storage';
+import { setUserCookie } from '../../utilities/cookies';
 
 const initialState: UserState = {
     client: {
         id: generateGUID(),
+        isAdmin: false,
         isAuthenticated: false,
-        clips: 0
+        isSuperUser: false,
+        stats: {
+            clips: undefined,
+            votes: undefined,
+        }
     },
     demographics: {
         age: {
@@ -87,6 +93,7 @@ export default createReducer(initialState)
     .handleAction(
         userActions.setClientId,
         (state, action) => {
+            setUserCookie(action.payload);
             return {
                 ...state,
                 client: {

@@ -191,7 +191,11 @@ export default class MainControls extends React.Component<Props, State> {
         const voteChanged = oldVote != newVote;
 
         if (clipChanged) {
-            this.setState({ hasPlayed: false });
+            this.setState({
+                hasPlayed: false,
+                isPlaying: false,
+                isReplaying: false
+            });
         }
 
         if (recordingChanged || voteChanged || this.props.isDone != prevProps.isDone) {
