@@ -19,7 +19,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const clips: TotalUserClips = await db.userClients.fetchUserClipsStats(clientId);
             const votes: TotalUserVotes = await db.userClients.fetchUserVotesStats(clientId);
             const { isAdmin, isSuperUser } = await db.userClients.fetchUserAccess(clientId);
-
             const user: Partial<UserClient> = {
                 id: clientId,
                 isAdmin,

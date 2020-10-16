@@ -219,7 +219,8 @@ export default class UserClients {
             `,
             [id]
         );
-        const { is_admin, is_super_user } = row;
+        const is_admin = row ? row['is_admin'] : false;
+        const is_super_user = row ? row['is_super_user'] : false;
         return { isAdmin: !!is_admin, isSuperUser: !!is_super_user }
     }
 

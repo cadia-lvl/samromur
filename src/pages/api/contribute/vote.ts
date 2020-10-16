@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
         const clientId = decodeURIComponent(headers.client_id as string) || '';
         const clipId = parseInt(decodeURIComponent(headers.clip_id as string));
-        const isSuper = decodeURIComponent(headers.is_super as string) == '1';
+        const isSuper = decodeURIComponent(headers.is_super as string) == 'true';
         const vote = decodeURIComponent(headers.vote as string) as ClipVote;
         try {
             const voteId = await db.votes.saveVote(clientId, clipId, isSuper, vote);

@@ -42,8 +42,19 @@ export default class Votes {
         }
     }
 
-    updateClipStatus = async (clipId: number, isSuper: boolean): Promise<void> => {
-        const status = isSuper ? ClipStatus.VALID : await this.fetchStatus(clipId);
+    clipVoteToStatus = (vote: ClipVote): ClipStatus => {
+        switch(vote) {
+            case ClipVote.VALID:
+                return ClipStatus.VALID;
+            case ClipVote.INVALID:
+                return ClipStatus.INVALID;
+            default:
+                return ClipStatus.UNFINISHED;
+        }
+    }
+
+    updateClipStatus = async (clipId: number, isSuper: boolean, vote: ClipVote): Promise<void> => {
+        const status = isSuper ? this.clipVoteToStatus(vote) : await this.fetchStatus(clipId);
         return this.sql.query(
             `
                 UPDATE
@@ -85,7 +96,7 @@ export default class Votes {
             const { insertId } = row;
             
             // If clip has enough votes or is from super user update it
-            this.updateClipStatus(clipId, isSuper);
+            this.updateClipStatus(clipId, isSuper, vote);
 
             return Promise.resolve(insertId);
         } catch (error) {
