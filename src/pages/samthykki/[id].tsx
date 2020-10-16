@@ -13,7 +13,10 @@ import Layout from '../../components/layout/layout';
 const ConsentPageContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    
+    & > * {
+        margin-bottom: 1.4rem;
+    }
     width: 100%;
     max-width: 35rem;
     padding: 1rem;

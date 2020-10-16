@@ -39,7 +39,9 @@ const ButtonsContainer = styled.div<ButtonsContainerProps>`
     justify-content: center;
     width: 100%;
     padding: 1rem;
-    gap: 1rem;
+    & > div {
+        margin: 0 0.5rem;
+    }
 `;
 
 interface ButtonProps {

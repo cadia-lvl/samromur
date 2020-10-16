@@ -60,7 +60,6 @@ const NavigationLinks = styled.div<Props>`
         }
     ` : `
         justify-content: space-around;
-        gap: 2rem;
         font-size: 1.2rem;
         padding: 0 2rem;
         align-items: center;

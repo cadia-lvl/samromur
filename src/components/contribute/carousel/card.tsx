@@ -87,7 +87,7 @@ interface OverlayProps {
 
 const OverlayContent = styled.div<OverlayProps>`
     position: absolute;
-    opacity: ${({ expanded, position }) => (expanded && position == 0) ? '100%' : '0%'};
+    opacity: ${({ expanded, position }) => (expanded && position == 0) ? '1' : '0'};
     height: 100%;
     width: 100%;
     z-index: 8;

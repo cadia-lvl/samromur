@@ -22,7 +22,9 @@ const FrontPageContainer = styled.div`
     background-color: ${({ theme }) => theme.colors.lightGray};
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    & > * {
+        margin-bottom: 1rem;
+    }
 `;
 
 const FrontPageContent = styled.div`
@@ -34,7 +36,9 @@ const FrontPageContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    & > * {
+        margin-bottom: 1rem;
+    }
 `;
 
 const BottomContent = styled.div`
@@ -42,7 +46,9 @@ const BottomContent = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 1rem;
+    & > * {
+        margin-right: 1rem;
+    }
     padding: 1.5rem;
     align-items: center;
     margin-bottom: 2rem;
@@ -93,7 +99,9 @@ const CallToAction = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    & > * {
+        margin-bottom: 0.5rem;
+    }
 `;
 
 const RobotAndTitle = styled.div`
@@ -126,12 +134,13 @@ const TitleContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    & > * {
+        margin-bottom: 1rem;
+    }
 `;
 
 const CTATitle = styled.h3`
-    margin: 0;
-    margin-top: 1rem;
+    margin: 1rem 0;
     text-align: center;
 `;
 
