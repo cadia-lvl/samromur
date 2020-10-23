@@ -1,8 +1,9 @@
 import { S3 } from 'aws-sdk';
 import { getConfig } from '../../utilities/config-helper';
 import { AWS } from './aws';
+import fs from 'fs';
+import { Request } from 'express';
 import { ClipMetadata } from '../../types/samples';
-
 import { sha256hash as hash } from '../../utilities/hash';
 
 export interface UploadClipResponse {
@@ -36,7 +37,7 @@ export default class Bucket {
             Expires: 24 * 60 * 30,
         });
     }
-    
+
     /**
      * Upload clip to S3 and return the path and a hash of the sentence.
      */
@@ -62,6 +63,41 @@ export default class Bucket {
                         .format('wav')
                         .stream(),
                     ContentType: 'audio/mpeg',
+                })
+                .promise();
+            return Promise.resolve({
+                path: clipFileName,
+                originalSentenceId: filePrefix,
+            });
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    /**
+     * Upload batch clip from file and metadata to S3
+     */
+    uploadBatchClip = async (clientId: string, clip: ClipMetadata, audio: Express.Multer.File): Promise<UploadClipResponse> => {
+
+        const folder = clientId + '/';
+
+        // Create folder if it does not exist;
+        await this.assertFolder(folder);
+
+        // Filename is a hash of the sentence
+        const filePrefix = hash(clip.sentence);
+        const clipFileName = folder + filePrefix + '.wav';
+
+        // Metadata file
+        // const sentenceFileName = folder + filePrefix + '.txt';
+
+        try {
+            await this.s3
+                .upload({
+                    Bucket: this.bucketName,
+                    Key: clipFileName,
+                    Body: fs.createReadStream(audio.path),
+                    ContentType: 'audio/wav',
                 })
                 .promise();
             return Promise.resolve({

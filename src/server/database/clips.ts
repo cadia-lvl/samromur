@@ -50,7 +50,7 @@ export default class Clips {
         )
     }
 
-    fetchRandomClips = async (clientId: string, count: number): Promise<TableClip[]> => {
+    fetchRandomClips = async (clientId: string, count: number, status: string): Promise<TableClip[]> => {
         const [clips] = await this.sql.query(
             `
                 SELECT
@@ -66,11 +66,13 @@ export default class Clips {
                         )
                 AND
                     client_id <> ?
+                AND
+                    status = ?
                 ORDER BY
                     RAND()
                 LIMIT ?
             `,
-            [clientId, clientId, count]
+            [clientId, clientId, status ? status : 'samromur', count]
         );
         return clips as TableClip[];
     }
@@ -95,9 +97,9 @@ export default class Clips {
         return Promise.resolve(!!clip);
     }
 
-    fetchClips = async (clientId: string, count: number): Promise<Clip[]> => {
+    fetchClips = async (clientId: string, count: number, batch: string): Promise<Clip[]> => {
         try {
-            const clips = await this.fetchRandomClips(clientId, count);
+            const clips = await this.fetchRandomClips(clientId, count, batch);
             const withPublicUrls: Clip[] = await Promise.all(clips.map((clip: TableClip) => {
                 return {
                     id: clip.id,
@@ -117,18 +119,18 @@ export default class Clips {
 
     }
 
-    uploadClip = async (clientId: string, clip: ClipMetadata, transcoder: any): Promise<number> => {
+    insertClip = async (clientId: string, clip: ClipMetadata, path: string, originalSentenceId: string): Promise<number> => {
         const {
             sentence,
             gender,
+            dialect,
             age,
             nativeLanguage,
             userAgent,
+            status,
         } = clip;
 
         try {
-            const { path, originalSentenceId } = await this.bucket.uploadClip(clientId, clip, transcoder);
-
             if (!!clip.id) {
                 // If id is supplied the metadata is already in the database -> only update created at
                 await this.sql.query(
@@ -148,18 +150,40 @@ export default class Clips {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, user_agent)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, user_agent, status, dialect)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
-                [clientId, path, sentence, originalSentenceId, gender, age, nativeLanguage, userAgent]
+                [clientId, path, sentence, originalSentenceId, gender, age, nativeLanguage, userAgent, status ? status : 'samromur', dialect]
             );
             const { insertId } = row;
             return Promise.resolve(insertId);
         } catch (error) {
             return Promise.reject(error);
         }
+    }
+
+    uploadClip = async (clientId: string, clip: ClipMetadata, transcoder: any): Promise<number> => {
+
+        const { path, originalSentenceId } = await this.bucket.uploadClip(clientId, clip, transcoder);
+
+        return this.insertClip(clientId, clip, path, originalSentenceId);
+    }
+
+    uploadBatchClip = async (clientId: string, clip: ClipMetadata, audioFile: Express.Multer.File): Promise<number> => {
+
+        const { path, originalSentenceId } = await this.bucket.uploadBatchClip(clientId, clip, audioFile);
+
+        return this.insertClip(clientId, clip, path, originalSentenceId);
+    }
+
+    fetchVerificationLabels = async (): Promise<string[]> => {
+        const [rows] = await this.sql.query(`
+            SELECT DISTINCT status FROM clips
+        `);
+        const statuses = rows.map(({ status }: { status: string }) => status);
+        return statuses;
     }
 }

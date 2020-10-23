@@ -11,6 +11,7 @@ import { default as NextServer } from 'next/dist/next-server/server/next-server'
 import nextI18NextMiddleWare from 'next-i18next/middleware';
 import clientIdMiddleware from './middlewares/client-id';
 import authMiddleware from './middlewares/auth';
+import batchUploadMiddleware, { uploadHandler } from './middlewares/batch-upload';
 
 import { nextI18next } from './i18n';
 import { Config, getConfig, verifyConfig } from '../utilities/config-helper';
@@ -34,6 +35,9 @@ class Server {
         this.server.use(nextI18NextMiddleWare(nextI18next));
         this.server.use(clientIdMiddleware);
         this.server.use(authMiddleware);
+    
+        this.server.post('/api/upload-batch', uploadHandler, batchUploadMiddleware);
+        
         this.server.all('*',
             (req: Request, res: Response) => handle(req, res)
         );

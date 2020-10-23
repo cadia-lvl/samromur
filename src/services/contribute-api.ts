@@ -6,6 +6,7 @@ import { SimpleSentence } from '../types/sentences';
 import { SSRRequest } from '../types/ssr';
 
 export interface FetchSamplesPayload extends SSRRequest {
+    batch?: string;
     clientId?: string;
     count: number;
 }
@@ -36,6 +37,7 @@ export const fetchClips = async (payload: FetchSamplesPayload): Promise<Clip[]> 
         url,
         headers: {
             client_id: payload.clientId && encodeURIComponent(payload.clientId),
+            batch: payload.batch ? encodeURIComponent(payload.batch) : '',
         }
     }).then((response: AxiosResponse) => {
         return response.data;

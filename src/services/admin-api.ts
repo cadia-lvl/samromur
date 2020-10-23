@@ -7,7 +7,7 @@ import {
 } from '../types/sentences';
 
 import { SSRRequest } from '../types/ssr';
-import { SuperUserStat } from '../types/user';
+import { Demographics, SuperUserStat } from '../types/user';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm'
@@ -75,6 +75,55 @@ export const fetchSuperUsers = async (): Promise<SuperUserStat[]> => {
     return axios({
         method: 'GET',
         url,
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        return Promise.reject(error.code);
+    })
+}
+
+export const fetchVerificationLabels = async (): Promise<string[]> => {
+    const url = '/api/admin/upload/fetch-verification-labels';
+    return axios({
+        method: 'GET',
+        url,
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        return Promise.reject(error.code);
+    })
+}
+
+export const uploadVerificationBatch = async (
+    files: File[],
+    age: string,
+    dialect: string,
+    gender: string,
+    nativeLanguage: string,
+    label: string,
+    onUploadProgress: (ev: ProgressEvent) => void
+): Promise<number> => {
+    const url = '/api/upload-batch';
+
+    let formData: FormData = new FormData();
+    files.forEach(
+        (file: File) =>
+            file.type.startsWith('audio') ? formData.append('audio', file) : formData.append('metadata', file)
+    );
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            age: encodeURIComponent(age),
+            dialect: encodeURIComponent(dialect),
+            gender: encodeURIComponent(gender),
+            native_language: encodeURIComponent(nativeLanguage),
+            status: encodeURIComponent(label)
+        },
+        data: formData,
+        onUploadProgress
     }).then((response: AxiosResponse) => {
         return response.data;
     }).catch((error: AxiosError) => {

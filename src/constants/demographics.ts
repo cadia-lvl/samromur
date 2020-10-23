@@ -1,15 +1,15 @@
 import { Demographic } from '../types/user';
 
 export const dialects: Array<Demographic> = [
-    { id: "0", name: 'Harðmæli' },
-    { id: "1", name: 'Raddaður framburður' },
-    { id: "2", name: 'ngl-framburður' },
-    { id: "3", name: 'bð/gð-framburður' },
-    { id: "4", name: 'Vestfirskur einhljóðaframburður' },
-    { id: "5", name: 'Vestfirsk áhersla' },
-    { id: "6", name: 'hv-framburður' },
-    { id: "7", name: 'Skaftfellskur einhljóðaframburður' },
-    { id: "8", name: 'rn/rl-framburður' },
+    { id: "hardmaeli", name: 'Harðmæli' },
+    { id: "raddadur-framburdur", name: 'Raddaður framburður' },
+    { id: "ngl-framburdur", name: 'ngl-framburður' },
+    { id: "bd-gd-framburdur", name: 'bð/gð-framburður' },
+    { id: "vestfirskur-einhljodaframburdur", name: 'Vestfirskur einhljóðaframburður' },
+    { id: "versfirsk-ahersla", name: 'Vestfirsk áhersla' },
+    { id: "hv-framburdur", name: 'hv-framburður' },
+    { id: "skaftfellskur-einhljodaframburdur", name: 'Skaftfellskur einhljóðaframburður' },
+    { id: "rn-rl-framburdur", name: 'rn/rl-framburður' },
 ];
 
 export const ages: Array<Demographic> = [
