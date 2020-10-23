@@ -87,7 +87,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     }
 
                     const audioFile = findMatchingAudioFile(audio, file);
-                    return db.clips.uploadBatchClip(newClientId, clip, audioFile as Express.Multer.File);
+                    return db.clips.uploadBatchClip(newClientId, clip, audioFile as Express.Multer.File).then((id: number) => {
+                        return Promise.resolve(id);
+                    }).catch((error) => {
+                        console.error(error);
+                        return Promise.resolve(-1);
+                    })
                 })
             );
 
