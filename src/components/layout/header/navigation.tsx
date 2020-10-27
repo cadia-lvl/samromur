@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { withRouter } from 'next/router'
 import { WithRouterProps } from "next/dist/client/with-router";
-
 import { useTranslation, nextI18next } from '../../../server/i18n';
+
+import * as authApi from '../../../services/auth-api';
 import { UserClient } from '../../../types/user';
 
 interface NavLinkProps {
@@ -17,6 +18,10 @@ const NavLink = styled.a<NavLinkProps>`
     & : hover {
         color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
     }
+`;
+
+const NavButton = styled.span`
+    cursor: pointer;
 `;
 
 // Different styles for the floating navigation
@@ -55,7 +60,6 @@ const NavigationLinks = styled.div<Props>`
         }
     ` : `
         justify-content: space-around;
-        gap: 2rem;
         font-size: 1.2rem;
         padding: 0 2rem;
         align-items: center;
@@ -91,6 +95,10 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                 <Link href='/um'>
                     <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
                 </Link>
+                <NavLink href='/minar-sidur' isActive={pathname == '/minar-sidur'}>Mínar síður</NavLink>
+                {
+                    user.isAuthenticated && <NavButton onClick={authApi.logout}>Útskrá</NavButton>
+                }
             </NavigationLinks>
         </NavigationContainer>
     );

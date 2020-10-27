@@ -148,7 +148,7 @@ export default class Clips {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, gender, age, native_language, user_agent)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, user_agent)
                     VALUES
                         (?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE

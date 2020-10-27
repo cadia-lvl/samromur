@@ -34,14 +34,15 @@ const StyledLink = styled.a`
 const StatsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    & > div {
+        margin-bottom: 1.5rem;
+    }
 `;
 
 const AboutContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-
     font-size: 0.9rem;
 `;
 

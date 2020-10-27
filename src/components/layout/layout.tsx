@@ -9,6 +9,9 @@ import NotificationPill from '../ui/notifications/pill';
 import { RootState } from 'typesafe-actions';
 import { connect } from 'react-redux';
 
+import { setCookieConsent } from '../../store/user/actions';
+import CookiesModal from './cookies';
+
 interface LayoutContainerProps {
     game?: boolean;
 }
@@ -107,7 +110,11 @@ interface State {
     menuVisible: boolean;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & LayoutProps;
+const dispatchProps = {
+    setCookieConsent
+}
+
+type Props = ReturnType<typeof mapStateToProps> & LayoutProps & typeof dispatchProps;
 
 class Layout extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -122,6 +129,10 @@ class Layout extends React.Component<Props, State> {
         this.setState({ menuVisible: !this.state.menuVisible });
     }
 
+    handleCloseCookies = () => {
+        this.props.setCookieConsent(true);
+    }
+
     render() {
         const {
             contribute: {
@@ -132,7 +143,12 @@ class Layout extends React.Component<Props, State> {
             game,
             children,
             notifications,
-            user
+            user: {
+                client,
+                consents: {
+                    cookies
+                }
+            }
         } = this.props;
         const { menuVisible } = this.state;
 
@@ -145,8 +161,8 @@ class Layout extends React.Component<Props, State> {
                 )}
                 {!game ? (
                     <React.Fragment>
-                        <Header user={user.client} toggleMenu={this.toggleMenu} />
-                        <FloatingNavigation user={user.client} floating visible={menuVisible} />
+                        <Header user={client} toggleMenu={this.toggleMenu} />
+                        <FloatingNavigation user={client} floating visible={menuVisible} />
                         <ContentAndFooter>
                             {children}
                             <Footer />
@@ -162,6 +178,10 @@ class Layout extends React.Component<Props, State> {
                         </React.Fragment>
                     )
                 }
+                <CookiesModal
+                    active={!cookies}
+                    close={this.handleCloseCookies}
+                />
             </LayoutContainer>
         );
     }
@@ -174,5 +194,6 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    dispatchProps
 )(Layout);

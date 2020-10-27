@@ -22,7 +22,9 @@ const DatasetPageContainer = styled.div`
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
-    gap: 1.5rem;
+    & > * {
+        margin: 1.5rem 0;
+    }
 `;
 
 const HeaderContainer = styled.div`

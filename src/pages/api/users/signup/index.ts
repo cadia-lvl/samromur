@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Database, { getDatabaseInstance } from '../../../../server/database/database';
-import { AuthError } from '../../../../types/auth';
 import EmailClient, { getEmailInstance } from '../../../../server/email';
+
+import { AuthError } from '../../../../types/auth';
 
 const db: Database = getDatabaseInstance();
 const emailClient: EmailClient = getEmailInstance();
@@ -20,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const auth = data.split(" ")[1];
             const decoded = Buffer.from(auth, 'base64').toString('utf8');
             const [email, password] = decoded.split(':');
-            return db.userClients.signUpUser(email, password, clientId).then(async (confirmId: string) => {
+            return db.userClients.signUpUser(email, password).then(async (confirmId: string) => {
 
                 // Create email link from origin and id
                 const host = req.headers.origin;
