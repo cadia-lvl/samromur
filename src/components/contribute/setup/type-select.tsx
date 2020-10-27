@@ -26,11 +26,7 @@ const CardContainer = styled.div<CardContainerProps>`
     grid-template-columns: 2.5rem auto;
     gap: 1.5rem;
     
-    & :hover, :active {
-        background-color: ${({ theme }) => theme.colors.green};
-        color: white;
-        border: none;
-    }
+   
     align-items: center;
     padding: 1.8rem 1rem;
     background-color: white;
