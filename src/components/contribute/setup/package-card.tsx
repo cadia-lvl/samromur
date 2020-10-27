@@ -17,7 +17,6 @@ const CardContainer = styled.div`
     & :hover, :active {
         background-color: ${({ theme }) => theme.colors.green};
         color: white;
--
     }
 
     & :active {

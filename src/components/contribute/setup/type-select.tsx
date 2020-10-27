@@ -25,8 +25,6 @@ const CardContainer = styled.div<CardContainerProps>`
     display: grid;
     grid-template-columns: 2.5rem auto;
     gap: 1.5rem;
-    
-   
     align-items: center;
     padding: 1.8rem 1rem;
     background-color: white;

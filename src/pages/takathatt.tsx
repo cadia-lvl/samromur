@@ -11,8 +11,6 @@ import { resetContribute, setGoal } from '../store/contribute/actions';
 import Contribute from '../components/contribute/setup/contribute';
 
 /* 
-### Not used?
-
 import { Goal } from '../types/contribute';
 import Layout from '../components/layout/layout';
 import TypeSelect from '../components/contribute/setup/type-select';
