@@ -29,13 +29,14 @@ import ConsentForm from './consent-form';
 const DemographicContainer = styled.div`
     display: grid;
     gap: 1rem;
-    
-    
     width: 40rem;
     grid-template-columns: 1fr 1fr;
+
+
     ${({ theme }) => theme.media.small} {
-        width: 100%;
+        width: 100%;        
         grid-template-columns: 1fr;
+
     }
 `;
 
@@ -70,7 +71,7 @@ const SubmitButton = styled.div<SubmitButtonProps>`
     font-size: 1.1rem;
     border-radius: 0.1rem;
     padding: 1rem 2rem;
-    background-color: ${({ disabled, theme }) => disabled ? 'gray' : theme.colors.green};
+    background-color: ${({ disabled, theme }) => disabled ? 'gray' : theme.colors.blue};
     color: white;
 
     cursor: ${({ disabled }) => disabled ? 'initial' : 'pointer'};
@@ -90,6 +91,7 @@ const SubmitButton = styled.div<SubmitButtonProps>`
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
         max-width: 100%;
+
     }
 `;
 

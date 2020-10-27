@@ -9,7 +9,7 @@ moment.locale('is');
 
 //const dateFormatter = (item: any) => moment(item).format('DD MMM');
 
-const tickFormatter = (value: any) => `${value / 1000} þús`;
+const tickFormatter = (value: any) => `${value / 1000} þús.`;
 
 interface ContinueChartProps {
 
@@ -41,7 +41,7 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                     label: '',
                     borderWidth: 6,
                     lineTension: 0.2,
-                    borderColor: 'rgba(0,153,255,1)',
+                    borderColor: 'rgb(98,159,244,96)',
                     data: data.map((stat: TimelineSumStat) => stat.sum)
                 }
             ]
@@ -69,7 +69,7 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                                 display: false
                             },
                             ticks: {
-                                fontSize: 16,
+                                fontSize: 14,
                                 padding: 15,
                                 maxRotation: 0,
                                 maxTicksLimit: 1,
@@ -79,7 +79,7 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                     yAxes: [
                         {
                             ticks: {
-                                fontSize: 16,
+                                fontSize: 14,
                                 min: chartData().min,
                                 max: chartData().max,
                                 maxTicksLimit: 6,

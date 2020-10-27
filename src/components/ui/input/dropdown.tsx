@@ -11,7 +11,8 @@ const DropdownButtonContainer = styled.div<DropdownProps>`
     width: 100%;
     position: relative;
     display: inline-block;
-    border: 2px solid ${({ theme, visible }) => visible ? 'black' : theme.colors.borderGray};
+
+    border: 2px solid ${({ theme, visible }) => visible ? 'gray' : theme.colors.gray};
     & :active, :focus {
         outline: none;
     }
@@ -22,6 +23,7 @@ const DropdownSelect = styled.select`
     width: 100%;
     height: 100%;
     border: none;
+    background: white;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -45,7 +47,7 @@ const DropdownItem = styled.option`
 
 const Label = styled.span`
     position: absolute;
-    color: gray;
+    color: warmGray;
     font-size: 0.8rem;
     top: -0.6rem;
     background-color: white;

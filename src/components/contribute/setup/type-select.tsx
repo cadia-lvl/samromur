@@ -28,7 +28,7 @@ const CardContainer = styled.div<CardContainerProps>`
     align-items: center;
     padding: 1.8rem 1rem;
     background-color: white;
-    border: 1px solid ${({ theme }) => theme.colors.borderGray};
+    border: 1px solid ${({ theme }) => theme.colors.lightGray};
     box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
     -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
     -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
@@ -67,18 +67,21 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
     return (
         <CardGrid>
             <CardContainer onClick={() => setType('tala')}>
-                <MicIcon height={50} width={50} fill={'gray'} />
+                <MicIcon height={50} width={50} fill={'blue'} />
                 <Title>
                     <h3>Tala</h3>
-                    <p>Lesa inn í gagnasafnið</p>
+                    <p>Smelltu hér til þess að lesa inn.</p>
+                    <p>Með því að lesa inn í Samróm leggur þitt af mörkum við varðveislu íslenskunnar.</p>
+
                 </Title>
             </CardContainer>
 
             <CardContainer onClick={() => setType('hlusta')}>
-                <PlayIcon height={40} width={40} fill={'gray'} />
+                <PlayIcon height={40} width={40} fill={'red'} />
                 <Title>
                     <h3>Hlusta</h3>
-                    <p>Yfirfara upptökur</p>
+                    <p>Smelltu hér til að yfirfara raddupptökur</p>
+                    <p>Einungis upptökur sem eru yfirfarnar og merktar sem góðar mega fara inn í gagnasafnið.</p>
                 </Title>
             </CardContainer>
 {/*             <CardContainer wide onClick={() => { }}>
@@ -88,6 +91,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>Hringja í aðra þátttakendur og taka upp samræður</p>
                 </Title>
             </CardContainer> */}
+
         </CardGrid>
     );
 }

@@ -67,7 +67,6 @@ const ButtonContainer = styled.div<ButtonProps>`
     & :active {
         transform: translateY(2px);
     }
-
     & span {
         font-size: 0.8rem;
     }
