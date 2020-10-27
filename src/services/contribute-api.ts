@@ -88,6 +88,7 @@ export const uploadClip = async (clip: WheelClip, user: UserState): Promise<numb
 
 export interface SaveVoteRequest {
     clipId: number;
+    isSuper: boolean;
     vote: ClipVote;
     voteId?: number;
 }
@@ -100,6 +101,7 @@ export const saveVote = async (payload: SaveVoteRequest): Promise<number> => {
         url: endpoint,
         headers: {
             clip_id: payload.clipId,
+            is_super: encodeURIComponent(payload.isSuper),
             vote: encodeURIComponent(payload.vote as string),
             vote_id: payload.voteId && payload.voteId,
         },

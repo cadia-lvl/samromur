@@ -52,7 +52,7 @@ export default class EmailClient {
     }
 
     subscribeToNewsletter = async (email: string): Promise<void> => {
-        sgClient.request({
+        await sgClient.request({
             method: 'PUT',
             url: '/v3/marketing/contacts',
             body: {
@@ -63,6 +63,7 @@ export default class EmailClient {
                 ],
             },
         });
+        return Promise.resolve();
     }
 }
 

@@ -83,6 +83,7 @@
     "db-migrate-plugin-typescript": "^2.0.0",
     "ts-node": "^3.3.0",
     "tsc-watch": "^4.2.3",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "worker-loader": "^3.0.4"
   }
 }

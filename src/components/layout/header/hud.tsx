@@ -6,7 +6,10 @@ import { pages } from '../../../constants/paths';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
 
-import { resetContribute } from '../../../store/contribute/actions';
+import {
+    resetContribute,
+    setGaming
+} from '../../../store/contribute/actions';
 
 import BackArrowIcon from '../../ui/icons/back-arrow';
 
@@ -49,7 +52,6 @@ const ProgressContainer = styled.div`
     font-size: 1.1rem;
     font-weight: 600;
     color: grey;
-    gap: 0.5rem;
 `;
 
 const TextBar = styled.div`
@@ -78,6 +80,7 @@ interface State {
 
 const dispatchProps = {
     resetContribute,
+    setGaming
 }
 
 type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps & HUDProps & WithRouterProps;
@@ -96,9 +99,15 @@ class HeadsUpDisplay extends React.Component<Props, State> {
             contribute: { goal },
             resetContribute,
             router,
+            setGaming
         } = this.props;
         const path = this.whereTo(true);
-        (path == pages.contribute && goal) ? resetContribute() : router.push(path);
+        if (path == pages.contribute && goal) {
+            setGaming(false);
+            resetContribute();
+        } else {
+            router.push(path);
+        }
     }
 
     whereTo = (path?: boolean): string => {

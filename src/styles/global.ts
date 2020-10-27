@@ -55,6 +55,7 @@ export const theme = {
         richBlack: '#02122B',
         blackOlive: '#30332E',
         validGreen: '#59cbb7',
+        white: '#ffffff',
     },
     layout: {
         desktopWidth: '76rem',
@@ -63,6 +64,7 @@ export const theme = {
         headerHeight: '4rem',
         headerWidth: '78rem',
         footerHeight: '10rem',
+        cookieModalHeight: '7rem',
         footerWidth: '78rem',
         footerWidthSmall: '50rem'
     },

@@ -23,13 +23,14 @@ const dateFormatter = (item: any) => {
 }
 
 interface ContinueChartProps {
+    contributeType: string;
     count: number;
 }
 
 type Props = ReturnType<typeof mapStateToProps> & ContinueChartProps;
 
-export const ContinueChart: React.FunctionComponent<Props> = ({ count, data }) => {
-
+export const ContinueChart: React.FunctionComponent<Props> = ({ contributeType, count, stats }) => {
+    const data = contributeType == 'tala' ? stats.clips : stats.votes;
     const chartData = () => ({
         labels: data.map((stat: TimelineStat) => dateFormatter(stat.date)),
         datasets: [
@@ -77,7 +78,7 @@ export const ContinueChart: React.FunctionComponent<Props> = ({ count, data }) =
 }
 
 const mapStateToProps = (state: RootState) => ({
-    data: state.stats.weekly.clips,
+    stats: state.stats.weekly,
 });
 
 export default connect(

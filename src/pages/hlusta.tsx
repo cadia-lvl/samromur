@@ -64,19 +64,6 @@ class SpeakPage extends React.Component<Props, State> {
         });
     }
 
-    vote = async (clip: WheelClip): Promise<number> => {
-        if (!clip.id || !clip.vote) {
-            return Promise.reject();
-        } else {
-            const payload = {
-                clipId: clip.id,
-                vote: clip.vote,
-                voteId: clip.voteId
-            }
-            return saveVote(payload);
-        }
-    }
-
     render() {
         const { initialClips } = this.props;
 
