@@ -76,7 +76,7 @@ interface HUDProps {
 }
 
 interface State {
-    showProgressModal: boolean,
+    showWarningModal: boolean,
 }
 
 const dispatchProps = {
@@ -92,7 +92,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            showProgressModal: false,
+            showWarningModal: false,
         }
 
         }
@@ -105,9 +105,9 @@ class HeadsUpDisplay extends React.Component<Props, State> {
             setGaming
         } = this.props;
         const path = this.whereTo(true);
-        if (progress > 0 && goal && progress != goal.count && !this.state.showProgressModal) {
+        if (progress > 0 && goal && progress != goal.count && !this.state.showWarningModal) {
             this.setState(() => ({
-                showProgressModal: true,
+                showWarningModal: true,
             }));
             return;
         }
@@ -143,7 +143,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
 
     handleStayOnPage = () => {
         this.setState(() => ({
-            showProgressModal: false,
+            showWarningModal: false,
         }))
     }
 
@@ -167,7 +167,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
                         fill={'grey'}
                     />
                 </BackButton>
-                <WarningModal isOpen={this.state.showProgressModal} onExit={this.handleLeavePage} onStay={this.handleStayOnPage}/>
+                <WarningModal isOpen={this.state.showWarningModal} onExit={this.handleLeavePage} onStay={this.handleStayOnPage}/>
                 <TextBar>
                     <Title>
                         <span>{this.whereTo()}</span>
