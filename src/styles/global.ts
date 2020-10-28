@@ -9,7 +9,7 @@ export interface Theme {
     };
     layout: {
         [key: string]: string;
-    }
+    };
     media: {
         [key: string]: string;
     };
@@ -19,20 +19,21 @@ export interface Theme {
                 [key: string]: string;
             };
         };
-    }
+    };
     transitions: {
         [key: string]: number;
-    }
+    };
     z: {
         [key: string]: number;
-    }
+    };
 }
 
 const breakpoints = {
+    extraSmall: '576px',
     small: '1024px',
     medium: '1280px',
     large: '1440px',
-}
+};
 
 // Theme used in ThemeProvider @ _app.tsx
 export const theme = {
@@ -56,7 +57,6 @@ export const theme = {
         blackOlive: '#30332E',
         validGreen: '#59cbb7',
         white: '#ffffff',
-        
     },
     layout: {
         desktopWidth: '76rem',
@@ -67,9 +67,11 @@ export const theme = {
         footerHeight: '10rem',
         cookieModalHeight: '7rem',
         footerWidth: '78rem',
-        footerWidthSmall: '50rem'
+        footerWidthSmall: '50rem',
     },
     media: {
+        extraSmallDown: `@media (max-width: ${breakpoints.extraSmall})`,
+        extraSmallUp: `@media (min-width: ${breakpoints.extraSmall})`,
         small: `@media (max-width: ${breakpoints.small})`,
         smallUp: `@media (min-width: ${breakpoints.small})`,
         mediumDown: `@media (max-width: ${breakpoints.medium})`,
@@ -83,8 +85,8 @@ export const theme = {
                 small: '40px',
                 medium: '60px',
                 large: '100px',
-            }
-        }
+            },
+        },
     },
     transitions: {
         main: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -94,8 +96,8 @@ export const theme = {
         middle: 1,
         top: 2,
         override: 10,
-    }
-}
+    },
+};
 
 export interface ThemeWrapper {
     theme: Theme;
@@ -131,4 +133,4 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
         text-decoration: none;
         color: inherit;
     }
-`
+`;
