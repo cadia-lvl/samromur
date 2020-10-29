@@ -125,6 +125,7 @@ class CarouselWheel extends React.Component<Props, State> {
             this.recorder.isRecordingSupported && await this.recorder.init();
         }
         window.addEventListener('keydown', this.handleKeyDown);
+        window.addEventListener('beforeunload', this.handleOnBeforeUnload.bind(this));
     }
 
     componentDidUpdate = async () => {
@@ -164,7 +165,21 @@ class CarouselWheel extends React.Component<Props, State> {
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.handleKeyDown);
+        window.removeEventListener('beforeunload', this.handleOnBeforeUnload.bind(this));
     }
+
+    handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
+        const {
+            contribute: { goal, progress },
+        } = this.props;
+        const message = "Ef þú hættir núna glatast það sem þú ert búinn að taka upp."
+        if (progress > 0 && goal && goal.count  != progress) {
+            event.preventDefault(); 
+            event.returnValue = message;
+            return message;
+        }
+    }
+
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { keyCode } = event;

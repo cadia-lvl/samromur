@@ -5,6 +5,7 @@ import { WithRouterProps } from "next/dist/client/with-router";
 import { pages } from '../../../constants/paths';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
+import { WarningModal } from './warning-modal';
 
 import {
     resetContribute,
@@ -75,7 +76,7 @@ interface HUDProps {
 }
 
 interface State {
-
+    showWarningModal: boolean,
 }
 
 const dispatchProps = {
@@ -86,24 +87,32 @@ const dispatchProps = {
 type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps & HUDProps & WithRouterProps;
 
 class HeadsUpDisplay extends React.Component<Props, State> {
+    
     constructor(props: Props) {
         super(props);
 
         this.state = {
+            showWarningModal: false,
+        }
 
         }
-    }
 
     handleBack = () => {
         const {
-            contribute: { goal },
+            contribute: { goal, progress },
             resetContribute,
             router,
             setGaming
         } = this.props;
         const path = this.whereTo(true);
+        if (progress > 0 && goal && progress != goal.count && !this.state.showWarningModal) {
+            this.setState(() => ({
+                showWarningModal: true,
+            }));
+            return;
+        }
         if (path == pages.contribute && goal) {
-            setGaming(false);
+            setGaming(false); 
             resetContribute();
         } else {
             router.push(path);
@@ -132,6 +141,17 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         }
     }
 
+    handleStayOnPage = () => {
+        this.setState(() => ({
+            showWarningModal: false,
+        }))
+    }
+
+    handleLeavePage = () => {
+        this.handleBack();
+        this.handleStayOnPage();
+    }
+
     render() {
         const {
             contribute: {
@@ -147,6 +167,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
                         fill={'grey'}
                     />
                 </BackButton>
+                <WarningModal isOpen={this.state.showWarningModal} onExit={this.handleLeavePage} onStay={this.handleStayOnPage}/>
                 <TextBar>
                     <Title>
                         <span>{this.whereTo()}</span>
