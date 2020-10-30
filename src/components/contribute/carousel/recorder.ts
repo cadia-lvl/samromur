@@ -1,3 +1,4 @@
+import { error } from 'console';
 import {
     AudioInfo,
     AudioError,
@@ -211,9 +212,12 @@ export default class Recorder {
 
     startRecording = async (): Promise<void> => {
         if (!this.isRecordingSupported) {
-            return Promise.reject();
+            return Promise.reject(AudioError.NO_SUPPORT);
         }
-
+        if (!this.processorNode) {
+            console.log("No processorNode", this.processorNode);
+            return Promise.reject(AudioError.NOT_ALLOWED);
+        }
         this.processorNode.connect(this.audioContext.destination);
         if (!this.microphone) {
             this.microphone = await this.getMicrophone();
