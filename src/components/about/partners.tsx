@@ -77,9 +77,9 @@ export const Partners: React.FunctionComponent<Props> = (props) => {
                 <span>
                     og{' '}
                     <StyledLink
-                 target={'blank'}
-             href={
-        'https://www.rannis.is/sjodir/menntun/nyskopunarsjodur-namsmanna/'
+                        target={'blank'}
+                        href={
+                            'https://www.rannis.is/sjodir/menntun/nyskopunarsjodur-namsmanna/'
                         }
                     >
                         Nýsköpunarsjóður námsmanna
