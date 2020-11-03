@@ -115,7 +115,7 @@ export default class Recorder {
             console.error('Cannot record audio before microhphone is ready.');
             return Promise.reject();
         }
-        //this.jsNode.onaudioprocess = this.analyze;
+        this.jsNode.onaudioprocess = this.analyze;
 
         this.processorNode.onaudioprocess = (ev: AudioProcessingEvent) => {
             this.encoder.postMessage({
