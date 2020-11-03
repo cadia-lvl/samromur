@@ -1,10 +1,9 @@
 name: prettier format
 
 on:
-  push: 
-    branches: [ lint ]
   pull_request:
-    branches: [ master ]
+    branches:
+      -master
 
 jobs:
   format:
