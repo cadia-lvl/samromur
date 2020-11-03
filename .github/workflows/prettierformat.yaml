@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x, 14.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -27,7 +27,12 @@ jobs:
       run: npm run auto-format
     - name: check format with prettier
       run: npm run format
+    # inspired by https://peterevans.dev/posts/github-actions-how-to-automate-code-formatting-in-pull-requests/
+    - name: check for modified files
+      id: git-check
+      run: echo ::set-output name=modified::$(if git diff-index --quite HEAD --; then echo "false"; else echo "true"; fi)
     - name: Commit format changes
+      if: steps.git-check.outputs.modified == 'true'
       run: |
         git config user.email "action@github.com"
         git config user.name "GitHub Action [bot]"
