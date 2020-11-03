@@ -3,8 +3,6 @@ name: prettier format
 on:
   push:
     branches: [ lint ]
-    paths-ignore:
-      - '.github/workflows/**'
 
 jobs:
   format:
@@ -24,4 +22,4 @@ jobs:
     - name: install node packages
       run: npm install
     - name: format with prettier
-      run: npm run auto-lint
+      run: npm run auto-format
