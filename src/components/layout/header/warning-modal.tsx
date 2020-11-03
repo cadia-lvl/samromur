@@ -1,17 +1,16 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Modal from '../../modal/modal';
-import { Button } from  '../../ui/buttons';
+import { Button } from '../../ui/buttons';
 
 // Styles
-const ModalContainer = styled.div`
-`;
+const ModalContainer = styled.div``;
 
 const ModalTitle = styled.h2`
     text-align: center;
     margin: 2rem 0rem 1rem 0rem;
-    `;
-    
+`;
+
 const ModalMessage = styled.div`
     width: 100%;
     text-align: center;
@@ -47,29 +46,38 @@ const StyledButton = styled(Button)`
 `;
 
 interface WarningModalProps {
-    isOpen: boolean,
-    onStay: () => void,
-    onExit: () => void
+    isOpen: boolean;
+    onStay: () => void;
+    onExit: () => void;
 }
 
 export class WarningModal extends React.Component<WarningModalProps> {
-
     constructor(props: WarningModalProps) {
         super(props);
     }
-    
+
     render() {
         return (
             <ModalContainer>
-                <Modal isOpen={this.props.isOpen} onRequestClose={this.props.onStay}>
+                <Modal
+                    isOpen={this.props.isOpen}
+                    onRequestClose={this.props.onStay}
+                >
                     <ModalTitle>Ertu viss?</ModalTitle>
-                    <ModalMessage>Ef þú hættir núna glatast það sem þú ert búinn að taka upp.</ModalMessage>
+                    <ModalMessage>
+                        Ef þú hættir núna glatast það sem þú ert búinn að taka
+                        upp.
+                    </ModalMessage>
                     <ButtonsContainer>
-                        <StyledButton onClick={this.props.onExit} large >Senda in upptökur</StyledButton>
-                        <StyledButton onClick={this.props.onStay} large >Halda upptökum áfram</StyledButton>
+                        <StyledButton onClick={this.props.onExit} large>
+                            Senda in upptökur
+                        </StyledButton>
+                        <StyledButton onClick={this.props.onStay} large>
+                            Halda upptökum áfram
+                        </StyledButton>
                     </ButtonsContainer>
                 </Modal>
             </ModalContainer>
-        )
+        );
     }
 }

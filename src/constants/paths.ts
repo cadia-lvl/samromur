@@ -1,8 +1,4 @@
-export const protectedPaths = [
-    '/minar-sidur',
-    '/api/admin',
-    '/umsjon',
-]
+export const protectedPaths = ['/minar-sidur', '/api/admin', '/umsjon'];
 
 export const pages = {
     about: '/um',
@@ -12,4 +8,4 @@ export const pages = {
     listen: '/hlusta',
     speak: '/tala',
     dashboard: '/minar-sidur',
-}
+};

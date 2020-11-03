@@ -2,7 +2,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { WheelClip, ClipVote } from '../../../../types/samples';
-import { PlayButton, PauseButton, RetryButton, Button } from '../../../ui/buttons';
+import {
+    PlayButton,
+    PauseButton,
+    RetryButton,
+    Button,
+} from '../../../ui/buttons';
 
 const AudioContainer = styled.div`
     display: flex;
@@ -35,7 +40,7 @@ export default class ListenControls extends React.Component<Props, State> {
 
         this.state = {
             isPlaying: false,
-        }
+        };
 
         this.audioRef = React.createRef<HTMLAudioElement>();
     }
@@ -50,7 +55,7 @@ export default class ListenControls extends React.Component<Props, State> {
                 });
             }
         }
-    }
+    };
 
     pause = () => {
         const { current: audio } = this.audioRef;
@@ -63,7 +68,7 @@ export default class ListenControls extends React.Component<Props, State> {
                 });
             }
         }
-    }
+    };
 
     render() {
         const { clip, saveVote } = this.props;
@@ -79,25 +84,17 @@ export default class ListenControls extends React.Component<Props, State> {
                     onEnded={this.pause}
                     src={clip.recording && clip.recording.url}
                 />
-                <Button
-                    onClick={() => saveVote(ClipVote.VALID)}
-                >
-                    Góð
-                </Button>
+                <Button onClick={() => saveVote(ClipVote.VALID)}>Góð</Button>
                 <PlayButton
                     onClickHandler={isPlaying ? this.pause : this.play}
                     icon={{
                         height: 50,
-                        width: 50
+                        width: 50,
                     }}
                     isPlaying={isPlaying}
                 />
-                <Button
-                    onClick={() => saveVote(ClipVote.INVALID)}
-                >
-                    Slæm
-                </Button>
-            </AudioContainer >
+                <Button onClick={() => saveVote(ClipVote.INVALID)}>Slæm</Button>
+            </AudioContainer>
         );
     }
 }

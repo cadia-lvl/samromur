@@ -4,31 +4,19 @@ import { UploadClipRequest } from '../../services/contribute-api';
 import { Goal } from '../../types/contribute';
 
 export const uploadClip = createAsyncAction(
-  'UPLOAD_CLIP_REQUEST',
-  'UPLOAD_CLIP_SUCCESS',
-  'UPLOAD_CLIP_FAILED',
+    'UPLOAD_CLIP_REQUEST',
+    'UPLOAD_CLIP_SUCCESS',
+    'UPLOAD_CLIP_FAILED'
 )<UploadClipRequest, undefined, string>();
 
-export const resetContribute = createAction(
-  'RESET_CONTRIBUTE',
-)();
+export const resetContribute = createAction('RESET_CONTRIBUTE')();
 
-export const setGoal = createAction(
-  'SET_GOAL',
-)<Goal>();
+export const setGoal = createAction('SET_GOAL')<Goal>();
 
-export const setExpanded = createAction(
-  'SET_EXPANDED',
-)<boolean>();
+export const setExpanded = createAction('SET_EXPANDED')<boolean>();
 
-export const setGaming = createAction(
-  'SET_GAMING',
-)<boolean>();
+export const setGaming = createAction('SET_GAMING')<boolean>();
 
-export const incrementProgress = createAction(
-  'INCREMENT_PROGRESS',
-)();
+export const incrementProgress = createAction('INCREMENT_PROGRESS')();
 
-export const decrementProgress = createAction(
-  'DECREMENT_PROGRESS',
-)();
+export const decrementProgress = createAction('DECREMENT_PROGRESS')();

@@ -20,11 +20,13 @@ export default class Bucket {
     }
 
     private assertFolder = (folder: string): Promise<any> => {
-        return this.s3.putObject({
-            Bucket: this.bucketName,
-            Key: folder
-        }).promise();
-    }
+        return this.s3
+            .putObject({
+                Bucket: this.bucketName,
+                Key: folder,
+            })
+            .promise();
+    };
 
     /**
      * Fetch a public url from path.
@@ -36,11 +38,15 @@ export default class Bucket {
             Expires: 24 * 60 * 30,
         });
     }
-    
+
     /**
      * Upload clip to S3 and return the path and a hash of the sentence.
      */
-    uploadClip = async (clientId: string, clip: ClipMetadata, transcoder: any): Promise<UploadClipResponse> => {
+    uploadClip = async (
+        clientId: string,
+        clip: ClipMetadata,
+        transcoder: any
+    ): Promise<UploadClipResponse> => {
         const folder = clientId + '/';
 
         // Create folder if it does not exist;
@@ -71,5 +77,5 @@ export default class Bucket {
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    };
 }

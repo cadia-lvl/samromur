@@ -35,9 +35,7 @@ const License = styled.div`
     }
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 export const FooterTitle: React.FunctionComponent<Props> = (props) => {
     return (
@@ -45,9 +43,19 @@ export const FooterTitle: React.FunctionComponent<Props> = (props) => {
             <Link href="/">
                 <Title>Samrómur</Title>
             </Link>
-            <License>Efni birt undir merkjum <a target='_blank' rel="noopener" href='https://www.mozilla.org/en-US/foundation/licensing/website-content/'>Creative Commons</a>.</License>
+            <License>
+                Efni birt undir merkjum{' '}
+                <a
+                    target="_blank"
+                    rel="noopener"
+                    href="https://www.mozilla.org/en-US/foundation/licensing/website-content/"
+                >
+                    Creative Commons
+                </a>
+                .
+            </License>
         </TitleContainer>
-    )
-}
+    );
+};
 
 export default FooterTitle;

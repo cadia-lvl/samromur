@@ -4,10 +4,10 @@ import * as stats from './stats-api';
 import * as user from './user-api';
 
 export default {
-  api: {
-    admin,
-    contribute,
-    stats,
-    user,
-  },
+    api: {
+        admin,
+        contribute,
+        stats,
+        user,
+    },
 };

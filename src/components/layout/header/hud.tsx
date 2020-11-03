@@ -1,16 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import { pages } from '../../../constants/paths';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
 import { WarningModal } from './warning-modal';
 
-import {
-    resetContribute,
-    setGaming
-} from '../../../store/contribute/actions';
+import { resetContribute, setGaming } from '../../../store/contribute/actions';
 
 import BackArrowIcon from '../../ui/icons/back-arrow';
 
@@ -27,7 +24,6 @@ const HUDContainer = styled.div`
     z-index: 10;
 `;
 
-
 const BackButton = styled.div`
     width: 2.5rem;
     height: 2.5rem;
@@ -38,9 +34,9 @@ const BackButton = styled.div`
     background-color: white;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
     & :active {
         transform: translateY(1px);
     }
@@ -67,115 +63,122 @@ const TextBar = styled.div`
     white-space: nowrap;
 `;
 
-const Title = styled.div`
+const Title = styled.div``;
 
-`;
-
-interface HUDProps {
-
-}
+interface HUDProps {}
 
 interface State {
-    showWarningModal: boolean,
+    showWarningModal: boolean;
 }
 
 const dispatchProps = {
     resetContribute,
-    setGaming
-}
+    setGaming,
+};
 
-type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps & HUDProps & WithRouterProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    typeof dispatchProps &
+    HUDProps &
+    WithRouterProps;
 
 class HeadsUpDisplay extends React.Component<Props, State> {
-    
     constructor(props: Props) {
         super(props);
 
         this.state = {
             showWarningModal: false,
-        }
-
-        }
+        };
+    }
 
     handleBack = () => {
         const {
             contribute: { goal, progress },
             resetContribute,
             router,
-            setGaming
+            setGaming,
         } = this.props;
         const path = this.whereTo(true);
-        if (progress > 0 && goal && progress != goal.count && !this.state.showWarningModal) {
+        if (
+            progress > 0 &&
+            goal &&
+            progress != goal.count &&
+            !this.state.showWarningModal
+        ) {
             this.setState(() => ({
                 showWarningModal: true,
             }));
             return;
         }
         if (path == pages.contribute && goal) {
-            setGaming(false); 
+            setGaming(false);
             resetContribute();
         } else {
             router.push(path);
         }
-    }
+    };
 
     whereTo = (path?: boolean): string => {
         const {
-            contribute: {
-                expanded,
-                goal,
-                progress,
-            },
-            router: { pathname }
+            contribute: { expanded, goal, progress },
+            router: { pathname },
         } = this.props;
         if (expanded) {
             return path ? pages.frontPage : 'Til baka á forsíðu';
         }
         switch (pathname) {
             case '/tala':
-                return path ? pages.contribute : goal ? 'Velja fjölda' : 'Taka þátt';
+                return path
+                    ? pages.contribute
+                    : goal
+                    ? 'Velja fjölda'
+                    : 'Taka þátt';
             case '/hlusta':
-                return path ? pages.contribute : goal ? 'Velja fjölda' : 'Taka þátt';
+                return path
+                    ? pages.contribute
+                    : goal
+                    ? 'Velja fjölda'
+                    : 'Taka þátt';
             default:
                 return path ? pages.frontPage : 'Forsíða';
         }
-    }
+    };
 
     handleStayOnPage = () => {
         this.setState(() => ({
             showWarningModal: false,
-        }))
-    }
+        }));
+    };
 
     handleLeavePage = () => {
         this.handleBack();
         this.handleStayOnPage();
-    }
+    };
 
     render() {
         const {
-            contribute: {
-                gaming, goal, progress
-            }, router
+            contribute: { gaming, goal, progress },
+            router,
         } = this.props;
         return (
             <HUDContainer>
                 <BackButton onClick={this.handleBack}>
-                    <BackArrowIcon
-                        height={18}
-                        width={18}
-                        fill={'grey'}
-                    />
+                    <BackArrowIcon height={18} width={18} fill={'grey'} />
                 </BackButton>
-                <WarningModal isOpen={this.state.showWarningModal} onExit={this.handleLeavePage} onStay={this.handleStayOnPage}/>
+                <WarningModal
+                    isOpen={this.state.showWarningModal}
+                    onExit={this.handleLeavePage}
+                    onStay={this.handleStayOnPage}
+                />
                 <TextBar>
                     <Title>
                         <span>{this.whereTo()}</span>
                     </Title>
-                    {(gaming && goal) && (
+                    {gaming && goal && (
                         <ProgressContainer>
                             {/* <span>{goal.name}:</span> */}
-                            <span>{progress} / {goal.count}</span>
+                            <span>
+                                {progress} / {goal.count}
+                            </span>
                         </ProgressContainer>
                     )}
                 </TextBar>
@@ -185,7 +188,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-    contribute: state.contribute
+    contribute: state.contribute,
 });
 
 export default connect(

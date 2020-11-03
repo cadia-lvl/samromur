@@ -1,5 +1,5 @@
-import { } from 'typesafe-actions';
+import {} from 'typesafe-actions';
 
 declare module 'typesafe-actions' {
-  export type Services = typeof import('./index').default;
+    export type Services = typeof import('./index').default;
 }

@@ -1,7 +1,9 @@
 export const createObjectURL = (blob: Blob): string => {
-    const create = (window.URL || window.webkitURL || {}).createObjectURL || function () { };
+    const create =
+        (window.URL || window.webkitURL || {}).createObjectURL ||
+        function () {};
     return create(blob) as string;
-}
+};
 
 export const blobToBase64 = (blob: Blob): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -15,7 +17,11 @@ export const blobToBase64 = (blob: Blob): Promise<string> => {
     });
 };
 
-export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512) => {
+export const base64toBlob = (
+    b64Data: string,
+    contentType = '',
+    sliceSize = 512
+) => {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
 
@@ -33,4 +39,4 @@ export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512)
 
     const blob = new Blob(byteArrays, { type: 'audio/wav' });
     return blob;
-}
+};

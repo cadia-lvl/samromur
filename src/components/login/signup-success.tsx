@@ -16,9 +16,7 @@ const Paragraph = styled.p`
     margin: 0;
 `;
 
-const Title = styled.h3`
-
-`
+const Title = styled.h3``;
 
 const Button = styled.div`
     border: none;
@@ -38,7 +36,6 @@ const Button = styled.div`
     :active {
         transform: translateY(2px);
     }
-
 `;
 
 interface Props {
@@ -48,21 +45,20 @@ interface Props {
 export const SignupSuccess: React.FunctionComponent<Props> = ({ email }) => {
     const handleClick = () => {
         window.location.reload();
-    }
+    };
     return (
         <SignupSuccessContainer>
             <Title>Nýskráning tókst</Title>
             <Paragraph>
-                Tölvupóstur hefur verið sendur á netfangið <span>{email || 'olli.jonsson@gmail.com'}</span>
+                Tölvupóstur hefur verið sendur á netfangið{' '}
+                <span>{email || 'olli.jonsson@gmail.com'}</span>
             </Paragraph>
             <Paragraph>
                 Smelltu á hlekkinn í póstinum til þess að klára nýskráningu.
             </Paragraph>
-            <Button onClick={handleClick}>
-                Innskrá
-            </Button>
+            <Button onClick={handleClick}>Innskrá</Button>
         </SignupSuccessContainer>
     );
-}
+};
 
 export default SignupSuccess;

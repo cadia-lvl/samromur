@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Database, { getDatabaseInstance } from '../../../server/database/database';
+import Database, {
+    getDatabaseInstance,
+} from '../../../server/database/database';
 
 import { Clip } from '../../../types/samples';
 
@@ -11,12 +13,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(400).send('Invalid method.');
     } else {
         const count = parseInt(req.query.count as string, 10) || 5;
-        const clientId = decodeURIComponent(req.headers.client_id as string) || '';
-        return db.clips.fetchClips(clientId, count).then((response: Clip[]) => {
-            res.status(200).json(response);
-        }).catch((error: any) => {
-            console.error(error);
-            res.status(500).json(error);
-        });
+        const clientId =
+            decodeURIComponent(req.headers.client_id as string) || '';
+        return db.clips
+            .fetchClips(clientId, count)
+            .then((response: Clip[]) => {
+                res.status(200).json(response);
+            })
+            .catch((error: any) => {
+                console.error(error);
+                res.status(500).json(error);
+            });
     }
-}
+};

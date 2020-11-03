@@ -35,7 +35,7 @@ interface AddSentencesProps {
 
 const dispatchProps = {
     confirmSentences: confirmSentences.request,
-}
+};
 
 type Props = typeof dispatchProps & AddSentencesProps;
 
@@ -55,12 +55,12 @@ const initialState = {
             name: '',
             size: 0,
             text: '',
-        }
+        },
     },
     count: 0,
     name: '',
     valid: false,
-}
+};
 
 class AddSentences extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -71,22 +71,19 @@ class AddSentences extends React.Component<Props, State> {
 
     onNameChange = (name: string) => {
         this.setState({ name });
-    }
+    };
 
     onFileChange = (batch: SentenceBatch) => {
         this.setState({ batch });
-    }
+    };
 
     onValidate = async () => {
-        const {
-            batch,
-            name
-        } = this.state;
+        const { batch, name } = this.state;
 
         const newBatch = {
             ...batch,
-            name: name
-        }
+            name: name,
+        };
         uploadSentences(newBatch).then((result: SentenceBatchResponse) => {
             this.setState({
                 id: result.id,
@@ -94,23 +91,17 @@ class AddSentences extends React.Component<Props, State> {
                 valid: result.valid,
             });
         });
-    }
+    };
 
     onSubmit = async () => {
         const { id } = this.state;
         const { confirmSentences, onClose } = this.props;
         await confirmSentences(id);
         onClose();
-    }
+    };
 
     render() {
-        const {
-            id,
-            count,
-            batch,
-            name,
-            valid
-        } = this.state;
+        const { id, count, batch, name, valid } = this.state;
 
         const { onClose } = this.props;
 
@@ -119,21 +110,23 @@ class AddSentences extends React.Component<Props, State> {
                 <h4>Bæta við</h4>
                 <TextInput
                     onChange={this.onNameChange}
-                    label='Nafn setningapakka'
-                    placeholder='Nafn'
+                    label="Nafn setningapakka"
+                    placeholder="Nafn"
                     text={name}
                 />
                 <FileBrowser onFileChange={this.onFileChange}>
                     <UploadIcon small />
-                    {
-                        !!batch && !valid ? <span>{batch.file.name}</span> : <span>{count} setningar</span>
-                    }
+                    {!!batch && !valid ? (
+                        <span>{batch.file.name}</span>
+                    ) : (
+                        <span>{count} setningar</span>
+                    )}
                 </FileBrowser>
                 <Controls>
                     <Button
                         medium
                         color={'green'}
-                        disabled={(!name || !batch)}
+                        disabled={!name || !batch}
                         onClick={valid ? this.onSubmit : this.onValidate}
                     >
                         {valid ? 'Senda inn' : 'Yfirfara'}
@@ -148,7 +141,4 @@ const mapStateToProps = (state: RootState) => ({
     sentences: state.admin.sentences,
 });
 
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(AddSentences);
+export default connect(mapStateToProps, dispatchProps)(AddSentences);

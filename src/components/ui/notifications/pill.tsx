@@ -18,16 +18,33 @@ const NotificationPillContainer = styled.div<Props>`
     transition: opacity linear 2s;
     animation: fade-in 2s;
     background-color: ${({ notification, theme }) =>
-        notification.error ? theme.colors.red : notification.success ? theme.colors.green : theme.colors.blue};
+        notification.error
+            ? theme.colors.red
+            : notification.success
+            ? theme.colors.green
+            : theme.colors.blue};
     color: white;
 `;
 
-export const NotificationPill: React.FunctionComponent<Props> = ({ children, className, notification, ref }) => {
+export const NotificationPill: React.FunctionComponent<Props> = ({
+    children,
+    className,
+    notification,
+    ref,
+}) => {
     return (
-        <NotificationPillContainer className={className} ref={ref} notification={notification}>
+        <NotificationPillContainer
+            className={className}
+            ref={ref}
+            notification={notification}
+        >
             {notification.text}
         </NotificationPillContainer>
-    )
-}
+    );
+};
 
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <NotificationPill {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <NotificationPill {...props} ref={ref as any} />
+    )
+);

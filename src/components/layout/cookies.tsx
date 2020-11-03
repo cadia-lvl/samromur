@@ -20,7 +20,8 @@ const CookiesModalContainer = styled.div<ContainerProps>`
     align-items: center;
     font-size: 1.2rem;
     position: fixed;
-    bottom: ${({ theme, visible }) => visible ? 0 : `-${theme.layout.cookieModalHeight}`};
+    bottom: ${({ theme, visible }) =>
+        visible ? 0 : `-${theme.layout.cookieModalHeight}`};
     z-index: 0;
     transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -65,6 +66,6 @@ const CookiesModal: React.FunctionComponent<Props> = ({ active, close }) => {
             </CloseButton>
         </CookiesModalContainer>
     );
-}
+};
 
 export default CookiesModal;

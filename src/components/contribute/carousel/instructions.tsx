@@ -39,7 +39,6 @@ export const Instructions: React.FC<Props> = ({
     recordingError,
     uploadError,
 }) => {
-
     const getRecordingErrorMessage = (): string => {
         switch (recordingError) {
             case RecordingError.TOO_LONG:
@@ -49,7 +48,7 @@ export const Instructions: React.FC<Props> = ({
             default:
                 return 'Upptakan var of lágvær, reyndu aftur';
         }
-    }
+    };
 
     const getUploadErrorMessage = (): string => {
         switch (uploadError) {
@@ -58,27 +57,27 @@ export const Instructions: React.FC<Props> = ({
             default:
                 return 'Innsending upptöku mistókst, vinsamlegast reyndu aftur';
         }
-    }
+    };
 
     const verificationInstructions = (): React.ReactNode => {
         return <Message>Hlustaðu á upptökuna og dæmdu hana</Message>;
-    }
-
+    };
 
     const speakInstructions = (): React.ReactNode => {
-        return recordingError ?
+        return recordingError ? (
             <Error>{getRecordingErrorMessage()}</Error>
-            : activeClip ? <Message>Smelltu á örina til að spila upptökuna</Message> :
-                <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>;
-    }
+        ) : activeClip ? (
+            <Message>Smelltu á örina til að spila upptökuna</Message>
+        ) : (
+            <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
+        );
+    };
 
     return (
         <InstructionsContainer>
-            {
-                isSpeak ? speakInstructions() : verificationInstructions()
-            }
-        </InstructionsContainer >
+            {isSpeak ? speakInstructions() : verificationInstructions()}
+        </InstructionsContainer>
     );
-}
+};
 
 export default Instructions;

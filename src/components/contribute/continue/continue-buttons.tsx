@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { pages } from '../../../constants/paths';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import {
     resetContribute,
     setGoal,
@@ -29,11 +29,12 @@ interface ButtonsContainerProps {
 
 const ButtonsContainer = styled.div<ButtonsContainerProps>`
     position: absolute;
-    transform:
-        ${({ position }) => `translateX(${position == 0 ? '0%' : position > 0 ? '25%' : '-25%'})`}
-        scale(${({ position }) => position == 0 ? 1 : 0});
-    transition:
-        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform: ${({ position }) =>
+            `translateX(${
+                position == 0 ? '0%' : position > 0 ? '25%' : '-25%'
+            })`}
+        scale(${({ position }) => (position == 0 ? 1 : 0)});
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         scale 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     justify-content: center;
@@ -78,7 +79,7 @@ const MessageContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`
+`;
 interface FadingMessageProps {
     visible: boolean;
 }
@@ -87,13 +88,16 @@ const dispatchProps = {
     resetContribute,
     setExpanded,
     setGoal,
-}
+};
 
 interface ContinueButtonsProps {
     onContinue: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & ContinueButtonsProps & WithRouterProps & typeof dispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    ContinueButtonsProps &
+    WithRouterProps &
+    typeof dispatchProps;
 
 interface State {
     shouldContinue: boolean;
@@ -104,34 +108,45 @@ class ContinueButtons extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            shouldContinue: false
-        }
+            shouldContinue: false,
+        };
     }
 
     handleContinue = () => {
-        const { contribute: { expanded } } = this.props;
+        const {
+            contribute: { expanded },
+        } = this.props;
         if (!expanded) {
             return;
         }
         this.setState({ shouldContinue: !this.state.shouldContinue });
-    }
+    };
 
     handleGoal = (goal: Goal) => {
-        const { contribute: { expanded } } = this.props;
+        const {
+            contribute: { expanded },
+        } = this.props;
         if (!expanded) {
             return;
         }
         this.setState({ shouldContinue: false });
 
-        const { onContinue, setExpanded, setGoal, resetContribute } = this.props;
+        const {
+            onContinue,
+            setExpanded,
+            setGoal,
+            resetContribute,
+        } = this.props;
         resetContribute();
         setGoal(goal);
         onContinue();
         setExpanded(false);
-    }
+    };
 
     handleSwitch = () => {
-        const { contribute: { expanded } } = this.props;
+        const {
+            contribute: { expanded },
+        } = this.props;
         if (!expanded) {
             return;
         }
@@ -144,36 +159,62 @@ class ContinueButtons extends React.Component<Props, State> {
         } else {
             router.push(pages.listen);
         }
-    }
+    };
 
     render() {
         const { shouldContinue } = this.state;
-        const { contribute: { goal } } = this.props;
-        const goals = goal && goal.contributeType == 'tala' ? speakGoals : listenGoals;
+        const {
+            contribute: { goal },
+        } = this.props;
+        const goals =
+            goal && goal.contributeType == 'tala' ? speakGoals : listenGoals;
         return (
             <ContinueButtonsContainer>
                 <MessageContainer>
-                    <span>{shouldContinue ? 'Hversu lengi viltu halda áfram' : 'Viltu halda áfram?'}</span>
+                    <span>
+                        {shouldContinue
+                            ? 'Hversu lengi viltu halda áfram'
+                            : 'Viltu halda áfram?'}
+                    </span>
                 </MessageContainer>
                 <SlidingButtons>
                     <ButtonsContainer position={shouldContinue ? -1 : 0}>
-                        <ButtonContainer color={'blue'} onClick={this.handleSwitch}>
-                            <>{goal && goal.contributeType == 'hlusta' ? 'Lesa inn' : 'Yfirfara'}</>
+                        <ButtonContainer
+                            color={'blue'}
+                            onClick={this.handleSwitch}
+                        >
+                            <>
+                                {goal && goal.contributeType == 'hlusta'
+                                    ? 'Lesa inn'
+                                    : 'Yfirfara'}
+                            </>
                         </ButtonContainer>
-                        <ButtonContainer color={'green'} onClick={this.handleContinue}>
+                        <ButtonContainer
+                            color={'green'}
+                            onClick={this.handleContinue}
+                        >
                             <>Halda áfram</>
                         </ButtonContainer>
                     </ButtonsContainer>
                     <ButtonsContainer position={shouldContinue ? 0 : 1}>
-                        <ButtonContainer color={'blue'} onClick={() => this.handleGoal(goals[0])}>
+                        <ButtonContainer
+                            color={'blue'}
+                            onClick={() => this.handleGoal(goals[0])}
+                        >
                             <>{goals[0].name}</>
                             <span>{goals[0].text}</span>
                         </ButtonContainer>
-                        <ButtonContainer color={'blue'} onClick={() => this.handleGoal(goals[1])}>
+                        <ButtonContainer
+                            color={'blue'}
+                            onClick={() => this.handleGoal(goals[1])}
+                        >
                             <>{goals[1].name}</>
                             <span>{goals[1].text}</span>
                         </ButtonContainer>
-                        <ButtonContainer color={'green'} onClick={() => this.handleGoal(goals[2])}>
+                        <ButtonContainer
+                            color={'green'}
+                            onClick={() => this.handleGoal(goals[2])}
+                        >
                             <>{goals[2].name}</>
                             <span>{goals[2].text}</span>
                         </ButtonContainer>
@@ -185,7 +226,7 @@ class ContinueButtons extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-    contribute: state.contribute
+    contribute: state.contribute,
 });
 
 export default connect(

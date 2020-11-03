@@ -1,10 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import {
-    Request,
-    Response,
-    NextFunction
-} from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { protectedPaths } from '../../constants/paths';
 
@@ -13,7 +9,7 @@ const jwtSecret = 'secret';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     const { cookies, path } = req;
-    const token = cookies.token as string || '';
+    const token = (cookies.token as string) || '';
 
     try {
         // Jwt verification
@@ -36,15 +32,18 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         req.headers.is_authenticated = encodeURIComponent(false);
 
         // If it is a protected path, redirect to login
-        const protectedPath = protectedPaths.find(x => path.startsWith(x));
+        const protectedPath = protectedPaths.find((x) => path.startsWith(x));
         if (!!!protectedPath) {
             return next();
         } else if (path.startsWith('/api')) {
             return res.status(401).send(error.message);
         } else {
             const expiration = new Date(Date.now() + 30000).toUTCString(); // 30 seconds from now;
-            res.setHeader('Set-Cookie', `redirect=${path}; expires=${expiration}; Path=/innskraning;`);
+            res.setHeader(
+                'Set-Cookie',
+                `redirect=${path}; expires=${expiration}; Path=/innskraning;`
+            );
             return res.status(401).redirect('/innskraning');
         }
     }
-}
+};

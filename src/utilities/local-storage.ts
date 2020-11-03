@@ -4,16 +4,16 @@ export const injectDemographics = (demographics: Demographics) => {
     localStorage.setItem(
         'demographics',
         JSON.stringify({
-            ...demographics
+            ...demographics,
         })
     );
-}
+};
 
 export const injectConsents = (consents: UserConsents) => {
     localStorage.setItem(
         'consents',
         JSON.stringify({
-            ...consents
+            ...consents,
         })
     );
-}
+};

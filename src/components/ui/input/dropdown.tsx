@@ -12,11 +12,12 @@ const DropdownButtonContainer = styled.div<DropdownProps>`
     position: relative;
     display: inline-block;
 
-    border: 2px solid ${({ theme, visible }) => visible ? 'gray' : theme.colors.gray};
-    & :active, :focus {
+    border: 2px solid
+        ${({ theme, visible }) => (visible ? 'gray' : theme.colors.gray)};
+    & :active,
+    :focus {
         outline: none;
     }
-    
 `;
 
 const DropdownSelect = styled.select`
@@ -27,7 +28,8 @@ const DropdownSelect = styled.select`
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    & :active, :focus {
+    & :active,
+    :focus {
         outline: none;
     }
     padding: 1rem;
@@ -83,59 +85,54 @@ export default class DropdownButton extends React.Component<Props, State> {
         this.state = {
             maxWidth: 0,
             visible: false,
-        }
+        };
     }
 
     componentDidMount = () => {
         this.selectRef.current?.addEventListener('focusout', this.onFocusOut);
-    }
+    };
 
     componentWillUnmount = () => {
-        this.selectRef.current?.removeEventListener('focusout', this.onFocusOut);
-    }
+        this.selectRef.current?.removeEventListener(
+            'focusout',
+            this.onFocusOut
+        );
+    };
 
     onFocusOut = (event: FocusEvent) => {
         this.setState({ visible: false });
-    }
+    };
 
     onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.props.onSelect(e.currentTarget.value);
         this.setState({ visible: false });
-    }
+    };
 
     select = () => {
         this.setState({ visible: true });
-    }
+    };
 
     render() {
-        const {
-            content,
-            label,
-            selected,
-        } = this.props;
-        const {
-            visible
-        } = this.state;
+        const { content, label, selected } = this.props;
+        const { visible } = this.state;
 
         return (
-            <DropdownButtonContainer
-                visible={visible}
-                onClick={this.select}
-            >
+            <DropdownButtonContainer visible={visible} onClick={this.select}>
                 <Label>{label}</Label>
-                <Arrow
-                    height={15}
-                    width={15}
-                />
+                <Arrow height={15} width={15} />
                 <DropdownSelect
                     ref={this.selectRef}
                     onChange={this.onSelect}
                     value={selected}
                 >
                     <DropdownItem value={''} />
-                    {content.map((val: string, i: number) => <DropdownItem key={i} value={val}>{val}</DropdownItem>)}
+                    {content.map((val: string, i: number) => (
+                        <DropdownItem key={i} value={val}>
+                            {val}
+                        </DropdownItem>
+                    ))}
                 </DropdownSelect>
-            </DropdownButtonContainer >
+            </DropdownButtonContainer>
         );
     }
 }

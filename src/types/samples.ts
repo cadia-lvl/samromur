@@ -4,7 +4,7 @@ import { RecordingError } from './audio';
 
 export enum UploadError {
     NO_RECORDING = 'NO_RECORDING',
-    UPLOAD_FAILED = 'UPLOAD_FAILED'
+    UPLOAD_FAILED = 'UPLOAD_FAILED',
 }
 
 export interface Clip {

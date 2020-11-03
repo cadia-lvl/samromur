@@ -12,14 +12,16 @@ export const signUp = async (payload: AuthRequest): Promise<string> => {
         method: 'POST',
         url: endpoint,
         headers: {
-            'Authorization': `Basic ${auth}`,
-        }
-    }).then((response: AxiosResponse) => {
-        return Promise.resolve(response.data as string);
-    }).catch((error: AxiosError) => {
-        return Promise.reject(error.response?.data as keyof AuthError);
-    });
-}
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return Promise.resolve(response.data as string);
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.response?.data as keyof AuthError);
+        });
+};
 
 export const login = async (payload: AuthRequest): Promise<string> => {
     const { email, password } = payload;
@@ -31,34 +33,43 @@ export const login = async (payload: AuthRequest): Promise<string> => {
         method: 'POST',
         url: endpoint,
         headers: {
-            'Authorization': `Basic ${auth}`,
-        }
-    }).then((response: AxiosResponse) => {
-        return Promise.resolve(response.data);
-    }).catch((error: AxiosError) => {
-        return Promise.reject(error.response?.data as keyof AuthError);
-    });
-}
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return Promise.resolve(response.data);
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.response?.data as keyof AuthError);
+        });
+};
 
-export const changePassword = async (oldPassword: string, newPassword: string,): Promise<void> => {
+export const changePassword = async (
+    oldPassword: string,
+    newPassword: string
+): Promise<void> => {
     const url = `/api/users/password`;
-    const auth = Buffer.from(`${oldPassword}:${newPassword}`, 'utf8').toString('base64');
+    const auth = Buffer.from(`${oldPassword}:${newPassword}`, 'utf8').toString(
+        'base64'
+    );
 
     return axios({
         method: 'POST',
         url,
         headers: {
-            'Authorization': `Basic ${auth}`,
-        }
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
 export const logout = async () => {
     document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.reload();
-}
+};

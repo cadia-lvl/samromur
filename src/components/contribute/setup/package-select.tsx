@@ -23,18 +23,21 @@ interface Props {
     setGoal: (goal: Goal) => void;
 }
 
-export const TypeSelect: React.FunctionComponent<Props> = ({ contributeType, setGoal }) => {
+export const TypeSelect: React.FunctionComponent<Props> = ({
+    contributeType,
+    setGoal,
+}) => {
     return (
         <CardGrid>
-            {
-                contributeType == 'hlusta'
-                    ?
-                    listenGoals.map((goal: Goal, i: number) => <PackageCard goal={goal} key={i} setGoal={setGoal} />)
-                    :
-                    speakGoals.map((goal: Goal, i: number) => <PackageCard goal={goal} key={i} setGoal={setGoal} />)
-            }
+            {contributeType == 'hlusta'
+                ? listenGoals.map((goal: Goal, i: number) => (
+                      <PackageCard goal={goal} key={i} setGoal={setGoal} />
+                  ))
+                : speakGoals.map((goal: Goal, i: number) => (
+                      <PackageCard goal={goal} key={i} setGoal={setGoal} />
+                  ))}
         </CardGrid>
     );
-}
+};
 
 export default TypeSelect;

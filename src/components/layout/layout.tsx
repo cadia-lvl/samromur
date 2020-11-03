@@ -20,7 +20,9 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
     position: relative;
     width: 100vw;
     overflow-x: hidden;
-    ${({ game, theme }) => !game ? `
+    ${({ game, theme }) =>
+        !game
+            ? `
         height: 100vh;
         ${theme.media.small} {
             overflow-y: visible;
@@ -29,7 +31,8 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
         ${theme.media.smallUp} {
             overflow-y: scroll;
         }
-    ` : `
+    `
+            : `
         min-height: 100vh;
         overflow-y: hidden;
         background-color: ${theme.colors.white};
@@ -54,7 +57,8 @@ const ContentAndFooter = styled.div`
         overflow-y: scroll;
 
         & > :nth-child(1) {
-            min-height: ${({ theme }) => `calc(100% - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
+            min-height: ${({ theme }) =>
+                `calc(100% - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
         }
     }
 
@@ -66,17 +70,16 @@ const ContentAndFooter = styled.div`
         bottom: initial;
 
         & > :nth-child(1) {
-            min-height: ${({ theme }) => `calc(100vh - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
+            min-height: ${({ theme }) =>
+                `calc(100vh - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
         }
     }
-
-
 `;
 
 const FloatingNavigation = styled(Navigation)`
     ${({ theme }) => theme.media.smallUp} {
         display: none;
-    };
+    } ;
 `;
 
 interface GameContentProps {
@@ -89,7 +92,7 @@ const GameContent = styled.div<GameContentProps>`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-bottom: ${({ gaming }) => !gaming ? '3rem' : '0rem'};
+    margin-bottom: ${({ gaming }) => (!gaming ? '3rem' : '0rem')};
 `;
 
 const Notifications = styled.div`
@@ -111,10 +114,12 @@ interface State {
 }
 
 const dispatchProps = {
-    setCookieConsent
-}
+    setCookieConsent,
+};
 
-type Props = ReturnType<typeof mapStateToProps> & LayoutProps & typeof dispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    LayoutProps &
+    typeof dispatchProps;
 
 class Layout extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -122,33 +127,27 @@ class Layout extends React.Component<Props, State> {
 
         this.state = {
             menuVisible: false,
-        }
+        };
     }
 
     toggleMenu = () => {
         this.setState({ menuVisible: !this.state.menuVisible });
-    }
+    };
 
     handleCloseCookies = () => {
         this.props.setCookieConsent(true);
-    }
+    };
 
     render() {
         const {
-            contribute: {
-                expanded,
-                gaming,
-                goal
-            },
+            contribute: { expanded, gaming, goal },
             game,
             children,
             notifications,
             user: {
                 client,
-                consents: {
-                    cookies
-                }
-            }
+                consents: { cookies },
+            },
         } = this.props;
         const { menuVisible } = this.state;
 
@@ -162,22 +161,23 @@ class Layout extends React.Component<Props, State> {
                 {!game ? (
                     <React.Fragment>
                         <Header user={client} toggleMenu={this.toggleMenu} />
-                        <FloatingNavigation user={client} floating visible={menuVisible} />
+                        <FloatingNavigation
+                            user={client}
+                            floating
+                            visible={menuVisible}
+                        />
                         <ContentAndFooter>
                             {children}
                             <Footer />
                         </ContentAndFooter>
                     </React.Fragment>
                 ) : (
-                        <React.Fragment>
-                            <HeadsUpDisplay />
-                            <GameContent gaming={gaming}>
-                                {children}
-                            </GameContent>
-                            {!gaming && <Footer />}
-                        </React.Fragment>
-                    )
-                }
+                    <React.Fragment>
+                        <HeadsUpDisplay />
+                        <GameContent gaming={gaming}>{children}</GameContent>
+                        {!gaming && <Footer />}
+                    </React.Fragment>
+                )}
                 <CookiesModal
                     active={!cookies}
                     close={this.handleCloseCookies}
@@ -193,7 +193,4 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(Layout);
+export default connect(mapStateToProps, dispatchProps)(Layout);

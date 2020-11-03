@@ -9,7 +9,7 @@ import {
     SuperUserStat,
     TotalUserClips,
     TotalUserVotes,
-    UserClient
+    UserClient,
 } from '../../types/user';
 
 export default class UserClients {
@@ -30,7 +30,7 @@ export default class UserClients {
             `,
             [id]
         );
-    }
+    };
 
     signUpUser = async (email: string, password: string): Promise<string> => {
         if (await this.hasAccount(email)) {
@@ -39,8 +39,9 @@ export default class UserClients {
         const confirmId = uuid();
         const clientId = generateGUID();
 
-        return this.sql.query(
-            `
+        return this.sql
+            .query(
+                `
                 INSERT INTO
                     user_clients (client_id, email, confirm_id, password, has_login)
                 VALUES
@@ -51,14 +52,16 @@ export default class UserClients {
                     password = VALUES(password),
                     has_login = VALUES(has_login)
             `,
-            [clientId, email, confirmId, sha512hash(password), true]
-        ).then(() => {
-            return Promise.resolve(confirmId);
-        }).catch((error) => {
-            console.error(error);
-            return Promise.reject(AuthError.FAILED);
-        })
-    }
+                [clientId, email, confirmId, sha512hash(password), true]
+            )
+            .then(() => {
+                return Promise.resolve(confirmId);
+            })
+            .catch((error) => {
+                console.error(error);
+                return Promise.reject(AuthError.FAILED);
+            });
+    };
 
     confirmSignup = async (confirmId: string): Promise<void> => {
         return this.sql.query(
@@ -73,9 +76,13 @@ export default class UserClients {
             `,
             [true, confirmId]
         );
-    }
+    };
 
-    changePassword = async (oldPassword: string, password: string, clientId: string): Promise<void> => {
+    changePassword = async (
+        oldPassword: string,
+        password: string,
+        clientId: string
+    ): Promise<void> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -93,8 +100,9 @@ export default class UserClients {
             return Promise.reject(AuthError.WRONG_PASSWORD);
         }
 
-        return this.sql.query(
-            `
+        return this.sql
+            .query(
+                `
                 UPDATE
                     user_clients
                 SET
@@ -102,13 +110,15 @@ export default class UserClients {
                 WHERE
                     client_id = ?
             `,
-            [sha512hash(password), clientId]
-        ).then(() => {
-            return Promise.resolve();
-        }).catch((error) => {
-            return Promise.reject();
-        })
-    }
+                [sha512hash(password), clientId]
+            )
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch((error) => {
+                return Promise.reject();
+            });
+    };
 
     loginUser = async (email: string, password: string): Promise<string> => {
         const [[row]] = await this.sql.query(
@@ -137,7 +147,7 @@ export default class UserClients {
             }
             return Promise.resolve(client_id);
         }
-    }
+    };
 
     hasAccount = async (email: string): Promise<boolean> => {
         const [[row]] = await this.sql.query(
@@ -152,7 +162,7 @@ export default class UserClients {
             [email]
         );
         return !!row;
-    }
+    };
 
     fetchUserClipCount = async (id: string): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -169,7 +179,7 @@ export default class UserClients {
 
         const { clips } = row;
         return clips;
-    }
+    };
 
     fetchUserClipsStats = async (id: string): Promise<TotalUserClips> => {
         const [[row]] = await this.sql.query(
@@ -184,10 +194,10 @@ export default class UserClients {
                     client_id = ?
             `,
             [id]
-        )
+        );
 
         return row;
-    }
+    };
 
     fetchUserVotesStats = async (id: string): Promise<TotalUserVotes> => {
         const [[row]] = await this.sql.query(
@@ -204,7 +214,7 @@ export default class UserClients {
         );
 
         return row;
-    }
+    };
 
     fetchUserAccess = async (id: string): Promise<Partial<UserClient>> => {
         const [[row]] = await this.sql.query(
@@ -221,12 +231,13 @@ export default class UserClients {
         );
         const is_admin = row ? row['is_admin'] : false;
         const is_super_user = row ? row['is_super_user'] : false;
-        return { isAdmin: !!is_admin, isSuperUser: !!is_super_user }
-    }
+        return { isAdmin: !!is_admin, isSuperUser: !!is_super_user };
+    };
 
     makeSuperUser = async (email: string): Promise<void> => {
-        return this.sql.query(
-            `
+        return this.sql
+            .query(
+                `
                 UPDATE
                     user_clients
                 SET
@@ -234,13 +245,15 @@ export default class UserClients {
                 WHERE
                     email = ?
             `,
-            [true, email]
-        ).then(([{ affectedRows }]) => {
-            return !!affectedRows ? Promise.resolve() : Promise.reject();
-        }).catch((error) => {
-            return Promise.reject(error);
-        })
-    }
+                [true, email]
+            )
+            .then(([{ affectedRows }]) => {
+                return !!affectedRows ? Promise.resolve() : Promise.reject();
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+    };
 
     fetchSuperUserStats = async (id: string): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -256,7 +269,7 @@ export default class UserClients {
         );
         const { count } = row;
         return count;
-    }
+    };
 
     fetchSuperUsers = async (): Promise<SuperUserStat[]> => {
         const [rows] = await this.sql.query(
@@ -272,15 +285,18 @@ export default class UserClients {
         );
 
         return Promise.all(
-            rows.map(async (row: { client_id: string, email: string }) =>
-                new Promise(async (resolve) => {
-                    const count = await this.fetchSuperUserStats(row.client_id);
-                    resolve({
-                        email: row.email,
-                        count
-                    });
-                })
+            rows.map(
+                async (row: { client_id: string; email: string }) =>
+                    new Promise(async (resolve) => {
+                        const count = await this.fetchSuperUserStats(
+                            row.client_id
+                        );
+                        resolve({
+                            email: row.email,
+                            count,
+                        });
+                    })
             )
         );
-    }
+    };
 }

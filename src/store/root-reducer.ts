@@ -6,9 +6,9 @@ import uiReducer from './ui/reducer';
 import userReducer from './user/reducer';
 
 export default combineReducers({
-  admin: adminReducer,
-  contribute: contributeReducer,
-  stats: statsReducer,
-  ui: uiReducer,
-  user: userReducer
+    admin: adminReducer,
+    contribute: contributeReducer,
+    stats: statsReducer,
+    ui: uiReducer,
+    user: userReducer,
 });

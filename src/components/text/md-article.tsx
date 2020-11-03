@@ -7,7 +7,7 @@ const MarkdownContainer = styled.div`
     margin: 0 auto;
     padding: 1rem;
     line-height: 1.2;
-    
+
     & h1 {
         margin: 1rem 0;
         font-size: 1.6rem;
@@ -29,13 +29,14 @@ const MarkdownContainer = styled.div`
     padding-bottom: 1rem;
 `;
 
-
-export const MarkdownArticle: FunctionComponent<{ text: string }> = ({ text }) => {
+export const MarkdownArticle: FunctionComponent<{ text: string }> = ({
+    text,
+}) => {
     return (
         <MarkdownContainer>
             <ReactMarkdown>{text}</ReactMarkdown>
         </MarkdownContainer>
     );
-}
+};
 
-export default MarkdownArticle
+export default MarkdownArticle;

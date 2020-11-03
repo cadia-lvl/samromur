@@ -4,14 +4,11 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { pages } from '../../../constants/paths';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import ContinueButtons from './continue-buttons';
 import ContinueChart from '../../charts/continue-chart';
 
-
-const FakeHUDContainer = styled.div`
-
-`;
+const FakeHUDContainer = styled.div``;
 
 interface ContinueContainerProps {
     expanded: boolean;
@@ -28,9 +25,9 @@ const ContinueModalContainer = styled.div<ContinueContainerProps>`
     padding-top: 2rem;
     margin: 0 auto;
     background-color: white;
-    
+
     & > * {
-        pointer-events: ${({ expanded }) => expanded ? 'auto' : 'none'};
+        pointer-events: ${({ expanded }) => (expanded ? 'auto' : 'none')};
         margin: 0 auto;
         width: 100%;
         max-width: 60rem;
@@ -67,16 +64,17 @@ const StatsMessage = styled.div`
     }
 `;
 
-const dispatchProps = {
-
-}
+const dispatchProps = {};
 
 interface ContinueModalProps {
     expanded: boolean;
     onContinue: () => void;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & ContinueModalProps & WithRouterProps & typeof dispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    ContinueModalProps &
+    WithRouterProps &
+    typeof dispatchProps;
 
 interface State {
     clipsToday: number;
@@ -90,7 +88,7 @@ class ContinueModal extends React.Component<Props, State> {
         this.state = {
             clipsToday: 0,
             shouldDraw: true,
-        }
+        };
     }
 
     componentDidUpdate = (prevProps: Props) => {
@@ -103,8 +101,7 @@ class ContinueModal extends React.Component<Props, State> {
         if (expanded && !prevProps.expanded) {
             setTimeout(() => this.setState({ shouldDraw: true }), 500);
         }
-    }
-
+    };
 
     render() {
         const {
@@ -113,33 +110,34 @@ class ContinueModal extends React.Component<Props, State> {
             expanded,
             onContinue,
         } = this.props;
-        const {
-            shouldDraw
-        } = this.state;
+        const { shouldDraw } = this.state;
 
         const progressToday =
-            goal?.contributeType == 'tala' ?
-                weekly.clips[weekly.clips.length - 1].count :
-                goal?.contributeType == 'hlusta' ?
-                    weekly.votes[weekly.votes.length - 1].count :
-                    0;
+            goal?.contributeType == 'tala'
+                ? weekly.clips[weekly.clips.length - 1].count
+                : goal?.contributeType == 'hlusta'
+                ? weekly.votes[weekly.votes.length - 1].count
+                : 0;
         return (
             <ContinueModalContainer expanded={expanded}>
                 <FakeHUDContainer />
-                <Title>
-                    Takk fyrir að gefa í Samróm!
-                </Title>
+                <Title>Takk fyrir að gefa í Samróm!</Title>
                 <ChartContainer>
-                    {shouldDraw && <ContinueChart contributeType={goal?.contributeType || ''} count={goal?.count || 0} />}
+                    {shouldDraw && (
+                        <ContinueChart
+                            contributeType={goal?.contributeType || ''}
+                            count={goal?.count || 0}
+                        />
+                    )}
                 </ChartContainer>
                 <StatsMessageContainer>
                     <StatsMessage>
-                        Árangur dagsins eru <span>{progressToday + (goal?.count || 0)}</span> setningar.
+                        Árangur dagsins eru{' '}
+                        <span>{progressToday + (goal?.count || 0)}</span>{' '}
+                        setningar.
                     </StatsMessage>
                 </StatsMessageContainer>
-                <ContinueButtons
-                    onContinue={onContinue}
-                />
+                <ContinueButtons onContinue={onContinue} />
             </ContinueModalContainer>
         );
     }
