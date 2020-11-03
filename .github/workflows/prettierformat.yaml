@@ -3,7 +3,7 @@ name: prettier format
 on:
   pull_request:
     branches:
-      -master
+      - master
 
 jobs:
   format:
