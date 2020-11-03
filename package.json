@@ -9,8 +9,8 @@
     "build:next": "next build",
     "build:server": "tsc --project src/server/tsconfig.json",
     "remove-sw": "rm -f public/sw* && rm -f public/workbox-*",
-    "format": "prettier --check src/**/*.(ts|tsx)",
-    "auto-format": "prettier --write src/**/*.(ts|tsx)",
+    "format": "prettier --check src/**/*.{ts|tsx}",
+    "auto-format": "prettier --write src/**/*.{ts,tsx}",
     "start:dev": "node dist/server/index.js",
     "start": "NODE_ENV=production node dist/server/index.js",
     "start:windows": "SET NODE_ENV=production&& node dist/server/index.js"
