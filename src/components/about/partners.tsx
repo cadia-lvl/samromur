@@ -47,31 +47,38 @@ interface Props {}
 
 export const Partners: React.FunctionComponent<Props> = (props) => {
     return (
-        <PartnersContainer>
+        <PartnersContainer                >
             <RobotImage src={'./images/robot-footer.svg'} alt="Robot" />
             <InfoContainer>
-                <h1>Samstarfsaðilar</h1>
+                <h1>
+                    
+                    
+                    Samstarfsaðilar
+                    
+                    
+        </h1>
                 <span>
                     Þeir sem standa á bak við Samróm eru{' '}
-                    <StyledLink
+                     <StyledLink
                         target={'blank'}
-                        href={'https://www.facebook.com/almannaromur/'}
+                           href={'https://www.facebook.com/almannaromur/'}
                     >
-                        Almannarómur
+                         Almannarómur
                     </StyledLink>
                     ,
-                </span>
-                <span>
+         </span>
+                 <span>
                     <StyledLink
                         target={'blank'}
                         href={'https://www2.deloitte.com/is/is.html'}
                     >
-                        Deloitte
-                    </StyledLink>
+                   Deloitte
+                  </StyledLink
+                  >
                     ,{' '}
-                    <StyledLink target={'blank'} href={'https://www.ru.is/'}>
+                 <StyledLink target={'blank'} href={'https://www.ru.is/'}>
                         Háskólinn í Reykjavík
-                    </StyledLink>
+                 </StyledLink>
                     ,
                 </span>
                 <span>
