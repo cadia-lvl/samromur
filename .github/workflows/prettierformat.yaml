@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with: 
+        ref: ${{ github.event.pull_request.head.ref }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -35,6 +37,5 @@ jobs:
       run: |
         git config user.email "action@github.com"
         git config user.name "GitHub Action [bot]"
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
         git commit -m "making it prettier" -a
         git push
