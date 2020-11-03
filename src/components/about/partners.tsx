@@ -27,21 +27,21 @@ const StyledLink = styled.a`
     color: ${({ theme }) => theme.colors.blue};
     :visited,
     :focus {
-        text-decoration: none;
+ text-decoration: none;
         color: ${({ theme }) => theme.colors.blue};
     }
 
     :hover {
-        text-decoration: none;
+      text-decoration: none;
         color: ${({ theme }) => theme.colors.blackOlive};
     }
 `;
 
 const RobotImage = styled.img`
     ${({ theme }) => theme.media.small} {
-        display: none;
+       display: none;
     }
-`;
+`
 
 interface Props {}
 
@@ -51,13 +51,13 @@ export const Partners: React.FunctionComponent<Props> = (props) => {
             <RobotImage src={'./images/robot-footer.svg'} alt="Robot" />
             <InfoContainer>
                 <h1>Samstarfsaðilar</h1>
-                <span>
+             <span>
                     Þeir sem standa á bak við Samróm eru{' '}
                     <StyledLink
                         target={'blank'}
                         href={'https://www.facebook.com/almannaromur/'}
                     >
-                        Almannarómur
+                     Almannarómur
                     </StyledLink>
                     ,
                 </span>
@@ -65,24 +65,24 @@ export const Partners: React.FunctionComponent<Props> = (props) => {
                     <StyledLink
                         target={'blank'}
                         href={'https://www2.deloitte.com/is/is.html'}
-                    >
+                 >
                         Deloitte
                     </StyledLink>
                     ,{' '}
-                    <StyledLink target={'blank'} href={'https://www.ru.is/'}>
+                                                                                    <StyledLink target={'blank'} href={'https://www.ru.is/'}>
                         Háskólinn í Reykjavík
                     </StyledLink>
                     ,
                 </span>
                 <span>
                     og{' '}
-                    <StyledLink
+                  <StyledLink
                         target={'blank'}
                         href={
-                            'https://www.rannis.is/sjodir/menntun/nyskopunarsjodur-namsmanna/'
+                'https://www.rannis.is/sjodir/menntun/nyskopunarsjodur-namsmanna/'
                         }
                     >
-                        Nýsköpunarsjóður námsmanna
+                     Nýsköpunarsjóður námsmanna
                     </StyledLink>
                     .
                 </span>
