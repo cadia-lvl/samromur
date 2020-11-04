@@ -19,16 +19,20 @@ interface ErrorProps {
 type Props = WithTranslation & ErrorProps;
 
 class Error extends React.Component<Props> {
-
     constructor(props: Props) {
         super(props);
     }
 
-    static async getInitialProps({ res, err, store, isServer }: NextPageContext) {
+    static async getInitialProps({
+        res,
+        err,
+        store,
+        isServer,
+    }: NextPageContext) {
         const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
         return {
             namespacesRequired: ['common'],
-            statusCode
+            statusCode,
         };
     }
 
@@ -40,7 +44,7 @@ class Error extends React.Component<Props> {
                     <h5>
                         {statusCode
                             ? `Úps, ${statusCode} villa á vefþjóni!`
-                            : "Úps, villa í vafra!"}
+                            : 'Úps, villa í vafra!'}
                     </h5>
                 </ErrorContainer>
             </Layout>

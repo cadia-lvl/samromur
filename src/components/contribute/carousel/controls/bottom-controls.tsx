@@ -46,19 +46,15 @@ const SubmitButton = styled.div<ButtonProps>`
     background-color: ${({ theme }) => theme.colors.green};
     color: white;
 
-    transform:
-        scale(${({ visible }) => visible ? 1 : 0});
+    transform: scale(${({ visible }) => (visible ? 1 : 0)});
 
-    transition:
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
     & :focus {
         outline: none;
     }
 
-
     cursor: pointer;
-    
 `;
 
 interface Props {
@@ -86,35 +82,59 @@ export const BottomControls: React.FunctionComponent<Props> = ({
     return (
         <BottomControlsContainer>
             <SecondaryControls>
-                {
-                    isSpeak ? (
-                        <React.Fragment>
-                            <ExpandableButton stayExpanded={!hasRecording} visible={true} onClickHandler={hasRecording ? deleteClip : skipSentence} text={!hasRecording ? 'Sleppa setningu' : 'Fjarlægja?'}>
-                                {
-                                    !hasRecording ?
-                                        (
-                                            <SkipIcon fill='grey' height={30} width={30} />
-                                        ) : (
-                                            <RecycleIcon fill='oliveBlack' height={30} width={30} />
-                                        )
-                                }
-                            </ExpandableButton>
-                            <ExpandableButton visible={hasRecording} onClickHandler={removeRecording} text={'Endurtaka?'}>
-                                <RetryIcon fill='grey' height={30} width={30} />
-                            </ExpandableButton>
-                        </React.Fragment>
-                    ) : (
-                            <ExpandableButton active={clip?.vote == ClipVote.UNSURE} stayExpanded visible={hasRecording} onClickHandler={() => saveVote(ClipVote.UNSURE)} text={'Ég er óviss'}>
-                                <QuestionMarkIcon fill={clip?.vote == ClipVote.UNSURE ? 'white' : 'gray'} height={30} width={30} />
-                            </ExpandableButton>
-                        )
-                }
+                {isSpeak ? (
+                    <React.Fragment>
+                        <ExpandableButton
+                            stayExpanded={!hasRecording}
+                            visible={true}
+                            onClickHandler={
+                                hasRecording ? deleteClip : skipSentence
+                            }
+                            text={
+                                !hasRecording ? 'Sleppa setningu' : 'Fjarlægja?'
+                            }
+                        >
+                            {!hasRecording ? (
+                                <SkipIcon fill="grey" height={30} width={30} />
+                            ) : (
+                                <RecycleIcon
+                                    fill="oliveBlack"
+                                    height={30}
+                                    width={30}
+                                />
+                            )}
+                        </ExpandableButton>
+                        <ExpandableButton
+                            visible={hasRecording}
+                            onClickHandler={removeRecording}
+                            text={'Endurtaka?'}
+                        >
+                            <RetryIcon fill="grey" height={30} width={30} />
+                        </ExpandableButton>
+                    </React.Fragment>
+                ) : (
+                    <ExpandableButton
+                        active={clip?.vote == ClipVote.UNSURE}
+                        stayExpanded
+                        visible={hasRecording}
+                        onClickHandler={() => saveVote(ClipVote.UNSURE)}
+                        text={'Ég er óviss'}
+                    >
+                        <QuestionMarkIcon
+                            fill={
+                                clip?.vote == ClipVote.UNSURE ? 'white' : 'gray'
+                            }
+                            height={30}
+                            width={30}
+                        />
+                    </ExpandableButton>
+                )}
             </SecondaryControls>
             <SubmitButton visible={isDone} onClick={handleSubmit}>
                 <span>Senda</span>
             </SubmitButton>
         </BottomControlsContainer>
     );
-}
+};
 
 export default BottomControls;

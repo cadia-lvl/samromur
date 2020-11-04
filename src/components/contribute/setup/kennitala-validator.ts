@@ -46,14 +46,21 @@ export class Kennitala {
             if (
                 digit1 >= 0 &&
                 digit1 <= 7 &&
-                (digit2 >= 0 && digit2 <= 9) &&
+                digit2 >= 0 &&
+                digit2 <= 9 &&
                 (digit3 === 0 || digit3 === 1) &&
-                (digit4 >= 0 && digit4 <= 9) &&
-                (digit5 >= 0 && digit5 <= 9) &&
-                (digit6 >= 0 && digit6 <= 9) &&
-                (digit7 >= 0 && digit7 <= 9) &&
-                (digit8 >= 0 && digit8 <= 9) &&
-                (digit9 >= 0 && digit9 <= 9) &&
+                digit4 >= 0 &&
+                digit4 <= 9 &&
+                digit5 >= 0 &&
+                digit5 <= 9 &&
+                digit6 >= 0 &&
+                digit6 <= 9 &&
+                digit7 >= 0 &&
+                digit7 <= 9 &&
+                digit8 >= 0 &&
+                digit8 <= 9 &&
+                digit9 >= 0 &&
+                digit9 <= 9 &&
                 (digit10 === 0 || digit10 === 8 || digit10 === 9)
             ) {
                 let checkDigit =
@@ -75,7 +82,12 @@ export class Kennitala {
                 // The check digit must equal digit 9.
                 if (checkDigit === digit9) {
                     // Digit 1 of organisations is between 4 and 7.
-                    if (digit1 === 4 || digit1 === 5 || digit1 === 6 || digit1 === 7) {
+                    if (
+                        digit1 === 4 ||
+                        digit1 === 5 ||
+                        digit1 === 6 ||
+                        digit1 === 7
+                    ) {
                         return KennitalaType.Organisation;
                     }
 

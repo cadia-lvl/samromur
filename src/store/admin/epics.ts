@@ -10,15 +10,17 @@ export const fetchAllSentencesInfoEpic: Epic<
     RootState,
     Services
 > = (action$, state$, { api }) =>
-        action$.pipe(
-            filter(isActionOf(fetchAllSentencesInfo.request)),
-            switchMap(action =>
-                from(api.admin.fetchAllSentencesInfo(action.payload)).pipe(
-                    map(fetchAllSentencesInfo.success),
-                    catchError((message: string) => of(fetchAllSentencesInfo.failure())) // TO-DO: undefined hack
-                )
+    action$.pipe(
+        filter(isActionOf(fetchAllSentencesInfo.request)),
+        switchMap((action) =>
+            from(api.admin.fetchAllSentencesInfo(action.payload)).pipe(
+                map(fetchAllSentencesInfo.success),
+                catchError((message: string) =>
+                    of(fetchAllSentencesInfo.failure())
+                ) // TO-DO: undefined hack
             )
-        );
+        )
+    );
 
 export const confirmSentencesEpic: Epic<
     RootAction,
@@ -26,12 +28,14 @@ export const confirmSentencesEpic: Epic<
     RootState,
     Services
 > = (action$, state$, { api }) =>
-        action$.pipe(
-            filter(isActionOf(confirmSentences.request)),
-            switchMap(action =>
-                from(api.admin.confirmSentences(action.payload)).pipe(
-                    map(confirmSentences.success),
-                    catchError((message: string) => of(confirmSentences.failure(message)))
+    action$.pipe(
+        filter(isActionOf(confirmSentences.request)),
+        switchMap((action) =>
+            from(api.admin.confirmSentences(action.payload)).pipe(
+                map(confirmSentences.success),
+                catchError((message: string) =>
+                    of(confirmSentences.failure(message))
                 )
             )
-        );
+        )
+    );

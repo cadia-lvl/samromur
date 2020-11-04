@@ -41,7 +41,7 @@ class Curve {
 
     setColor = (color: WheelColor) => {
         this.color = getRGBWheelColor(color);
-    }
+    };
 
     private equation(i: number) {
         const y =
@@ -121,12 +121,15 @@ export default class Wave {
         canvas.style.height = `${HEIGHT / RATIO}px`;
 
         this.ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-        this.curves = Array.from(Array(3).keys()).map(() => new Curve({
-            color: color,
-            ctx: this.ctx,
-            speed: this.speed,
-            baseAmplitude: 2 * IDLE_AMPLITUDE,
-        }));
+        this.curves = Array.from(Array(3).keys()).map(
+            () =>
+                new Curve({
+                    color: color,
+                    ctx: this.ctx,
+                    speed: this.speed,
+                    baseAmplitude: 2 * IDLE_AMPLITUDE,
+                })
+        );
         this.draw();
     }
 
@@ -136,7 +139,7 @@ export default class Wave {
         }
         this.play();
         setTimeout(() => this.pause(), 10);
-    }
+    };
 
     private clear() {
         this.ctx.globalCompositeOperation = 'destination-out';

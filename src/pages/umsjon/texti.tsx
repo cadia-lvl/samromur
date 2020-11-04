@@ -14,14 +14,9 @@ const TextPageContainer = styled.div`
     margin: 0 auto;
 `;
 
+interface State {}
 
-interface State {
-
-}
-
-const dispatchProps = {
-
-}
+const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
@@ -29,19 +24,16 @@ class TextPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
     static async getInitialProps({ store, isServer }: NextPageContext) {
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
+        };
     }
 
     render() {
-
         return (
             <Layout>
                 <TextPageContainer>
@@ -52,11 +44,6 @@ class TextPage extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({});
 
-});
-
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(TextPage);
+export default connect(mapStateToProps, dispatchProps)(TextPage);

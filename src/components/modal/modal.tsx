@@ -25,27 +25,31 @@ export default class DefaultModal extends React.Component<Props> {
 
         return (
             <Modal
-                contentLabel='modal'
+                contentLabel="modal"
                 {...this.props}
                 style={{
-                    overlay: { background: clearBackground ? '' : 'rgba(0, 0, 0, 0.8)' },
+                    overlay: {
+                        background: clearBackground ? '' : 'rgba(0, 0, 0, 0.8)',
+                    },
                     content: {
                         padding: 0,
                         background: 'transparent',
                     },
-                }}>
-                <div className='inner'>
+                }}
+            >
+                <div className="inner">
                     {onRequestClose && (
                         <button
                             type="button"
                             className="close"
-                            onClick={onRequestClose as any}>
+                            onClick={onRequestClose as any}
+                        >
                             <CloseIcon height={15} width={15} />
                         </button>
                     )}
                     {children}
                 </div>
             </Modal>
-        )
+        );
     }
 }

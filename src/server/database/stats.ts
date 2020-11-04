@@ -8,7 +8,9 @@ export default class Clips {
         this.sql = sql;
     }
 
-    fetchWeeklyStats = async (contributeType: string): Promise<TimelineStat[]> => {
+    fetchWeeklyStats = async (
+        contributeType: string
+    ): Promise<TimelineStat[]> => {
         const table = contributeType == 'tala' ? 'clips' : 'votes';
         const [rows] = await this.sql.query(
             `
@@ -40,7 +42,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(rows);
-    }
+    };
 
     fetchTotalClipsTimeline = async () => {
         const [rows] = await this.sql.query(
@@ -76,7 +78,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(rows);
-    }
+    };
 
     fetchTotalClips = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -88,7 +90,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }
+    };
 
     fetchTotalValidatedClips = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -102,7 +104,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }
+    };
 
     fetchTotalVotes = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -114,7 +116,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }
+    };
 
     fetchTotalClipsClients = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -126,7 +128,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }
+    };
 
     fetchTodayClips = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -140,7 +142,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }
+    };
 
     fetchTodayVotes = async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -154,5 +156,5 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }
+    };
 }

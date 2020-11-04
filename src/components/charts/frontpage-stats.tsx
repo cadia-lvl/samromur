@@ -32,17 +32,26 @@ interface Props {
     clips: number;
 }
 
-export const FrontPageStats: React.FunctionComponent<Props> = ({ clients, clips }) => {
-    const minutes = (clips * averageClipSeconds / 60);
+export const FrontPageStats: React.FunctionComponent<Props> = ({
+    clients,
+    clips,
+}) => {
+    const minutes = (clips * averageClipSeconds) / 60;
     return (
         <CTAStats>
             <span>Saman höfum við lesið inn um</span>
             <Stat>
-                {parseInt(minutes.toFixed(0)).toLocaleString('is').replace(',', '.')} mínútur
+                {parseInt(minutes.toFixed(0))
+                    .toLocaleString('is')
+                    .replace(',', '.')}{' '}
+                mínútur
             </Stat>
-            <SubStat>af íslensku eða um <span>{Math.round(minutes / 60)}</span> klukkustundir</SubStat>
+            <SubStat>
+                af íslensku eða um <span>{Math.round(minutes / 60)}</span>{' '}
+                klukkustundir
+            </SubStat>
         </CTAStats>
     );
-}
+};
 
 export default FrontPageStats;

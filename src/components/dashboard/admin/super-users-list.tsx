@@ -24,14 +24,14 @@ const SuperUsersList: React.FunctionComponent<Props> = ({ stats }) => {
         <ListContainer>
             <HeaderSpan>Notandi</HeaderSpan>
             <HeaderSpan>Staða</HeaderSpan>
-            {stats.map((val, i: number) => 
+            {stats.map((val, i: number) => (
                 <React.Fragment key={i}>
                     <span>{val.email}</span>
                     <span>{val.count}</span>
                 </React.Fragment>
-            )}
+            ))}
         </ListContainer>
     );
-}
+};
 
 export default SuperUsersList;

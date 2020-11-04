@@ -13,7 +13,7 @@ import makeSSRDispatch from '../utilities/ssr-request';
 import {
     fetchTotalClips,
     fetchTotalClipsClients,
-    fetchTotalValidatedClips
+    fetchTotalValidatedClips,
 } from '../store/stats/actions';
 
 const DatasetPageContainer = styled.div`
@@ -34,24 +34,20 @@ const HeaderContainer = styled.div`
     overflow: visible;
 `;
 
-interface DatasetPageProps {
-
-}
+interface DatasetPageProps {}
 
 type Props = DatasetPageProps & ReturnType<typeof mapStateToProps>;
 
 class DatasetPage extends React.Component<Props> {
-
     static getInitialProps = async (ctx: NextPageContext) => {
-
         await makeSSRDispatch(ctx, fetchTotalClips.request);
         await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
         await makeSSRDispatch(ctx, fetchTotalValidatedClips.request);
 
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
-    }
+        };
+    };
 
     render() {
         const { stats } = this.props;
@@ -72,11 +68,8 @@ class DatasetPage extends React.Component<Props> {
     }
 }
 
-
 const mapStateToProps = (state: RootState) => ({
     stats: state.stats,
 });
 
-export default connect(
-    mapStateToProps
-)(DatasetPage);
+export default connect(mapStateToProps)(DatasetPage);

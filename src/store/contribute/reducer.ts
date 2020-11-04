@@ -10,10 +10,10 @@ const initialState: ContributeState = {
     progress: 0,
     totalSpoken: 0,
     totalVerified: 0,
-}
+};
 
 export default createReducer(initialState)
-/*     .handleAction(
+    /*     .handleAction(
         ContributeActions.uploadClip.request,
         (state) => state
     )
@@ -29,57 +29,39 @@ export default createReducer(initialState)
             return state
         }
     ) */
-    .handleAction(
-        ContributeActions.setGoal,
-        (state, action) => {
-            return {
-                ...state,
-                goal: action.payload
-            }
-        }
-    )
-    .handleAction(
-        ContributeActions.setGaming,
-        (state, action) => {
-            return {
-                ...state,
-                gaming: action.payload
-            }
-        }
-    )
-    .handleAction(
-        ContributeActions.resetContribute,
-        (state, action) => {
-            return {
-                ...initialState,
-                gaming: state.gaming,
-            }
-        }
-    )
-    .handleAction(
-        ContributeActions.setExpanded,
-        (state, action) => {
-            return {
-                ...state,
-                expanded: action.payload
-            }
-        }
-    )
-    .handleAction(
-        ContributeActions.incrementProgress,
-        (state, action) => {
-            return {
-                ...state,
-                progress: state.progress + 1,
-            }
-        }
-    )
-    .handleAction(
-        ContributeActions.decrementProgress,
-        (state, action) => {
-            return {
-                ...state,
-                progress: state.progress - 1,
-            }
-        }
-    )
+    .handleAction(ContributeActions.setGoal, (state, action) => {
+        return {
+            ...state,
+            goal: action.payload,
+        };
+    })
+    .handleAction(ContributeActions.setGaming, (state, action) => {
+        return {
+            ...state,
+            gaming: action.payload,
+        };
+    })
+    .handleAction(ContributeActions.resetContribute, (state, action) => {
+        return {
+            ...initialState,
+            gaming: state.gaming,
+        };
+    })
+    .handleAction(ContributeActions.setExpanded, (state, action) => {
+        return {
+            ...state,
+            expanded: action.payload,
+        };
+    })
+    .handleAction(ContributeActions.incrementProgress, (state, action) => {
+        return {
+            ...state,
+            progress: state.progress + 1,
+        };
+    })
+    .handleAction(ContributeActions.decrementProgress, (state, action) => {
+        return {
+            ...state,
+            progress: state.progress - 1,
+        };
+    });

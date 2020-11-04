@@ -3,8 +3,8 @@ import { WrapGridArguments } from 'animate-css-grid/dist/types';
 
 // Contitional rendering for SSR builds
 let wrapGrid: any = null;
-if (typeof window !== "undefined") {
-    wrapGrid = require("animate-css-grid").wrapGrid
+if (typeof window !== 'undefined') {
+    wrapGrid = require('animate-css-grid').wrapGrid;
 }
 
 interface Props {
@@ -25,7 +25,10 @@ export default class Grid extends React.Component<Props> {
 
     render() {
         return (
-            <div className={this.props.className} ref={element => this.ref = element}>
+            <div
+                className={this.props.className}
+                ref={(element) => (this.ref = element)}
+            >
                 {this.props.children}
             </div>
         );

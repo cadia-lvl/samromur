@@ -27,17 +27,17 @@ interface ReadMoreProps {
     active: boolean;
 }
 
-const ReadMoreContainer = styled(ShowMore) <ReadMoreProps>`
+const ReadMoreContainer = styled(ShowMore)<ReadMoreProps>`
     & > * {
         margin: 0;
         margin-top: 0.5rem;
     }
 `;
 
-const Arrow = styled(DropdownArrowIcon) <ReadMoreProps>`
+const Arrow = styled(DropdownArrowIcon)<ReadMoreProps>`
     margin-left: 1rem;
     transform-origin: bottom-right;
-    transform: rotate(${({ active }) => active ? '180deg' : '0deg'});
+    transform: rotate(${({ active }) => (active ? '180deg' : '0deg')});
     transition: transform 0.3s ${({ theme }) => theme.transitions.main};
 `;
 
@@ -48,24 +48,30 @@ interface Props {
     title: string;
 }
 
-
-export const Information: React.FC<Props> = ({ children, className, ref, title }) => {
+export const Information: React.FC<Props> = ({
+    children,
+    className,
+    ref,
+    title,
+}) => {
     const [readMore, setReadMore] = React.useState(false);
 
     const handleClick = () => {
         setReadMore(!readMore);
-    }
+    };
     return (
         <InformationContainer className={className} ref={ref}>
             <TitleContainer onClick={handleClick}>
                 <h6>{title}</h6>
                 <Arrow height={10} width={10} active={readMore} fill={'blue'} />
             </TitleContainer>
-            <ReadMoreContainer active={readMore}>
-                {children}
-            </ReadMoreContainer>
+            <ReadMoreContainer active={readMore}>{children}</ReadMoreContainer>
         </InformationContainer>
     );
-}
+};
 
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <Information {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <Information {...props} ref={ref as any} />
+    )
+);

@@ -52,45 +52,81 @@ interface Props {
     onSkip: () => void;
 }
 
-interface State {
-
-}
+interface State {}
 
 export default class Tips extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {};
     }
 
     render() {
         const { onSkip } = this.props;
         return (
             <TipsContainer>
-                <Tip icon={<WifiIcon height={40} width={40} fill={'gray'} />} title={'Stöðug nettenging'}>
+                <Tip
+                    icon={<WifiIcon height={40} width={40} fill={'gray'} />}
+                    title={'Stöðug nettenging'}
+                >
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Praesent porttitor erat sed est finibus, sed dictum eros
+                        mattis. Aliquam congue neque tortor, id mattis mauris
+                        condimentum sit amet.
                     </p>
                 </Tip>
-                <Tip icon={<SocialDistancingIcon height={40} width={40} fill={'gray'} />} title={'Tveggja metra reglan'}>
+                <Tip
+                    icon={
+                        <SocialDistancingIcon
+                            height={40}
+                            width={40}
+                            fill={'gray'}
+                        />
+                    }
+                    title={'Tveggja metra reglan'}
+                >
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Praesent porttitor erat sed est finibus, sed dictum eros
+                        mattis. Aliquam congue neque tortor, id mattis mauris
+                        condimentum sit amet.
                     </p>
                 </Tip>
-                <Tip icon={<UserSpeakBubble height={40} width={40} fill={'gray'} />} title={'Yfirfara upptökur'}>
+                <Tip
+                    icon={
+                        <UserSpeakBubble height={40} width={40} fill={'gray'} />
+                    }
+                    title={'Yfirfara upptökur'}
+                >
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Praesent porttitor erat sed est finibus, sed dictum eros
+                        mattis. Aliquam congue neque tortor, id mattis mauris
+                        condimentum sit amet.
                     </p>
                 </Tip>
-                <Tip icon={<CheckMarkCircle height={40} width={40} fill={'gray'} />} title={'Klára setninguna'}>
+                <Tip
+                    icon={
+                        <CheckMarkCircle height={40} width={40} fill={'gray'} />
+                    }
+                    title={'Klára setninguna'}
+                >
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Praesent porttitor erat sed est finibus, sed dictum eros
+                        mattis. Aliquam congue neque tortor, id mattis mauris
+                        condimentum sit amet.
                     </p>
                 </Tip>
-                <Tip icon={<LineGraph height={40} width={40} fill={'gray'} />} title={'Ein eða þúsund?'}>
+                <Tip
+                    icon={<LineGraph height={40} width={40} fill={'gray'} />}
+                    title={'Ein eða þúsund?'}
+                >
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Praesent porttitor erat sed est finibus, sed dictum eros
+                        mattis. Aliquam congue neque tortor, id mattis mauris
+                        condimentum sit amet.
                     </p>
                 </Tip>
                 <SkipButton onClick={onSkip}>Áfram</SkipButton>

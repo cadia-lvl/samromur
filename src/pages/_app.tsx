@@ -12,7 +12,13 @@ import { GlobalStyle, theme } from '../styles/global';
 
 import cookies from 'next-cookies';
 import { setUserCookie } from '../utilities/cookies';
-import { setAuthenticated, setUserAgent, setDemographics, setConsents, fetchUser } from '../store/user/actions';
+import {
+    setAuthenticated,
+    setUserAgent,
+    setDemographics,
+    setConsents,
+    fetchUser,
+} from '../store/user/actions';
 import { getUserAgent } from '../utilities/browser';
 
 import makeSSRDispatch from '../utilities/ssr-request';
@@ -42,12 +48,14 @@ const dispatchProps = {
     setDemographics,
     setUserAgent,
     setConsents,
-}
+};
 
-type Props = ReturnType<typeof mapStateToProps> & AppProps & CustomAppProps & typeof dispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    AppProps &
+    CustomAppProps &
+    typeof dispatchProps;
 
 class MyApp extends App<Props> {
-
     static async getInitialProps({ Component, ctx }: AppContext) {
         const { isServer, req, store } = ctx;
         const allCookies = cookies(ctx);
@@ -62,17 +70,18 @@ class MyApp extends App<Props> {
             user: {
                 clientId,
                 hasCookie,
-                isAuthenticated
+                isAuthenticated,
             },
-            namespacesRequired: []
-        }
+            namespacesRequired: [],
+        };
 
-        let pageProps = Component.getInitialProps ? await
-            Component.getInitialProps(ctx) : {};
+        let pageProps = Component.getInitialProps
+            ? await Component.getInitialProps(ctx)
+            : {};
 
-        Object.assign(pageProps, { namespacesRequired: ['common'], });
+        Object.assign(pageProps, { namespacesRequired: ['common'] });
 
-        return { pageProps, appProps }
+        return { pageProps, appProps };
     }
 
     componentDidMount = async () => {
@@ -81,7 +90,7 @@ class MyApp extends App<Props> {
             setAuthenticated,
             setDemographics,
             setUserAgent,
-            setConsents
+            setConsents,
         } = this.props;
 
         // Set userAgent in store
@@ -92,11 +101,14 @@ class MyApp extends App<Props> {
         setAuthenticated(appProps.user.isAuthenticated);
 
         // If the user has consents in local storage, set it in store
-        const consents: UserConsents = JSON.parse(localStorage.getItem('consents') as string) || undefined;
+        const consents: UserConsents =
+            JSON.parse(localStorage.getItem('consents') as string) || undefined;
         !!consents && setConsents(consents as UserConsents);
 
         // If the user has demographics in local storage, set it in store
-        const demographics: Demographics = JSON.parse(localStorage.getItem('demographics') as string) || undefined;
+        const demographics: Demographics =
+            JSON.parse(localStorage.getItem('demographics') as string) ||
+            undefined;
         !!demographics && setDemographics(demographics as Demographics);
 
         // If the user does not have a cookie, set it
@@ -112,21 +124,23 @@ class MyApp extends App<Props> {
         if (AudioRecorder) {
             window.MediaRecorder = AudioRecorder.default;
         }
-    }
+    };
 
     render() {
         const { Component, appProps, pageProps, store } = this.props;
-        return <>
-            <Provider store={store}>
-                <ThemeProvider theme={theme}>
-                    <GlobalStyle />
-                    <Head>
-                        <title>Samrómur</title>
-                    </Head>
-                    <Component {...pageProps} />
-                </ThemeProvider>
-            </Provider>
-        </>
+        return (
+            <>
+                <Provider store={store}>
+                    <ThemeProvider theme={theme}>
+                        <GlobalStyle />
+                        <Head>
+                            <title>Samrómur</title>
+                        </Head>
+                        <Component {...pageProps} />
+                    </ThemeProvider>
+                </Provider>
+            </>
+        );
     }
 }
 
@@ -134,7 +148,6 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default withRedux(initStore)(connect(
-    mapStateToProps,
-    dispatchProps,
-)(appWithTranslation(MyApp)));
+export default withRedux(initStore)(
+    connect(mapStateToProps, dispatchProps)(appWithTranslation(MyApp))
+);

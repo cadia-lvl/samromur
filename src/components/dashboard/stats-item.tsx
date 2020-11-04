@@ -5,9 +5,9 @@ const StatItemContainer = styled.div`
     padding: 1rem;
     background-color: white;
     //border: 1px solid ${({ theme }) => theme.colors.borderGray};
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
 
     display: flex;
     flex-direction: column;
@@ -34,7 +34,12 @@ interface Props {
     title: string;
 }
 
-const StatsItem: React.FunctionComponent<Props> = ({ children, className, icon, title }) => (
+const StatsItem: React.FunctionComponent<Props> = ({
+    children,
+    className,
+    icon,
+    title,
+}) => (
     <StatItemContainer className={className}>
         <Title>
             <h3>{title}</h3>
@@ -43,7 +48,10 @@ const StatsItem: React.FunctionComponent<Props> = ({ children, className, icon, 
         <Line />
         {children}
     </StatItemContainer>
-)
+);
 
-
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <StatsItem {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <StatsItem {...props} ref={ref as any} />
+    )
+);

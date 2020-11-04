@@ -14,19 +14,25 @@ const Links = styled.div`
     }
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 export const FooterLinks: React.FunctionComponent<Props> = (props) => {
     return (
         <Links>
-            <Link href='/personuverndaryfirlysing'><a>Persónuvernd</a></Link>
-            <Link href='/vafrakokustefna'><a>Vafrakökur</a></Link>
-            <Link href='/skilmalar'><a>Skilmálar</a></Link>
-            <a rel="noopener" href="mailto:samromur@ru.is">Hafa samband</a>
+            <Link href="/personuverndaryfirlysing">
+                <a>Persónuvernd</a>
+            </Link>
+            <Link href="/vafrakokustefna">
+                <a>Vafrakökur</a>
+            </Link>
+            <Link href="/skilmalar">
+                <a>Skilmálar</a>
+            </Link>
+            <a rel="noopener" href="mailto:samromur@ru.is">
+                Hafa samband
+            </a>
         </Links>
-    )
-}
+    );
+};
 
 export default FooterLinks;

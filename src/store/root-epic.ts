@@ -9,5 +9,5 @@ export default combineEpics(
     ...Object.values(adminEpics),
     ...Object.values(contributeEpics),
     ...Object.values(statsEpics),
-    ...Object.values(userEpics),
+    ...Object.values(userEpics)
 );

@@ -7,7 +7,9 @@ export interface FetchUserRequest extends SSRRequest {
     id: string;
 }
 
-export const fetchUser = async (payload: FetchUserRequest): Promise<UserClient> => {
+export const fetchUser = async (
+    payload: FetchUserRequest
+): Promise<UserClient> => {
     const endpoint = `/api/users`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
@@ -15,14 +17,16 @@ export const fetchUser = async (payload: FetchUserRequest): Promise<UserClient> 
         url,
         headers: {
             client_id: encodeURIComponent(payload.id),
-        }
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
 export const subscribeToNewsletter = async (email: string): Promise<void> => {
     const url = `/api/email/subscribe`;
@@ -32,10 +36,12 @@ export const subscribeToNewsletter = async (email: string): Promise<void> => {
         url,
         headers: {
             email: encodeURIComponent(email),
-        }
-    }).then(() => {
-        return Promise.resolve();
-    }).catch((error) => {
-        return Promise.reject(error);
+        },
     })
-}
+        .then(() => {
+            return Promise.resolve();
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        });
+};

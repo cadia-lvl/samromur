@@ -11,11 +11,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
         const email = decodeURIComponent(headers.email as string);
 
-        return emailClient.subscribeToNewsletter(email).then(() => {
-            return res.status(200).json('success');
-        }).catch((error) => {
-            console.error(error);
-            return res.status(500).send(error);
-        });
+        return emailClient
+            .subscribeToNewsletter(email)
+            .then(() => {
+                return res.status(200).json('success');
+            })
+            .catch((error) => {
+                console.error(error);
+                return res.status(500).send(error);
+            });
     }
-}
+};

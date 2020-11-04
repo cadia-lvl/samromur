@@ -44,7 +44,6 @@ interface State {
 }
 
 class LoginForm extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
@@ -54,38 +53,38 @@ class LoginForm extends React.Component<Props, State> {
             isSignup: false,
             password: '',
             passwordAgain: '',
-        }
+        };
     }
 
     cleanErrors = () => {
         this.setState({ formError: undefined });
         this.props.removeError();
-    }
+    };
 
     onEmailChange = (email: string) => {
         this.setState({ email });
         this.cleanErrors();
-    }
+    };
 
     onPasswordChange = (password: string) => {
         this.setState({ password });
         this.cleanErrors();
-    }
+    };
 
     onPasswordAgainChange = (passwordAgain: string) => {
         this.setState({ passwordAgain });
         this.cleanErrors();
-    }
+    };
 
     handleSignup = () => {
         this.setState({ isSignup: !this.state.isSignup });
         this.cleanErrors();
-    }
+    };
 
     // TO-DO
     handleLostPassword = () => {
         console.log('Lost password');
-    }
+    };
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -93,17 +92,16 @@ class LoginForm extends React.Component<Props, State> {
         if (formError) {
             this.setState({ formError });
         } else {
-            const {
-                email,
-                password,
+            const { email, password, isSignup } = this.state;
+            this.props.onSubmit(
+                {
+                    email,
+                    password,
+                },
                 isSignup
-            } = this.state;
-            this.props.onSubmit({
-                email,
-                password
-            }, isSignup);
+            );
         }
-    }
+    };
 
     validateForm = (): FormError | null => {
         const { email, isSignup, password, passwordAgain } = this.state;
@@ -122,12 +120,12 @@ class LoginForm extends React.Component<Props, State> {
             }
         }
         return null;
-    }
+    };
 
     validateEmail = (email: string): boolean => {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email.toLowerCase());
-    }
+    };
 
     getFormErrorMessage = (error: FormError): string => {
         switch (error) {
@@ -144,7 +142,7 @@ class LoginForm extends React.Component<Props, State> {
             default:
                 return 'Villa í formi';
         }
-    }
+    };
 
     getAuthErrorMessage = (error: AuthError): string => {
         switch (error) {
@@ -159,56 +157,54 @@ class LoginForm extends React.Component<Props, State> {
             default:
                 return 'Innskráning mistókst';
         }
-    }
+    };
 
     render() {
-
-        const {
-            formError,
-            isSignup
-        } = this.state;
+        const { formError, isSignup } = this.state;
 
         const authError = this.props.error;
 
         return (
-            <LoginFormContainer
-                onSubmit={this.handleSubmit}
-            >
+            <LoginFormContainer onSubmit={this.handleSubmit}>
                 <Title>{isSignup ? 'Nýskráning' : 'Innskráning'}</Title>
                 <TextInput
-                    label='Tölvupóstfang'
+                    label="Tölvupóstfang"
                     onChange={this.onEmailChange}
-                    placeholder=''
+                    placeholder=""
                 />
                 <TextInput
-                    label='Lykilorð'
+                    label="Lykilorð"
                     onChange={this.onPasswordChange}
-                    placeholder=''
-                    type='password'
+                    placeholder=""
+                    type="password"
                 />
-                {
-                    isSignup && (
-                        <TextInput
-                            label='Lykilorð aftur'
-                            onChange={this.onPasswordAgainChange}
-                            placeholder=''
-                            type='password'
-                        />
-                    )
-                }
-                {
-                    (formError || authError) && (
-                        <ErrorContainer>
-                            {formError ? this.getFormErrorMessage(formError) : authError && this.getAuthErrorMessage(authError)}
-                        </ErrorContainer>
-                    )
-                }
-                <Button color='green'>{isSignup ? 'Nýskrá' : 'Skrá inn'}</Button>
+                {isSignup && (
+                    <TextInput
+                        label="Lykilorð aftur"
+                        onChange={this.onPasswordAgainChange}
+                        placeholder=""
+                        type="password"
+                    />
+                )}
+                {(formError || authError) && (
+                    <ErrorContainer>
+                        {formError
+                            ? this.getFormErrorMessage(formError)
+                            : authError && this.getAuthErrorMessage(authError)}
+                    </ErrorContainer>
+                )}
+                <Button color="green">
+                    {isSignup ? 'Nýskrá' : 'Skrá inn'}
+                </Button>
                 <ForgotAndSignupContainer>
                     <Button
                         type="button"
                         transparent
-                        onClick={isSignup ? this.handleSignup : this.handleLostPassword}
+                        onClick={
+                            isSignup
+                                ? this.handleSignup
+                                : this.handleLostPassword
+                        }
                     >
                         {isSignup ? 'Áttu aðgang?' : 'Týnt lykilorð'}
                     </Button>

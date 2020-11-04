@@ -1,15 +1,15 @@
 import { Demographic } from '../types/user';
 
 export const dialects: Array<Demographic> = [
-    { id: "0", name: 'Harðmæli' },
-    { id: "1", name: 'Raddaður framburður' },
-    { id: "2", name: 'ngl-framburður' },
-    { id: "3", name: 'bð/gð-framburður' },
-    { id: "4", name: 'Vestfirskur einhljóðaframburður' },
-    { id: "5", name: 'Vestfirsk áhersla' },
-    { id: "6", name: 'hv-framburður' },
-    { id: "7", name: 'Skaftfellskur einhljóðaframburður' },
-    { id: "8", name: 'rn/rl-framburður' },
+    { id: '0', name: 'Harðmæli' },
+    { id: '1', name: 'Raddaður framburður' },
+    { id: '2', name: 'ngl-framburður' },
+    { id: '3', name: 'bð/gð-framburður' },
+    { id: '4', name: 'Vestfirskur einhljóðaframburður' },
+    { id: '5', name: 'Vestfirsk áhersla' },
+    { id: '6', name: 'hv-framburður' },
+    { id: '7', name: 'Skaftfellskur einhljóðaframburður' },
+    { id: '8', name: 'rn/rl-framburður' },
 ];
 
 export const ages: Array<Demographic> = [
@@ -22,14 +22,14 @@ export const ages: Array<Demographic> = [
     { id: 'sextugt', name: '60-69' },
     { id: 'sjotugt', name: '70-79' },
     { id: 'attraett', name: '80-89' },
-    { id: 'niraett', name: '90+' }
+    { id: 'niraett', name: '90+' },
 ];
 
 export const genders: Array<Demographic> = [
     { id: 'karl', name: 'Karl' },
     { id: 'kona', name: 'Kona' },
-    { id: 'annad', name: 'Annað' }
-]
+    { id: 'annad', name: 'Annað' },
+];
 
 export const nativeLanguages: Array<Demographic> = [
     { id: 'albanska', name: 'Albanska' },
@@ -81,5 +81,5 @@ export const nativeLanguages: Array<Demographic> = [
     { id: 'ungverska', name: 'Ungverska' },
     { id: 'urdu', name: 'Úrdu' },
     { id: 'vietnamska', name: 'Víetnamska' },
-    { id: 'annad', name: 'Annað' }
-]
+    { id: 'annad', name: 'Annað' },
+];

@@ -2,13 +2,16 @@ import * as React from 'react';
 import styled from 'styled-components';
 import ReactModal from 'react-modal';
 
-ReactModal.setAppElement('body')
+ReactModal.setAppElement('body');
 
 interface ModalProps extends ReactModal.Props {
     className?: string;
 }
 
-const ReactModalAdapter: React.SFC<ModalProps> = ({ className, ...props }: ModalProps) => {
+const ReactModalAdapter: React.SFC<ModalProps> = ({
+    className,
+    ...props
+}: ModalProps) => {
     const contentClassName = `${className}__Content`;
     const overlayClassName = `${className}__Overlay`;
     return (
@@ -42,12 +45,12 @@ export const Modal = styled(ReactModalAdapter)`
         &.ReactModal__Overlay--before-close {
             opacity: 0;
         }
-        
+
         ${({ theme }) => theme.media.extraSmallDown} {
             display: block;
         }
     }
-    
+
     &__Content {
         position: static !important;
         display: table-cell;
@@ -78,12 +81,12 @@ export const Modal = styled(ReactModalAdapter)`
             background: white;
             pointer-events: all;
             box-shadow: 0 2px 44px 0 color-mod(#0043a0 alpha(50%));
-        
+
             ${({ theme }) => theme.media.extraSmallDown} {
                 min-height: 99vh;
             }
         }
     }
-`
+`;
 
 export default Modal;

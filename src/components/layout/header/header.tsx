@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import styled from 'styled-components';
 
 import Navigation from './navigation';
@@ -16,11 +16,11 @@ const HeaderContainer = styled.div`
     left: 0;
     right: 0;
     height: ${({ theme }) => theme.layout.headerHeight};
-    box-shadow: 0 0 15px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.14);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
     ${({ theme }) => theme.media.small} {
-        box-shadow: 0 0 15px rgba(0,0,0,.08);
-        -webkit-box-shadow: 0 0 10px rgba(0,0,0,.14);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
     }
 
     ${({ theme }) => theme.media.smallUp} {
@@ -45,7 +45,7 @@ const Header = styled.header`
 
 const Heading = styled.h1`
     margin: 0 1rem;
-    font-family: ${props => props.theme.fonts.title};
+    font-family: ${(props) => props.theme.fonts.title};
     font-weight: 900;
     font-size: 1.8rem;
 `;
@@ -72,18 +72,18 @@ interface State {
 
 type Props = HeaderProps & WithRouterProps;
 
-class HeaderComponent extends React.Component<Props, State>{
+class HeaderComponent extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
             menuVisible: false,
-        }
+        };
     }
 
     toggleMenu = () => {
         this.setState({ menuVisible: !this.state.menuVisible });
-    }
+    };
 
     render() {
         const { router, toggleMenu, user } = this.props;
@@ -91,7 +91,9 @@ class HeaderComponent extends React.Component<Props, State>{
             <HeaderContainer>
                 <Header>
                     <Heading>
-                        <Link href="/"><a>Samrómur</a></Link>
+                        <Link href="/">
+                            <a>Samrómur</a>
+                        </Link>
                     </Heading>
                     <Navigation user={user} />
                     <HamburgerMenuButton onClick={toggleMenu}>

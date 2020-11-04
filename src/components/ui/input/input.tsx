@@ -10,12 +10,12 @@ export const TextInput = styled.input`
     }
     font-size: 1rem;
     padding: 0.5rem;
-    font-family: ${props => props.theme.fonts.transcript};
+    font-family: ${(props) => props.theme.fonts.transcript};
     margin-bottom: 2rem;
 `;
 
 const LabeledInputContainer = styled.div`
-    font-family: ${props => props.theme.fonts.transcript};
+    font-family: ${(props) => props.theme.fonts.transcript};
     display: flex;
     flex-direction: column;
 `;
@@ -28,21 +28,17 @@ const Label = styled.p`
 export const LabeledInput: FunctionComponent<any> = (props) => {
     return (
         <LabeledInputContainer>
-            <Label>
-                {props.label}
-            </Label>
+            <Label>{props.label}</Label>
             {props.children}
         </LabeledInputContainer>
     );
-}
+};
 
 export const TextInputWithLabel: FunctionComponent<any> = (props) => {
     return (
         <LabeledInputContainer>
-            <Label>
-                {props.label}
-            </Label>
+            <Label>{props.label}</Label>
             <TextInput {...props} />
         </LabeledInputContainer>
     );
-}
+};

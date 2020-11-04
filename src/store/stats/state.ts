@@ -1,13 +1,13 @@
-import { TimelineStat, TimelineSumStat} from '../../types/stats';
+import { TimelineStat, TimelineSumStat } from '../../types/stats';
 
 export interface StatsState {
-    todayClips: number,
-    totalClipsClients: number,
-    totalClips: number,
+    todayClips: number;
+    totalClipsClients: number;
+    totalClips: number;
     totalValidatedClips: number;
-    totalClipsTimeline: TimelineSumStat[],
+    totalClipsTimeline: TimelineSumStat[];
     weekly: {
-        clips: TimelineStat[],
-        votes: TimelineStat[],
+        clips: TimelineStat[];
+        votes: TimelineStat[];
     };
 }

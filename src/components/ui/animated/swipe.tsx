@@ -13,21 +13,18 @@ const SwapContainer = styled.div<SwapProps>`
     height: ${({ height }) => height}px;
     & > * {
         position: absolute;
-        transition:
-            transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
             scale 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     > *:nth-child(1) {
-        transform:
-            ${({ second }) => `translateX(${second ? '-25%' : '0%'})`}
-            scale(${({ second }) => second ? 0 : 1});
+        transform: ${({ second }) => `translateX(${second ? '-25%' : '0%'})`}
+            scale(${({ second }) => (second ? 0 : 1)});
     }
 
     > *:nth-child(2) {
-        transform:
-            ${({ second }) => `translateX(${!second ? '25%' : '0%'})`}
-            scale(${({ second }) => !second ? 0 : 1});
+        transform: ${({ second }) => `translateX(${!second ? '25%' : '0%'})`}
+            scale(${({ second }) => (!second ? 0 : 1)});
     }
 `;
 
@@ -59,7 +56,7 @@ class SwipeSwap extends React.Component<Props, State> {
         this.state = {
             height: 0,
             width: 0,
-        }
+        };
     }
 
     componentDidMount = () => {
@@ -73,16 +70,22 @@ class SwipeSwap extends React.Component<Props, State> {
         if (!!firstHeight && !!secondHeight) {
             this.setState({ height: Math.max(firstHeight, secondHeight) + 1 });
         }
-    }
+    };
 
     render() {
         const { children, className, second, ref } = this.props;
         const { width, height } = this.state;
         const firstChild = Array.isArray(children) ? children[0] : undefined;
-        const secondChild = Array.isArray(children) ? children[1] : undefined
+        const secondChild = Array.isArray(children) ? children[1] : undefined;
         return (
             <React.Fragment>
-                <SwapContainer className={className} ref={ref} second={second} width={width} height={height}>
+                <SwapContainer
+                    className={className}
+                    ref={ref}
+                    second={second}
+                    width={width}
+                    height={height}
+                >
                     {children}
                 </SwapContainer>
                 <FakeContainer ref={this.firstFakeRef}>
@@ -94,7 +97,10 @@ class SwipeSwap extends React.Component<Props, State> {
             </React.Fragment>
         );
     }
-};
+}
 
-
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <SwipeSwap {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <SwipeSwap {...props} ref={ref as any} />
+    )
+);

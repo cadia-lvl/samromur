@@ -36,7 +36,7 @@ export default class FileBrowser extends React.Component<Props, State> {
             file: null,
             filename: '',
             message: '',
-        }
+        };
         this.clickInput = React.createRef<HTMLInputElement>();
         this.allowed = ['.txt'];
     }
@@ -44,7 +44,7 @@ export default class FileBrowser extends React.Component<Props, State> {
     isAllowed = (filename: string): boolean => {
         let extension = filename.match(/\.[^/.]+$/);
         return extension ? this.allowed.includes(extension[0]) : false;
-    }
+    };
 
     handleResult = (file: any, result: string) => {
         const batch: SentenceBatch = {
@@ -53,10 +53,10 @@ export default class FileBrowser extends React.Component<Props, State> {
                 name: file.name,
                 size: file.size,
                 text: result,
-            }
-        }
+            },
+        };
         this.props.onFileChange(batch);
-    }
+    };
 
     handleChange = async (e?: any) => {
         if (this.state.file) {
@@ -75,25 +75,30 @@ export default class FileBrowser extends React.Component<Props, State> {
         } else {
             console.error('Filetype not allowed');
             this.setState({
-                message: 'Leyfðar skráarendingar eru: .txt'
-            })
+                message: 'Leyfðar skráarendingar eru: .txt',
+            });
         }
-    }
+    };
 
     handleClick = () => {
         const { current: input } = this.clickInput;
         if (input) {
             input.click();
         }
-    }
+    };
 
     render() {
         const { children } = this.props;
         return (
             <ClickableDiv onClick={this.handleClick}>
-                <Input type="file" ref={this.clickInput} onChange={this.handleChange} accept='.txt' />
+                <Input
+                    type="file"
+                    ref={this.clickInput}
+                    onChange={this.handleChange}
+                    accept=".txt"
+                />
                 {children}
             </ClickableDiv>
-        )
+        );
     }
 }

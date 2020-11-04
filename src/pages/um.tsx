@@ -24,17 +24,14 @@ const ContentContainer = styled.div`
     justify-content: space-between;
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 class AboutPage extends React.Component<Props> {
-
     static getInitialProps = async ({ store, isServer }: NextPageContext) => {
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
-    }
+        };
+    };
 
     render() {
         return (

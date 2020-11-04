@@ -29,9 +29,9 @@ const CardContainer = styled.div<CardContainerProps>`
     padding: 1.8rem 1rem;
     background-color: white;
     border: 1px solid ${({ theme }) => theme.colors.lightGray};
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
     cursor: pointer;
 
     & :active {
@@ -62,7 +62,6 @@ interface Props {
 }
 
 export const TypeSelect: React.FunctionComponent<Props> = (props) => {
-
     const { setType } = props;
     return (
         <CardGrid>
@@ -71,8 +70,10 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 <Title>
                     <h3>Tala</h3>
                     <p>Smelltu hér til þess að lesa inn.</p>
-                    <p>Með því að lesa inn í Samróm leggur þitt af mörkum við varðveislu íslenskunnar.</p>
-
+                    <p>
+                        Með því að lesa inn í Samróm leggur þitt af mörkum við
+                        varðveislu íslenskunnar.
+                    </p>
                 </Title>
             </CardContainer>
 
@@ -81,19 +82,21 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 <Title>
                     <h3>Hlusta</h3>
                     <p>Smelltu hér til að yfirfara raddupptökur</p>
-                    <p>Einungis upptökur sem eru yfirfarnar og merktar sem góðar mega fara inn í gagnasafnið.</p>
+                    <p>
+                        Einungis upptökur sem eru yfirfarnar og merktar sem
+                        góðar mega fara inn í gagnasafnið.
+                    </p>
                 </Title>
             </CardContainer>
-{/*             <CardContainer wide onClick={() => { }}>
+            {/*             <CardContainer wide onClick={() => { }}>
                 <PhoneIcon height={40} width={40} fill={'gray'} />
                 <Title>
                     <h3>Samræður</h3>
                     <p>Hringja í aðra þátttakendur og taka upp samræður</p>
                 </Title>
             </CardContainer> */}
-
         </CardGrid>
     );
-}
+};
 
 export default TypeSelect;

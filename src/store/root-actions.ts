@@ -5,9 +5,9 @@ import * as uiActions from './ui/actions';
 import * as userActions from './user/actions';
 
 export default {
-   ...adminActions,
-   ...sentencesActions,
-   ...statsActions,
-   ...uiActions,
-   ...userActions,
+    ...adminActions,
+    ...sentencesActions,
+    ...statsActions,
+    ...uiActions,
+    ...userActions,
 };

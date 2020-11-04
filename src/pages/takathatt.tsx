@@ -4,7 +4,7 @@ import { NextPageContext } from 'next';
 import { RootState } from 'typesafe-actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import styled from 'styled-components';
 
 import { resetContribute, setGoal } from '../store/contribute/actions';
@@ -34,45 +34,44 @@ const Instruction = styled.h2`
 const FakeDiv = styled.div``; */
 
 const dispatchProps = {
-    setGoal
-}
+    setGoal,
+};
 
-interface ContributePageProps {
+interface ContributePageProps {}
 
-}
+type Props = ReturnType<typeof mapStateToProps> &
+    typeof dispatchProps &
+    ContributePageProps &
+    WithTranslation &
+    WithRouterProps;
 
-type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps & ContributePageProps & WithTranslation & WithRouterProps;
-
-interface State {
-
-}
+interface State {}
 
 class ContributePage extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
-    static getInitialProps = async ({ store, isServer, query }: NextPageContext) => {
+    static getInitialProps = async ({
+        store,
+        isServer,
+        query,
+    }: NextPageContext) => {
         store.dispatch(resetContribute());
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
-    }
+        };
+    };
 
     selectType = (contributeType: string) => {
         const { router } = this.props;
         router.push(`/${contributeType}`);
-    }
+    };
 
     render() {
-        return (
-            <Contribute />
-        );
+        return <Contribute />;
     }
 }
 
@@ -80,7 +79,6 @@ const mapStateToProps = (state: RootState) => ({
     contribute: state.contribute,
     user: state.user,
 });
-
 
 export default connect(
     mapStateToProps,

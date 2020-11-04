@@ -10,7 +10,7 @@ import { WheelClip, ClipVote } from '../../../../types/samples';
 import { WheelColor } from '../../../../types/contribute';
 import {
     getWheelColorString,
-    getWheelColorHEXShades
+    getWheelColorHEXShades,
 } from '../../../../utilities/color-utility';
 
 import Wave from '../wave';
@@ -21,7 +21,7 @@ const Audio = styled.audio`
 
 const MainControlsContainer = styled.div`
     position: relative;
-    
+
     width: 100%;
     display: flex;
     justify-content: center;
@@ -40,7 +40,7 @@ const MainControlsContainer = styled.div`
 `;
 
 interface GlowProps {
-    color: WheelColor
+    color: WheelColor;
 }
 
 const Glow = styled.div<GlowProps>`
@@ -48,7 +48,10 @@ const Glow = styled.div<GlowProps>`
     width: 6.2rem;
     height: 6.2rem;
     opacity: 0.5;
-    background: linear-gradient(to left, ${({ color }) => getWheelColorHEXShades(color)});
+    background: linear-gradient(
+        to left,
+        ${({ color }) => getWheelColorHEXShades(color)}
+    );
     border-radius: 50%;
     filter: blur(7.6px);
     transition: opacity 0.2s linear;
@@ -68,7 +71,9 @@ const MainButtonContainer = styled.div<MainButtonContainerProps>`
     justify-content: center;
     align-items: center;
 
-    ${({ isActive }) => isActive && `
+    ${({ isActive }) =>
+        isActive &&
+        `
         & > div {
             opacity: 1;
         }
@@ -112,17 +117,17 @@ const VoteButton = styled.div<VoteButtonProps>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: ${({ active, color, theme }) => active ? theme.colors[color] : 'white'};
+    background-color: ${({ active, color, theme }) =>
+        active ? theme.colors[color] : 'white'};
     border-radius: 2rem;
     cursor: pointer;
     & :active {
         transform: translateY(1px);
     }
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
 `;
-
 
 interface Props {
     clip?: WheelClip;
@@ -159,7 +164,7 @@ export default class MainControls extends React.Component<Props, State> {
             isReplaying: false,
             isRecording: false,
             isStartingRecording: false,
-        }
+        };
 
         this.audioRef = React.createRef<HTMLAudioElement>();
         this.canvasRef = React.createRef<HTMLCanvasElement>();
@@ -178,7 +183,7 @@ export default class MainControls extends React.Component<Props, State> {
 
     componentDidMount = () => {
         this.wave = this.startWaving();
-    }
+    };
 
     componentDidUpdate = (prevProps: Props) => {
         const oldHasRecording = !!prevProps.clip && !!prevProps.clip.recording;
@@ -194,11 +199,15 @@ export default class MainControls extends React.Component<Props, State> {
             this.setState({
                 hasPlayed: false,
                 isPlaying: false,
-                isReplaying: false
+                isReplaying: false,
             });
         }
 
-        if (recordingChanged || voteChanged || this.props.isDone != prevProps.isDone) {
+        if (
+            recordingChanged ||
+            voteChanged ||
+            this.props.isDone != prevProps.isDone
+        ) {
             const color = this.selectColor();
             this.props.setColor(color);
         }
@@ -208,7 +217,7 @@ export default class MainControls extends React.Component<Props, State> {
         if (oldColor != newColor) {
             this.wave?.setColor(newColor);
         }
-    }
+    };
 
     selectColor = () => {
         const { isDone, isSpeak, clip } = this.props;
@@ -229,7 +238,7 @@ export default class MainControls extends React.Component<Props, State> {
                 }
             }
         }
-    }
+    };
 
     handlePlay = () => {
         const { current: audio } = this.audioRef;
@@ -258,7 +267,7 @@ export default class MainControls extends React.Component<Props, State> {
         const { isSpeak } = this.props;
         !isSpeak && this.props.setColor(WheelColor.GRAY);
         this.handlePause();
-    }
+    };
 
     handlePause = () => {
         const { current: audio } = this.audioRef;
@@ -281,21 +290,21 @@ export default class MainControls extends React.Component<Props, State> {
         }
         this.setState({ isStartingRecording: true });
         this.props.startRecording().then(() => {
-            this.setState({ isRecording: true, isStartingRecording: false, });
+            this.setState({ isRecording: true, isStartingRecording: false });
             this.wave?.play();
         });
-    }
+    };
 
     handleStopRecording = () => {
         this.props.stopRecording().then(() => {
             this.setState({ isRecording: false });
             this.wave?.pause();
         });
-    }
+    };
 
     handleDelete = () => {
         this.props.deleteClip();
-    }
+    };
 
     handleSaveVote = (vote: ClipVote) => {
         const { hasPlayed } = this.state;
@@ -305,7 +314,7 @@ export default class MainControls extends React.Component<Props, State> {
             setColor(WheelColor.BLUE);
             saveVote(vote);
         }
-    }
+    };
 
     render() {
         const { clip, color, isSpeak } = this.props;
@@ -315,8 +324,10 @@ export default class MainControls extends React.Component<Props, State> {
         const clipVote = clip?.vote;
         const colorString = getWheelColorString(color);
 
-        const validActive = (clipVote == ClipVote.VALID || hasPlayed) && !isReplaying;
-        const invalidActive = (clipVote == ClipVote.INVALID || hasPlayed) && !isReplaying;
+        const validActive =
+            (clipVote == ClipVote.VALID || hasPlayed) && !isReplaying;
+        const invalidActive =
+            (clipVote == ClipVote.INVALID || hasPlayed) && !isReplaying;
 
         return (
             <MainControlsContainer>
@@ -330,7 +341,11 @@ export default class MainControls extends React.Component<Props, State> {
                     src={clip && clip.recording && clip.recording.url}
                 />
                 {!isSpeak && (
-                    <VoteButton color={'green'} active={validActive} onClick={() => this.handleSaveVote(ClipVote.VALID)}>
+                    <VoteButton
+                        color={'green'}
+                        active={validActive}
+                        onClick={() => this.handleSaveVote(ClipVote.VALID)}
+                    >
                         <ThumbUpIcon
                             fill={validActive ? 'white' : 'gray'}
                             height={30}
@@ -341,52 +356,57 @@ export default class MainControls extends React.Component<Props, State> {
                 <MainButtonContainer isActive={isRecording || isPlaying}>
                     <Glow color={color} />
 
-                    {
-                        hasRecording ? (
-                            <MainButton hasRecording onClick={!isPlaying ? this.handlePlay : this.handlePause}>
-
-                                {
-                                    !isPlaying
-                                        ? (
-                                            <PlayIcon
-                                                fill={colorString}
-                                                height={35}
-                                                width={35}
-                                            />
-                                        ) : (
-                                            <PauseIcon
-                                                fill={colorString}
-                                                height={35}
-                                                width={35}
-                                            />
-                                        )
-                                }
-                            </MainButton>
-                        ) : (
-                                <MainButton onClick={isRecording ? this.handleStopRecording : this.handleStartRecording}>
-                                    {
-                                        !isRecording
-                                            ? (
-                                                <MicIcon
-                                                    fill={colorString}
-                                                    height={35}
-                                                    width={35}
-                                                />
-                                            ) : (
-                                                <PauseIcon
-                                                    fill={colorString}
-                                                    height={35}
-                                                    width={35}
-                                                />
-                                            )
-                                    }
-                                </MainButton>
-                            )
-                    }
-
+                    {hasRecording ? (
+                        <MainButton
+                            hasRecording
+                            onClick={
+                                !isPlaying ? this.handlePlay : this.handlePause
+                            }
+                        >
+                            {!isPlaying ? (
+                                <PlayIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            ) : (
+                                <PauseIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            )}
+                        </MainButton>
+                    ) : (
+                        <MainButton
+                            onClick={
+                                isRecording
+                                    ? this.handleStopRecording
+                                    : this.handleStartRecording
+                            }
+                        >
+                            {!isRecording ? (
+                                <MicIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            ) : (
+                                <PauseIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            )}
+                        </MainButton>
+                    )}
                 </MainButtonContainer>
                 {!isSpeak && (
-                    <VoteButton color={'red'} active={invalidActive} onClick={() => this.handleSaveVote(ClipVote.INVALID)}>
+                    <VoteButton
+                        color={'red'}
+                        active={invalidActive}
+                        onClick={() => this.handleSaveVote(ClipVote.INVALID)}
+                    >
                         <ThumbDownIcon
                             fill={invalidActive ? 'white' : 'gray'}
                             height={30}

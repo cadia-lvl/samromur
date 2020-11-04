@@ -15,7 +15,13 @@ export const Border = styled.div<BorderProps>`
     right: 0;
     top: 0;
     bottom: 0;
-    opacity: ${({ active, hasRecording, recordingError, success, uploadError }) => {
+    opacity: ${({
+        active,
+        hasRecording,
+        recordingError,
+        success,
+        uploadError,
+    }) => {
         if (recordingError || uploadError) {
             return active ? '100%' : '50%';
         } else if (success) {
@@ -28,7 +34,14 @@ export const Border = styled.div<BorderProps>`
             return '0%';
         }
     }};
-    background-color: ${({ active, hasRecording, recordingError, theme, success, uploadError }) => {
+    background-color: ${({
+        active,
+        hasRecording,
+        recordingError,
+        theme,
+        success,
+        uploadError,
+    }) => {
         if (recordingError || uploadError) {
             return !active ? theme.colors.red : 'transparent';
         } else if (success) {
@@ -37,17 +50,17 @@ export const Border = styled.div<BorderProps>`
             return 'transparent';
         }
     }};
-    border: 0.3rem solid ${({ hasRecording, recordingError, success, theme, uploadError }) => {
-        if (recordingError || uploadError) {
-            return theme.colors.red;
-        } else if (success) {
-            return hasRecording ? theme.colors.green : 'white';
-        } else {
-            return 'white';
-        }
-    }};
-    transition:
-        opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
+    border: 0.3rem solid
+        ${({ hasRecording, recordingError, success, theme, uploadError }) => {
+            if (recordingError || uploadError) {
+                return theme.colors.red;
+            } else if (success) {
+                return hasRecording ? theme.colors.green : 'white';
+            } else {
+                return 'white';
+            }
+        }};
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
         background-color 1s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
