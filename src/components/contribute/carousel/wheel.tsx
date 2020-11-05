@@ -438,7 +438,6 @@ class CarouselWheel extends React.Component<Props, State> {
                 const {
                     contribute: { goal, progress },
                 } = this.props;
-                const isDone = !!(goal && goal.count == progress);
                 return Promise.resolve();
             })
             .catch((error: RecordingError) => {
