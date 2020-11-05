@@ -15,13 +15,13 @@ const Floating = styled.div<ContainerProps>`
     padding: 0 1rem 1rem 0;
     background-color: white;
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
 `;
 
 const CloseButtonContainer = styled.div<{ visible?: boolean }>`
-    visibility: ${({ visible }) => visible ? 'visible' : 'hidden'};
+    visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
     position: absolute;
     right: 1rem;
     top: 1rem;
@@ -31,17 +31,24 @@ const Title = styled.h3`
     padding: 1rem 0 1rem 1rem;
 `;
 
-export const FloatingContainer = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDivElement>) => {
-    return (
-        <Floating  {...props}>
-            <CloseButtonContainer visible={!!props.onClose}>
-                <CloseButton icon={{ height: 15, width: 15 }} onClickHandler={!!props.onClose ? props.onClose : () => { }} />
-            </CloseButtonContainer>
-            <Title>{props.title}</Title>
-            {props.children}
-        </Floating >
-    );
-});
+export const FloatingContainer = React.forwardRef(
+    (props: ContainerProps, ref: React.Ref<HTMLDivElement>) => {
+        return (
+            <Floating {...props}>
+                <CloseButtonContainer visible={!!props.onClose}>
+                    <CloseButton
+                        icon={{ height: 15, width: 15 }}
+                        onClickHandler={
+                            !!props.onClose ? props.onClose : () => {}
+                        }
+                    />
+                </CloseButtonContainer>
+                <Title>{props.title}</Title>
+                {props.children}
+            </Floating>
+        );
+    }
+);
 
 export const NoSelectDiv = styled.div`
     -webkit-touch-callout: none;
@@ -57,11 +64,14 @@ export interface ClickableProps {
 }
 
 export const Clickable = styled.div<ClickableProps>`
-  ${({ disabled }) => disabled ? `
+    ${({ disabled }) =>
+        disabled
+            ? `
         opacity: 0.4;
         filter: alpha(opacity=40);
         zoom: 1;
-    ` : `
+    `
+            : `
         cursor: pointer;
         & :active {
             transform: translateY(1px);

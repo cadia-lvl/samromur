@@ -3,61 +3,77 @@ import { TimelineStat, TimelineSumStat } from '../types/stats';
 
 import { SSRRequest } from '../types/ssr';
 
-export const fetchWeeklyClips = async (payload: SSRRequest): Promise<TimelineStat[]> => {
+export const fetchWeeklyClips = async (
+    payload: SSRRequest
+): Promise<TimelineStat[]> => {
     const endpoint = `/api/stats/weekly?type=tala`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
-export const fetchWeeklyVotes = async (payload: SSRRequest): Promise<TimelineStat[]> => {
+export const fetchWeeklyVotes = async (
+    payload: SSRRequest
+): Promise<TimelineStat[]> => {
     const endpoint = `/api/stats/weekly?type=hlusta`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
-export const fetchTotalClipsTimeline = async (payload: SSRRequest): Promise<TimelineSumStat[]> => {
+export const fetchTotalClipsTimeline = async (
+    payload: SSRRequest
+): Promise<TimelineSumStat[]> => {
     const endpoint = `/api/stats/clips/timeline`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
-export const fetchTotalClipsClients = async (payload: SSRRequest): Promise<number> => {
+export const fetchTotalClipsClients = async (
+    payload: SSRRequest
+): Promise<number> => {
     const endpoint = `/api/stats/clips/clients`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
 export const fetchTotalClips = async (payload: SSRRequest): Promise<number> => {
     const endpoint = `/api/stats/clips/total`;
@@ -65,27 +81,33 @@ export const fetchTotalClips = async (payload: SSRRequest): Promise<number> => {
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
-export const fetchTotalValidatedClips = async (payload: SSRRequest): Promise<number> => {
+export const fetchTotalValidatedClips = async (
+    payload: SSRRequest
+): Promise<number> => {
     const endpoint = `/api/stats/clips/total-validated`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
 export const fetchTodayClips = async (payload: SSRRequest): Promise<number> => {
     const endpoint = `/api/stats/clips/today`;
@@ -93,10 +115,12 @@ export const fetchTodayClips = async (payload: SSRRequest): Promise<number> => {
     return axios({
         method: 'GET',
         url,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};

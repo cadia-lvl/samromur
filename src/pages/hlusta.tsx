@@ -16,29 +16,27 @@ import { saveVote } from '../services/contribute-api';
 import ContributePage from '../components/contribute/setup/contribute';
 
 const dispatchProps = {
-    resetContribute
-}
+    resetContribute,
+};
 
 interface InitialProps {
     initialClips: Clip[];
 }
 
-type Props = ReturnType<typeof mapStateToProps> & InitialProps & typeof dispatchProps & WithTranslation;
+type Props = ReturnType<typeof mapStateToProps> &
+    InitialProps &
+    typeof dispatchProps &
+    WithTranslation;
 
-interface State {
-
-}
+interface State {}
 
 const sentencesChunkSize = 20;
 
 class SpeakPage extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
     static async getInitialProps(ctx: NextPageContext) {
@@ -51,25 +49,23 @@ class SpeakPage extends React.Component<Props, State> {
         makeSSRDispatch(ctx, fetchWeeklyVotes.request);
 
         // Fetch clips to prompt the user with
-        const host = (isServer && req) ? 'http://' + req.headers.host : undefined;
+        const host = isServer && req ? 'http://' + req.headers.host : undefined;
         const initialClips = await fetchClips({
-            clientId: req?.headers.client_id as string || '',
+            clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
-            host
+            host,
         });
 
-        return ({
+        return {
             namespacesRequired: ['common'],
             initialClips,
-        });
+        };
     }
 
     render() {
         const { initialClips } = this.props;
 
-        return (
-            <ContributePage clips={initialClips} />
-        );
+        return <ContributePage clips={initialClips} />;
     }
 }
 

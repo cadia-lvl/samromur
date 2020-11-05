@@ -19,30 +19,26 @@ export default class Text extends React.Component<Props, State> {
         super(props);
         this.state = {
             text: '',
-        }
+        };
     }
 
     onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const text = e.currentTarget.value;
         this.setState({ text });
         this.props.onChange(text);
-    }
+    };
 
     render() {
         const { text } = this.state;
-        const {
-            label,
-            placeholder,
-            type,
-        } = this.props;
+        const { label, placeholder, type } = this.props;
         return (
             <LabeledInput label={label}>
                 <TextInput
                     type={type ? type : 'text'}
                     ref={this.textRef}
-                    spellCheck='false'
+                    spellCheck="false"
                     placeholder={placeholder}
-                    className='text-input'
+                    className="text-input"
                     value={text}
                     onChange={this.onChange}
                 />

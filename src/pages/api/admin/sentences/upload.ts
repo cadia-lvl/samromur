@@ -17,9 +17,9 @@ export const config = {
     api: {
         bodyParser: {
             sizeLimit: '30mb',
-        }
-    }
-}
+        },
+    },
+};
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
@@ -33,23 +33,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const batch: SimpleSentenceBatch = {
             name,
             sentences,
-        }
+        };
         const id = uuid();
         const waitingBatch: WaitingBatch = {
             id,
             name: batch.name,
             sentences: batch.sentences,
-        }
+        };
 
-        return saveTempBatch(waitingBatch).then(() => {
-            return res.status(200).json({
-                id: id,
-                count: batch.sentences.length,
-                valid: true,
+        return saveTempBatch(waitingBatch)
+            .then(() => {
+                return res.status(200).json({
+                    id: id,
+                    count: batch.sentences.length,
+                    valid: true,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send(error);
             });
-        }).catch((error) => {
-            console.error(error);
-            res.status(500).send(error);
-        })
     }
-}
+};

@@ -1,10 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Database, { getDatabaseInstance } from '../../../../server/database/database';
+import Database, {
+    getDatabaseInstance,
+} from '../../../../server/database/database';
 
 const db: Database = getDatabaseInstance();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { method, query: { id } } = req;
+    const {
+        method,
+        query: { id },
+    } = req;
     if (method != 'POST') {
         res.status(400).send('Invalid method.');
     } else {
@@ -16,4 +21,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(500).json(error);
         }
     }
-}
+};

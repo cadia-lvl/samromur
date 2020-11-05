@@ -31,39 +31,40 @@ interface Props {
     batches: Array<SentenceGroupInfo>;
 }
 
-interface State {
-
-}
+interface State {}
 
 class SentenceBatches extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
-    onValidate = () => {
-
-    }
+    onValidate = () => {};
 
     render() {
-
-
         return (
             <SentenceBatchesContainer>
                 <h4>Setningapakkar</h4>
                 <SentencesGrid
-                    wrapGridArguments={{ easing: 'backOut', stagger: 10, duration: 400 }}
+                    wrapGridArguments={{
+                        easing: 'backOut',
+                        stagger: 10,
+                        duration: 400,
+                    }}
                 >
-                    {
-                        !!this.props.batches && this.props.batches.map((batch: SentenceGroupInfo, index: number) => {
-                            return <span key={index}>{batch.batch}: {batch.count}</span>
-                        })
-                    }
+                    {!!this.props.batches &&
+                        this.props.batches.map(
+                            (batch: SentenceGroupInfo, index: number) => {
+                                return (
+                                    <span key={index}>
+                                        {batch.batch}: {batch.count}
+                                    </span>
+                                );
+                            }
+                        )}
                 </SentencesGrid>
-            </SentenceBatchesContainer >
+            </SentenceBatchesContainer>
         );
     }
 }

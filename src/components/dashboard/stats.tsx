@@ -47,37 +47,53 @@ interface Props {
     client: UserClient;
 }
 
-export const DashboardStats: React.FunctionComponent<Props> = ({ client: { isSuperUser, stats: { clips, votes } } }) => {
+export const DashboardStats: React.FunctionComponent<Props> = ({
+    client: {
+        isSuperUser,
+        stats: { clips, votes },
+    },
+}) => {
     return (
         <StatsContainer>
-            {
-                isSuperUser && (
-                    <SuperUserStatItem
-                        icon={<ThumbUpIcon height={35} fill={'gray'} />}
-                        title={'Ofur yfirferð'}
-                    >
-                        <Stat>Þú hefur yfirfarið <span>{votes?.super}</span> setningar með <span>ofur</span> atkvæðum</Stat>
-                    </SuperUserStatItem>
-                )
-            }
+            {isSuperUser && (
+                <SuperUserStatItem
+                    icon={<ThumbUpIcon height={35} fill={'gray'} />}
+                    title={'Ofur yfirferð'}
+                >
+                    <Stat>
+                        Þú hefur yfirfarið <span>{votes?.super}</span> setningar
+                        með <span>ofur</span> atkvæðum
+                    </Stat>
+                </SuperUserStatItem>
+            )}
             <StatsItem
                 icon={<MicIcon height={40} fill={'blue'} />}
                 title={'Innlesnar setningar'}
             >
                 <Stats>
-                    <Stat>Þú hefur lesið inn <span>{clips?.count}</span> setningar.</Stat>
-                    <Stat>Þar af er búið að merkja <span>{clips?.valid}</span> góðar</Stat>
-                    <Stat>og <span>{clips?.invalid}</span> slæmar</Stat>
+                    <Stat>
+                        Þú hefur lesið inn <span>{clips?.count}</span>{' '}
+                        setningar.
+                    </Stat>
+                    <Stat>
+                        Þar af er búið að merkja <span>{clips?.valid}</span>{' '}
+                        góðar
+                    </Stat>
+                    <Stat>
+                        og <span>{clips?.invalid}</span> slæmar
+                    </Stat>
                 </Stats>
             </StatsItem>
             <StatsItem
                 icon={<PlayIcon height={35} fill={'green'} />}
                 title={'Yfirfarnar setningar'}
             >
-                <Stat>Þú hefur yfirfarið <span>{votes?.count}</span> setningar</Stat>
+                <Stat>
+                    Þú hefur yfirfarið <span>{votes?.count}</span> setningar
+                </Stat>
             </StatsItem>
         </StatsContainer>
-    )
-}
+    );
+};
 
 export default DashboardStats;

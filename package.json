@@ -9,6 +9,8 @@
     "build:next": "next build",
     "build:server": "tsc --project src/server/tsconfig.json",
     "remove-sw": "rm -f public/sw* && rm -f public/workbox-*",
+    "format": "prettier --check src/**/*.{ts,tsx}",
+    "auto-format": "prettier --write src/**/*.{ts,tsx}",
     "start:dev": "node dist/server/index.js",
     "start": "NODE_ENV=production node dist/server/index.js",
     "start:windows": "SET NODE_ENV=production&& node dist/server/index.js"
@@ -80,6 +82,7 @@
     "babel-plugin-styled-components": "^1.11.0-0",
     "cross-env": "^7.0.2",
     "db-migrate-plugin-typescript": "^2.0.0",
+    "prettier": "^2.1.2",
     "ts-node": "^8.8.1",
     "tsc-watch": "^4.2.3",
     "typescript": "^3.9.7",

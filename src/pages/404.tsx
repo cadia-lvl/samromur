@@ -12,18 +12,16 @@ const Error404Container = styled.div`
     margin-top: 2rem;
 `;
 
-type Props = WithTranslation
+type Props = WithTranslation;
 
 export const Error404: FunctionComponent<Props> = (props) => {
     return (
         <Layout>
             <Error404Container>
-                <h5>
-                    Síða fannst ekki
-                </h5>
+                <h5>Síða fannst ekki</h5>
             </Error404Container>
         </Layout>
     );
-}
+};
 
 export default withTranslation('common')(Error404);

@@ -1,38 +1,24 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const VideoPlayerContainer = styled.div`
-
-`;
+const VideoPlayerContainer = styled.div``;
 
 interface Props {
     type: string;
     url: string;
 }
 
-interface State {
-
-}
+interface State {}
 
 export default class VideoPlayer extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
-
     render() {
-        const {
-            type,
-            url
-        } = this.props;
-        return (
-            <VideoPlayerContainer>
-
-            </VideoPlayerContainer>
-        );
+        const { type, url } = this.props;
+        return <VideoPlayerContainer></VideoPlayerContainer>;
     }
 }

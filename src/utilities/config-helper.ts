@@ -9,19 +9,19 @@ export type DatabaseOptions = {
     DB_NAME: string;
     DB_HOST: string;
     DB_PORT: number;
-}
+};
 
 export type EmailOptions = {
     FROM_EMAIL: string;
     CONSENT_TEMPLATE_ID: string;
     SIGNUP_TEMPLATE_ID: string;
     SENDGRID_KEY: string;
-}
+};
 
 export type AmazonS3 = {
     BUCKET_NAME: string;
     CONFIG: S3.Types.ClientConfiguration;
-}
+};
 export type Config = {
     VERSION?: string;
     DATABASE: DatabaseOptions;
@@ -38,19 +38,19 @@ const defaults: Config = {
         DB_PASSWORD: '',
         DB_NAME: 'samromur-v2',
         DB_HOST: '127.0.0.1',
-        DB_PORT: 3306
+        DB_PORT: 3306,
     },
     SERVER_PORT: 3000,
     S3: {
         BUCKET_NAME: '',
-        CONFIG: {}
+        CONFIG: {},
     },
     EMAIL: {
         FROM_EMAIL: '',
         CONSENT_TEMPLATE_ID: '',
         SIGNUP_TEMPLATE_ID: '',
-        SENDGRID_KEY: ''
-    }
+        SENDGRID_KEY: '',
+    },
 };
 
 let loadedConfig: Config;
@@ -70,11 +70,11 @@ export const getConfig = (): Config => {
     loadedConfig = { ...defaults, ...config };
 
     return loadedConfig;
-}
+};
 
 // To-do: better
 export const verifyConfig = (config: Config): void => {
     if (!config.EMAIL.SENDGRID_KEY) {
         console.error('EMAIL API KEY MISSING');
     }
-}
+};

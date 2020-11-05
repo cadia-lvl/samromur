@@ -1,6 +1,8 @@
 import { assert } from 'console';
 import { NextApiRequest, NextApiResponse } from 'next';
-import Database, { getDatabaseInstance } from '../../../../server/database/database';
+import Database, {
+    getDatabaseInstance,
+} from '../../../../server/database/database';
 
 const db: Database = getDatabaseInstance();
 
@@ -19,14 +21,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         try {
-            return db.userClients.fetchSuperUsers().then((response) => {
-                return res.status(200).json(response);
-            }).catch((error) => {
-                return res.status(500).json(error);
-            });
+            return db.userClients
+                .fetchSuperUsers()
+                .then((response) => {
+                    return res.status(200).json(response);
+                })
+                .catch((error) => {
+                    return res.status(500).json(error);
+                });
         } catch (error) {
             console.error(error);
             return res.status(500).json(error);
         }
     }
-}
+};

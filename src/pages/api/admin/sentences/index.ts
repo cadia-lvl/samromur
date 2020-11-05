@@ -5,7 +5,9 @@ import {
     SentenceGroupInfo,
 } from '../../../../types/sentences';
 
-import Database, { getDatabaseInstance } from '../../../../server/database/database';
+import Database, {
+    getDatabaseInstance,
+} from '../../../../server/database/database';
 
 const db: Database = getDatabaseInstance();
 
@@ -21,11 +23,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const batch: SimpleSentenceBatch = {
             name,
             sentences,
-        }
-        return db.sentences.fetchAllSentencesInfo().then((response: Array<SentenceGroupInfo>) => {
-            res.status(200).json(response);
-        }).catch((error: any) => {
-            res.status(500).send(error.message);
-        });
+        };
+        return db.sentences
+            .fetchAllSentencesInfo()
+            .then((response: Array<SentenceGroupInfo>) => {
+                res.status(200).json(response);
+            })
+            .catch((error: any) => {
+                res.status(500).send(error.message);
+            });
     }
-}
+};

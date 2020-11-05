@@ -1,8 +1,4 @@
-import {
-    Request,
-    Response,
-    NextFunction
-} from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import { join } from 'path';
 
@@ -15,4 +11,4 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     } else {
         next();
     }
-}
+};

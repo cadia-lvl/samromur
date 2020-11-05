@@ -23,14 +23,15 @@ const TextContainer = styled.div`
     & span {
         margin-bottom: 0.6rem;
     }
-    
+
     & h2 {
         font-weight: 900;
     }
 `;
 
 const Dots = styled.div`
-    background: linear-gradient(90deg, white 8.5px, transparent 1%) center, linear-gradient(white 8.5px, transparent 1%) center, #cbcbcb;
+    background: linear-gradient(90deg, white 8.5px, transparent 1%) center,
+        linear-gradient(white 8.5px, transparent 1%) center, #cbcbcb;
     background-size: 10px 10px;
 `;
 
@@ -59,7 +60,12 @@ interface Props {
     value: string;
 }
 
-export const CircleStat: React.FunctionComponent<Props> = ({ color, icon, label, value }) => {
+export const CircleStat: React.FunctionComponent<Props> = ({
+    color,
+    icon,
+    label,
+    value,
+}) => {
     return (
         <CircleStatContainer color={color}>
             <Dots />
@@ -68,12 +74,10 @@ export const CircleStat: React.FunctionComponent<Props> = ({ color, icon, label,
                 <h2>{value}</h2>
             </TextContainer>
             <CircleContainer>
-                <Circle color={color}>
-                    {icon}
-                </Circle>
+                <Circle color={color}>{icon}</Circle>
             </CircleContainer>
         </CircleStatContainer>
     );
-}
+};
 
 export default CircleStat;

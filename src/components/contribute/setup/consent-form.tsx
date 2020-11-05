@@ -36,10 +36,11 @@ const SubmitButton = styled.div<SubmitButtonProps>`
     font-size: 1.1rem;
     border-radius: 0.1rem;
     padding: 1rem 2rem;
-    background-color: ${({ disabled, theme }) => disabled ? 'gray' : theme.colors.green};
+    background-color: ${({ disabled, theme }) =>
+        disabled ? 'gray' : theme.colors.green};
     color: white;
 
-    cursor: ${({ disabled }) => disabled ? 'initial' : 'pointer'};
+    cursor: ${({ disabled }) => (disabled ? 'initial' : 'pointer')};
     & :active {
         transform: ${({ disabled }) => `translateY(${disabled ? 0 : 2}px)`};
     }
@@ -83,10 +84,7 @@ const Error = styled(ShowMore)`
     }
 `;
 
-const dispatchProps = {
-
-}
-
+const dispatchProps = {};
 
 interface State {
     email: string;
@@ -102,8 +100,9 @@ interface ConsentFormProps {
     visible: boolean;
 }
 
-type Props = ReturnType<typeof mapStateToProps> & ConsentFormProps & typeof dispatchProps;
-
+type Props = ReturnType<typeof mapStateToProps> &
+    ConsentFormProps &
+    typeof dispatchProps;
 
 class ConsentForm extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -115,39 +114,46 @@ class ConsentForm extends React.Component<Props, State> {
             emailSent: false,
             error: '',
             hasConsent: false,
-            kennitala: ''
-        }
+            kennitala: '',
+        };
     }
 
     componentDidUpdate = (prevProps: Props) => {
         if (this.props.visible != prevProps.visible) {
-            setTimeout(() => this.setState({
-                email: '',
-                emailPrompt: false,
-                error: '',
-                kennitala: '',
-            }), 500);
+            setTimeout(
+                () =>
+                    this.setState({
+                        email: '',
+                        emailPrompt: false,
+                        error: '',
+                        kennitala: '',
+                    }),
+                500
+            );
         }
-    }
+    };
 
     clearError = () => {
         this.setState({ error: '' });
-    }
+    };
 
     onKennitalaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.clearError();
         const kennitala = e.currentTarget.value;
         var lastChar = kennitala.substr(kennitala.length - 1);
-        if (kennitala == '' || lastChar.match(/[0-9]/) && kennitala.length <= 10) {
+        if (
+            kennitala == '' ||
+            (lastChar.match(/[0-9]/) && kennitala.length <= 10)
+        ) {
             this.setState({ kennitala });
         }
-    }
+    };
 
     onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.clearError();
         const email = e.currentTarget.value;
         this.setState({ email });
-    }
+    };
 
     handleSubmit = async () => {
         const { email, emailPrompt, emailSent, kennitala } = this.state;
@@ -160,7 +166,9 @@ class ConsentForm extends React.Component<Props, State> {
                     this.props.onConsent();
                 } else {
                     if (emailSent) {
-                        this.setState({ error: 'Samþykki hefur ekki verið veitt.' })
+                        this.setState({
+                            error: 'Samþykki hefur ekki verið veitt.',
+                        });
                     } else {
                         this.setState({ emailPrompt: true });
                     }
@@ -170,17 +178,22 @@ class ConsentForm extends React.Component<Props, State> {
             if (!this.validateEmail(email)) {
                 this.setState({ error: 'Ógilt tölvupóstfang' });
             } else {
-                consentsApi.sendEmail(kennitala, email).then(() => {
-                    this.setState({
-                        emailPrompt: false,
-                        emailSent: true
+                consentsApi
+                    .sendEmail(kennitala, email)
+                    .then(() => {
+                        this.setState({
+                            emailPrompt: false,
+                            emailSent: true,
+                        });
+                    })
+                    .catch((error) => {
+                        this.setState({
+                            error: 'Villa kom upp við sendingu tölvupósts',
+                        });
                     });
-                }).catch((error) => {
-                    this.setState({ error: 'Villa kom upp við sendingu tölvupósts' });
-                });
             }
         }
-    }
+    };
 
     ageFromKennitala = (kennitala: string): number => {
         const day = parseInt(kennitala[0] + kennitala[1]);
@@ -204,7 +217,7 @@ class ConsentForm extends React.Component<Props, State> {
                 error = 'Kennitala lögráða einstaklings';
             }
         } else {
-            error = 'Innslegin kennitala er ógild'
+            error = 'Innslegin kennitala er ógild';
         }
         if (error) {
             this.setState({ error });
@@ -212,7 +225,7 @@ class ConsentForm extends React.Component<Props, State> {
         } else {
             return true;
         }
-    }
+    };
 
     validateEmail = (email: string): boolean => {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -221,22 +234,25 @@ class ConsentForm extends React.Component<Props, State> {
 
     render() {
         const { email, emailPrompt, emailSent, error, kennitala } = this.state;
-        const submittable = !emailPrompt ? kennitala.length == 10 : this.validateEmail(email);
+        const submittable = !emailPrompt
+            ? kennitala.length == 10
+            : this.validateEmail(email);
         return (
             <ConsentFormContainer>
                 <Instructions>
-                    {
-                        emailSent
-                            ?
-                            <React.Fragment>
-                                <span>Tölvupóstur sendur!</span>
-                                <span>Þegar leyfi hefur verið gefið má staðfesta kennitöluna hér að neðan.</span>
-                            </React.Fragment>
-                            :
-                            'Vinsamlegast sláðu inn kennitölu og netfang foreldris/forsjáraðila hér að neðan.'
-                    }
+                    {emailSent ? (
+                        <React.Fragment>
+                            <span>Tölvupóstur sendur!</span>
+                            <span>
+                                Þegar leyfi hefur verið gefið má staðfesta
+                                kennitöluna hér að neðan.
+                            </span>
+                        </React.Fragment>
+                    ) : (
+                        'Vinsamlegast sláðu inn kennitölu og netfang foreldris/forsjáraðila hér að neðan.'
+                    )}
                 </Instructions>
-                <Error active={!!error} calculate >
+                <Error active={!!error} calculate>
                     <span>{error}</span>
                 </Error>
                 <InputFields second={emailPrompt}>
@@ -261,7 +277,11 @@ class ConsentForm extends React.Component<Props, State> {
                 </SubmitButton>
                 <Info title={'Hvers vegna þarf kennitölu?'}>
                     <p>
-                        Til þess að uppfylla lög um persónuvernd og vinnslu persónuupplýsinga (90/2018). Við biðjum því börn og unglinga að fá leyfi frá forsjáraðila fyrir þátttöku í Samróm. Unnið verður með þessar upplýsingar í samræmi við skilmála og persónuverndaryfirlýsingu verkefnisins.
+                        Til þess að uppfylla lög um persónuvernd og vinnslu
+                        persónuupplýsinga (90/2018). Við biðjum því börn og
+                        unglinga að fá leyfi frá forsjáraðila fyrir þátttöku í
+                        Samróm. Unnið verður með þessar upplýsingar í samræmi
+                        við skilmála og persónuverndaryfirlýsingu verkefnisins.
                     </p>
                 </Info>
             </ConsentFormContainer>
@@ -269,12 +289,8 @@ class ConsentForm extends React.Component<Props, State> {
     }
 }
 
-
 const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(ConsentForm);
+export default connect(mapStateToProps, dispatchProps)(ConsentForm);

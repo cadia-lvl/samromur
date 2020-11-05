@@ -7,7 +7,7 @@ interface WaitingBatch {
     sentences: Array<string>;
 }
 
-const tmpDir = './src/tmp'
+const tmpDir = './src/tmp';
 
 export const saveTempBatch = async (batch: WaitingBatch) => {
     return new Promise((resolve, reject) => {
@@ -19,9 +19,9 @@ export const saveTempBatch = async (batch: WaitingBatch) => {
             } else {
                 resolve();
             }
-        })
+        });
     });
-}
+};
 
 export const loadTempBatch = async (id: string): Promise<WaitingBatch> => {
     return new Promise((resolve, reject) => {
@@ -32,9 +32,9 @@ export const loadTempBatch = async (id: string): Promise<WaitingBatch> => {
             } else {
                 resolve(JSON.parse(data));
             }
-        })
+        });
     });
-}
+};
 
 export const removeTempBatch = async (id: string): Promise<WaitingBatch> => {
     return new Promise((resolve, reject) => {
@@ -45,6 +45,6 @@ export const removeTempBatch = async (id: string): Promise<WaitingBatch> => {
             } else {
                 resolve();
             }
-        })
+        });
     });
-}
+};

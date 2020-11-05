@@ -10,7 +10,9 @@ export interface FetchSamplesPayload extends SSRRequest {
     count: number;
 }
 
-export const fetchSentences = async (payload: FetchSamplesPayload): Promise<SimpleSentence[]> => {
+export const fetchSentences = async (
+    payload: FetchSamplesPayload
+): Promise<SimpleSentence[]> => {
     const endpoint = `/api/contribute/sentences?count=${payload.count}`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
@@ -18,16 +20,20 @@ export const fetchSentences = async (payload: FetchSamplesPayload): Promise<Simp
         url,
         headers: {
             client_id: payload.clientId && encodeURIComponent(payload.clientId),
-        }
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
-export const fetchClips = async (payload: FetchSamplesPayload): Promise<Clip[]> => {
+export const fetchClips = async (
+    payload: FetchSamplesPayload
+): Promise<Clip[]> => {
     const endpoint = `/api/contribute/clips?count=${payload.count}`;
     const url = payload.host ? payload.host + endpoint : endpoint;
 
@@ -36,21 +42,26 @@ export const fetchClips = async (payload: FetchSamplesPayload): Promise<Clip[]> 
         url,
         headers: {
             client_id: payload.clientId && encodeURIComponent(payload.clientId),
-        }
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error);
-        return Promise.reject(error.code);
-    });
-}
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
 
 export interface UploadClipRequest {
     clip: WheelClip;
     user: UserState;
 }
 
-export const uploadClip = async (clip: WheelClip, user: UserState): Promise<number> => {
+export const uploadClip = async (
+    clip: WheelClip,
+    user: UserState
+): Promise<number> => {
     const endpoint = '/api/contribute/upload';
 
     if (!clip.recording) {
@@ -60,10 +71,7 @@ export const uploadClip = async (clip: WheelClip, user: UserState): Promise<numb
     const { recording, sentence } = clip;
     const { demographics, userAgent } = user;
 
-    const {
-        age,
-        gender
-    } = demographics;
+    const { age, gender } = demographics;
 
     return axios({
         method: 'POST',
@@ -78,13 +86,15 @@ export const uploadClip = async (clip: WheelClip, user: UserState): Promise<numb
             user_agent: encodeURIComponent(userAgent),
         },
         data: recording.blob,
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        console.error(error.message);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error.message);
+            return Promise.reject(error.code);
+        });
+};
 
 export interface SaveVoteRequest {
     clipId: number;
@@ -105,10 +115,12 @@ export const saveVote = async (payload: SaveVoteRequest): Promise<number> => {
             vote: encodeURIComponent(payload.vote as string),
             vote_id: payload.voteId && payload.voteId,
         },
-    }).then((response: AxiosResponse) => {
-        return Promise.resolve(response.data);
-    }).catch((error: AxiosError) => {
-        console.error(error.message);
-        return Promise.reject(error.code);
-    });
-}
+    })
+        .then((response: AxiosResponse) => {
+            return Promise.resolve(response.data);
+        })
+        .catch((error: AxiosError) => {
+            console.error(error.message);
+            return Promise.reject(error.code);
+        });
+};

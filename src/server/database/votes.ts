@@ -40,10 +40,10 @@ export default class Votes {
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    };
 
     clipVoteToStatus = (vote: ClipVote): ClipStatus => {
-        switch(vote) {
+        switch (vote) {
             case ClipVote.VALID:
                 return ClipStatus.VALID;
             case ClipVote.INVALID:
@@ -51,10 +51,16 @@ export default class Votes {
             default:
                 return ClipStatus.UNFINISHED;
         }
-    }
+    };
 
-    updateClipStatus = async (clipId: number, isSuper: boolean, vote: ClipVote): Promise<void> => {
-        const status = isSuper ? this.clipVoteToStatus(vote) : await this.fetchStatus(clipId);
+    updateClipStatus = async (
+        clipId: number,
+        isSuper: boolean,
+        vote: ClipVote
+    ): Promise<void> => {
+        const status = isSuper
+            ? this.clipVoteToStatus(vote)
+            : await this.fetchStatus(clipId);
         return this.sql.query(
             `
                 UPDATE
@@ -65,13 +71,22 @@ export default class Votes {
                     id = ?;
             `,
             [
-                status == ClipStatus.UNFINISHED ? null : status == ClipStatus.VALID ? 1 : 0,
-                clipId
+                status == ClipStatus.UNFINISHED
+                    ? null
+                    : status == ClipStatus.VALID
+                    ? 1
+                    : 0,
+                clipId,
             ]
         );
-    }
+    };
 
-    saveVote = async (clientId: string, clipId: number, isSuper: boolean, vote: ClipVote): Promise<number> => {
+    saveVote = async (
+        clientId: string,
+        clipId: number,
+        isSuper: boolean,
+        vote: ClipVote
+    ): Promise<number> => {
         const unsure = ClipVote.UNSURE == vote;
         try {
             const [row] = await this.sql.query(
@@ -90,11 +105,11 @@ export default class Votes {
                     clientId,
                     unsure ? null : vote == ClipVote.VALID ? true : false,
                     isSuper,
-                    unsure
+                    unsure,
                 ]
             );
             const { insertId } = row;
-            
+
             // If clip has enough votes or is from super user update it
             this.updateClipStatus(clipId, isSuper, vote);
 
@@ -102,5 +117,5 @@ export default class Votes {
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    };
 }

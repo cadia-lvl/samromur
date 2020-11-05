@@ -9,7 +9,7 @@ const SubscribeContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-`
+`;
 
 const SubscribeText = styled.label`
     font-size: 0.8rem;
@@ -60,9 +60,7 @@ const Message = styled.div`
     bottom: -1rem;
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 interface State {
     done: boolean;
@@ -79,23 +77,26 @@ export default class SubscribeForm extends React.Component<Props, State> {
             done: false,
             email: '',
             success: false,
-        }
+        };
     }
 
     onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const email = e.currentTarget.value;
         this.setState({ email });
-    }
+    };
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const { email } = this.state;
-        userApi.subscribeToNewsletter(email).then(() => {
-            this.setState({ done: true, success: true });
-        }).catch((error) => {
-            this.setState({ done: true, success: false });
-        });
-    }
+        userApi
+            .subscribeToNewsletter(email)
+            .then(() => {
+                this.setState({ done: true, success: true });
+            })
+            .catch((error) => {
+                this.setState({ done: true, success: false });
+            });
+    };
 
     render() {
         const { done, email, success } = this.state;
@@ -105,9 +106,9 @@ export default class SubscribeForm extends React.Component<Props, State> {
                 <InputWithButton onSubmit={this.handleSubmit}>
                     <TextInput
                         ref={this.textRef}
-                        spellCheck='false'
-                        placeholder='Tölvupóstfang'
-                        className='text-input'
+                        spellCheck="false"
+                        placeholder="Tölvupóstfang"
+                        className="text-input"
                         value={email}
                         onChange={this.onChange}
                     />
@@ -115,15 +116,11 @@ export default class SubscribeForm extends React.Component<Props, State> {
                         <SubscribeIcon height={15} width={15} fill={'white'} />
                     </SubmitButton>
                 </InputWithButton>
-                {
-                    done && (
-                        <Message>
-                            {
-                                success ? 'Skráning tókst!' : 'Skráning mistókst'
-                            }
-                        </Message>
-                    )
-                }
+                {done && (
+                    <Message>
+                        {success ? 'Skráning tókst!' : 'Skráning mistókst'}
+                    </Message>
+                )}
             </SubscribeContainer>
         );
     }

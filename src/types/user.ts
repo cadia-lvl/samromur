@@ -63,5 +63,5 @@ export const initialDemographics: Demographics = {
     nativeLanguage: {
         id: '',
         name: '',
-    }
+    },
 };

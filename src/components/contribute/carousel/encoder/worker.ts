@@ -11,7 +11,7 @@ class WavEncoder {
 
     setSampleRate = (sampleRate: number) => {
         this.sampleRate = sampleRate;
-    }
+    };
 
     encode = (buffer: Float32Array) => {
         const length = buffer.length;
@@ -19,23 +19,27 @@ class WavEncoder {
         let offset = 0;
         for (let i = 0; i < length; i++) {
             let x = buffer[i] * 0x7fff;
-            view.setInt16(offset, x < 0 ? Math.max(x, -0x8000) : Math.min(x, 0x7fff), true);
+            view.setInt16(
+                offset,
+                x < 0 ? Math.max(x, -0x8000) : Math.min(x, 0x7fff),
+                true
+            );
             offset += 2;
         }
         this.dataViews.push(view);
         this.numSamples += length;
-    }
+    };
 
     writeString = (view: DataView, offset: number, string: string) => {
         for (let i = 0; i < string.length; i++) {
             view.setUint8(offset + i, string.charCodeAt(i));
         }
-    }
+    };
 
     reset = () => {
         this.numSamples = 0;
         this.dataViews = [];
-    }
+    };
 
     // Prepend wav header
     finish = (): Promise<Blob> => {
@@ -57,7 +61,7 @@ class WavEncoder {
         this.dataViews.unshift(view);
         const blob = new Blob(this.dataViews, { type: 'audio/wav' });
         return Promise.resolve(blob);
-    }
+    };
 }
 
 const encoder = new WavEncoder();
@@ -69,19 +73,19 @@ const finish = async () => {
     encoder.reset();
     ctx.postMessage({
         command: 'finish',
-        blob
+        blob,
     });
-}
+};
 
 ctx.onmessage = (event) => {
     const data = event.data;
     if (data.command == 'encode') {
-        encoder.encode(data.buffer)
+        encoder.encode(data.buffer);
     } else if (data.command == 'settings') {
         encoder.setSampleRate(data.sampleRate);
     } else {
         finish();
     }
-}
+};
 
 export default ctx;

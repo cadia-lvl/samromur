@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import cookies from 'next-cookies';
 
 import makeSSRDispatch from '../utilities/ssr-request';
@@ -50,15 +50,15 @@ const SidePanel = styled(DashboardSidePanel)`
     }
 `;
 
-const dispatchProps = {
+const dispatchProps = {};
 
-}
+interface DashboardPageProps {}
 
-interface DashboardPageProps {
-
-}
-
-type Props = ReturnType<typeof mapStateToProps> & DashboardPageProps & typeof dispatchProps & WithTranslation & WithRouterProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    DashboardPageProps &
+    typeof dispatchProps &
+    WithTranslation &
+    WithRouterProps;
 
 interface State {
     selected: string;
@@ -70,7 +70,7 @@ class DashboardPage extends React.Component<Props, State> {
 
         this.state = {
             selected: 'tolfraedi',
-        }
+        };
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
@@ -81,14 +81,14 @@ class DashboardPage extends React.Component<Props, State> {
 
         await makeSSRDispatch(ctx, fetchUser.request, { id: clientId });
 
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
-    }
+        };
+    };
 
     onSelect = (selected: string) => {
         this.setState({ selected });
-    }
+    };
 
     render() {
         const { user } = this.props;
@@ -96,16 +96,20 @@ class DashboardPage extends React.Component<Props, State> {
         return (
             <Layout>
                 <DashboardContainer>
-                    <SidePanel isAdmin={user.client.isAdmin} onSelect={this.onSelect} selected={selected} />
-                    {
-                        selected == 'tolfraedi' && <DashboardStats key={selected} client={user.client} />
-                    }
-                    {
-                        selected == 'stillingar' && <DashboardSettings key={selected} />
-                    }
-                    {
-                        selected == 'stjornandi' && <DashboardAdmin key={selected} />
-                    }
+                    <SidePanel
+                        isAdmin={user.client.isAdmin}
+                        onSelect={this.onSelect}
+                        selected={selected}
+                    />
+                    {selected == 'tolfraedi' && (
+                        <DashboardStats key={selected} client={user.client} />
+                    )}
+                    {selected == 'stillingar' && (
+                        <DashboardSettings key={selected} />
+                    )}
+                    {selected == 'stjornandi' && (
+                        <DashboardAdmin key={selected} />
+                    )}
                 </DashboardContainer>
             </Layout>
         );

@@ -34,7 +34,7 @@ export default class Clips {
             `
         );
         return priorities as Priority[];
-    }
+    };
 
     fetchPrioritizedClips = async (): Promise<any> => {
         const [clips] = await this.sql.query(
@@ -47,10 +47,13 @@ export default class Clips {
                     sex LIKE 
             `,
             []
-        )
-    }
+        );
+    };
 
-    fetchRandomClips = async (clientId: string, count: number): Promise<TableClip[]> => {
+    fetchRandomClips = async (
+        clientId: string,
+        count: number
+    ): Promise<TableClip[]> => {
         const [clips] = await this.sql.query(
             `
                 SELECT
@@ -73,11 +76,9 @@ export default class Clips {
             [clientId, clientId, count]
         );
         return clips as TableClip[];
-    }
+    };
 
-    fetchSpecificClips = async (): Promise<void> => {
-
-    }
+    fetchSpecificClips = async (): Promise<void> => {};
 
     findClip = async (id: number): Promise<boolean> => {
         const [[clip]] = await this.sql.query(
@@ -93,41 +94,44 @@ export default class Clips {
             [id]
         );
         return Promise.resolve(!!clip);
-    }
+    };
 
     fetchClips = async (clientId: string, count: number): Promise<Clip[]> => {
         try {
             const clips = await this.fetchRandomClips(clientId, count);
-            const withPublicUrls: Clip[] = await Promise.all(clips.map((clip: TableClip) => {
-                return {
-                    id: clip.id,
-                    recording: {
-                        url: this.bucket.getPublicUrl(clip.path),
-                    },
-                    sentence: {
-                        id: clip.original_sentence_id,
-                        text: clip.sentence,
-                    },
-                } as Clip
-            }));
+            const withPublicUrls: Clip[] = await Promise.all(
+                clips.map((clip: TableClip) => {
+                    return {
+                        id: clip.id,
+                        recording: {
+                            url: this.bucket.getPublicUrl(clip.path),
+                        },
+                        sentence: {
+                            id: clip.original_sentence_id,
+                            text: clip.sentence,
+                        },
+                    } as Clip;
+                })
+            );
             return Promise.resolve(withPublicUrls);
         } catch (error) {
             return Promise.reject(error);
         }
+    };
 
-    }
-
-    uploadClip = async (clientId: string, clip: ClipMetadata, transcoder: any): Promise<number> => {
-        const {
-            sentence,
-            gender,
-            age,
-            nativeLanguage,
-            userAgent,
-        } = clip;
+    uploadClip = async (
+        clientId: string,
+        clip: ClipMetadata,
+        transcoder: any
+    ): Promise<number> => {
+        const { sentence, gender, age, nativeLanguage, userAgent } = clip;
 
         try {
-            const { path, originalSentenceId } = await this.bucket.uploadClip(clientId, clip, transcoder);
+            const { path, originalSentenceId } = await this.bucket.uploadClip(
+                clientId,
+                clip,
+                transcoder
+            );
 
             if (!!clip.id) {
                 // If id is supplied the metadata is already in the database -> only update created at
@@ -141,7 +145,7 @@ export default class Clips {
                             id = ?;
                     `,
                     [clip.id]
-                )
+                );
                 return Promise.resolve(clip.id);
             }
 
@@ -154,12 +158,21 @@ export default class Clips {
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
-                [clientId, path, sentence, originalSentenceId, gender, age, nativeLanguage, userAgent]
+                [
+                    clientId,
+                    path,
+                    sentence,
+                    originalSentenceId,
+                    gender,
+                    age,
+                    nativeLanguage,
+                    userAgent,
+                ]
             );
             const { insertId } = row;
             return Promise.resolve(insertId);
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    };
 }

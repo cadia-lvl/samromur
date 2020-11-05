@@ -25,11 +25,12 @@ const InfoContainer = styled.div`
 
 const StyledLink = styled.a`
     color: ${({ theme }) => theme.colors.blue};
-    :visited, :focus {
+    :visited,
+    :focus {
         text-decoration: none;
         color: ${({ theme }) => theme.colors.blue};
     }
-    
+
     :hover {
         text-decoration: none;
         color: ${({ theme }) => theme.colors.blackOlive};
@@ -42,9 +43,7 @@ const RobotImage = styled.img`
     }
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 export const Partners: React.FunctionComponent<Props> = (props) => {
     return (
@@ -52,12 +51,44 @@ export const Partners: React.FunctionComponent<Props> = (props) => {
             <RobotImage src={'./images/robot-footer.svg'} alt="Robot" />
             <InfoContainer>
                 <h1>Samstarfsaðilar</h1>
-                <span>Þeir sem standa á bak við Samróm eru <StyledLink target={'blank'} href={'https://www.facebook.com/almannaromur/'}>Almannarómur</StyledLink>,</span>
-                <span><StyledLink target={'blank'} href={'https://www2.deloitte.com/is/is.html'}>Deloitte</StyledLink>, <StyledLink target={'blank'} href={'https://www.ru.is/'}>Háskólinn í Reykjavík</StyledLink>,</span>
-                <span>og <StyledLink target={'blank'} href={'https://www.rannis.is/sjodir/menntun/nyskopunarsjodur-namsmanna/'}>Nýsköpunarsjóður námsmanna</StyledLink>.</span>
+                <span>
+                    Þeir sem standa á bak við Samróm eru{' '}
+                    <StyledLink
+                        target={'blank'}
+                        href={'https://www.facebook.com/almannaromur/'}
+                    >
+                        Almannarómur
+                    </StyledLink>
+                    ,
+                </span>
+                <span>
+                    <StyledLink
+                        target={'blank'}
+                        href={'https://www2.deloitte.com/is/is.html'}
+                    >
+                        Deloitte
+                    </StyledLink>
+                    ,{' '}
+                    <StyledLink target={'blank'} href={'https://www.ru.is/'}>
+                        Háskólinn í Reykjavík
+                    </StyledLink>
+                    ,
+                </span>
+                <span>
+                    og{' '}
+                    <StyledLink
+                        target={'blank'}
+                        href={
+                            'https://www.rannis.is/sjodir/menntun/nyskopunarsjodur-namsmanna/'
+                        }
+                    >
+                        Nýsköpunarsjóður námsmanna
+                    </StyledLink>
+                    .
+                </span>
             </InfoContainer>
         </PartnersContainer>
     );
-}
+};
 
 export default Partners;

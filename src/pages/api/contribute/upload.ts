@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PassThrough } from 'stream';
-import Database, { getDatabaseInstance } from '../../../server/database/database';
+import Database, {
+    getDatabaseInstance,
+} from '../../../server/database/database';
 import { ClipMetadata } from '../../../types/samples';
 
 const Transcoder = require('stream-transcoder');
@@ -16,13 +18,13 @@ const base64ToBuffer = async (request: NextApiRequest): Promise<Buffer[]> => {
         request.on('end', resolve);
     });
     return chunks;
-}
+};
 
 export const config = {
     api: {
         bodyParser: false,
     },
-}
+};
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
@@ -30,7 +32,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(400).send('Invalid method.');
     } else {
         const { headers } = req;
-        const clientId = decodeURIComponent(req.headers.client_id as string) || '';
+        const clientId =
+            decodeURIComponent(req.headers.client_id as string) || '';
         if (!clientId) {
             return res.status(401);
         }
@@ -39,7 +42,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const gender = decodeURIComponent(headers.gender as string);
         const sentence = decodeURIComponent(headers.sentence as string);
         const userAgent = decodeURIComponent(headers.user_agent as string);
-        const nativeLanguage = decodeURIComponent(headers.native_language as string);
+        const nativeLanguage = decodeURIComponent(
+            headers.native_language as string
+        );
 
         const clip: ClipMetadata = {
             age,
@@ -47,8 +52,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             gender,
             nativeLanguage,
             sentence,
-            userAgent
-        }
+            userAgent,
+        };
 
         const contentType = headers['content-type'] as string;
         try {
@@ -58,17 +63,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 // So we can decode it in the next step.
                 const chunks = await base64ToBuffer(req);
                 const passThrough = new PassThrough();
-                passThrough.end(Buffer.from(Buffer.concat(chunks).toString(), 'base64'));
+                passThrough.end(
+                    Buffer.from(Buffer.concat(chunks).toString(), 'base64')
+                );
                 transcoder = new Transcoder(passThrough);
             } else {
                 transcoder = new Transcoder(req);
             }
 
-            const clipId = await db.clips.uploadClip(clientId, clip, transcoder);
+            const clipId = await db.clips.uploadClip(
+                clientId,
+                clip,
+                transcoder
+            );
             return res.status(200).send(clipId);
         } catch (error) {
             console.error(error);
             return res.status(500).json(error);
         }
     }
-}
+};

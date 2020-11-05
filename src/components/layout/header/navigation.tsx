@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { withRouter } from 'next/router'
-import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from 'next/router';
+import { WithRouterProps } from 'next/dist/client/with-router';
 import { useTranslation, nextI18next } from '../../../server/i18n';
 
 import * as authApi from '../../../services/auth-api';
@@ -15,8 +15,9 @@ interface NavLinkProps {
 const NavLink = styled.a<NavLinkProps>`
     cursor: pointer;
     color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
-    & : hover {
-        color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
+    &: hover {
+        color: ${({ theme, isActive }) =>
+            isActive && theme.colors.red} !important;
     }
 `;
 
@@ -27,13 +28,16 @@ const NavButton = styled.span`
 // Different styles for the floating navigation
 const NavigationContainer = styled.div<Props>`
     display: flex;
-    ${({ theme, floating, visible }) => floating ? `
+    ${({ theme, floating, visible }) =>
+        floating
+            ? `
         position: fixed;
         top: ${theme.layout.headerHeight};
         z-index: ${theme.z.middle};
         transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         transform: ${visible ? 'translateY(0)' : 'translateY(-100vh)'};
-        ` : `
+        `
+            : `
         flex: 1;
         justify-content: space-between;
         align-items: center;
@@ -41,15 +45,16 @@ const NavigationContainer = styled.div<Props>`
         ${theme.media.small} {
             display: none;
         }
-        `
-    }
+        `}
 `;
 
 const NavigationLinks = styled.div<Props>`
     width: 100%;
     display: flex;
-    flex-direction: ${({ floating }) => floating ? 'column' : 'row'};
-    ${({ floating, theme }) => floating ? `
+    flex-direction: ${({ floating }) => (floating ? 'column' : 'row')};
+    ${({ floating, theme }) =>
+        floating
+            ? `
         height: 100vh;
         width: 100vw;
         background-color: white;
@@ -58,7 +63,8 @@ const NavigationLinks = styled.div<Props>`
             font-size: 1.5rem;
             border-bottom: 1px solid ${theme.colors.borderGray};
         }
-    ` : `
+    `
+            : `
         justify-content: space-around;
         font-size: 1.2rem;
         padding: 0 2rem;
@@ -83,26 +89,34 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
     return (
         <NavigationContainer {...props}>
             <NavigationLinks {...props}>
-                <Link href='/'>
+                <Link href="/">
                     <NavLink isActive={pathname == '/'}>Forsíða</NavLink>
                 </Link>
-                <Link href='/takathatt'>
-                    <NavLink isActive={pathname == '/takathatt'}>Taka þátt</NavLink>
+                <Link href="/takathatt">
+                    <NavLink isActive={pathname == '/takathatt'}>
+                        Taka þátt
+                    </NavLink>
                 </Link>
-                <Link href='/gagnasafn'>
-                    <NavLink isActive={pathname == '/gagnasafn'}>Gagnasafnið</NavLink>
+                <Link href="/gagnasafn">
+                    <NavLink isActive={pathname == '/gagnasafn'}>
+                        Gagnasafnið
+                    </NavLink>
                 </Link>
-                <Link href='/um'>
+                <Link href="/um">
                     <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
                 </Link>
-                <NavLink href='/minar-sidur' isActive={pathname == '/minar-sidur'}>Mínar síður</NavLink>
-                {
-                    user.isAuthenticated && <NavButton onClick={authApi.logout}>Útskrá</NavButton>
-                }
+                <NavLink
+                    href="/minar-sidur"
+                    isActive={pathname == '/minar-sidur'}
+                >
+                    Mínar síður
+                </NavLink>
+                {user.isAuthenticated && (
+                    <NavButton onClick={authApi.logout}>Útskrá</NavButton>
+                )}
             </NavigationLinks>
         </NavigationContainer>
     );
-}
-
+};
 
 export default withRouter(Navigation);

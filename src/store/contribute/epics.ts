@@ -10,12 +10,17 @@ export const uploadClipEpic: Epic<
     RootState,
     Services
 > = (action$, state$, { api }) =>
-        action$.pipe(
-            filter(isActionOf(uploadClip.request)),
-            switchMap(action =>
-                from(api.contribute.uploadClip(action.payload.clip, action.payload.user)).pipe(
-                    map(uploadClip.success),
-                    catchError((message: string) => of(uploadClip.failure(message)))
+    action$.pipe(
+        filter(isActionOf(uploadClip.request)),
+        switchMap((action) =>
+            from(
+                api.contribute.uploadClip(
+                    action.payload.clip,
+                    action.payload.user
                 )
+            ).pipe(
+                map(uploadClip.success),
+                catchError((message: string) => of(uploadClip.failure(message)))
             )
-        );
+        )
+    );

@@ -12,7 +12,7 @@ export default class Database {
     private sql: Sql;
     private schema: Schema;
     private bucket: Bucket;
-    
+
     clips: Clips;
     consents: Consents;
     sentences: Sentences;
@@ -35,14 +35,13 @@ export default class Database {
     // Ensure the database is set up properly
     ensureDatabase = async (): Promise<void> => {
         await this.schema.ensure();
-    }
+    };
 
     // Run migrations
     performMaintenance = async (): Promise<void> => {
         await this.schema.upgrade();
-    }
+    };
 }
-
 
 let instance: Database;
 
