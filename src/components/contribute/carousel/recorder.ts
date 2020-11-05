@@ -231,6 +231,7 @@ export default class Recorder {
         );
         this.sourceNode.channelCount = 1;
         this.sourceNode.connect(this.processorNode);
+        this.sourceNode.connect(this.analyserNode);
         await this.start();
         this.isRecording = true;
         this.maxVolume = -1; //
