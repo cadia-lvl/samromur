@@ -215,6 +215,9 @@ export default class Recorder {
         this.jsNode = this.audioContext.createScriptProcessor(256, 1, 1);
         this.jsNode.connect(this.audioContext.destination);
 
+        // Release microphone to disable tab notification
+        this.release();
+
         return Promise.resolve();
     };
 
@@ -223,8 +226,9 @@ export default class Recorder {
             return Promise.reject(AudioError.NO_SUPPORT);
         }
         if (!this.processorNode) {
-            console.log('No processorNode', this.processorNode);
-            return Promise.reject(AudioError.NOT_ALLOWED);
+            //To-do: Throw a predefined error.
+            console.error('NO_PROCESSOR_NODE');
+            return Promise.reject('NO_PROCESSOR_NODE');
         }
         this.processorNode.connect(this.audioContext.destination);
         if (!this.microphone) {

@@ -376,24 +376,28 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleStartRecording = async (): Promise<void> => {
-        if (!this.recorder || !this.recorder.isRecordingSupported) {
-            // To-do error handling
-            this.setState({ audioError: AudioError.NO_SUPPORT });
-            console.error('Recording not supported.');
-            return;
-        }
-
+        // Reset errors
+        this.state.audioError && this.setState({ audioError: undefined });
         this.state.recordingError &&
             this.setState({ recordingError: undefined });
 
-        return this.recorder.startRecording().catch((error) => {
-            // To-do error handling
+        if (!this.recorder || !this.recorder.isRecordingSupported) {
+            this.setState({ audioError: AudioError.NO_SUPPORT });
+            console.error(AudioError.NO_SUPPORT);
+            return Promise.reject(AudioError.NO_SUPPORT);
+        }
+
+        // Initialize microphone and start recording
+        try {
+            await this.recorder.initMicrophone();
+            await this.recorder.startRecording();
+        } catch (error) {
             if (error in AudioError) {
                 this.setState({ audioError: error });
             }
             console.error(error);
             return Promise.reject(error);
-        });
+        }
     };
 
     saveClip = async (
@@ -435,9 +439,6 @@ class CarouselWheel extends React.Component<Props, State> {
                     contribute: { goal, progress },
                 } = this.props;
                 const isDone = !!(goal && goal.count == progress);
-                if (!isDone) {
-                    this.recorder?.initMicrophone();
-                }
                 return Promise.resolve();
             })
             .catch((error: RecordingError) => {
@@ -544,6 +545,7 @@ class CarouselWheel extends React.Component<Props, State> {
                     color={color}
                     isDone={isDone}
                     isSpeak={isSpeak}
+                    hasError={this.state.audioError !== undefined}
                     deleteClip={this.handleDeleteClip}
                     saveVote={this.handleSaveVote}
                     setColor={this.setColor}
