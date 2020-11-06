@@ -7,7 +7,11 @@ import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 import styled from 'styled-components';
 
-import { resetContribute, setGoal } from '../store/contribute/actions';
+import {
+    resetContribute,
+    setGoal,
+    setGaming,
+} from '../store/contribute/actions';
 import Contribute from '../components/contribute/setup/contribute';
 
 /* 
@@ -35,6 +39,7 @@ const FakeDiv = styled.div``; */
 
 const dispatchProps = {
     setGoal,
+    setGaming,
 };
 
 interface ContributePageProps {}
@@ -60,6 +65,7 @@ class ContributePage extends React.Component<Props, State> {
         query,
     }: NextPageContext) => {
         store.dispatch(resetContribute());
+        store.dispatch(setGaming(false));
         return {
             namespacesRequired: ['common'],
         };
