@@ -63,6 +63,10 @@ export default class Recorder {
         typeof window.MediaRecorder !== 'undefined' &&
         !window.MediaRecorder.notSupported;
 
+    /**
+     * Checks the data of the analyser node to determine
+     * if the maxVolume value needs to be updated and updates it if so.
+     */
     private analyze = () => {
         this.analyserNode.getByteFrequencyData(this.frequencyBins);
         if (this.volumeCallback) {
@@ -164,6 +168,9 @@ export default class Recorder {
         });
     };
 
+    /**
+     * Initializes the recorder.
+     */
     init = async (): Promise<void> => {
         if (this.isReady()) {
             return Promise.reject();
@@ -221,6 +228,9 @@ export default class Recorder {
         return Promise.resolve();
     };
 
+    /**
+     * Starts the recording process.
+     */
     startRecording = async (): Promise<void> => {
         if (!this.isRecordingSupported) {
             return Promise.reject(AudioError.NO_SUPPORT);
@@ -239,6 +249,7 @@ export default class Recorder {
         );
         this.sourceNode.channelCount = 1;
         this.sourceNode.connect(this.processorNode);
+        this.sourceNode.connect(this.analyserNode);
         await this.start();
         this.isRecording = true;
         this.maxVolume = -1; //

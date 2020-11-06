@@ -375,12 +375,17 @@ class CarouselWheel extends React.Component<Props, State> {
             .catch((error) => Promise.reject(error));
     };
 
+    /**
+     * Using the recorder to start recording the microphone input.
+     * Initialize the microphone and start recording.
+     */
     handleStartRecording = async (): Promise<void> => {
         // Reset errors
         this.state.audioError && this.setState({ audioError: undefined });
         this.state.recordingError &&
             this.setState({ recordingError: undefined });
 
+        // check if recorder exists and is supported
         if (!this.recorder || !this.recorder.isRecordingSupported) {
             this.setState({ audioError: AudioError.NO_SUPPORT });
             console.error(AudioError.NO_SUPPORT);
@@ -421,6 +426,11 @@ class CarouselWheel extends React.Component<Props, State> {
         return Promise.resolve();
     };
 
+    /**
+     * Stops the current ongoing recording of the recorder.
+     * Then saves and uploads the current clip to the database and
+     * takes the user to the next item in the wheel.
+     */
     handleStopRecording = async (): Promise<void> => {
         if (!this.recorder) {
             console.error('No recorder, why am I here?');
@@ -544,7 +554,6 @@ class CarouselWheel extends React.Component<Props, State> {
                     color={color}
                     isDone={isDone}
                     isSpeak={isSpeak}
-                    hasError={this.state.audioError !== undefined}
                     deleteClip={this.handleDeleteClip}
                     saveVote={this.handleSaveVote}
                     setColor={this.setColor}

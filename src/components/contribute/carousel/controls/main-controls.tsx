@@ -141,7 +141,6 @@ interface Props {
     startRecording: () => Promise<void>;
     stopRecording: () => Promise<void>;
     removeRecording: () => Promise<void>;
-    hasError: boolean;
 }
 
 interface State {
@@ -284,6 +283,11 @@ export default class MainControls extends React.Component<Props, State> {
         }
     };
 
+    /**
+     * Activates when the start recording button is clicked.
+     * Sets the state to recording, starts the wave effect and
+     * runs the startRecording prop function.
+     */
     handleStartRecording = () => {
         const { isStartingRecording } = this.state;
         if (isStartingRecording) {
@@ -296,10 +300,8 @@ export default class MainControls extends React.Component<Props, State> {
             .startRecording()
             .then(() => {
                 this.setState({ isStartingRecording: false });
-                if (!this.props.hasError) {
-                    this.setState({ isRecording: true });
-                    this.wave?.play();
-                }
+                this.setState({ isRecording: true });
+                this.wave?.play();
             })
             .catch((error) => {
                 this.setState({ isStartingRecording: false });
