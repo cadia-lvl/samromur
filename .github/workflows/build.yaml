@@ -1,9 +1,6 @@
 name: build
 
 on:
-  push:
-    branches:
-      - github-actions-build
   pull_request:
     branches:
       - master
