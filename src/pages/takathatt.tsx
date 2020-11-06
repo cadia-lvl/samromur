@@ -7,11 +7,7 @@ import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 import styled from 'styled-components';
 
-import {
-    resetContribute,
-    setGoal,
-    setGaming,
-} from '../store/contribute/actions';
+import { resetContribute, setGoal } from '../store/contribute/actions';
 import Contribute from '../components/contribute/setup/contribute';
 
 /* 
