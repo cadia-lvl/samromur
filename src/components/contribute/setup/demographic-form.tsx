@@ -251,7 +251,7 @@ class DemographicForm extends React.Component<Props, State> {
                 />
                 <Information title={'Hvers vegna skiptir þetta máli?'}>
                     <p>
-                        Ofantaldar upplýsingar eru notaðar til að meta hversu lýðfræðilega dreift gagnasafnið Samrómur er. Því dreifðara og fjölbreyttara sem það er, því betra. Sjá skilmála og persónuverndaryfirlýsingu verkefnisins.
+                        Ofantaldar upplýsingar eru notaðar til að meta hversu lýðfræðilega dreift gagnasafnið Samrómur er. Því dreifðara og fjölbreyttara sem það er, því betra. Sjá skilmála og persónuverndaryfirlýsingu verkefnisins hér fyrir neðan til þess að fá frekari upplýsingar.
                     </p>
                 </Information>
                 <AgreeContainer>

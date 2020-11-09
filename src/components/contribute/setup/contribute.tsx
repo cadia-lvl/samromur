@@ -86,7 +86,7 @@ class Contribute extends React.Component<Props, State> {
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
             } else {
-                return goal ? 'Góð ráð' : 'Hvað viltu hlusta mikið?';
+                return goal ? 'Góð ráð' : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
             }
         }
     }

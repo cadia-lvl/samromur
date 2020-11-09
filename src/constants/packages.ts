@@ -24,19 +24,19 @@ export const speakGoals: Goal[] = [
 export const listenGoals: Goal[] = [
     {
         contributeType: 'hlusta',
-        name: 'Hlusta 1',
-        text: '5 upptökur',
-        count: 5
+        name: 'Lítinn',
+        text: '10 upptökur',
+        count: 10
     },
     {
         contributeType: 'hlusta',
-        name: 'Hlusta 2',
+        name: 'Miðstærð',
         text: '20 upptökur',
         count: 20
     },
     {
         contributeType: 'hlusta',
-        name: 'Hlusta 3',
+        name: 'Stóran',
         text: '50 upptökur',
         count: 50
     }

@@ -254,7 +254,7 @@ class IndexPage extends React.Component<Props> {
                                 </MarsContainer>
                                 <TitleContainer>
                                     <CTATitle>Það er á okkar valdi að alltaf megi finna svar á íslensku.</CTATitle>
-                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'validGreen'}>Taka þátt</CTAButton>
+                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'validGreen'}>Taka þátt h</CTAButton>
                                     
                                 </TitleContainer>
                             </RobotAndTitle>

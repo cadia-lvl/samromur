@@ -68,31 +68,32 @@ export default class Tips extends React.Component<Props, State> {
         const { onSkip } = this.props;
         return (
             <TipsContainer>
-                <Tip icon={<WifiIcon height={40} width={40} fill={'gray'} />} title={'Stöðug nettenging'}>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
-                    </p>
-                </Tip>
                 <Tip icon={<SocialDistancingIcon height={40} width={40} fill={'gray'} />} title={'Tveggja metra reglan'}>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Það má ekki heyrast hátt í öðrum á meðan upptöku stendur og því þarf að halda fjarlægð frá öðrum. Oft duga tveir metrar til ef einstaklingar snúa frá hvor öðrum. Smá kliður í bakgrunni skemmir ekki fyrir en það má yfirgnæfa upptökuna. 
                     </p>
                 </Tip>
                 <Tip icon={<UserSpeakBubble height={40} width={40} fill={'gray'} />} title={'Yfirfara upptökur'}>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Gott er að hlusta á fyrstu upptökurnar sínar til þess að passa að öll setningin heyrist og ekki séu neinir tæknilegir örðugleikar svo sem brakhljóð í upptöku. 
                     </p>
                 </Tip>
-                <Tip icon={<CheckMarkCircle height={40} width={40} fill={'gray'} />} title={'Klára setninguna'}>
+                <Tip icon={<CheckMarkCircle height={40} width={40} fill={'gray'} />} title={'Lestu eins og þú lest bók'}>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Þó án leikræna tilburða, við viljum að tæki framtíðarinnar skilji okkur eðlilega talanda.
                     </p>
                 </Tip>
                 <Tip icon={<LineGraph height={40} width={40} fill={'gray'} />} title={'Ein eða þúsund?'}>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor erat sed est finibus, sed dictum eros mattis. Aliquam congue neque tortor, id mattis mauris condimentum sit amet.
+                        Þú mátt lesa eins margar setningar og þú vilt. Því fleiri sem þú lest því líklegra er að tæki sem skilji röddina eins og þín betur.
                     </p>
                 </Tip>
+                <Tip icon={<WifiIcon height={40} width={40} fill={'gray'} />} title={'Stöðug nettenging'}>
+                    <p>
+                        Til þess að tryggja að upptökurnar eru sendar inn er gott að vera með góða nettengingu. 
+                    </p>
+                </Tip>
+
                 <SkipButton onClick={onSkip}>Áfram</SkipButton>
             </TipsContainer>
         );
