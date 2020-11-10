@@ -9,9 +9,13 @@ export default class Sentences {
         this.sql = sql;
     }
 
-    insertBatchSentence = async (sentence: string, label: string): Promise<void> => {
-        return this.sql.query(
-            `
+    insertBatchSentence = async (
+        sentence: string,
+        label: string
+    ): Promise<void> => {
+        return this.sql
+            .query(
+                `
                 INSERT INTO
                     sentences (id, text, is_used, source, clips_count)
                 VALUES
@@ -21,13 +25,15 @@ export default class Sentences {
                     source = VALUES(source),
                     clips_count = clips_count + 1
             `,
-            [hash(sentence), sentence, true, label, 1]
-        ).then(([{ affectedRows }]) => {
-            return !!affectedRows ? Promise.resolve() : Promise.reject();
-        }).catch((error) => {
-            return Promise.reject(error);
-        })
-    }
+                [hash(sentence), sentence, true, label, 1]
+            )
+            .then(([{ affectedRows }]) => {
+                return !!affectedRows ? Promise.resolve() : Promise.reject();
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+    };
 
     insertBatch = async (batch: SimpleSentenceBatch): Promise<any> => {
         const pool = await this.sql.createPool();

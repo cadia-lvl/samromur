@@ -53,9 +53,7 @@ const Message = styled.div`
     font-size: 1.3rem;
 `;
 
-interface UploadAudioBatchProps {
-
-}
+interface UploadAudioBatchProps {}
 
 interface State {
     error: string;
@@ -88,38 +86,48 @@ class UploadAudioBatch extends React.Component<Props, State> {
             labels: [],
             totalSize: -1,
             successCount: -1,
-        }
+        };
     }
 
     componentDidMount = async () => {
         const labels = await adminApi.fetchVerificationLabels();
         this.setState({ labels });
-    }
+    };
 
     onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (files) {
             const verified = this.verifyFiles(files);
             const fileCount = verified.length;
-            const totalSize = verified.reduce((total, value) => total + value.size, 0);
+            const totalSize = verified.reduce(
+                (total, value) => total + value.size,
+                0
+            );
             this.setState({ files: verified, fileCount, totalSize });
         }
-    }
-
+    };
 
     verifyFiles = (files: FileList): File[] => {
-        const audio = Array.from(files).filter((file: File) => file.type.startsWith('audio'));
-        const metadata = Array.from(files).filter((file: File) => file.type == 'text/plain');
+        const audio = Array.from(files).filter((file: File) =>
+            file.type.startsWith('audio')
+        );
+        const metadata = Array.from(files).filter(
+            (file: File) => file.type == 'text/plain'
+        );
         const verifiedMetadata = metadata.filter(async (metadataFile: File) => {
             const name = metadataFile.name.replace(/\.[^.]*$/, '');
-            return audio.find((file: File) => file.name.replace(/\.[^.]*$/, '') == name);
+            return audio.find(
+                (file: File) => file.name.replace(/\.[^.]*$/, '') == name
+            );
         });
         const verifiedAudio = audio.filter((audioFile: File) => {
             const name = audioFile.name.replace(/\.[^.]*$/, '');
-            return verifiedMetadata.find((file: File) => file.name.replace(/\.[^.]*$/, '') == name);
+            return verifiedMetadata.find(
+                (file: File) => file.name.replace(/\.[^.]*$/, '') == name
+            );
         });
         return verifiedMetadata.concat(verifiedAudio);
-    }
+    };
 
     formatBytes = (bytes: number, decimals: number = 2): string => {
         if (bytes === 0) return '0 Bytes';
@@ -130,46 +138,66 @@ class UploadAudioBatch extends React.Component<Props, State> {
 
         const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-    }
+        return (
+            parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
+        );
+    };
 
     getDropdownLabels = (): string[] => {
         const { labels } = this.state;
-        const values = labels.map((value: string) => value == 'samromur' ? 'Almennt' : value);
+        const values = labels.map((value: string) =>
+            value == 'samromur' ? 'Almennt' : value
+        );
         return values.concat('Búa til nýjan');
-    }
+    };
 
     onProgress = (ev: ProgressEvent) => {
         this.setState({
             progress: ev.loaded,
             progressTotal: ev.total,
-        })
-    }
+        });
+    };
 
-    onSubmit = (age: string, dialect: string, gender: string, nativeLanguage: string, label: string) => {
+    onSubmit = (
+        age: string,
+        dialect: string,
+        gender: string,
+        nativeLanguage: string,
+        label: string
+    ) => {
         const { files } = this.state;
         if (!files || !label) {
             return;
         }
         this.setState({ uploading: true });
-        adminApi.uploadVerificationBatch(files, age, dialect, gender, nativeLanguage, label, this.onProgress).then((successCount: number) => {
-            this.setState({
-                finished: true,
-                successCount,
-                files: undefined,
-                fileCount: -1,
+        adminApi
+            .uploadVerificationBatch(
+                files,
+                age,
+                dialect,
+                gender,
+                nativeLanguage,
+                label,
+                this.onProgress
+            )
+            .then((successCount: number) => {
+                this.setState({
+                    finished: true,
+                    successCount,
+                    files: undefined,
+                    fileCount: -1,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                this.setState({
+                    error: 'Eitthvað fór úrskeiðis',
+                    finished: true,
+                    files: undefined,
+                    fileCount: -1,
+                });
             });
-        }).catch((error) => {
-            console.error(error);
-            this.setState({
-                error: 'Eitthvað fór úrskeiðis',
-                finished: true,
-                files: undefined,
-                fileCount: -1,
-            });
-        })
-    }
-
+    };
 
     render() {
         const {
@@ -180,7 +208,7 @@ class UploadAudioBatch extends React.Component<Props, State> {
             uploading,
             finished,
             totalSize,
-            successCount
+            successCount,
         } = this.state;
 
         const labels = this.getDropdownLabels();
@@ -188,31 +216,35 @@ class UploadAudioBatch extends React.Component<Props, State> {
             <UploadAudioBatchContainer>
                 <BrowseBar>
                     <Status>
-                        {
-                            fileCount > 0 && <React.Fragment>Fann <span>{fileCount / 2}</span> skrár <span>með</span> setningar, samtals <span>{this.formatBytes(totalSize)}</span></React.Fragment>
-                        }
+                        {fileCount > 0 && (
+                            <React.Fragment>
+                                Fann <span>{fileCount / 2}</span> skrár{' '}
+                                <span>með</span> setningar, samtals{' '}
+                                <span>{this.formatBytes(totalSize)}</span>
+                            </React.Fragment>
+                        )}
                     </Status>
                     <FileBrowser onChange={this.onChange}>
                         <Button>Velja skrár</Button>
                     </FileBrowser>
                 </BrowseBar>
-                {
-                    finished && (
-                        <Message>
-                            {
-                                error ? <span>{error}</span> : <span>Setti inn {successCount} upptökur</span>
-                            }
-                        </Message>
-                    )
-                }
-                {
-                    fileCount > 0 && <UploadMetadata labels={labels} onSubmit={this.onSubmit} />
-                }
-                {
-                    (uploading && !finished) && <ProgressBar val={progress} max={progressTotal} />
-                }
+                {finished && (
+                    <Message>
+                        {error ? (
+                            <span>{error}</span>
+                        ) : (
+                            <span>Setti inn {successCount} upptökur</span>
+                        )}
+                    </Message>
+                )}
+                {fileCount > 0 && (
+                    <UploadMetadata labels={labels} onSubmit={this.onSubmit} />
+                )}
+                {uploading && !finished && (
+                    <ProgressBar val={progress} max={progressTotal} />
+                )}
             </UploadAudioBatchContainer>
-        )
+        );
     }
 }
 

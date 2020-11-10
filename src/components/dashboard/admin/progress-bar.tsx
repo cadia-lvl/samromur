@@ -18,16 +18,15 @@ const ProgressBarContainer = styled.div`
 interface FillerProps {
     ratio: number;
 }
-const Filler = styled.div.attrs(
-    ({ ratio }: FillerProps) => ({
-        style: {
-            maxWidth: `calc(${ratio} * 100%)`,
-        }
-    })) <FillerProps>`
+const Filler = styled.div.attrs(({ ratio }: FillerProps) => ({
+    style: {
+        maxWidth: `calc(${ratio} * 100%)`,
+    },
+}))<FillerProps>`
     height: 100%;
-    background-color: #60C197;
+    background-color: #60c197;
     width: 100%;
-    transition: max-width ${({ ratio }) => ratio === 0 ? '0.3s' : '1s'} linear;
+    transition: max-width ${({ ratio }) => (ratio === 0 ? '0.3s' : '1s')} linear;
 `;
 
 const Splitter = styled.div<{ pos: number }>`
@@ -53,15 +52,13 @@ interface Props {
 }
 
 export const ProgressBar: React.FunctionComponent<Props> = ({ max, val }) => {
-
     return (
         <Wrapper>
             <ProgressBarContainer>
                 <Filler ratio={val / max} />
             </ProgressBarContainer>
         </Wrapper>
-
     );
-}
+};
 
 export default ProgressBar;

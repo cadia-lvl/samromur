@@ -44,7 +44,13 @@ const Button = styled.div`
 
 interface Props {
     labels: string[];
-    onSubmit: (age: string, dialect: string, gender: string, nativeLanguage: string, label: string) => void;
+    onSubmit: (
+        age: string,
+        dialect: string,
+        gender: string,
+        nativeLanguage: string,
+        label: string
+    ) => void;
 }
 
 interface State {
@@ -65,7 +71,6 @@ export default class UploadMetadata extends React.Component<Props, State> {
             age: {
                 id: '',
                 name: '',
-
             },
             dialect: {
                 id: '',
@@ -73,7 +78,7 @@ export default class UploadMetadata extends React.Component<Props, State> {
             },
             gender: {
                 id: '',
-                name: ''
+                name: '',
             },
             nativeLanguage: {
                 id: '',
@@ -81,45 +86,59 @@ export default class UploadMetadata extends React.Component<Props, State> {
             },
             createNewLabel: false,
             newLabel: '',
-            selectedLabel: ''
-        }
+            selectedLabel: '',
+        };
     }
 
     onLabelSelect = (value: string) => {
         this.setState({
             createNewLabel: value == 'Búa til nýjan' ? true : false,
-            selectedLabel: value
+            selectedLabel: value,
         });
-
-    }
+    };
 
     onLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newLabel = e.currentTarget.value;
         this.setState({ newLabel });
-    }
+    };
 
     onAgeSelect = (value: string) => {
-        const age = ages.find((val: Demographic) => val.name == value) as Demographic;
+        const age = ages.find(
+            (val: Demographic) => val.name == value
+        ) as Demographic;
         this.setState({ age });
-    }
+    };
 
     onDialectSelect = (value: string) => {
-        const dialect = dialects.find((val: Demographic) => val.name == value) as Demographic;
+        const dialect = dialects.find(
+            (val: Demographic) => val.name == value
+        ) as Demographic;
         this.setState({ dialect });
-    }
+    };
 
     onGenderSelect = (value: string) => {
-        const gender = genders.find((val: Demographic) => val.name == value) as Demographic;
+        const gender = genders.find(
+            (val: Demographic) => val.name == value
+        ) as Demographic;
         this.setState({ gender });
-    }
+    };
 
     onNativeLanguageSelect = (value: string) => {
-        const nativeLanguage = nativeLanguages.find((val: Demographic) => val.name == value) as Demographic;
+        const nativeLanguage = nativeLanguages.find(
+            (val: Demographic) => val.name == value
+        ) as Demographic;
         this.setState({ nativeLanguage });
-    }
+    };
 
     onSubmit = () => {
-        const { age, dialect, gender, nativeLanguage, newLabel, selectedLabel } = this.state;
+        const {
+            age,
+            dialect,
+            gender,
+            nativeLanguage,
+            newLabel,
+            selectedLabel,
+        } = this.state;
         const label = !!newLabel ? newLabel : selectedLabel;
 
         this.props.onSubmit(
@@ -129,7 +148,7 @@ export default class UploadMetadata extends React.Component<Props, State> {
             nativeLanguage.id == '' ? 'islenska' : nativeLanguage.id,
             label
         );
-    }
+    };
 
     render() {
         const { labels } = this.props;
@@ -140,7 +159,7 @@ export default class UploadMetadata extends React.Component<Props, State> {
             createNewLabel,
             nativeLanguage,
             newLabel,
-            selectedLabel
+            selectedLabel,
         } = this.state;
         return (
             <MetadataContainer>
@@ -151,48 +170,50 @@ export default class UploadMetadata extends React.Component<Props, State> {
                     selected={selectedLabel}
                 />
                 <div>
-                    {
-                        createNewLabel && (
-                            <TextInput
-                                label={'Nafn á nýjum flokk'}
-                                onChange={this.onLabelChange}
-                                type="text"
-                                value={newLabel}
-                            />
-                        )
-                    }
+                    {createNewLabel && (
+                        <TextInput
+                            label={'Nafn á nýjum flokk'}
+                            onChange={this.onLabelChange}
+                            type="text"
+                            value={newLabel}
+                        />
+                    )}
                 </div>
-                {
-                    !(!selectedLabel) && (
-                        <React.Fragment>
-                            <DropdownButton
-                                content={ages.map((age: Demographic) => age.name)}
-                                label={'Aldur'}
-                                onSelect={this.onAgeSelect}
-                                selected={age ? age.name : ''}
-                            />
-                            <DropdownButton
-                                content={genders.map((gender: Demographic) => gender.name)}
-                                label={'Kyn'}
-                                onSelect={this.onGenderSelect}
-                                selected={gender ? gender.name : ''}
-                            />
-                            <DropdownButton
-                                content={nativeLanguages.map((language: Demographic) => language.name)}
-                                label={'Móðurmál'}
-                                onSelect={this.onNativeLanguageSelect}
-                                selected={nativeLanguage.name || 'Íslenska'}
-                            />
-                            <DropdownButton
-                                content={dialects.map((dialect: Demographic) => dialect.name)}
-                                label={'Framburður'}
-                                onSelect={this.onDialectSelect}
-                                selected={dialect ? dialect.name : ''}
-                            />
-                            <Button onClick={this.onSubmit}>Senda</Button>
-                        </React.Fragment>
-                    )
-                }
+                {!!selectedLabel && (
+                    <React.Fragment>
+                        <DropdownButton
+                            content={ages.map((age: Demographic) => age.name)}
+                            label={'Aldur'}
+                            onSelect={this.onAgeSelect}
+                            selected={age ? age.name : ''}
+                        />
+                        <DropdownButton
+                            content={genders.map(
+                                (gender: Demographic) => gender.name
+                            )}
+                            label={'Kyn'}
+                            onSelect={this.onGenderSelect}
+                            selected={gender ? gender.name : ''}
+                        />
+                        <DropdownButton
+                            content={nativeLanguages.map(
+                                (language: Demographic) => language.name
+                            )}
+                            label={'Móðurmál'}
+                            onSelect={this.onNativeLanguageSelect}
+                            selected={nativeLanguage.name || 'Íslenska'}
+                        />
+                        <DropdownButton
+                            content={dialects.map(
+                                (dialect: Demographic) => dialect.name
+                            )}
+                            label={'Framburður'}
+                            onSelect={this.onDialectSelect}
+                            selected={dialect ? dialect.name : ''}
+                        />
+                        <Button onClick={this.onSubmit}>Senda</Button>
+                    </React.Fragment>
+                )}
             </MetadataContainer>
         );
     }

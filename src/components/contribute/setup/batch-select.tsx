@@ -27,9 +27,9 @@ const CardContainer = styled.div<CardContainerProps>`
     padding: 1.8rem 1rem;
     background-color: white;
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
     cursor: pointer;
 
     & :active {
@@ -61,23 +61,20 @@ interface Props {
 }
 
 export const BatchSelect: React.FunctionComponent<Props> = (props) => {
-
     const { labels, setLabel } = props;
 
     return (
         <CardGrid>
-            {
-                labels.map((label: string, i: number) =>
-                    <CardContainer key={i} onClick={() => setLabel(label)}>
-                        <PlayIcon height={40} width={40} fill={'gray'} />
-                        <Title>
-                            <h3>{label == 'samromur' ? 'Almennt' : label}</h3>
-                        </Title>
-                    </CardContainer>
-                )
-            }
+            {labels.map((label: string, i: number) => (
+                <CardContainer key={i} onClick={() => setLabel(label)}>
+                    <PlayIcon height={40} width={40} fill={'gray'} />
+                    <Title>
+                        <h3>{label == 'samromur' ? 'Almennt' : label}</h3>
+                    </Title>
+                </CardContainer>
+            ))}
         </CardGrid>
     );
-}
+};
 
 export default BatchSelect;

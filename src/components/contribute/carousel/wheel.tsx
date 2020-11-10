@@ -168,7 +168,7 @@ class CarouselWheel extends React.Component<Props, State> {
 
     refreshClips = async () => {
         // To-do: test this
-        const { batch, user} = this.props;
+        const { batch, user } = this.props;
         const fetchRequest: FetchSamplesPayload = {
             batch,
             clientId: user.client.id,
