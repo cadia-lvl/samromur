@@ -18,13 +18,13 @@ const SwapContainer = styled.div<SwapProps>`
         right: 0;
         transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     > *:nth-child(1) {
-        opacity: ${({ second }) => second ? 0 : 1};
+        opacity: ${({ second }) => (second ? 0 : 1)};
     }
 
     > *:nth-child(2) {
-        opacity: ${({ second }) => !second ? 0 : 1};
+        opacity: ${({ second }) => (!second ? 0 : 1)};
     }
 `;
 
@@ -55,7 +55,7 @@ class OpacitySwap extends React.Component<Props, State> {
         this.state = {
             height: 0,
             width: 0,
-        }
+        };
     }
 
     componentDidMount = () => {
@@ -69,17 +69,21 @@ class OpacitySwap extends React.Component<Props, State> {
         if (!!firstHeight && !!secondHeight) {
             this.setState({ height: Math.max(firstHeight, secondHeight) + 1 });
         }
-    }
+    };
 
     render() {
         const { children, className, second, ref } = this.props;
         const { width, height } = this.state;
         const firstChild = Array.isArray(children) ? children[0] : undefined;
-        const secondChild = Array.isArray(children) ? children[1] : undefined
+        const secondChild = Array.isArray(children) ? children[1] : undefined;
         return (
             <React.Fragment>
-                <div className={className} ref={ref} >
-                    <SwapContainer second={second} width={width} height={height}>
+                <div className={className} ref={ref}>
+                    <SwapContainer
+                        second={second}
+                        width={width}
+                        height={height}
+                    >
                         {children}
                     </SwapContainer>
                 </div>
@@ -92,7 +96,10 @@ class OpacitySwap extends React.Component<Props, State> {
             </React.Fragment>
         );
     }
-};
+}
 
-
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <OpacitySwap {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <OpacitySwap {...props} ref={ref as any} />
+    )
+);

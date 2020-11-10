@@ -10,16 +10,19 @@ import { AudioInfo, RecordingError } from '../../../types/audio';
 import { WheelColor } from '../../../types/contribute';
 import { WheelSentence } from '../../../types/sentences';
 import {
-    saveVote, SaveVoteRequest,
-    uploadClip, UploadClipRequest,
-    fetchClips, fetchSentences,
+    saveVote,
+    SaveVoteRequest,
+    uploadClip,
+    UploadClipRequest,
+    fetchClips,
+    fetchSentences,
     FetchSamplesPayload,
 } from '../../../services/contribute-api';
 
 import {
     decrementProgress,
     incrementProgress,
-    setExpanded
+    setExpanded,
 } from '../../../store/contribute/actions';
 
 import Instructions from './instructions';
@@ -43,9 +46,9 @@ const WheelContainer = styled.div<WheelContainerProps>`
     height: 100vh;
     width: 100%;
     max-height: 100%;
-    max-width: ${({ expanded, theme }) => expanded ? '100vw' : theme.layout.gameWidth};
-    transition:
-        max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    max-width: ${({ expanded, theme }) =>
+        expanded ? '100vw' : theme.layout.gameWidth};
+    transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     justify-items: center;
     padding: 0 1rem;
@@ -53,7 +56,7 @@ const WheelContainer = styled.div<WheelContainerProps>`
         max-height: 60rem;
     }
 
-    & > * {        
+    & > * {
         align-self: center;
     }
 `;
@@ -62,7 +65,7 @@ const dispatchProps = {
     decrementProgress,
     incrementProgress,
     setExpanded,
-}
+};
 
 interface CarouselWheelProps {
     sentences?: WheelSentence[];
@@ -70,7 +73,9 @@ interface CarouselWheelProps {
     clips?: WheelClip[];
 }
 
-type Props = ReturnType<typeof mapStateToProps> & CarouselWheelProps & typeof dispatchProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    CarouselWheelProps &
+    typeof dispatchProps;
 
 interface State {
     sentences: WheelSentence[];
@@ -91,7 +96,11 @@ class CarouselWheel extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            sentences: this.props.sentences || this.props.clips && this.sentencesFromClips(this.props.clips) || [],
+            sentences:
+                this.props.sentences ||
+                (this.props.clips &&
+                    this.sentencesFromClips(this.props.clips)) ||
+                [],
             color: WheelColor.BLUE,
             clips: this.props.clips || [],
             clipIndex: 0,
@@ -101,14 +110,14 @@ class CarouselWheel extends React.Component<Props, State> {
             uploadError: undefined,
 
             expanded: false,
-        }
+        };
 
         this.activeIndex = 0;
     }
 
     setColor = (color: WheelColor) => {
         this.setState({ color });
-    }
+    };
 
     sentencesFromClips = (clips: WheelClip[]): WheelSentence[] => {
         return clips.map((clip: WheelClip) => ({
@@ -116,40 +125,46 @@ class CarouselWheel extends React.Component<Props, State> {
             removed: false,
             hasClip: false,
         }));
-    }
+    };
 
     componentDidMount = async () => {
         if (!!this.props.sentences) {
             // To-do: Handle recording not supporteds
             // To-do: Stop microphone when idle to remove recording indicator from browser tab
             this.recorder = new Recorder();
-            this.recorder.isRecordingSupported && await this.recorder.init();
+            this.recorder.isRecordingSupported && (await this.recorder.init());
         }
         window.addEventListener('keydown', this.handleKeyDown);
-    }
+        window.addEventListener(
+            'beforeunload',
+            this.handleOnBeforeUnload.bind(this)
+        );
+    };
 
     componentDidUpdate = async () => {
         const { clips, isSpeak, sentences } = this.state;
         if (isSpeak) {
-            const notUsedSentences = sentences.filter((sentence: WheelSentence) => !sentence.removed && !sentence.hasClip);
+            const notUsedSentences = sentences.filter(
+                (sentence: WheelSentence) =>
+                    !sentence.removed && !sentence.hasClip
+            );
             notUsedSentences.length <= 10 && this.refreshSentences();
         } else {
             const nonVotedClips = clips.filter((clip: WheelClip) => !clip.vote);
             nonVotedClips.length <= 10 && this.refreshClips();
         }
-    }
+    };
 
     refreshSentences = async () => {
         const { user } = this.props;
         const fetchRequest: FetchSamplesPayload = {
             clientId: user.client.id,
-            count: 20
-        }
+            count: 20,
+        };
         const freshSentences = await fetchSentences(fetchRequest);
         const newSentences = this.state.sentences.concat(freshSentences);
         this.setState({ sentences: newSentences });
-
-    }
+    };
 
     refreshClips = async () => {
         // To-do: test this
@@ -157,16 +172,33 @@ class CarouselWheel extends React.Component<Props, State> {
         const fetchRequest: FetchSamplesPayload = {
             batch,
             clientId: user.client.id,
-            count: 20
-        }
+            count: 20,
+        };
         const freshClips = await fetchClips(fetchRequest);
         const newClips = this.state.clips.concat(freshClips);
         this.setState({ clips: newClips });
-    }
+    };
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.handleKeyDown);
-    }
+        window.removeEventListener(
+            'beforeunload',
+            this.handleOnBeforeUnload.bind(this)
+        );
+    };
+
+    handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
+        const {
+            contribute: { goal, progress },
+        } = this.props;
+        const message =
+            'Ef þú hættir núna glatast það sem þú ert búinn að taka upp.';
+        if (progress > 0 && goal && goal.count != progress) {
+            event.preventDefault();
+            event.returnValue = message;
+            return message;
+        }
+    };
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { keyCode } = event;
@@ -175,49 +207,72 @@ class CarouselWheel extends React.Component<Props, State> {
         } else if (keyCode == 39) {
             this.onSpin(1);
         }
-    }
+    };
 
     /**
-    *   Updates a clip in state and returns the updated clip
-    */
-    updateClip = async (index: number, update: { [type: string]: any }): Promise<WheelClip> => {
+     *   Updates a clip in state and returns the updated clip
+     */
+    updateClip = async (
+        index: number,
+        update: { [type: string]: any }
+    ): Promise<WheelClip> => {
         // Wait for array update before updating the state
-        const newClips: WheelClip[] = await Promise.all(this.state.clips.map((clip, i) =>
-            index == i ? Promise.resolve({ ...clip, ...update }) : Promise.resolve(clip)
-        ));
+        const newClips: WheelClip[] = await Promise.all(
+            this.state.clips.map((clip, i) =>
+                index == i
+                    ? Promise.resolve({ ...clip, ...update })
+                    : Promise.resolve(clip)
+            )
+        );
 
         this.setState({ clips: newClips });
 
         return Promise.resolve(newClips[index]);
-    }
+    };
 
     /**
-    *   Updates a clip in state and returns the updated clip
-    */
-    updateSentence = async (index: number, update: { [type: string]: any }): Promise<void> => {
+     *   Updates a clip in state and returns the updated clip
+     */
+    updateSentence = async (
+        index: number,
+        update: { [type: string]: any }
+    ): Promise<void> => {
         // Wait for array update before updating the state
-        const newSentences: WheelSentence[] = await Promise.all(this.state.sentences.map((sentence, i) =>
-            index == i ? Promise.resolve({ ...sentence, ...update }) : Promise.resolve(sentence)
-        ));
+        const newSentences: WheelSentence[] = await Promise.all(
+            this.state.sentences.map((sentence, i) =>
+                index == i
+                    ? Promise.resolve({ ...sentence, ...update })
+                    : Promise.resolve(sentence)
+            )
+        );
 
         this.setState({ sentences: newSentences });
 
         return Promise.resolve();
-    }
+    };
 
     onSpin = (offset: number, justRecorded?: boolean) => {
         // To-do: Beautify function
         if (offset == 0 || (this.recorder && this.recorder.isRecording)) {
             return;
         }
-        const { clipIndex, expanded, sentenceIndex, clips, sentences } = this.state;
-        const { contribute: { goal } } = this.props;
+        const {
+            clipIndex,
+            expanded,
+            sentenceIndex,
+            clips,
+            sentences,
+        } = this.state;
+        const {
+            contribute: { goal },
+        } = this.props;
 
         if (expanded) {
             return;
         }
-        const numClips = clips.filter((clip: WheelClip) => !!clip.recording).length;
-        if (justRecorded && (goal && numClips >= goal.count)) {
+        const numClips = clips.filter((clip: WheelClip) => !!clip.recording)
+            .length;
+        if (justRecorded && goal && numClips >= goal.count) {
             return;
         }
 
@@ -226,8 +281,10 @@ class CarouselWheel extends React.Component<Props, State> {
         }
 
         // If positioned at the end of the wheel
-        if (sentenceIndex == 0 && offset < 0 || sentenceIndex == sentences.length - 1 && offset > 0) {
-
+        if (
+            (sentenceIndex == 0 && offset < 0) ||
+            (sentenceIndex == sentences.length - 1 && offset > 0)
+        ) {
             setTimeout(() => this.setState({ sentenceIndex }), 150);
             this.setState({ sentenceIndex: sentenceIndex + offset });
             return;
@@ -242,7 +299,10 @@ class CarouselWheel extends React.Component<Props, State> {
         }
 
         if (justRecorded) {
-            if (clips[clipIndex + offset] && !!clips[clipIndex + offset].recording) {
+            if (
+                clips[clipIndex + offset] &&
+                !!clips[clipIndex + offset].recording
+            ) {
                 return;
             }
         }
@@ -252,14 +312,14 @@ class CarouselWheel extends React.Component<Props, State> {
             sentenceIndex: sentenceIndex + offset,
             clipIndex: clipIndex + offset,
         });
-    }
+    };
 
     removeErrors = () => {
         this.setState({
             recordingError: undefined,
             uploadError: undefined,
         });
-    }
+    };
 
     handleRemoveRecording = async (): Promise<void> => {
         const { clipIndex } = this.state;
@@ -269,40 +329,44 @@ class CarouselWheel extends React.Component<Props, State> {
             uploaded: undefined,
         });
         this.props.decrementProgress();
-    }
+    };
 
     handleSkip = async () => {
         await this.updateSentence(this.activeIndex, { removed: true });
-    }
+    };
 
     handleDeleteClip = async () => {
         // To-do: If it's a recording, remove it from database
         await this.handleRemoveRecording();
         await this.handleSkip();
-    }
+    };
 
     handleSaveVote = async (vote: ClipVote): Promise<void> => {
         this.onSpin(1);
         const { clipIndex } = this.state;
         const clip = await this.updateClip(clipIndex, { vote });
 
-        const { user: { client: { isSuperUser } } } = this.props;
+        const {
+            user: {
+                client: { isSuperUser },
+            },
+        } = this.props;
         const payload = {
             clipId: clip.id as number,
             isSuper: isSuperUser,
             vote: clip.vote as ClipVote,
-            voteId: clip.voteId
-        }
+            voteId: clip.voteId,
+        };
         if (!clip.voteId) {
             this.props.incrementProgress();
         }
 
-        const voteId = await saveVote(payload)
+        const voteId = await saveVote(payload);
 
         return this.updateClip(clipIndex, { voteId })
             .then(() => Promise.resolve())
             .catch((error) => Promise.reject(error));
-    }
+    };
 
     handleStartRecording = async (): Promise<void> => {
         if (!this.recorder || !this.recorder.isRecordingSupported) {
@@ -311,16 +375,20 @@ class CarouselWheel extends React.Component<Props, State> {
             return;
         }
 
-        this.state.recordingError && this.setState({ recordingError: undefined });
+        this.state.recordingError &&
+            this.setState({ recordingError: undefined });
 
         return this.recorder.startRecording().catch((error) => {
             // To-do error handling
             console.error(error);
             return Promise.reject(error);
         });
-    }
+    };
 
-    saveClip = async (recording: AudioInfo, sentence: WheelSentence): Promise<void> => {
+    saveClip = async (
+        recording: AudioInfo,
+        sentence: WheelSentence
+    ): Promise<void> => {
         const clip = { recording, sentence };
         const { clips, clipIndex } = this.state;
 
@@ -331,12 +399,12 @@ class CarouselWheel extends React.Component<Props, State> {
 
         const newClips = this.state.clips.concat(clip);
         this.setState({
-            clips: newClips
+            clips: newClips,
         });
 
         await this.updateSentence(this.activeIndex, { hasClip: true });
         return Promise.resolve();
-    }
+    };
 
     handleStopRecording = async (): Promise<void> => {
         if (!this.recorder) {
@@ -344,57 +412,78 @@ class CarouselWheel extends React.Component<Props, State> {
             return;
         }
 
-        return this.recorder.stopRecording().then(async (recording: AudioInfo) => {
-            const { clipIndex, sentences } = this.state;
-            this.props.incrementProgress();
-            await this.saveClip(recording, sentences[this.activeIndex]);
-            this.handleUpload(clipIndex);
-            this.onSpin(1, true);
-            const { contribute: { goal, progress } } = this.props;
-            const isDone = !!(goal && goal.count == progress);
-            if (!isDone) {
-                this.recorder?.initMicrophone();
-            }
-            return Promise.resolve();
-        }).catch((error: RecordingError) => {
-            this.setState({ recordingError: error });
-            console.error(error);
-        })
-    }
+        return this.recorder
+            .stopRecording()
+            .then(async (recording: AudioInfo) => {
+                const { clipIndex, sentences } = this.state;
+                this.props.incrementProgress();
+                await this.saveClip(recording, sentences[this.activeIndex]);
+                this.handleUpload(clipIndex);
+                this.onSpin(1, true);
+                const {
+                    contribute: { goal, progress },
+                } = this.props;
+                const isDone = !!(goal && goal.count == progress);
+                if (!isDone) {
+                    this.recorder?.initMicrophone();
+                }
+                return Promise.resolve();
+            })
+            .catch((error: RecordingError) => {
+                this.setState({ recordingError: error });
+                console.error(error);
+            });
+    };
 
     handleUpload = async (i: number): Promise<void> => {
         const clip = this.state.clips[i];
         const { user } = this.props;
         uploadClip(clip, user)
-            .then((clipId: number) => this.updateClip(i, { clipId, uploaded: true }))
+            .then((clipId: number) =>
+                this.updateClip(i, { clipId, uploaded: true })
+            )
             .catch((uploadError) => this.updateClip(i, { uploadError }));
-    }
+    };
 
     setActiveIndex = (activeIndex: number) => {
         this.activeIndex = activeIndex;
-    }
+    };
 
     handleExpand = () => {
         this.props.setExpanded(true);
-    }
+    };
 
     handleContinue = () => {
         const { clips, isSpeak, sentences } = this.state;
 
         const newClips = isSpeak ? [] : clips.filter((clip) => !clip.vote);
-        const newSentences = isSpeak ? sentences.filter((sentence) => !sentence.removed && !sentence.hasClip) : this.sentencesFromClips(newClips);
+        const newSentences = isSpeak
+            ? sentences.filter(
+                  (sentence) => !sentence.removed && !sentence.hasClip
+              )
+            : this.sentencesFromClips(newClips);
         this.activeIndex = 0;
         this.setState({
             clipIndex: 0,
             sentenceIndex: 0,
             clips: newClips,
-            sentences: newSentences
+            sentences: newSentences,
         });
-    }
+    };
 
     render() {
-        const { clips, clipIndex, color, isSpeak, sentenceIndex, recordingError, sentences } = this.state;
-        const { contribute: { expanded, gaming, goal, progress } } = this.props;
+        const {
+            clips,
+            clipIndex,
+            color,
+            isSpeak,
+            sentenceIndex,
+            recordingError,
+            sentences,
+        } = this.state;
+        const {
+            contribute: { expanded, gaming, goal, progress },
+        } = this.props;
         const activeClip = clips[clipIndex] || undefined;
         const isDone = !!(goal && goal.count == progress);
 
@@ -404,27 +493,25 @@ class CarouselWheel extends React.Component<Props, State> {
             <WheelContainer expanded={expanded}>
                 <div />
                 <div />
-                {
-                    sentences.map((sentence: WheelSentence, i: number) => {
-                        if (sentence.removed) {
-                            removeCounts += 1;
-                        }
-                        const position = i - sentenceIndex - removeCounts;
-                        if (position == 0) {
-                            this.activeIndex = i;
-                        }
-                        return (
-                            <Card
-                                expanded={expanded}
-                                onContinue={this.handleContinue}
-                                key={i}
-                                sentence={sentence}
-                                onClick={() => this.onSpin(position)}
-                                position={position}
-                            />
-                        )
-                    })
-                }
+                {sentences.map((sentence: WheelSentence, i: number) => {
+                    if (sentence.removed) {
+                        removeCounts += 1;
+                    }
+                    const position = i - sentenceIndex - removeCounts;
+                    if (position == 0) {
+                        this.activeIndex = i;
+                    }
+                    return (
+                        <Card
+                            expanded={expanded}
+                            onContinue={this.handleContinue}
+                            key={i}
+                            sentence={sentence}
+                            onClick={() => this.onSpin(position)}
+                            position={position}
+                        />
+                    );
+                })}
 
                 <WheelControls
                     clips={clips}
@@ -472,7 +559,4 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(CarouselWheel);
+export default connect(mapStateToProps, dispatchProps)(CarouselWheel);

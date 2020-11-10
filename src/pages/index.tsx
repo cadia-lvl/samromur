@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 
-import { fetchTotalClips, fetchTotalClipsTimeline, fetchTotalClipsClients } from '../store/stats/actions';
+import {
+    fetchTotalClips,
+    fetchTotalClipsTimeline,
+    fetchTotalClipsClients,
+} from '../store/stats/actions';
 import makeSSRDispatch from '../utilities/ssr-request';
 import { pages } from '../constants/paths';
 
@@ -18,8 +22,10 @@ import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
 
 const FrontPageContainer = styled.div`
-    background: url(/images/light-waves.svg) repeat-x bottom;
-    background-color: ${({ theme }) => theme.colors.lightGray};
+    /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
+    background: url(/images/wave-footer@3x.png) no-repeat bottom;
+    background-size: 100% auto;
+    background-color: ${({ theme }) => theme.colors.white};
     display: flex;
     flex-direction: column;
     & > * {
@@ -54,6 +60,16 @@ const BottomContent = styled.div`
     margin-bottom: 2rem;
 `;
 
+const MiddleContent = styled.div`
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    align-items: center;
+`;
+
 const RobotMessage = styled.div`
     font-size: 1.5rem;
 `;
@@ -66,9 +82,9 @@ const HeroChart = styled.div`
     display: flex;
     flex-direction: column;
     background-color: white;
-    box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
-    -moz-box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
-    -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.08);
+    -moz-box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.08);
+    -webkit-box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.08);
 `;
 
 const ChartContainer = styled.div`
@@ -85,8 +101,9 @@ const ChartLegend = styled.div`
 `;
 
 const ChartTitle = styled.span`
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1rem;
+    color: grey;
+    font-weight: 500;
 `;
 
 const ChartSubTitle = styled.span`
@@ -187,30 +204,29 @@ const MicButton = styled.div`
     align-items: center;
     background-color: white;
     border-radius: 50%;
-    
-    box-shadow: 0 0 3px 1px rgba(0,0,0,.18);
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,.18);
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,.18);
+
+    box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.18);
+    -moz-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.18);
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.18);
 
     cursor: pointer;
     & :active {
         transform: translateY(2px);
     }
 `;
-const dispatchProps = {
+const dispatchProps = {};
 
-}
-
-type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps & WithTranslation & WithRouterProps;
+type Props = ReturnType<typeof mapStateToProps> &
+    typeof dispatchProps &
+    WithTranslation &
+    WithRouterProps;
 
 class IndexPage extends React.Component<Props> {
-
     constructor(props: Props) {
         super(props);
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
-
         // Total clips chart
         await makeSSRDispatch(ctx, fetchTotalClipsTimeline.request);
 
@@ -220,10 +236,10 @@ class IndexPage extends React.Component<Props> {
         // Client count chart
         await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
 
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
-    }
+        };
+    };
 
     render() {
         const introduction = this.props.t('introduction-markdown');
@@ -238,10 +254,18 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>Við ætlum að búa til stærsta íslenska raddgagnasafnið</CTATitle>
-                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'green'}>Taka þátt</CTAButton>
-                                    <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira</CTAButton>
-                                    
+                                    <CTATitle>
+                                        Það er á okkar valdi að alltaf megi
+                                        finna svar á íslensku.
+                                    </CTATitle>
+                                    <CTAButton
+                                        onClick={() =>
+                                            router.push(pages.contribute)
+                                        }
+                                        color={'validGreen'}
+                                    >
+                                        Taka þátt
+                                    </CTAButton>
                                 </TitleContainer>
                             </RobotAndTitle>
                             <FrontPageStats
@@ -249,26 +273,37 @@ class IndexPage extends React.Component<Props> {
                                 clips={stats.totalClips}
                             />
                         </CallToAction>
+                        <MiddleContent>
+                            <CTAButton
+                                onClick={() => router.push(pages.about)}
+                                color={'blue'}
+                            >
+                                Lesa meira um verkefnið
+                            </CTAButton>
+                        </MiddleContent>
+
                         <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
-                                    <ChartTitle>Innlesnar setningar</ChartTitle>
-                                    <ChartSubTitle>síðastliðinn mánuður</ChartSubTitle>
+                                    <ChartTitle>
+                                        Innlesnar setningar síðastliðinn mánuð
+                                    </ChartTitle>
+                                    {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */}
                                 </ChartLegend>
                                 <ChartContainer>
                                     <TotalChart />
                                 </ChartContainer>
                             </HeroChart>
                         </ChartsContainer>
-                    </FrontPageContent>
-                    <BottomContent>
-                        <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
+                        <BottomContent>
+                            {/*    <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
                         <MicButton onClick={() => router.push(pages.speak)} >
-                            <MicIcon fill={'blue'} height={35} width={35} />
-                        </MicButton>
-                    </BottomContent>
+                            <MicIcon fill={'green'} height={35} width={35} />
+                        </MicButton> */}
+                        </BottomContent>
+                    </FrontPageContent>
                 </FrontPageContainer>
-            </Layout >
+            </Layout>
         );
     }
 }

@@ -34,8 +34,8 @@ export default class Sql {
             port: dbOptions.DB_PORT,
             connectTimeout: 30000,
             multipleStatements: true,
-            namedPlaceholders: true
-        }
+            namedPlaceholders: true,
+        };
     }
 
     async getConnection(options: MysqlOptions): Promise<mysql2.Connection> {
@@ -48,11 +48,10 @@ export default class Sql {
 
     async getPool(): Promise<any> {
         if (this.pool) return this.pool;
-        return new Promise(async resolve => {
+        return new Promise(async (resolve) => {
             this.pool = await this.createPool();
             resolve(this.pool);
-        }
-        );
+        });
     }
 
     async query(...args: any[]) {
@@ -150,7 +149,6 @@ export default class Sql {
         values = values || [];
         await this.ensureRootConnection();
         return this.rootConnection.execute(sql, values);
-
     }
 
     /**

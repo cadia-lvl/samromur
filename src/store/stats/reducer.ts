@@ -11,59 +11,50 @@ const initialState: StatsState = {
     weekly: {
         clips: [],
         votes: [],
-    }
-}
+    },
+};
 
 export default createReducer(initialState)
-    .handleAction(
-        StatsActions.fetchWeeklyClips.success,
-        (state, action) => {
-            return {
-                ...state,
-                weekly: {
-                    ...state.weekly,
-                    clips: action.payload,
-                }
-            }
-        }
-    )
-    .handleAction(
-        StatsActions.fetchWeeklyVotes.success,
-        (state, action) => {
-            return {
-                ...state,
-                weekly: {
-                    ...state.weekly,
-                    votes: action.payload,
-                }
-            }
-        }
-    )
+    .handleAction(StatsActions.fetchWeeklyClips.success, (state, action) => {
+        return {
+            ...state,
+            weekly: {
+                ...state.weekly,
+                clips: action.payload,
+            },
+        };
+    })
+    .handleAction(StatsActions.fetchWeeklyVotes.success, (state, action) => {
+        return {
+            ...state,
+            weekly: {
+                ...state.weekly,
+                votes: action.payload,
+            },
+        };
+    })
     .handleAction(
         StatsActions.fetchTotalClipsTimeline.success,
         (state, action) => {
             return {
                 ...state,
                 totalClipsTimeline: action.payload,
-            }
+            };
         }
     )
-    .handleAction(
-        StatsActions.fetchTotalClips.success,
-        (state, action) => {
-            return {
-                ...state,
-                totalClips: action.payload,
-            }
-        }
-    )
+    .handleAction(StatsActions.fetchTotalClips.success, (state, action) => {
+        return {
+            ...state,
+            totalClips: action.payload,
+        };
+    })
     .handleAction(
         StatsActions.fetchTotalValidatedClips.success,
         (state, action) => {
             return {
                 ...state,
                 totalValidatedClips: action.payload,
-            }
+            };
         }
     )
     .handleAction(
@@ -72,15 +63,12 @@ export default createReducer(initialState)
             return {
                 ...state,
                 totalClipsClients: action.payload,
-            }
+            };
         }
     )
-    .handleAction(
-        StatsActions.fetchTodayClips.success,
-        (state, action) => {
-            return {
-                ...state,
-                todayClips: action.payload,
-            }
-        }
-    )
+    .handleAction(StatsActions.fetchTodayClips.success, (state, action) => {
+        return {
+            ...state,
+            todayClips: action.payload,
+        };
+    });

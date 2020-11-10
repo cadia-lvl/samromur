@@ -23,7 +23,7 @@ const Button = styled.div<ButtonProps>`
     padding: 1rem 2rem;
     background-color: ${({ done, success, theme }) => {
         if (done) {
-            return success ? theme.colors.green : theme.colors.red
+            return success ? theme.colors.green : theme.colors.red;
         } else {
             return theme.colors.blue;
         }
@@ -37,9 +37,7 @@ const Button = styled.div<ButtonProps>`
     }
 `;
 
-interface SuperUserProps {
-
-}
+interface SuperUserProps {}
 
 interface State {
     done: boolean;
@@ -57,48 +55,51 @@ class SuperUser extends React.Component<Props, State> {
             done: false,
             success: false,
             userEmail: '',
-        }
+        };
     }
 
     onEmailChange = (userEmail: string) => {
         this.setState({ userEmail });
-    }
+    };
 
     onSubmit = () => {
         const { userEmail } = this.state;
-        adminApi.makeSuperUser(userEmail).then(() => {
-            this.setState({
-                done: true,
-                success: true,
-            });
-        }).catch((error) => {
-            console.error(error);
-            this.setState({
-                done: true,
-                success: false,
+        adminApi
+            .makeSuperUser(userEmail)
+            .then(() => {
+                this.setState({
+                    done: true,
+                    success: true,
+                });
             })
-        })
-    }
+            .catch((error) => {
+                console.error(error);
+                this.setState({
+                    done: true,
+                    success: false,
+                });
+            });
+    };
 
     render() {
         const { done, success } = this.state;
         return (
             <SuperUserContainer>
                 <TextInput
-                    label='Búa til ofurnotanda'
+                    label="Búa til ofurnotanda"
                     onChange={this.onEmailChange}
-                    placeholder='tölvupóstfang'
-                    type='text'
+                    placeholder="tölvupóstfang"
+                    type="text"
                 />
-                <Button
-                    done={done}
-                    onClick={this.onSubmit}
-                    success={success}
-                >
-                    {(done && success) ? 'Breyting tókst' : (done && !success) ? 'Mistókst' : 'Staðfesta'}
+                <Button done={done} onClick={this.onSubmit} success={success}>
+                    {done && success
+                        ? 'Breyting tókst'
+                        : done && !success
+                        ? 'Mistókst'
+                        : 'Staðfesta'}
                 </Button>
             </SuperUserContainer>
-        )
+        );
     }
 }
 

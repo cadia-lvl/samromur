@@ -14,9 +14,10 @@ export const getRGBWheelColor = (color: WheelColor): number[] => {
             // Default blue!
             return [133, 206, 255];
     }
-}
+};
 
-export const getWheelColorString = (color: WheelColor): string => color.toString().toLowerCase();
+export const getWheelColorString = (color: WheelColor): string =>
+    color.toString().toLowerCase();
 
 export const getWheelColorHEXShades = (color: WheelColor): string => {
     switch (color) {
@@ -32,4 +33,4 @@ export const getWheelColorHEXShades = (color: WheelColor): string => {
             // Default blue!
             return '#88d1f1, #b1b5e5';
     }
-}
+};

@@ -8,29 +8,26 @@ import services from '../services';
 import { Type } from 'aws-sdk/clients/cloudformation';
 
 const initStore = (initialState: RootState) => {
+    const epicMiddleware = createEpicMiddleware<
+        RootAction,
+        RootAction,
+        RootState,
+        Services
+    >({
+        dependencies: services,
+    });
 
-  const epicMiddleware = createEpicMiddleware<
-    RootAction,
-    RootAction,
-    RootState,
-    Services
-  >({
-    dependencies: services,
-  });
+    const middlewares = [epicMiddleware];
 
-  const middlewares = [epicMiddleware];
+    const store = createStore(
+        rootReducer,
+        initialState,
+        composeWithDevTools(applyMiddleware(...middlewares))
+    );
 
-  const store = createStore(
-    rootReducer,
-    initialState,
-    composeWithDevTools(
-      applyMiddleware(...middlewares)
-    )
-  );
+    epicMiddleware.run(rootEpic);
 
-  epicMiddleware.run(rootEpic);
-
-  return store;
-}
+    return store;
+};
 
 export default initStore;

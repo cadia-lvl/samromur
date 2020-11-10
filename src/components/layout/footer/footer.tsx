@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import FooterTitle from './title';
 import FooterLinks from './links';
@@ -39,9 +39,7 @@ const FooterGrid = styled.div`
     }
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 export const Footer: FunctionComponent<Props> = (props) => {
     const router = useRouter();
@@ -55,7 +53,7 @@ export const Footer: FunctionComponent<Props> = (props) => {
                 <SubscribeEmailForm />
             </FooterGrid>
         </FooterContainer>
-    )
-}
+    );
+};
 
 export default Footer;

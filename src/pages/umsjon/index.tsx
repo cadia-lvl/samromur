@@ -24,9 +24,7 @@ interface State {
     showAddSentences: boolean;
 }
 
-const dispatchProps = {
-
-}
+const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps;
 
@@ -36,43 +34,37 @@ class AdminPage extends React.Component<Props, State> {
 
         this.state = {
             showAddSentences: false,
-        }
+        };
     }
 
     static async getInitialProps({ store, isServer }: NextPageContext) {
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
+        };
     }
 
     openContribute = () => {
         this.setState({ showAddSentences: true });
-    }
+    };
 
     closeContribute = () => {
         this.setState({
             showAddSentences: false,
         });
-    }
+    };
 
     render() {
-        const {
-            showAddSentences
-        } = this.state;
+        const { showAddSentences } = this.state;
 
         return (
             <Layout>
                 <AdminContainer>
                     <ButtonsContainer>
-                        <Link href='/umsjon/setningar'>
-                            <Button large>
-                                Setningar
-                            </Button>
+                        <Link href="/umsjon/setningar">
+                            <Button large>Setningar</Button>
                         </Link>
-                        <Link href='/umsjon/texti'>
-                            <Button large>
-                                Texti á vef
-                        </Button>
+                        <Link href="/umsjon/texti">
+                            <Button large>Texti á vef</Button>
                         </Link>
                     </ButtonsContainer>
                 </AdminContainer>
@@ -81,11 +73,6 @@ class AdminPage extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({});
 
-});
-
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(AdminPage);
+export default connect(mapStateToProps, dispatchProps)(AdminPage);

@@ -5,9 +5,7 @@ import { withTranslation, WithTranslation } from '../server/i18n';
 import Layout from '../components/layout/layout';
 import MarkdownArticle from '../components/text/md-article';
 
-const PrivacyPolicyContainer = styled.div`
-
-`;
+const PrivacyPolicyContainer = styled.div``;
 
 type Props = WithTranslation;
 
@@ -17,10 +15,10 @@ class PrivacyPolicy extends React.Component<Props> {
     }
 
     static getInitialProps = async () => {
-        return ({
+        return {
             namespacesRequired: ['documents'],
-        });
-    }
+        };
+    };
 
     render() {
         const policy = this.props.t('privacy-policy');

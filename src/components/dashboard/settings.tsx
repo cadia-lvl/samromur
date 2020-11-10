@@ -38,7 +38,8 @@ const Button = styled.button<ButtonProps>`
     justify-content: center;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: ${({ theme, success }) => success ? theme.colors.green : theme.colors.blue};
+    background-color: ${({ theme, success }) =>
+        success ? theme.colors.green : theme.colors.blue};
     color: white;
     cursor: pointer;
 
@@ -71,7 +72,6 @@ interface State {
 }
 
 class DashboardSettings extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
@@ -82,7 +82,7 @@ class DashboardSettings extends React.Component<Props, State> {
             password: '',
             passwordAgain: '',
             success: false,
-        }
+        };
     }
 
     cleanErrors = () => {
@@ -91,22 +91,22 @@ class DashboardSettings extends React.Component<Props, State> {
             formError: undefined,
             success: false,
         });
-    }
+    };
 
     onOldPasswordChange = (oldPassword: string) => {
         this.setState({ oldPassword });
         this.cleanErrors();
-    }
+    };
 
     onPasswordChange = (password: string) => {
         this.setState({ password });
         this.cleanErrors();
-    }
+    };
 
     onPasswordAgainChange = (passwordAgain: string) => {
         this.setState({ passwordAgain });
         this.cleanErrors();
-    }
+    };
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -115,13 +115,16 @@ class DashboardSettings extends React.Component<Props, State> {
             this.setState({ formError });
         } else {
             const { oldPassword, password } = this.state;
-            return authApi.changePassword(oldPassword, password).then(() => {
-                this.setState({ done: true, success: true });
-            }).catch(() => {
-                this.setState({ done: true, success: false })
-            });
+            return authApi
+                .changePassword(oldPassword, password)
+                .then(() => {
+                    this.setState({ done: true, success: true });
+                })
+                .catch(() => {
+                    this.setState({ done: true, success: false });
+                });
         }
-    }
+    };
 
     validateForm = (): FormError | null => {
         const { password, passwordAgain } = this.state;
@@ -133,7 +136,7 @@ class DashboardSettings extends React.Component<Props, State> {
             return FormError.PASSWORD_MISMATCH;
         }
         return null;
-    }
+    };
 
     getFormErrorMessage = (error: FormError): string => {
         switch (error) {
@@ -146,46 +149,50 @@ class DashboardSettings extends React.Component<Props, State> {
             default:
                 return 'Villa í formi';
         }
-    }
+    };
 
     render() {
         const { done, formError, success } = this.state;
         return (
             <DashboardSettingsContainer>
-                <EditPasswordContainer
-                    onSubmit={this.handleSubmit}
-                >
+                <EditPasswordContainer onSubmit={this.handleSubmit}>
                     <Title>Breyta lykilorði</Title>
                     <TextInput
-                        label='Núverandi lykilorð'
+                        label="Núverandi lykilorð"
                         onChange={this.onOldPasswordChange}
-                        placeholder=''
-                        type='password'
+                        placeholder=""
+                        type="password"
                     />
                     <TextInput
-                        label='Lykilorð'
+                        label="Lykilorð"
                         onChange={this.onPasswordChange}
-                        placeholder=''
-                        type='password'
+                        placeholder=""
+                        type="password"
                     />
                     <TextInput
-                        label='Lykilorð aftur'
+                        label="Lykilorð aftur"
                         onChange={this.onPasswordAgainChange}
-                        placeholder=''
-                        type='password'
+                        placeholder=""
+                        type="password"
                     />
-                    {
-                        (formError || (done && !success)) && (
-                            <ErrorContainer>
-                                {formError ? this.getFormErrorMessage(formError) : 'Rangt lykilorð'}
-                            </ErrorContainer>
-                        )
-                    }
-                    <Button success={success}>{success ? 'Breyting tókst' : 'Staðfesta'}</Button>
+                    {(formError || (done && !success)) && (
+                        <ErrorContainer>
+                            {formError
+                                ? this.getFormErrorMessage(formError)
+                                : 'Rangt lykilorð'}
+                        </ErrorContainer>
+                    )}
+                    <Button success={success}>
+                        {success ? 'Breyting tókst' : 'Staðfesta'}
+                    </Button>
                 </EditPasswordContainer>
             </DashboardSettingsContainer>
         );
     }
 }
 
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <DashboardSettings {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <DashboardSettings {...props} ref={ref as any} />
+    )
+);

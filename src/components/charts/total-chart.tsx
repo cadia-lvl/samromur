@@ -9,31 +9,30 @@ moment.locale('is');
 
 //const dateFormatter = (item: any) => moment(item).format('DD MMM');
 
-const tickFormatter = (value: any) => `${value / 1000} þús`;
+const tickFormatter = (value: any) => `${value / 1000} þús.`;
 
-interface ContinueChartProps {
-
-}
+interface ContinueChartProps {}
 
 type Props = ReturnType<typeof mapStateToProps> & ContinueChartProps;
 
 export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
-
     const dateFormatter = (item: any) => {
         const newest = data[data.length - 1].date == item;
         const oldest = data[0].date == item;
         if (newest) {
-            return 'í dag'
+            return 'í dag';
         } else if (oldest) {
             return moment(item).format('D. MMMM');
         } else {
             return '';
         }
-    }
+    };
 
     const chartData = () => ({
         data: {
-            labels: data.map((stat: TimelineSumStat) => dateFormatter(stat.date)),
+            labels: data.map((stat: TimelineSumStat) =>
+                dateFormatter(stat.date)
+            ),
             datasets: [
                 {
                     fill: false,
@@ -41,22 +40,23 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                     label: '',
                     borderWidth: 6,
                     lineTension: 0.2,
-                    borderColor: 'rgba(0,153,255,1)',
-                    data: data.map((stat: TimelineSumStat) => stat.sum)
-                }
-            ]
+                    borderColor: 'rgb(98,159,244,96)',
+                    data: data.map((stat: TimelineSumStat) => stat.sum),
+                },
+            ],
         },
-        min: (Math.floor(Math.min(...data.map(val => val.sum)) / 1000) * 1000) - 1000,
-        max: (Math.ceil(Math.max(...data.map(val => val.sum)) / 1000) * 1000),
-    }
-    );
+        min:
+            Math.floor(Math.min(...data.map((val) => val.sum)) / 1000) * 1000 -
+            1000,
+        max: Math.ceil(Math.max(...data.map((val) => val.sum)) / 1000) * 1000,
+    });
 
     return (
         <Line
             data={chartData().data}
             options={{
                 legend: {
-                    display: false
+                    display: false,
                 },
                 tooltips: {
                     enabled: false,
@@ -66,37 +66,35 @@ export const TotalChart: React.FunctionComponent<Props> = ({ data }) => {
                     xAxes: [
                         {
                             gridLines: {
-                                display: false
+                                display: false,
                             },
                             ticks: {
-                                fontSize: 16,
+                                fontSize: 14,
                                 padding: 15,
                                 maxRotation: 0,
                                 maxTicksLimit: 1,
-                            }
-                        }
+                            },
+                        },
                     ],
                     yAxes: [
                         {
                             ticks: {
-                                fontSize: 16,
+                                fontSize: 14,
                                 min: chartData().min,
                                 max: chartData().max,
                                 maxTicksLimit: 6,
                                 callback: tickFormatter,
-                            }
-                        }
-                    ]
-                }
+                            },
+                        },
+                    ],
+                },
             }}
         />
-    )
-}
+    );
+};
 
 const mapStateToProps = (state: RootState) => ({
     data: state.stats.totalClipsTimeline,
 });
 
-export default connect(
-    mapStateToProps
-)(TotalChart);
+export default connect(mapStateToProps)(TotalChart);

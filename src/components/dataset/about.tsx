@@ -18,6 +18,19 @@ const AboutDatasetContainer = styled.div`
     }
     gap: 3rem;
 `;
+const StyledLink = styled.a`
+    color: ${({ theme }) => theme.colors.blue};
+    :visited,
+    :focus {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blue};
+    }
+
+    :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blackOlive};
+    }
+`;
 
 const StatsContainer = styled.div`
     display: flex;
@@ -40,7 +53,11 @@ interface Props {
     validated: number;
 }
 
-export const AboutDataset: React.FunctionComponent<Props> = ({ clips, clients, validated }) => {
+export const AboutDataset: React.FunctionComponent<Props> = ({
+    clips,
+    clients,
+    validated,
+}) => {
     const clipsHours = Math.round((averageClipSeconds * clips) / 3600);
     const validatedHours = Math.round((averageClipSeconds * validated) / 3600);
     return (
@@ -50,7 +67,9 @@ export const AboutDataset: React.FunctionComponent<Props> = ({ clips, clients, v
                     color={'validGreen'}
                     label={'Staðfestar klukkustundir'}
                     value={`${validatedHours} klst`}
-                    icon={<PlayIcon height={30} width={30} fill={'validGreen'} />}
+                    icon={
+                        <PlayIcon height={30} width={30} fill={'validGreen'} />
+                    }
                 />
                 <CircleStat
                     color={'red'}
@@ -67,12 +86,27 @@ export const AboutDataset: React.FunctionComponent<Props> = ({ clips, clients, v
             </StatsContainer>
             <AboutContainer>
                 <h2>Gagnasafnið Samrómur</h2>
-                <span>Samrómur er opið og aðgengilegt gagnasafn radda sem öllum er frjálst að nýta við þróun hugbúnaðar á íslensku.</span>
-                <span>Gagnasafnið samanstendur af setningum og hljóðbrotum af upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í gagnasafninu inniheldur WAV-hljóðbrot og samsvarandi textaskrá.</span>
-                <span>Opnað verður fyrir niðurhal á Samróm innan fljótlega Skráðu þig á póstlistann hér fyrir neðan til þess að fá tilkynningu þegar gagnasafnið verður gert aðgengilegt.</span>
+                <span>
+                    Samrómur er opið og aðgengilegt gagnasafn radda sem öllum er
+                    frjálst að nýta við þróun hugbúnaðar á íslensku.
+                </span>
+                <span>
+                    Gagnasafnið samanstendur af setningum og hljóðbrotum af
+                    upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í
+                    gagnasafninu inniheldur WAV-hljóðbrot og samsvarandi
+                    textaskrá.
+                </span>
+                <span>
+                    Gagnasafnið verður gefið út á{' '}
+                    <StyledLink target={'blank'} href={'https://clarin.is/ '}>
+                        Clarin
+                    </StyledLink>
+                    . Skráðu þig á póstlistann hér fyrir neðan til þess að fá
+                    tilkynningu þegar gagnasafnið verður gert aðgengilegt.
+                </span>
             </AboutContainer>
         </AboutDatasetContainer>
     );
-}
+};
 
 export default AboutDataset;

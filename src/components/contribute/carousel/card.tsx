@@ -15,21 +15,32 @@ const CardContainer = styled.div<CardContainerProps>`
     position: absolute;
     box-sizing: border-box;
     background-color: white;
-    top: ${({ expanded, position, theme }) => (position == 0 && expanded) ? '0rem' : theme.layout.hudHeight};
-    bottom: ${({ theme, expanded, position }) => (position == 0 && expanded) ? '0rem' : `calc(60% - ${theme.layout.hudHeight})`};
+    top: ${({ expanded, position, theme }) =>
+        position == 0 && expanded ? '0rem' : theme.layout.hudHeight};
+    bottom: ${({ theme, expanded, position }) =>
+        position == 0 && expanded
+            ? '0rem'
+            : `calc(60% - ${theme.layout.hudHeight})`};
 
     ${({ theme }) => theme.media.smallUp} {
-        bottom: ${({ theme, expanded, position }) => (position == 0 && expanded) ? '0rem' : `calc(60% - ${theme.layout.hudHeight})`};
-        height: ${({ expanded, position }) => (position == 0 && expanded) ? '100vh' : '40%'};
+        bottom: ${({ theme, expanded, position }) =>
+            position == 0 && expanded
+                ? '0rem'
+                : `calc(60% - ${theme.layout.hudHeight})`};
+        height: ${({ expanded, position }) =>
+            position == 0 && expanded ? '100vh' : '40%'};
     }
 
-    left: ${({ expanded, position }) => (position == 0 && expanded) ? '0rem' : '1rem'};
-    right: ${({ expanded, position }) => (position == 0 && expanded) ? '0rem' : '1rem'};
+    left: ${({ expanded, position }) =>
+        position == 0 && expanded ? '0rem' : '1rem'};
+    right: ${({ expanded, position }) =>
+        position == 0 && expanded ? '0rem' : '1rem'};
     overflow: visible;
     word-wrap: break-word;
 
-    //pointer-events: ${({ expanded, position }) => (position == 0 && !expanded) ? 'none' : 'initial'};
-    cursor: ${({ position }) => position == 0 ? 'default' : 'pointer'};
+    //pointer-events: ${({ expanded, position }) =>
+        position == 0 && !expanded ? 'none' : 'initial'};
+    cursor: ${({ position }) => (position == 0 ? 'default' : 'pointer')};
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -37,26 +48,33 @@ const CardContainer = styled.div<CardContainerProps>`
     -ms-user-select: none;
     user-select: none;
 
-    transform:
-        ${({ position, isRemoved }) => isRemoved ? `translateY(-100%)` : `translateX(${position != 0 ? position > 0 ? 50 : -50 : 0}%)`}
-        scale(${({ position, isRemoved }) => isRemoved ? 0 : (1 - (Math.abs(position) * 0.1))});
-    
-    transition:
-        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform: ${({ position, isRemoved }) =>
+            isRemoved
+                ? `translateY(-100%)`
+                : `translateX(${
+                      position != 0 ? (position > 0 ? 50 : -50) : 0
+                  }%)`}
+        scale(
+            ${({ position, isRemoved }) =>
+                isRemoved ? 0 : 1 - Math.abs(position) * 0.1}
+        );
+
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         right 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     z-index: ${({ position }) => 7 - Math.abs(position)};
 
-    ${({ position }) => position == 0 && `
+    ${({ position }) =>
+        position == 0 &&
+        `
         box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
         -moz-box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
         -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
     `}
-    
 `;
 
 const Content = styled.div<{ position: number }>`
@@ -71,12 +89,12 @@ const Content = styled.div<{ position: number }>`
     align-items: center;
     text-align: center;
     opacity: 1;
-    
+
     & > * {
         ${({ theme }) => theme.media.small} {
             ${({ position }) => position != 0 && `opacity: 0;`}
         }
-        filter: blur(${({ position }) => position == 0 ? 0 : 5}px);
+        filter: blur(${({ position }) => (position == 0 ? 0 : 5)}px);
     }
 `;
 
@@ -87,12 +105,12 @@ interface OverlayProps {
 
 const OverlayContent = styled.div<OverlayProps>`
     position: absolute;
-    opacity: ${({ expanded, position }) => (expanded && position == 0) ? '1' : '0'};
+    opacity: ${({ expanded, position }) =>
+        expanded && position == 0 ? '1' : '0'};
     height: 100%;
     width: 100%;
     z-index: 8;
-    transition:
-        opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
 const CardText = styled.p`
@@ -105,7 +123,6 @@ const CardText = styled.p`
     font-weight: 500;
     line-height: 1.38;
 `;
-
 
 interface CardProps {
     children?: React.ReactNode;
@@ -124,7 +141,6 @@ export const Card: React.FC<CardProps> = ({
     onClick,
     onContinue,
 }) => {
-
     return (
         <CardContainer
             onClick={onClick}
@@ -133,21 +149,16 @@ export const Card: React.FC<CardProps> = ({
             position={position}
         >
             <Content position={position}>
-                <OverlayContent
-                    expanded={expanded}
-                    position={position}
-                >
+                <OverlayContent expanded={expanded} position={position}>
                     <ContinueModal
                         expanded={expanded}
                         onContinue={onContinue}
                     />
                 </OverlayContent>
-                <CardText>
-                    {sentence.text}
-                </CardText>
+                <CardText>{sentence.text}</CardText>
             </Content>
         </CardContainer>
     );
-}
+};
 
 export default Card;

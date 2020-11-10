@@ -4,12 +4,18 @@ import { NextPageContext } from 'next';
 import { RootState } from 'typesafe-actions';
 import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
-import { WithRouterProps } from "next/dist/client/with-router";
+import { WithRouterProps } from 'next/dist/client/with-router';
 import styled from 'styled-components';
 
-import { resetContribute, setGoal } from '../store/contribute/actions';
-import { Goal } from '../types/contribute';
+import {
+    resetContribute,
+    setGoal,
+    setGaming,
+} from '../store/contribute/actions';
 import Contribute from '../components/contribute/setup/contribute';
+
+/* 
+import { Goal } from '../types/contribute';
 import Layout from '../components/layout/layout';
 import TypeSelect from '../components/contribute/setup/type-select';
 
@@ -29,48 +35,49 @@ const Instruction = styled.h2`
     margin-bottom: 2rem;
 `;
 
-const FakeDiv = styled.div``;
+const FakeDiv = styled.div``; */
 
 const dispatchProps = {
-    setGoal
-}
+    setGoal,
+    setGaming,
+};
 
-interface ContributePageProps {
+interface ContributePageProps {}
 
-}
+type Props = ReturnType<typeof mapStateToProps> &
+    typeof dispatchProps &
+    ContributePageProps &
+    WithTranslation &
+    WithRouterProps;
 
-type Props = ReturnType<typeof mapStateToProps> & typeof dispatchProps & ContributePageProps & WithTranslation & WithRouterProps;
-
-interface State {
-
-}
+interface State {}
 
 class ContributePage extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
-    static getInitialProps = async ({ store, isServer, query }: NextPageContext) => {
+    static getInitialProps = async ({
+        store,
+        isServer,
+        query,
+    }: NextPageContext) => {
         store.dispatch(resetContribute());
-        return ({
+        store.dispatch(setGaming(false));
+        return {
             namespacesRequired: ['common'],
-        });
-    }
+        };
+    };
 
     selectType = (contributeType: string) => {
         const { router } = this.props;
         router.push(`/${contributeType}`);
-    }
+    };
 
     render() {
-        return (
-            <Contribute />
-        );
+        return <Contribute />;
     }
 }
 

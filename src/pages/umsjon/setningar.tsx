@@ -4,8 +4,8 @@ import SentenceBatches from '../../components/admin/sentences/sentence-batches';
 import AddSentences from '../../components/admin/sentences/add-sentences';
 import { NextPageContext } from 'next';
 import { connect } from 'react-redux';
-import { Subject } from 'rxjs'
-import { ActionsObservable, StateObservable } from 'redux-observable'
+import { Subject } from 'rxjs';
+import { ActionsObservable, StateObservable } from 'redux-observable';
 import { RootState } from 'typesafe-actions';
 import { fetchAllSentencesInfo } from '../../store/admin/actions';
 import rootEpic from '../../store/root-epic';
@@ -42,7 +42,7 @@ const SentencesPageGrid = styled.div`
 
 const dispatchProps = {
     fetchAllSentencesInfo: fetchAllSentencesInfo.request,
-}
+};
 
 interface State {
     showAddSentences: boolean;
@@ -56,32 +56,29 @@ class SentencesPage extends React.Component<Props, State> {
 
         this.state = {
             showAddSentences: false,
-        }
+        };
     }
 
     static async getInitialProps(ctx: NextPageContext) {
-
         makeSSRDispatch(ctx, fetchAllSentencesInfo.request);
 
-        return ({
+        return {
             namespacesRequired: ['common'],
-        });
+        };
     }
 
     openContribute = () => {
         this.setState({ showAddSentences: true });
-    }
+    };
 
     closeContribute = () => {
         this.setState({
             showAddSentences: false,
         });
-    }
+    };
 
     render() {
-        const {
-            sentences
-        } = this.props;
+        const { sentences } = this.props;
 
         return (
             <Layout>
@@ -101,7 +98,4 @@ const mapStateToProps = (state: RootState) => ({
     sentences: state.admin.sentences,
 });
 
-export default connect(
-    mapStateToProps,
-    dispatchProps
-)(SentencesPage);
+export default connect(mapStateToProps, dispatchProps)(SentencesPage);

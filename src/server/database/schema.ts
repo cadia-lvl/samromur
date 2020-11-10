@@ -19,7 +19,7 @@ export default class Schema {
     ensure = async (): Promise<void> => {
         await this.ensureDatabase();
         await this.ensureDatabaseUser();
-    }
+    };
 
     /**
      * Make sure we have created the database, and are using it.
@@ -29,7 +29,7 @@ export default class Schema {
             CREATE DATABASE IF NOT EXISTS ${this.name};
             USE ${this.name};
         `);
-    }
+    };
 
     private ensureDatabaseUser = async () => {
         // Fetch the default username and password.
@@ -54,7 +54,7 @@ export default class Schema {
 
         // Have the new user use the database.
         await this.sql.query(`USE ${this.name};`);
-    }
+    };
 
     upgrade = async (): Promise<void> => {
         const dbOptions = getConfig().DATABASE;
@@ -74,5 +74,5 @@ export default class Schema {
                 : path.resolve(path.join('src', 'server', __dirname)), // ??
         });
         await dbmigrate.up();
-    }
+    };
 }

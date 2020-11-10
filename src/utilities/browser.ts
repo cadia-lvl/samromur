@@ -1,6 +1,6 @@
 export const isIOS = (): boolean => {
     return /iPod|iPhone|iPad/i.test(window.navigator.userAgent);
-}
+};
 
 export function isMobileSafari(): boolean {
     return (

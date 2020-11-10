@@ -10,7 +10,8 @@ interface ShowMoreProps {
 const ShowMoreContainer = styled.div<ShowMoreProps>`
     width: 100%;
     height: auto;
-    max-height: ${({ active, calculate, height }) => active ? !calculate ? '100vh' : `calc(${height}px + 2rem)` : '0rem'};
+    max-height: ${({ active, calculate, height }) =>
+        active ? (!calculate ? '100vh' : `calc(${height}px + 2rem)`) : '0rem'};
     transition: max-height 0.3s ${({ theme }) => theme.transitions.main};
     overflow: hidden;
 `;
@@ -40,7 +41,7 @@ class ShowMore extends React.Component<Props, State> {
 
         this.state = {
             height: 0,
-        }
+        };
     }
 
     componentDidMount = () => {
@@ -48,14 +49,20 @@ class ShowMore extends React.Component<Props, State> {
             const height = this.fakeChildrenRef.current?.clientHeight as number;
             this.setState({ height });
         }
-    }
+    };
 
     render() {
         const { active, calculate, className, children, ref } = this.props;
         const { height } = this.state;
         return (
             <React.Fragment>
-                <ShowMoreContainer active={active} calculate={!!calculate} className={className} height={height} ref={ref} >
+                <ShowMoreContainer
+                    active={active}
+                    calculate={!!calculate}
+                    className={className}
+                    height={height}
+                    ref={ref}
+                >
                     {children}
                 </ShowMoreContainer>
                 {calculate && (
@@ -68,4 +75,8 @@ class ShowMore extends React.Component<Props, State> {
     }
 }
 
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <ShowMore {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <ShowMore {...props} ref={ref as any} />
+    )
+);

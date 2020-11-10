@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import dynamic from 'next/dynamic';
 
 const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
-    ssr: false
+    ssr: false,
 });
 
 const MarkdownEditorContainer = styled.div`
@@ -14,9 +14,7 @@ const MarkdownEditorContainer = styled.div`
     margin: 0 auto;
 `;
 
-interface Props {
-
-}
+interface Props {}
 
 interface State {
     md: string;
@@ -27,8 +25,8 @@ export default class MarkdownEditor extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            md: ''
-        }
+            md: '',
+        };
     }
 
     handleEditorChange = (it: { text: string; html: string }, event: any) => {
@@ -56,13 +54,14 @@ export default class MarkdownEditor extends React.Component<Props, State> {
                             maxRow: 5,
                             maxCol: 6,
                         },
-                        imageUrl: 'https://octodex.github.com/images/minion.png',
+                        imageUrl:
+                            'https://octodex.github.com/images/minion.png',
                         syncScrollMode: ['leftFollowRight', 'rightFollowLeft'],
                     }}
                     style={{
-                        width: "100%",
-                        height: "800px",
-                        maxHeight: "50vh",
+                        width: '100%',
+                        height: '800px',
+                        maxHeight: '50vh',
                     }}
                     renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
                 />

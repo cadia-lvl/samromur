@@ -8,7 +8,6 @@ export default class Consents {
         this.sql = sql;
     }
 
-
     getConsent = async (kennitala: string): Promise<boolean> => {
         const [[row]] = await this.sql.query(
             `
@@ -17,9 +16,12 @@ export default class Consents {
             [kennitala]
         );
         return !!row;
-    }
+    };
 
-    createConsent = async (email: String, kennitala: string): Promise<string> => {
+    createConsent = async (
+        email: String,
+        kennitala: string
+    ): Promise<string> => {
         const id = uuid();
         await this.sql.query(
             `
@@ -28,7 +30,7 @@ export default class Consents {
             [kennitala, email, id]
         );
         return id;
-    }
+    };
 
     addPermission = async (uuid: String): Promise<boolean> => {
         const [rows] = await this.sql.query(
@@ -40,5 +42,5 @@ export default class Consents {
             [true, uuid]
         );
         return rows.affectedRows == 1;
-    }
+    };
 }

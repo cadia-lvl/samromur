@@ -8,21 +8,22 @@ interface InputProps {
 const InputContainer = styled.div<InputProps>`
     position: relative;
     width: 100%;
-    border: 2px solid ${({ active, theme }) => active ? 'black' : theme.colors.borderGray};
-    & :active, :focus {
+    border: 2px solid
+        ${({ active, theme }) => (active ? 'black' : theme.colors.borderGray)};
+    & :active,
+    :focus {
         outline: none;
     }
 
     input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
     input:-webkit-autofill:active,
     input:-webkit-autofill::first-line {
         -webkit-box-shadow: 0 0 0 30px white inset !important;
         font-size: 1rem !important;
     }
 `;
-
 
 const TextInputContainer = styled.input`
     width: 100%;
@@ -33,7 +34,8 @@ const TextInputContainer = styled.input`
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
 
-    & :active, :focus {
+    & :active,
+    :focus {
         outline: none;
     }
     padding: 1rem;
@@ -41,7 +43,6 @@ const TextInputContainer = styled.input`
     ::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
-    
 `;
 
 const Label = styled.span`
@@ -73,51 +74,53 @@ class TextInput extends React.Component<Props, State> {
 
         this.state = {
             active: false,
-        }
+        };
     }
 
     componentDidMount = () => {
         this.selectRef.current?.addEventListener('focusout', this.onFocusOut);
-    }
+    };
 
     componentWillUnmount = () => {
-        this.selectRef.current?.removeEventListener('focusout', this.onFocusOut);
-    }
+        this.selectRef.current?.removeEventListener(
+            'focusout',
+            this.onFocusOut
+        );
+    };
 
     onFocusOut = (event: FocusEvent) => {
         this.setState({ active: false });
-    }
+    };
 
     onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.currentTarget.value);
         this.setState({ active: false });
-    }
+    };
 
     select = () => {
         this.setState({ active: true });
-    }
+    };
 
     render() {
-        const {
-            className,
-            label,
-            ref,
-        } = this.props;
+        const { className, label, ref } = this.props;
 
-        const {
-            active
-        } = this.state;
+        const { active } = this.state;
 
         return (
-            <InputContainer
-                active={active}
-                className={className}
-            >
+            <InputContainer active={active} className={className}>
                 <Label>{label}</Label>
-                <TextInputContainer {...this.props as React.InputHTMLAttributes<HTMLInputElement>} />
+                <TextInputContainer
+                    {...(this.props as React.InputHTMLAttributes<
+                        HTMLInputElement
+                    >)}
+                />
             </InputContainer>
         );
     }
 }
 
-export default React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => <TextInput {...props} ref={ref as any} />);
+export default React.forwardRef(
+    (props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <TextInput {...props} ref={ref as any} />
+    )
+);

@@ -23,10 +23,13 @@ const CircleContainer = styled.div<{ hasRecording?: boolean }>`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,${({ hasRecording }) => hasRecording ? '.58' : '.08'});
-    -moz-box-shadow: 0 0 3px 1px rgba(0,0,0,${({ hasRecording }) => hasRecording ? '.58' : '.08'});
-    -webkit-box-shadow: 0 0 3px 1px rgba(0,0,0,${({ hasRecording }) => hasRecording ? '.58' : '.08'});
-`
+    box-shadow: 0 0 3px 1px
+        rgba(0, 0, 0, ${({ hasRecording }) => (hasRecording ? '.58' : '.08')});
+    -moz-box-shadow: 0 0 3px 1px
+        rgba(0, 0, 0, ${({ hasRecording }) => (hasRecording ? '.58' : '.08')});
+    -webkit-box-shadow: 0 0 3px 1px
+        rgba(0, 0, 0, ${({ hasRecording }) => (hasRecording ? '.58' : '.08')});
+`;
 
 const NumbersWheel = styled.div`
     flex: 1;
@@ -54,19 +57,22 @@ const NumberContainer = styled(CircleContainer).attrs(
                 translateX(${position * translateX}px)
                 scale(${Math.abs(position) >= 3 ? 0 : 1})
             `,
-        }
-    })) <NumberContainerProps>`
+        },
+    })
+)<NumberContainerProps>`
     position: absolute;
     ${({ position }) => Math.abs(position) > 3 && `display: none;`}
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     width: 2.4rem;
     height: 2.4rem;
-    background-color: ${({ active, color, theme }) => active ? theme.colors[color] : 'white'};
-    color: ${({ active }) => active ? 'white' : 'grey'};
+    background-color: ${({ active, color, theme }) =>
+        active ? theme.colors[color] : 'white'};
+    color: ${({ active }) => (active ? 'white' : 'grey')};
     font-weight: 600;
-    border: ${({ hasRecording }) => hasRecording ? '0px' : '0px'} solid ${({ theme }) => theme.colors.blackOlive};
+    border: ${({ hasRecording }) => (hasRecording ? '0px' : '0px')} solid
+        ${({ theme }) => theme.colors.blackOlive};
     cursor: pointer;
-`
+`;
 
 const ArrowContainer = styled(CircleContainer)`
     width: 3rem;
@@ -99,30 +105,30 @@ class WheelControls extends React.Component<Props, State> {
 
         this.state = {
             translateX: 0,
-        }
+        };
     }
 
     componentDidMount = () => {
         this.setWidth();
         window.addEventListener('resize', this.setWidth);
-    }
-
+    };
 
     componentWillUnmount = () => {
         window.removeEventListener('resize', this.setWidth);
-    }
+    };
 
     setWidth = () => {
         const width = this.wheelRef.current?.clientWidth;
         if (width) {
             this.setState({ translateX: width / 6 });
         }
-    }
+    };
 
     range = (start: number, count: number) => {
-        return Array.apply(0, Array(count))
-            .map((element, index) => index + start);
-    }
+        return Array.apply(0, Array(count)).map(
+            (element, index) => index + start
+        );
+    };
 
     render() {
         const {
@@ -148,13 +154,16 @@ class WheelControls extends React.Component<Props, State> {
                             index < 4
                                 ? val - 3
                                 : index > total - 2
-                                    ? val - total + 2
-                                    : val - index;
+                                ? val - total + 2
+                                : val - index;
                         return (
                             <NumberContainer
-                                active={index == val || index < 1 && val == 1}
+                                active={index == val || (index < 1 && val == 1)}
                                 color={getWheelColorString(color)}
-                                hasRecording={!!clips[val - 1] && !!clips[val - 1].recording}
+                                hasRecording={
+                                    !!clips[val - 1] &&
+                                    !!clips[val - 1].recording
+                                }
                                 isDone={isDone}
                                 isSpeak={isSpeak}
                                 onClick={() => spinTo(val - index)}
@@ -179,6 +188,4 @@ const mapStateToProps = (state: RootState) => ({
     contribute: state.contribute,
 });
 
-export default connect(
-    mapStateToProps,
-)(WheelControls);
+export default connect(mapStateToProps)(WheelControls);
