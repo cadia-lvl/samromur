@@ -6,6 +6,7 @@ interface InputProps {
 }
 
 const InputContainer = styled.div<InputProps>`
+    position: relative;
     width: 100%;
     border: 2px solid
         ${({ active, theme }) => (active ? 'black' : theme.colors.borderGray)};

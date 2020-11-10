@@ -7,6 +7,7 @@ import { SuperUserStat } from '../../../types/user';
 import Item from './item';
 import SuperUser from './super-user';
 import SuperUsersList from './super-users-list';
+import UploadAudioBatch from './upload';
 
 const AdminContainer = styled.div`
     display: grid;
@@ -17,6 +18,14 @@ const AdminContainer = styled.div`
 
     ${({ theme }) => theme.media.small} {
         grid-template-columns: 100%;
+    }
+`;
+
+const UploadItem = styled(Item)`
+    grid-column 1 / 3;
+
+    ${({ theme }) => theme.media.small} {
+        grid-column: 1;
     }
 `;
 
@@ -46,6 +55,9 @@ class DashboardAdmin extends React.Component<Props, State> {
         const { stats } = this.state;
         return (
             <AdminContainer>
+                <UploadItem title={'Batch upload'}>
+                    <UploadAudioBatch />
+                </UploadItem>
                 <Item title={'Búa til ofurnotanda'}>
                     <SuperUser />
                 </Item>

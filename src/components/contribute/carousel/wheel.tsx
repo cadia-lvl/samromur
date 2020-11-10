@@ -69,6 +69,7 @@ const dispatchProps = {
 
 interface CarouselWheelProps {
     sentences?: WheelSentence[];
+    batch?: string;
     clips?: WheelClip[];
 }
 
@@ -167,8 +168,9 @@ class CarouselWheel extends React.Component<Props, State> {
 
     refreshClips = async () => {
         // To-do: test this
-        const { user } = this.props;
+        const { batch, user } = this.props;
         const fetchRequest: FetchSamplesPayload = {
+            batch,
             clientId: user.client.id,
             count: 20,
         };
