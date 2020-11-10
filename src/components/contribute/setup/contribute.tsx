@@ -16,7 +16,7 @@ import DemographicForm from './demographic-form';
 import PackageSelect from './package-select';
 import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
-import Tips from './tips';
+import Tips from './tips/tips';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -148,7 +148,7 @@ class Contribute extends React.Component<Props, State> {
                                         />
                                         : !gaming
                                             ?
-                                            <Tips onSkip={this.skipTips} />
+                                            <Tips onSkip={this.skipTips} contributeType={contributeType}/>
                                             :
                                             <CarouselWheel
                                                 clips={clips}
