@@ -1,7 +1,7 @@
 import express, {
     Application as ExpressApplication,
     Request,
-    Response
+    Response,
 } from 'express';
 import cookieParser from 'cookie-parser';
 
@@ -11,7 +11,9 @@ import { default as NextServer } from 'next/dist/next-server/server/next-server'
 import nextI18NextMiddleWare from 'next-i18next/middleware';
 import clientIdMiddleware from './middlewares/client-id';
 import authMiddleware from './middlewares/auth';
-import batchUploadMiddleware, { uploadHandler } from './middlewares/batch-upload';
+import batchUploadMiddleware, {
+    uploadHandler,
+} from './middlewares/batch-upload';
 
 import { nextI18next } from './i18n';
 import { Config, getConfig, verifyConfig } from '../utilities/config-helper';
@@ -35,12 +37,14 @@ class Server {
         this.server.use(nextI18NextMiddleWare(nextI18next));
         this.server.use(clientIdMiddleware);
         this.server.use(authMiddleware);
-    
-        this.server.post('/api/upload-batch', uploadHandler, batchUploadMiddleware);
-        
-        this.server.all('*',
-            (req: Request, res: Response) => handle(req, res)
+
+        this.server.post(
+            '/api/upload-batch',
+            uploadHandler,
+            batchUploadMiddleware
         );
+
+        this.server.all('*', (req: Request, res: Response) => handle(req, res));
     }
 
     public static createServer = async (dev: boolean): Promise<Server> => {
@@ -54,7 +58,7 @@ class Server {
                 reject(error);
             }
         });
-    }
+    };
 
     listen = (port: number) => {
         return new Promise((resolve, reject) => {
@@ -66,21 +70,19 @@ class Server {
                 }
             });
         });
-    }
+    };
 
     // To-do: kill server
     kill = () => {
         console.log('KILLING');
-    }
+    };
 
     run = async (config: Config): Promise<void> => {
-        const {
-            SERVER_PORT,
-        } = config;
+        const { SERVER_PORT } = config;
         await this.listen(SERVER_PORT);
         await this.database.ensureDatabase();
         await this.database.performMaintenance();
-    }
+    };
 }
 
 const env = process.env.NODE_ENV;
@@ -88,14 +90,23 @@ const dev = env ? env.replace(' ', '') != 'production' : true;
 
 const config = getConfig();
 verifyConfig(config);
-Server.createServer(dev).then((server: Server) => {
-    server.run(config).then(() => {
-        console.log(`> Ready on localhost:${config.SERVER_PORT} in ${dev ? 'development' : 'production'} mode`);
-    }).catch((error) => {
-        console.error('Error running server: ', error);
+Server.createServer(dev)
+    .then((server: Server) => {
+        server
+            .run(config)
+            .then(() => {
+                console.log(
+                    `> Ready on localhost:${config.SERVER_PORT} in ${
+                        dev ? 'development' : 'production'
+                    } mode`
+                );
+            })
+            .catch((error) => {
+                console.error('Error running server: ', error);
+                process.exit(1);
+            });
+    })
+    .catch((error) => {
+        console.error('Error creating server: ', error);
         process.exit(1);
     });
-}).catch((error) => {
-    console.error('Error creating server: ', error);
-    process.exit(1);
-});

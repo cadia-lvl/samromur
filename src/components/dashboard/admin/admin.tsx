@@ -29,9 +29,7 @@ const UploadItem = styled(Item)`
     }
 `;
 
-interface AdminProps {
-
-}
+interface AdminProps {}
 
 interface State {
     stats: SuperUserStat[];
@@ -44,14 +42,14 @@ class DashboardAdmin extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            stats: []
-        }
+            stats: [],
+        };
     }
 
     componentDidMount = async () => {
         const stats = await adminApi.fetchSuperUsers();
         this.setState({ stats });
-    }
+    };
 
     render() {
         const { stats } = this.state;
@@ -67,7 +65,7 @@ class DashboardAdmin extends React.Component<Props, State> {
                     <SuperUsersList stats={stats} />
                 </Item>
             </AdminContainer>
-        )
+        );
     }
 }
 

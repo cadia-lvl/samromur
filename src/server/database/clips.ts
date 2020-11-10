@@ -34,7 +34,7 @@ export default class Clips {
             `
         );
         return priorities as Priority[];
-    }
+    };
 
     fetchPrioritizedClips = async (): Promise<any> => {
         const [clips] = await this.sql.query(
@@ -47,10 +47,14 @@ export default class Clips {
                     sex LIKE 
             `,
             []
-        )
-    }
+        );
+    };
 
-    fetchRandomClips = async (clientId: string, count: number, status: string): Promise<TableClip[]> => {
+    fetchRandomClips = async (
+        clientId: string,
+        count: number,
+        status: string
+    ): Promise<TableClip[]> => {
         const [clips] = await this.sql.query(
             `
                 SELECT
@@ -75,11 +79,9 @@ export default class Clips {
             [clientId, clientId, status ? status : 'samromur', count]
         );
         return clips as TableClip[];
-    }
+    };
 
-    fetchSpecificClips = async (): Promise<void> => {
-
-    }
+    fetchSpecificClips = async (): Promise<void> => {};
 
     findClip = async (id: number): Promise<boolean> => {
         const [[clip]] = await this.sql.query(
@@ -95,31 +97,41 @@ export default class Clips {
             [id]
         );
         return Promise.resolve(!!clip);
-    }
+    };
 
-    fetchClips = async (clientId: string, count: number, batch: string): Promise<Clip[]> => {
+    fetchClips = async (
+        clientId: string,
+        count: number,
+        batch: string
+    ): Promise<Clip[]> => {
         try {
             const clips = await this.fetchRandomClips(clientId, count, batch);
-            const withPublicUrls: Clip[] = await Promise.all(clips.map((clip: TableClip) => {
-                return {
-                    id: clip.id,
-                    recording: {
-                        url: this.bucket.getPublicUrl(clip.path),
-                    },
-                    sentence: {
-                        id: clip.original_sentence_id,
-                        text: clip.sentence,
-                    },
-                } as Clip
-            }));
+            const withPublicUrls: Clip[] = await Promise.all(
+                clips.map((clip: TableClip) => {
+                    return {
+                        id: clip.id,
+                        recording: {
+                            url: this.bucket.getPublicUrl(clip.path),
+                        },
+                        sentence: {
+                            id: clip.original_sentence_id,
+                            text: clip.sentence,
+                        },
+                    } as Clip;
+                })
+            );
             return Promise.resolve(withPublicUrls);
         } catch (error) {
             return Promise.reject(error);
         }
+    };
 
-    }
-
-    insertClip = async (clientId: string, clip: ClipMetadata, path: string, originalSentenceId: string): Promise<number> => {
+    insertClip = async (
+        clientId: string,
+        clip: ClipMetadata,
+        path: string,
+        originalSentenceId: string
+    ): Promise<number> => {
         const {
             sentence,
             gender,
@@ -143,7 +155,7 @@ export default class Clips {
                             id = ?;
                     `,
                     [clip.id]
-                )
+                );
                 return Promise.resolve(clip.id);
             }
 
@@ -156,28 +168,53 @@ export default class Clips {
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
-                [clientId, path, sentence, originalSentenceId, gender, age, nativeLanguage, userAgent, status ? status : 'samromur', dialect]
+                [
+                    clientId,
+                    path,
+                    sentence,
+                    originalSentenceId,
+                    gender,
+                    age,
+                    nativeLanguage,
+                    userAgent,
+                    status ? status : 'samromur',
+                    dialect,
+                ]
             );
             const { insertId } = row;
             return Promise.resolve(insertId);
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    };
 
-    uploadClip = async (clientId: string, clip: ClipMetadata, transcoder: any): Promise<number> => {
-
-        const { path, originalSentenceId } = await this.bucket.uploadClip(clientId, clip, transcoder);
+    uploadClip = async (
+        clientId: string,
+        clip: ClipMetadata,
+        transcoder: any
+    ): Promise<number> => {
+        const { path, originalSentenceId } = await this.bucket.uploadClip(
+            clientId,
+            clip,
+            transcoder
+        );
 
         return this.insertClip(clientId, clip, path, originalSentenceId);
-    }
+    };
 
-    uploadBatchClip = async (clientId: string, clip: ClipMetadata, audioFile: Express.Multer.File): Promise<number> => {
-
-        const { path, originalSentenceId } = await this.bucket.uploadBatchClip(clientId, clip, audioFile);
+    uploadBatchClip = async (
+        clientId: string,
+        clip: ClipMetadata,
+        audioFile: Express.Multer.File
+    ): Promise<number> => {
+        const { path, originalSentenceId } = await this.bucket.uploadBatchClip(
+            clientId,
+            clip,
+            audioFile
+        );
 
         return this.insertClip(clientId, clip, path, originalSentenceId);
-    }
+    };
 
     fetchVerificationLabels = async (): Promise<string[]> => {
         const [rows] = await this.sql.query(`
@@ -185,5 +222,5 @@ export default class Clips {
         `);
         const statuses = rows.map(({ status }: { status: string }) => status);
         return statuses;
-    }
+    };
 }
