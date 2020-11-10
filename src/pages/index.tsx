@@ -253,8 +253,8 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>Það er á okkar valdi að alltaf megi finna svar á íslensku.</CTATitle>
-                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'validGreen'}>Taka þátt h</CTAButton>
+                                    <CTATitle>Það er á okkar valdi að alltaf megi finna svar á íslensku</CTATitle>
+                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'validGreen'}>Taka þátt</CTAButton>
                                     
                                 </TitleContainer>
                             </RobotAndTitle>
@@ -263,16 +263,16 @@ class IndexPage extends React.Component<Props> {
                                 clips={stats.totalClips}
                             />
                         </CallToAction>
-                        <MiddleContent>
+{/*                         <MiddleContent>
                             
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
 
-                        </MiddleContent>
+                        </MiddleContent> */}
 
                         <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
-                                    <ChartTitle>Innlesnar setningar síðastliðinn mánuð</ChartTitle>
+                                    <ChartTitle>Lesnar setningar síðastliðinn mánuð</ChartTitle>
                                      {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */} 
                                 </ChartLegend>
                                 <ChartContainer>
