@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { RecordingError } from '../../../types/audio';
+import { RecordingError, AudioError } from '../../../types/audio';
 import { UploadError, WheelClip } from '../../../types/samples';
 
 const InstructionsContainer = styled.div`
@@ -30,6 +30,7 @@ interface Props {
     activeClip?: WheelClip;
     isSpeak: boolean;
     recordingError?: RecordingError;
+    audioError?: AudioError;
     uploadError?: UploadError;
 }
 
@@ -37,6 +38,7 @@ export const Instructions: React.FC<Props> = ({
     activeClip,
     isSpeak,
     recordingError,
+    audioError,
     uploadError,
 }) => {
     const getRecordingErrorMessage = (): string => {
@@ -47,6 +49,17 @@ export const Instructions: React.FC<Props> = ({
                 return 'Upptakan var of stutt, reyndu aftur';
             default:
                 return 'Upptakan var of lágvær, reyndu aftur';
+        }
+    };
+
+    const getAudioErrorMessage = (): string => {
+        switch (audioError) {
+            case AudioError.NOT_ALLOWED:
+                return 'Þú þarft að leyfa aðgang að hljóðnemanum.';
+            case AudioError.NO_MIC:
+                return 'Hljóðnemi fannst ekki';
+            default:
+                return 'Því miður er ekki stuðningur við þennan vafra að svo stöddu.';
         }
     };
 
@@ -64,7 +77,9 @@ export const Instructions: React.FC<Props> = ({
     };
 
     const speakInstructions = (): React.ReactNode => {
-        return recordingError ? (
+        return audioError ? (
+            <Error>{getAudioErrorMessage()}</Error>
+        ) : recordingError ? (
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
             <Message>Smelltu á örina til að spila upptökuna</Message>

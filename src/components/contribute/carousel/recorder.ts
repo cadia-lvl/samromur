@@ -1,3 +1,4 @@
+import { error } from 'console';
 import { AudioInfo, AudioError, RecordingError } from '../../../types/audio';
 
 import WavEncoder from './encoder';
@@ -62,6 +63,10 @@ export default class Recorder {
         typeof window.MediaRecorder !== 'undefined' &&
         !window.MediaRecorder.notSupported;
 
+    /**
+     * Checks the data of the analyser node to determine
+     * if the maxVolume value needs to be updated and updates it if so.
+     */
     private analyze = () => {
         this.analyserNode.getByteFrequencyData(this.frequencyBins);
         if (this.volumeCallback) {
@@ -163,6 +168,9 @@ export default class Recorder {
         });
     };
 
+    /**
+     * Initializes the recorder.
+     */
     init = async (): Promise<void> => {
         if (this.isReady()) {
             return Promise.reject();
@@ -214,14 +222,24 @@ export default class Recorder {
         this.jsNode = this.audioContext.createScriptProcessor(256, 1, 1);
         this.jsNode.connect(this.audioContext.destination);
 
+        // Release microphone to disable tab notification
+        this.release();
+
         return Promise.resolve();
     };
 
+    /**
+     * Starts the recording process.
+     */
     startRecording = async (): Promise<void> => {
         if (!this.isRecordingSupported) {
-            return Promise.reject();
+            return Promise.reject(AudioError.NO_SUPPORT);
         }
-
+        if (!this.processorNode) {
+            //To-do: Throw a predefined error.
+            console.error('NO_PROCESSOR_NODE');
+            return Promise.reject('NO_PROCESSOR_NODE');
+        }
         this.processorNode.connect(this.audioContext.destination);
         if (!this.microphone) {
             this.microphone = await this.getMicrophone();

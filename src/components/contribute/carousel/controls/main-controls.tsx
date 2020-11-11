@@ -283,16 +283,30 @@ export default class MainControls extends React.Component<Props, State> {
         }
     };
 
+    /**
+     * Activates when the start recording button is clicked.
+     * Sets the state to recording, starts the wave effect and
+     * runs the startRecording prop function.
+     */
     handleStartRecording = () => {
         const { isStartingRecording } = this.state;
         if (isStartingRecording) {
             return;
         }
+
         this.setState({ isStartingRecording: true });
-        this.props.startRecording().then(() => {
-            this.setState({ isRecording: true, isStartingRecording: false });
-            this.wave?.play();
-        });
+
+        this.props
+            .startRecording()
+            .then(() => {
+                this.setState({ isStartingRecording: false });
+                this.setState({ isRecording: true });
+                this.wave?.play();
+            })
+            .catch((error) => {
+                this.setState({ isStartingRecording: false });
+                console.error(error);
+            });
     };
 
     handleStopRecording = () => {
