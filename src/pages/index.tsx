@@ -264,11 +264,7 @@ class IndexPage extends React.Component<Props> {
                                 clips={stats.totalClips}
                             />
                         </CallToAction>
-<<<<<<< HEAD
                         {/*                         <MiddleContent>
-=======
-{/*                         <MiddleContent>
->>>>>>> text_update
                             
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
 
