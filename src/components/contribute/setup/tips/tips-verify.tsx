@@ -67,8 +67,9 @@ export const TipsVerify: React.FC<Props> = () => (
             icon={<Balance height={40} width={40} fill={"gray"} />}
             title={"Meginreglan"}>
             <p>
-            Meginreglan er að það sem heyrist í upptökunni verður að stemma við það 
-            sem stendur í textanum. Heyra dæmi um góða upptöku „Þú þarft að fara út að leita“:
+            Meginreglan er að það sem er lesið upp verður að stemma við textann sem 
+            birtist. Heyra dæmi um góða upptöku „Þú þarft að fara út að leita“:
+
             </p>
             <AudioPlayer src={"https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav"}/>
         </Tip>
@@ -76,9 +77,9 @@ export const TipsVerify: React.FC<Props> = () => (
             icon={<UserSpeakBubble height={40} width={40} fill={"gray"} />}
             title={"Brothljóð"}>
             <p>
-                Það getur komið fyrir að upptaka takist ekki fullkomlega og það kemur 
-                hljóð sem má kalla brothljóð. Slíkar upptökur á að merkja sem slæmar.
-                Heyra dæmi um góða upptöku „Allir verkir eru í burt“:
+            Það kemur fyrir að upptaka heppnist illa og innihaldi svokallað brothljóð. 
+            Slíkar upptökur á að merkja sem slæmar. Heyra dæmi um góða upptöku 
+            „Allir verkir eru í burt“:
             </p>
         <AudioPlayer src={"https://s3.eu-west-2.amazonaws.com/samromur.is/76afc108-683b-4c1f-9434-004f1ecc4e87/acdbce3bd86185c770e812cc2c2d37f340c20a976e9d3ceb0c912ccbbceca3a5.wav"} />
         </Tip>
@@ -86,9 +87,9 @@ export const TipsVerify: React.FC<Props> = () => (
             icon={<Noise height={40} width={40} fill={"gray"} />}
             title={"Kliður/bakgrunnshljóð"}>
             <p>
-                Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við erum í. Því er allt í lagi að það heyrist
-                smá kliður eða bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem er að lesa upp. 
-                Heyra dæmi um góða upptöku „Þakka honum þannig án þess að þakka honum beinlinis sem væri harðbannað“:
+            Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við erum í. Því er allt í lagi að það heyrist smá kliður 
+            eða bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem les. Hér er dæmi um góða upptöku „Þakka honum þannig 
+            án þess að þakka honum beinlínis sem væri harðbannað“:
             </p>
             <AudioPlayer src={"https://s3.eu-west-2.amazonaws.com/samromur.is/e7dba315-7839-4e35-bfe5-30964d691328/a99ca87dab5615a0cca46af5c7fdafc4b39a324b72efe31da2d360402c47e7ee.wav"} />
         </Tip>

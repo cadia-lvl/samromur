@@ -35,14 +35,14 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({ clients, clips 
     const minutes = (clips * averageClipSeconds / 60); 
     return (
         <CTAStats>
-            <p>Til þess að tölvur og tæki skilji íslensku svo vel sé þá þarf mikinn fjölda af upptökum af íslensku tali 
+            <p>Til þess að tölvur og tæki skilji íslensku svo vel sé þá þarf mikinn fjölda upptaka af íslensku tali 
                frá allskonar fólki. Þess vegna þurfum við þína aðstoð, með því að smella á „Taka þátt“ þá getur þú lesið 
                upp nokkrar setningar og lagt „þína rödd” af mörkum. Við viljum sérstaklega hvetja fólk sem hefur íslensku
                sem annað mál að taka þátt.
 
             </p>
             <p>
-            Samrómur hófst í nóvember 2019 og hingað til hafa um  <Stat>10</Stat> þúsund manns lesið   
+            Samrómur hófst í október 2019 og hingað til hafa um  <Stat>10</Stat> þúsund manns lesið   
             rúmlega <Stat>{parseInt(minutes.toFixed(0)).toLocaleString('is').replace(',', '.')}</Stat> mínútur 
             eða <Stat>{clips}</Stat> setningar. Hægt er að lesa meira um verkefnið  
             hér. <SubStat>Lesa meira hér [add route here].</SubStat>

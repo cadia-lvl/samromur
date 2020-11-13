@@ -17,7 +17,7 @@ export const TipsSpeak: React.FC<Props> = () => (
             <p>
             Það má ekki heyrast hátt í öðrum á meðan upptöku stendur og því þarf að 
             halda fjarlægð frá öðrum. Oft duga tveir metrar til ef einstaklingar snúa
-            frá hvor öðrum. Smá kliður í bakgrunni skemmir ekki fyrir en það má yfirgnæfa upptökuna.
+            frá hvor öðrum. Smá kliður í bakgrunni skemmir ekki fyrir en það má ekki yfirgnæfa upptökuna.
 
             </p>
         </Tip>
@@ -46,7 +46,7 @@ export const TipsSpeak: React.FC<Props> = () => (
         >
             <p>
                 Þú mátt lesa eins margar setningar og þú vilt. Því fleiri setningar 
-                sem þú lest því líklegra er að tækinn skilji röddina eins og þína betur.
+                sem þú lest því líklegra er að tækinn skilji rödd eins og þína betur.
 
             </p>
         </Tip>
