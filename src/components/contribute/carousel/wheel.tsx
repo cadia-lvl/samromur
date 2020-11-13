@@ -168,7 +168,7 @@ class CarouselWheel extends React.Component<Props, State> {
 
     /**
      *  Fetches 20 new clips for verification from the db
-     *  These are added to the state and togerher with updated sentences
+     *  These are added to the state and updates the sentences
      */
     refreshClips = async () => {
         // To-do: test this
