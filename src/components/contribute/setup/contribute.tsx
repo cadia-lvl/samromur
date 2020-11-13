@@ -26,7 +26,7 @@ import PackageSelect from './package-select';
 import BatchSelect from './batch-select';
 import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
-import Tips from './tips';
+import Tips from './tips/tips';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -136,10 +136,10 @@ class Contribute extends React.Component<Props, State> {
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
             } else {
                 return goal
-                    ? 'Góð ráð'
+                    ? 'Góð ráð við yfirferð'
                     : labels.length > 0 && !selectedBatch
                     ? 'Hvaða yfirferðarflokk viltu hlusta á?'
-                    : 'Hvað viltu hlusta mikið?';
+                    : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
             }
         }
     };
@@ -187,6 +187,7 @@ class Contribute extends React.Component<Props, State> {
             <Layout game>
                 <ContributeContainer gaming={gaming} expanded={expanded}>
                     <div />
+
                     {!gaming ? (
                         <Instruction>{this.getInstruction()}</Instruction>
                     ) : (
