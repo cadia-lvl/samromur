@@ -23,7 +23,7 @@ import DemographicForm from './demographic-form';
 import PackageSelect from './package-select';
 import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
-import Tips from './tips';
+import Tips from './tips/tips';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -99,7 +99,7 @@ class Contribute extends React.Component<Props, State> {
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
             } else {
-                return goal ? 'Góð ráð' : 'Hvað viltu hlusta mikið?';
+                return goal ? 'Góð ráð við yfirferð' : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
             }
         }
     };
@@ -135,25 +135,31 @@ class Contribute extends React.Component<Props, State> {
             <Layout game>
                 <ContributeContainer gaming={gaming} expanded={expanded}>
                     <div />
-                    {!gaming ? (
-                        <Instruction>{this.getInstruction()}</Instruction>
-                    ) : (
-                        <div />
-                    )}
-                    {!contributeType ? (
-                        <TypeSelect setType={this.selectType} />
-                    ) : contributeType == 'tala' && !demographic ? (
-                        <DemographicForm onSubmit={this.onDemographicsSubmit} />
-                    ) : !goal ? (
-                        <PackageSelect
-                            contributeType={contributeType}
-                            setGoal={this.setGoal}
-                        />
-                    ) : !gaming ? (
-                        <Tips onSkip={this.skipTips} />
-                    ) : (
-                        <CarouselWheel clips={clips} sentences={sentences} />
-                    )}
+                    {!gaming ? <Instruction>{this.getInstruction()}</Instruction> : <div />}
+                    {
+                        !contributeType
+                            ?
+                            <TypeSelect setType={this.selectType} />
+                            : (
+                                contributeType == 'tala' && !demographic
+                                    ?
+                                    <DemographicForm onSubmit={this.onDemographicsSubmit} />
+                                    : !goal
+                                        ?
+                                        <PackageSelect
+                                            contributeType={contributeType}
+                                            setGoal={this.setGoal}
+                                        />
+                                        : !gaming
+                                            ?
+                                            <Tips onSkip={this.skipTips} contributeType={contributeType}/>
+                                            :
+                                            <CarouselWheel
+                                                clips={clips}
+                                                sentences={sentences}
+                                            />
+                            )
+                    }
                 </ContributeContainer>
             </Layout>
         );
