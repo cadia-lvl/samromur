@@ -208,7 +208,10 @@ class Contribute extends React.Component<Props, State> {
                             setGoal={this.setGoal}
                         />
                     ) : !gaming ? (
-                        <Tips onSkip={this.skipTips} />
+                        <Tips
+                            onSkip={this.skipTips}
+                            contributeType={contributeType}
+                        />
                     ) : (
                         <CarouselWheel
                             batch={selectedBatch}
