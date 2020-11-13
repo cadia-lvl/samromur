@@ -9,6 +9,8 @@ import {
 } from '../../../services/contribute-api';
 import { SimpleSentence, WheelSentence } from '../../../types/sentences';
 import { Goal } from '../../../types/contribute';
+import * as adminApi from '../../../services/admin-api';
+import * as contributeApi from '../../../services/contribute-api';
 
 import {
     resetContribute,
@@ -21,6 +23,7 @@ import Layout from '../../layout/layout';
 import CarouselWheel from '../carousel/wheel';
 import DemographicForm from './demographic-form';
 import PackageSelect from './package-select';
+import BatchSelect from './batch-select';
 import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
 import Tips from './tips/tips';
@@ -33,7 +36,6 @@ interface ContributeContainerProps {
 const ContributeContainer = styled.div<ContributeContainerProps>`
     display: grid;
     width: 100%;
-
     max-width: ${({ expanded, theme }) =>
         expanded ? '100vw' : theme.layout.gameWidth};
     transition: top 0.5s ${({ theme }) => theme.transitions.main},
@@ -42,7 +44,6 @@ const ContributeContainer = styled.div<ContributeContainerProps>`
     grid-template-rows: ${({ gaming, theme }) =>
             !gaming && theme.layout.hudHeight} auto auto;
     justify-items: center;
-
     padding: ${({ gaming }) => (!gaming ? '1rem' : '0rem')};
 `;
 
@@ -67,9 +68,12 @@ type Props = ReturnType<typeof mapStateToProps> &
     WithRouterProps;
 
 interface State {
+    batchClips?: WheelClip[];
     contributeType?: string;
+    labels: string[];
     demographic: boolean;
     tips: boolean;
+    selectedBatch?: string;
 }
 
 class Contribute extends React.Component<Props, State> {
@@ -80,13 +84,45 @@ class Contribute extends React.Component<Props, State> {
             contributeType: this.props.clips
                 ? 'hlusta'
                 : this.props.sentences && 'tala',
+            labels: [],
             demographic: false,
             tips: false,
         };
     }
 
+    componentDidMount = async () => {
+        const {
+            user: {
+                client: { isSuperUser },
+            },
+        } = this.props;
+        if (isSuperUser) {
+            const labels = await adminApi.fetchVerificationLabels();
+            this.setState({ labels });
+        }
+    };
+
+    getBatchClips = async (selectedBatch: string) => {
+        const {
+            user: {
+                client: { id },
+            },
+        } = this.props;
+        const batchClips = await contributeApi.fetchClips({
+            batch: selectedBatch as string,
+            clientId: id,
+            count: 20,
+        });
+        this.setState({ batchClips });
+    };
+
     getInstruction = (): string => {
-        const { contributeType, demographic } = this.state;
+        const {
+            contributeType,
+            demographic,
+            labels,
+            selectedBatch,
+        } = this.state;
         const {
             contribute: { goal },
         } = this.props;
@@ -99,7 +135,11 @@ class Contribute extends React.Component<Props, State> {
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
             } else {
-                return goal ? 'Góð ráð við yfirferð' : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
+                return goal
+                    ? 'Góð ráð við yfirferð'
+                    : labels.length > 0 && !selectedBatch
+                    ? 'Hvaða yfirferðarflokk viltu hlusta á?'
+                    : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
             }
         }
     };
@@ -122,8 +162,20 @@ class Contribute extends React.Component<Props, State> {
         this.props.setGaming(true);
     };
 
+    onSelectBatch = (selectedBatch: string) => {
+        this.setState({ selectedBatch });
+        this.getBatchClips(selectedBatch);
+    };
+
     render() {
-        const { contributeType, demographic, tips } = this.state;
+        const {
+            contributeType,
+            demographic,
+            tips,
+            labels,
+            selectedBatch,
+            batchClips,
+        } = this.state;
 
         const {
             clips,
@@ -135,31 +187,35 @@ class Contribute extends React.Component<Props, State> {
             <Layout game>
                 <ContributeContainer gaming={gaming} expanded={expanded}>
                     <div />
-                    {!gaming ? <Instruction>{this.getInstruction()}</Instruction> : <div />}
-                    {
-                        !contributeType
-                            ?
-                            <TypeSelect setType={this.selectType} />
-                            : (
-                                contributeType == 'tala' && !demographic
-                                    ?
-                                    <DemographicForm onSubmit={this.onDemographicsSubmit} />
-                                    : !goal
-                                        ?
-                                        <PackageSelect
-                                            contributeType={contributeType}
-                                            setGoal={this.setGoal}
-                                        />
-                                        : !gaming
-                                            ?
-                                            <Tips onSkip={this.skipTips} contributeType={contributeType}/>
-                                            :
-                                            <CarouselWheel
-                                                clips={clips}
-                                                sentences={sentences}
-                                            />
-                            )
-                    }
+
+                    {!gaming ? (
+                        <Instruction>{this.getInstruction()}</Instruction>
+                    ) : (
+                        <div />
+                    )}
+                    {!contributeType ? (
+                        <TypeSelect setType={this.selectType} />
+                    ) : contributeType == 'tala' && !demographic ? (
+                        <DemographicForm onSubmit={this.onDemographicsSubmit} />
+                    ) : labels.length > 0 && !selectedBatch ? (
+                        <BatchSelect
+                            labels={labels}
+                            setLabel={this.onSelectBatch}
+                        />
+                    ) : !goal ? (
+                        <PackageSelect
+                            contributeType={contributeType}
+                            setGoal={this.setGoal}
+                        />
+                    ) : !gaming ? (
+                        <Tips onSkip={this.skipTips} />
+                    ) : (
+                        <CarouselWheel
+                            batch={selectedBatch}
+                            clips={batchClips ? batchClips : clips}
+                            sentences={sentences}
+                        />
+                    )}
                 </ContributeContainer>
             </Layout>
         );

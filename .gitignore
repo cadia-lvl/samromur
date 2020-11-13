@@ -10,3 +10,5 @@ database.json
 playground
 public/sw.js*
 public/workbox*
+uploads/*.wav
+uploads/*.txt

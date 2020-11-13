@@ -6,7 +6,7 @@ import { RootState } from 'typesafe-actions';
 import Recorder from './recorder';
 import Card from './card';
 import { WheelClip, ClipVote, UploadError } from '../../../types/samples';
-import { AudioInfo, RecordingError } from '../../../types/audio';
+import { AudioInfo, RecordingError, AudioError } from '../../../types/audio';
 import { WheelColor } from '../../../types/contribute';
 import { WheelSentence } from '../../../types/sentences';
 import {
@@ -69,6 +69,7 @@ const dispatchProps = {
 
 interface CarouselWheelProps {
     sentences?: WheelSentence[];
+    batch?: string;
     clips?: WheelClip[];
 }
 
@@ -84,6 +85,7 @@ interface State {
     isSpeak: boolean;
     sentenceIndex: number;
     recordingError?: RecordingError;
+    audioError?: AudioError;
     uploadError?: UploadError;
     expanded: boolean;
 }
@@ -106,6 +108,7 @@ class CarouselWheel extends React.Component<Props, State> {
             isSpeak: !!this.props.sentences,
             sentenceIndex: 0,
             recordingError: undefined,
+            audioError: undefined,
             uploadError: undefined,
 
             expanded: false,
@@ -128,10 +131,16 @@ class CarouselWheel extends React.Component<Props, State> {
 
     componentDidMount = async () => {
         if (!!this.props.sentences) {
-            // To-do: Handle recording not supporteds
             // To-do: Stop microphone when idle to remove recording indicator from browser tab
             this.recorder = new Recorder();
-            this.recorder.isRecordingSupported && (await this.recorder.init());
+            try {
+                this.recorder.isRecordingSupported &&
+                    (await this.recorder.init());
+            } catch (error) {
+                if (error in AudioError) {
+                    this.setState({ audioError: error });
+                }
+            }
         }
         window.addEventListener('keydown', this.handleKeyDown);
         window.addEventListener(
@@ -165,16 +174,43 @@ class CarouselWheel extends React.Component<Props, State> {
         this.setState({ sentences: newSentences });
     };
 
+    /**
+     *  Fetches 20 new clips for verification from the db
+     *  These are added to the state and updates the sentences
+     */
     refreshClips = async () => {
         // To-do: test this
-        const { user } = this.props;
+        const { batch, user } = this.props;
         const fetchRequest: FetchSamplesPayload = {
+            batch,
             clientId: user.client.id,
             count: 20,
         };
         const freshClips = await fetchClips(fetchRequest);
-        const newClips = this.state.clips.concat(freshClips);
-        this.setState({ clips: newClips });
+        const newClips = this.getUniqueClips(
+            this.state.clips.concat(freshClips)
+        );
+
+        // refresh sentences for the clips
+        const newSentences = await this.sentencesFromClips(newClips);
+
+        // To-do: change goal if when there are no more clips to get
+        this.setState({ clips: newClips, sentences: newSentences });
+    };
+
+    /**
+     * Takes in an array of clips that can include duplicates and returns
+     * an array with no duplicates.
+     * @param clips an array of WheelClips that might include duplicates
+     */
+    getUniqueClips = (clips: WheelClip[]) => {
+        const seen = new Set();
+        const filteredClips = clips.filter((clip: WheelClip) => {
+            const duplicate = seen.has(clip.id);
+            seen.add(clip.id);
+            return !duplicate;
+        });
+        return filteredClips;
     };
 
     componentWillUnmount = () => {
@@ -315,6 +351,7 @@ class CarouselWheel extends React.Component<Props, State> {
     removeErrors = () => {
         this.setState({
             recordingError: undefined,
+            audioError: undefined,
             uploadError: undefined,
         });
     };
@@ -366,21 +403,34 @@ class CarouselWheel extends React.Component<Props, State> {
             .catch((error) => Promise.reject(error));
     };
 
+    /**
+     * Using the recorder to start recording the microphone input.
+     * Initialize the microphone and start recording.
+     */
     handleStartRecording = async (): Promise<void> => {
-        if (!this.recorder || !this.recorder.isRecordingSupported) {
-            // To-do error handling
-            console.error('Recording not supported.');
-            return;
-        }
-
+        // Reset errors
+        this.state.audioError && this.setState({ audioError: undefined });
         this.state.recordingError &&
             this.setState({ recordingError: undefined });
 
-        return this.recorder.startRecording().catch((error) => {
-            // To-do error handling
+        // check if recorder exists and is supported
+        if (!this.recorder || !this.recorder.isRecordingSupported) {
+            this.setState({ audioError: AudioError.NO_SUPPORT });
+            console.error(AudioError.NO_SUPPORT);
+            return Promise.reject(AudioError.NO_SUPPORT);
+        }
+
+        // Initialize microphone and start recording
+        try {
+            await this.recorder.initMicrophone();
+            await this.recorder.startRecording();
+        } catch (error) {
+            if (error in AudioError) {
+                this.setState({ audioError: error });
+            }
             console.error(error);
             return Promise.reject(error);
-        });
+        }
     };
 
     saveClip = async (
@@ -404,6 +454,11 @@ class CarouselWheel extends React.Component<Props, State> {
         return Promise.resolve();
     };
 
+    /**
+     * Stops the current ongoing recording of the recorder.
+     * Then saves and uploads the current clip to the database and
+     * takes the user to the next item in the wheel.
+     */
     handleStopRecording = async (): Promise<void> => {
         if (!this.recorder) {
             console.error('No recorder, why am I here?');
@@ -421,10 +476,6 @@ class CarouselWheel extends React.Component<Props, State> {
                 const {
                     contribute: { goal, progress },
                 } = this.props;
-                const isDone = !!(goal && goal.count == progress);
-                if (!isDone) {
-                    this.recorder?.initMicrophone();
-                }
                 return Promise.resolve();
             })
             .catch((error: RecordingError) => {
@@ -477,13 +528,18 @@ class CarouselWheel extends React.Component<Props, State> {
             isSpeak,
             sentenceIndex,
             recordingError,
+            audioError,
             sentences,
         } = this.state;
         const {
             contribute: { expanded, gaming, goal, progress },
         } = this.props;
         const activeClip = clips[clipIndex] || undefined;
-        const isDone = !!(goal && goal.count == progress);
+        const isDone = !!(
+            (goal && goal.count == progress) ||
+            // for when there are not enough clips to verify
+            sentenceIndex === sentences.length - 1
+        );
 
         let removeCounts = 0;
 
@@ -523,6 +579,7 @@ class CarouselWheel extends React.Component<Props, State> {
                     activeClip={activeClip}
                     isSpeak={isSpeak}
                     recordingError={recordingError}
+                    audioError={audioError}
                 />
                 <MainControls
                     clip={activeClip}

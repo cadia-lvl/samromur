@@ -17,8 +17,10 @@ export interface ClipMetadata {
     id?: number;
     sentence: string;
     gender: string;
+    dialect?: string;
     age: string;
     nativeLanguage: string;
+    status?: string;
     userAgent: string;
 }
 

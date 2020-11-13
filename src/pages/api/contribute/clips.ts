@@ -13,10 +13,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(400).send('Invalid method.');
     } else {
         const count = parseInt(req.query.count as string, 10) || 5;
+        const batch = decodeURIComponent(req.headers.batch as string) || '';
         const clientId =
             decodeURIComponent(req.headers.client_id as string) || '';
         return db.clips
-            .fetchClips(clientId, count)
+            .fetchClips(clientId, count, batch)
             .then((response: Clip[]) => {
                 res.status(200).json(response);
             })
