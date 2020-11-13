@@ -174,6 +174,10 @@ class CarouselWheel extends React.Component<Props, State> {
         this.setState({ sentences: newSentences });
     };
 
+    /**
+     *  Fetches 20 new clips for verification from the db
+     *  These are added to the state and updates the sentences
+     */
     refreshClips = async () => {
         // To-do: test this
         const { batch, user } = this.props;
@@ -183,8 +187,30 @@ class CarouselWheel extends React.Component<Props, State> {
             count: 20,
         };
         const freshClips = await fetchClips(fetchRequest);
-        const newClips = this.state.clips.concat(freshClips);
-        this.setState({ clips: newClips });
+        const newClips = this.getUniqueClips(
+            this.state.clips.concat(freshClips)
+        );
+
+        // refresh sentences for the clips
+        const newSentences = await this.sentencesFromClips(newClips);
+
+        // To-do: change goal if when there are no more clips to get
+        this.setState({ clips: newClips, sentences: newSentences });
+    };
+
+    /**
+     * Takes in an array of clips that can include duplicates and returns
+     * an array with no duplicates.
+     * @param clips an array of WheelClips that might include duplicates
+     */
+    getUniqueClips = (clips: WheelClip[]) => {
+        const seen = new Set();
+        const filteredClips = clips.filter((clip: WheelClip) => {
+            const duplicate = seen.has(clip.id);
+            seen.add(clip.id);
+            return !duplicate;
+        });
+        return filteredClips;
     };
 
     componentWillUnmount = () => {
@@ -509,7 +535,11 @@ class CarouselWheel extends React.Component<Props, State> {
             contribute: { expanded, gaming, goal, progress },
         } = this.props;
         const activeClip = clips[clipIndex] || undefined;
-        const isDone = !!(goal && goal.count == progress);
+        const isDone = !!(
+            (goal && goal.count == progress) ||
+            // for when there are not enough clips to verify
+            sentenceIndex === sentences.length - 1
+        );
 
         let removeCounts = 0;
 
