@@ -1,13 +1,13 @@
-import * as React from "react";
-import styled from "styled-components";
-import WifiIcon from "../../../ui/icons/wifi";
-import SocialDistancingIcon from "../../../ui/icons/social-distancing";
-import UserSpeakBubble from "../../../ui/icons/user-speak-bubble";
-import CheckMarkCircle from "../../../ui/icons/check-mark-circle";
-import LineGraph from "../../../ui/icons/line-graph";
-import Tip from "./tip";
-import TipsSpeak from "./tips-speak";
-import TipsVerify from "./tips-verify";
+import * as React from 'react';
+import styled from 'styled-components';
+import WifiIcon from '../../../ui/icons/wifi';
+import SocialDistancingIcon from '../../../ui/icons/social-distancing';
+import UserSpeakBubble from '../../../ui/icons/user-speak-bubble';
+import CheckMarkCircle from '../../../ui/icons/check-mark-circle';
+import LineGraph from '../../../ui/icons/line-graph';
+import Tip from './tip';
+import TipsSpeak from './tips-speak';
+import TipsVerify from './tips-verify';
 
 const TipsContainer = styled.div`
     display: flex;
@@ -65,7 +65,7 @@ export default class Tips extends React.Component<Props, State> {
 
     render() {
         const { onSkip, contributeType } = this.props;
-        const isSpeak = contributeType == "tala";
+        const isSpeak = contributeType == 'tala';
         return (
             <TipsContainer>
                 {isSpeak ? <TipsSpeak /> : <TipsVerify />}

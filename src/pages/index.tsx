@@ -254,9 +254,18 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>Það er á okkar valdi að alltaf megi finna svar á íslensku</CTATitle>
-                                    <CTAButton onClick={() => router.push(pages.contribute)} color={'validGreen'}>Taka þátt</CTAButton>
-                                    
+                                    <CTATitle>
+                                        Það er á okkar valdi að alltaf megi
+                                        finna svar á íslensku
+                                    </CTATitle>
+                                    <CTAButton
+                                        onClick={() =>
+                                            router.push(pages.contribute)
+                                        }
+                                        color={'validGreen'}
+                                    >
+                                        Taka þátt
+                                    </CTAButton>
                                 </TitleContainer>
                             </RobotAndTitle>
                             <FrontPageStats
@@ -273,8 +282,10 @@ class IndexPage extends React.Component<Props> {
                         <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
-                                    <ChartTitle>Lesnar setningar síðastliðinn mánuð</ChartTitle>
-                                     {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */} 
+                                    <ChartTitle>
+                                        Lesnar setningar síðastliðinn mánuð
+                                    </ChartTitle>
+                                    {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */}
                                 </ChartLegend>
                                 <ChartContainer>
                                     <TotalChart />
