@@ -26,7 +26,7 @@ export const listenGoals: Goal[] = [
         contributeType: 'hlusta',
         name: 'Lítinn',
         text: '10 upptökur',
-        count: 10
+        count: 10,
     },
     {
         contributeType: 'hlusta',

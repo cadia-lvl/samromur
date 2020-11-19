@@ -1,9 +1,9 @@
-import * as React from "react";
-import styled from "styled-components";
+import * as React from 'react';
+import styled from 'styled-components';
 
-import DropdownArrowIcon from "../../../ui/icons/dropdown-arrow";
-import ShowMore from "../../../ui/animated/show-more";
-import { IconProps } from "../../../ui/icons/icon";
+import DropdownArrowIcon from '../../../ui/icons/dropdown-arrow';
+import ShowMore from '../../../ui/animated/show-more';
+import { IconProps } from '../../../ui/icons/icon';
 
 const TipContainer = styled.div`
     border-left: 3px solid ${({ theme }) => theme.colors.borderGray};
@@ -52,7 +52,7 @@ const ReadMoreContainer = styled(ShowMore)<ReadMoreProps>`
 const Arrow = styled(DropdownArrowIcon)<ReadMoreProps>`
     margin-left: 1rem;
     transform-origin: bottom-right;
-    transform: rotate(${({ active }) => (active ? "180deg" : "0deg")});
+    transform: rotate(${({ active }) => (active ? '180deg' : '0deg')});
     transition: transform 0.3s ${({ theme }) => theme.transitions.main};
 `;
 
@@ -84,7 +84,7 @@ export const Tip: React.FC<Props> = ({
                     {icon}
                     <span>{title}</span>
                 </div>
-                <Arrow height={15} width={15} active={readMore} fill={"gray"} />
+                <Arrow height={15} width={15} active={readMore} fill={'gray'} />
             </TitleContainer>
             <ReadMoreContainer active={readMore}>{children}</ReadMoreContainer>
         </TipContainer>
