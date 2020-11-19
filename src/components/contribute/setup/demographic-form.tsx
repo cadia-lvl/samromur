@@ -75,6 +75,8 @@ const SubmitButton = styled.div<SubmitButtonProps>`
         transform: ${({ disabled }) => `translateY(${disabled ? 0 : 2}px)`};
     }
 
+    pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+
     & span {
         font-size: 0.8rem;
     }
@@ -201,6 +203,11 @@ class DemographicForm extends React.Component<Props, State> {
         this.setState({ nativeLanguage });
     };
 
+    formIsFilled = (): boolean => {
+        const { age, agreed, gender } = this.state;
+        return !!age?.name && agreed && !!gender?.name;
+    };
+
     onSubmit = () => {
         const {
             age,
@@ -214,7 +221,7 @@ class DemographicForm extends React.Component<Props, State> {
             return;
         }
         let language;
-        if (!!age.name || (!!gender.name && !nativeLanguage.name)) {
+        if (!!age.name && !!gender.name && !nativeLanguage.name) {
             language = nativeLanguages.find(
                 (val: Demographic) => val.id == 'islenska'
             ) as Demographic;
@@ -240,6 +247,7 @@ class DemographicForm extends React.Component<Props, State> {
             nativeLanguage,
             showConsentForm,
         } = this.state;
+        const formIsFilled = this.formIsFilled();
         return (
             <DemographicContainer>
                 <DropdownButton
@@ -269,11 +277,15 @@ class DemographicForm extends React.Component<Props, State> {
                     )}
                     label={'Móðurmál'}
                     onSelect={this.onNativeLanguageSelect}
-                    selected={nativeLanguage.name || 'Íslenska'}
+                    selected={nativeLanguage?.name || 'Íslenska'}
                 />
                 <Information title={'Hvers vegna skiptir þetta máli?'}>
                     <p>
-                        Ofantaldar upplýsingar eru notaðar til að meta hversu lýðfræðilega dreift gagnasafnið Samrómur er. Því dreifðara og fjölbreyttara sem það er, því betra. Sjá skilmála og persónuverndaryfirlýsingu verkefnisins hér fyrir neðan til þess að fá frekari upplýsingar.
+                        Ofantaldar upplýsingar eru notaðar til að meta hversu
+                        lýðfræðilega dreift gagnasafnið Samrómur er. Því
+                        dreifðara og fjölbreyttara sem það er, því betra. Sjá
+                        skilmála og persónuverndaryfirlýsingu verkefnisins hér
+                        fyrir neðan til þess að fá frekari upplýsingar.
                     </p>
                 </Information>
                 <AgreeContainer>
@@ -289,7 +301,7 @@ class DemographicForm extends React.Component<Props, State> {
                 </AgreeContainer>
                 <SubmitButton
                     onClick={this.onSubmit}
-                    disabled={!agreed || (showConsentForm && !hasConsent)}
+                    disabled={!formIsFilled || (showConsentForm && !hasConsent)}
                 >
                     Áfram
                 </SubmitButton>
