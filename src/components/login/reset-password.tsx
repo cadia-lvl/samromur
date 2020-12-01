@@ -1,7 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import TextInput from '../ui/input/text';
-import { FormError } from '../../types/auth';
+import { FormError, AuthError } from '../../types/auth';
+import * as authApi from '../../services/auth-api';
+import Link from 'next/link';
 
 const ForgotPasswordContainer = styled.div`
     display: flex;
@@ -18,6 +20,13 @@ const ErrorContainer = styled.div`
 
 const Title = styled.h3`
     margin-bottom: 2rem;
+`;
+
+const NavLink = styled.a`
+    font-size: 1.8rem;
+    color: ${({ theme }) => theme.colors.blue};
+    font-weight: 600;
+    cursor: pointer;
 `;
 
 const Button = styled.div`
@@ -47,7 +56,8 @@ interface Props {
 interface State {
     password: string;
     passwordAgain: string;
-    error?: FormError;
+    error?: FormError | AuthError;
+    success: boolean;
 }
 
 class ResetPassword extends React.Component<Props, State> {
@@ -58,19 +68,25 @@ class ResetPassword extends React.Component<Props, State> {
             password: '',
             passwordAgain: '',
             error: undefined,
+            success: false,
         };
     }
 
-    // TODO: on mount, validate token, if invalid, redirect to 404
-
-    handleResetPassword = () => {
+    handleResetPassword = async () => {
         const error = this.validatePassword();
+        const { password } = this.state;
+        const { token } = this.props;
         if (error) {
             this.setState({ error });
         } else {
-            // TO-DO: send api request
-            // on success print success message
-            // show link to login
+            const passwordResetSuccess = await authApi.resetPassword(
+                token,
+                password
+            );
+            if (!passwordResetSuccess) {
+                this.setState({ error: AuthError.FAILED });
+            }
+            this.setState({ success: passwordResetSuccess });
         }
     };
 
@@ -114,28 +130,41 @@ class ResetPassword extends React.Component<Props, State> {
         }
     };
     render() {
-        const { error } = this.state;
+        const { error, success } = this.state;
         return (
             <ForgotPasswordContainer>
-                <Title>Endur stilla lykilorð</Title>
-                <TextInput
-                    label="Lykilorð"
-                    onChange={this.onPasswordChange}
-                    placeholder=""
-                    type="password"
-                />
-                <TextInput
-                    label="Lykilorð aftur"
-                    onChange={this.onPasswordAgainChange}
-                    placeholder=""
-                    type="password"
-                />
-                {error && (
-                    <ErrorContainer>{this.getErrorMessage()}</ErrorContainer>
+                {success ? (
+                    <div>
+                        <Title>Lykilorð endurstillt!</Title>
+                        <Link href="/innskraning">
+                            <NavLink>Go to my pages to sign in</NavLink>
+                        </Link>
+                    </div>
+                ) : (
+                    <div>
+                        <Title>Endur stilla lykilorð</Title>
+                        <TextInput
+                            label="Lykilorð"
+                            onChange={this.onPasswordChange}
+                            placeholder=""
+                            type="password"
+                        />
+                        <TextInput
+                            label="Lykilorð aftur"
+                            onChange={this.onPasswordAgainChange}
+                            placeholder=""
+                            type="password"
+                        />
+                        {error && (
+                            <ErrorContainer>
+                                {this.getErrorMessage()}
+                            </ErrorContainer>
+                        )}
+                        <Button onClick={this.handleResetPassword}>
+                            Reset password
+                        </Button>
+                    </div>
                 )}
-                <Button onClick={this.handleResetPassword}>
-                    Reset password.
-                </Button>
             </ForgotPasswordContainer>
         );
     }

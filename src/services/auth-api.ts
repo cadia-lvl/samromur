@@ -93,7 +93,10 @@ export const createResetToken = async (email: string): Promise<void> => {
         });
 };
 
-export const resetPassword = async (token: string, password: string) => {
+export const resetPassword = async (
+    token: string,
+    password: string
+): Promise<boolean> => {
     const url = `api/users/reset-password`;
     const auth = Buffer.from(`${token}:${password}`, 'utf8').toString('base64');
 
@@ -105,7 +108,7 @@ export const resetPassword = async (token: string, password: string) => {
         },
     })
         .then((response: AxiosResponse) => {
-            return response.data;
+            return Promise.resolve(true);
         })
         .catch((error: AxiosError) => {
             console.log(error);

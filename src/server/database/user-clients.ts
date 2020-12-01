@@ -11,6 +11,7 @@ import {
     TotalUserVotes,
     UserClient,
 } from '../../types/user';
+import { query } from 'express';
 
 export default class UserClients {
     private sql: Sql;
@@ -337,5 +338,55 @@ export default class UserClients {
     resetPassword = async (
         resetPasswordToken: string,
         password: string
-    ): Promise<void> => {};
+    ): Promise<void> => {
+        try {
+            if (await this.validateToken(resetPasswordToken)) {
+                await this.sql.query(
+                    `
+                    UPDATE
+                        user_clients
+                    SET 
+                        password = ?,
+                        reset_password_token = ?,
+                        reset_password_token_expires = ?
+                    WHERE
+                        reset_password_token = ?
+                `,
+                    [
+                        sha512hash(password),
+                        null,
+                        null,
+                        sha512hash(resetPasswordToken),
+                    ]
+                );
+                return Promise.resolve();
+            }
+            return Promise.reject(AuthError.FAILED);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    private validateToken = async (token: string): Promise<boolean> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    reset_password_token, reset_password_token_expires
+                FROM
+                    user_clients
+                WHERE
+                    reset_password_token = ?
+            `,
+            [sha512hash(token)]
+        );
+        if (!!row) {
+            const expires = row['reset_password_token_expires'];
+
+            // If now is before expire return true
+            if (Date.now() < parseInt(expires)) {
+                return true;
+            }
+        }
+        return false;
+    };
 }
