@@ -1,4 +1,8 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { error } from 'console';
+import { response } from 'express';
+import { async } from 'rxjs/internal/scheduler/async';
+import password from '../pages/api/users/password';
 
 import { AuthRequest, AuthError } from '../types/auth';
 
@@ -65,6 +69,46 @@ export const changePassword = async (
         })
         .catch((error: AxiosError) => {
             console.error(error);
+            return Promise.reject(error.code);
+        });
+};
+
+export const createResetToken = async (email: string): Promise<void> => {
+    const url = `/api/users/forgot-password`;
+    const auth = Buffer.from(`${email}`, 'utf8').toString('base64');
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.log(error);
+            return Promise.reject(error.code);
+        });
+};
+
+export const resetPassword = async (token: string, password: string) => {
+    const url = `api/users/reset-password`;
+    const auth = Buffer.from(`${token}:${password}`, 'utf8').toString('base64');
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.log(error);
             return Promise.reject(error.code);
         });
 };

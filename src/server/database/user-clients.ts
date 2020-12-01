@@ -299,4 +299,43 @@ export default class UserClients {
             )
         );
     };
+
+    createResetPasswordToken = async (email: string): Promise<string> => {
+        if (!(await this.hasAccount(email))) {
+            return Promise.reject(AuthError.USER_NOT_FOUND);
+        }
+        const resetPasswordToken = uuid();
+        const resetPasswordTokenExpire = (Date.now() + 3600000).toString();
+
+        return this.sql
+            .query(
+                `
+                UPDATE
+                    user_clients
+                SET
+                    reset_password_token = ?,
+                    reset_password_token_expires = ?
+                WHERE
+                    email = ?
+            `,
+                [
+                    sha512hash(resetPasswordToken),
+                    resetPasswordTokenExpire,
+                    email,
+                ]
+            )
+            .then(([{ affectedRows }]) => {
+                return !!affectedRows
+                    ? Promise.resolve(resetPasswordToken)
+                    : Promise.reject(AuthError.USER_NOT_FOUND);
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+    };
+
+    resetPassword = async (
+        resetPasswordToken: string,
+        password: string
+    ): Promise<void> => {};
 }

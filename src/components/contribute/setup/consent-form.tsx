@@ -11,6 +11,8 @@ import SwipeSwap from '../../ui/animated/swipe';
 import TextInput from '../../ui/input/text-input';
 import Information from './information';
 
+import validateEmail from '../../../utilities/validate-email';
+
 const ConsentFormContainer = styled.div`
     width: 100%;
     display: grid;
@@ -175,7 +177,7 @@ class ConsentForm extends React.Component<Props, State> {
                 }
             }
         } else {
-            if (!this.validateEmail(email)) {
+            if (!validateEmail(email)) {
                 this.setState({ error: 'Ógilt tölvupóstfang' });
             } else {
                 consentsApi
@@ -227,16 +229,11 @@ class ConsentForm extends React.Component<Props, State> {
         }
     };
 
-    validateEmail = (email: string): boolean => {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email.toLowerCase());
-    };
-
     render() {
         const { email, emailPrompt, emailSent, error, kennitala } = this.state;
         const submittable = !emailPrompt
             ? kennitala.length == 10
-            : this.validateEmail(email);
+            : validateEmail(email);
         return (
             <ConsentFormContainer>
                 <Instructions>

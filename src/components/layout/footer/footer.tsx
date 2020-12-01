@@ -42,8 +42,8 @@ const FooterGrid = styled.div`
 interface Props {}
 
 export const Footer: FunctionComponent<Props> = (props) => {
-    const router = useRouter();
-    const { pathname } = router;
+    // const router = useRouter();
+    // const { pathname } = router;
     return (
         <FooterContainer>
             <FooterGrid>
