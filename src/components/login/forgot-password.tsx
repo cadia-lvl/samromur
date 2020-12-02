@@ -68,6 +68,11 @@ class ForgotPassword extends React.Component<Props, State> {
         };
     }
 
+    /**
+     * Sends the api request to send the reset link email
+     * to start the password recovery process.
+     * If the email is invalid, the formerror state is updated.
+     */
     handleResetPassword = () => {
         const { email } = this.state;
         if (validateEmail(email)) {
@@ -103,7 +108,9 @@ class ForgotPassword extends React.Component<Props, State> {
                     </div>
                 ) : (
                     <Paragraph>
-                        Tölvupóstur með leiðbeiningum um hvernig á að endurstilla lykilorðið þitt hefur verið sendur til {email}
+                        Tölvupóstur með leiðbeiningum um hvernig á að
+                        endurstilla lykilorðið þitt hefur verið sendur til{' '}
+                        {email}
                     </Paragraph>
                 )}
             </ForgotPasswordContainer>

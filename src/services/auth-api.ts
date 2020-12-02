@@ -73,6 +73,11 @@ export const changePassword = async (
         });
 };
 
+/**
+ * Post a request to the api to create a reset password token
+ * for the imput email.
+ * @param email the email of the user
+ */
 export const createResetToken = async (email: string): Promise<void> => {
     const url = `/api/users/forgot-password`;
     const auth = Buffer.from(`${email}`, 'utf8').toString('base64');
@@ -93,6 +98,12 @@ export const createResetToken = async (email: string): Promise<void> => {
         });
 };
 
+/**
+ * Posts a request to the api to reset the password of the
+ * user with the reset password token.
+ * @param token the reset password token of the user
+ * @param password the new password
+ */
 export const resetPassword = async (
     token: string,
     password: string

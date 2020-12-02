@@ -5,7 +5,10 @@ import Database, {
 import { AuthError } from '../../../types/auth';
 
 const db: Database = getDatabaseInstance();
-
+/**
+ * Receives the api request for reset password for a password recovery
+ * Uses the db to reset the password and returns 200 on success
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { method, query } = req;
     if (method != 'POST') {

@@ -72,6 +72,10 @@ class ResetPassword extends React.Component<Props, State> {
         };
     }
 
+    /**
+     * An api request is sent to reset the password if the password is valid,
+     * Otherwise the error state is updated.
+     */
     handleResetPassword = async () => {
         const error = this.validatePassword();
         const { password } = this.state;
@@ -90,6 +94,11 @@ class ResetPassword extends React.Component<Props, State> {
         }
     };
 
+    /**
+     * Validates that the password matches the password again field
+     * and that it is a valid password.
+     * Returns a formError if the password is invalid and null otherwise
+     */
     validatePassword = (): FormError | null => {
         const { password, passwordAgain } = this.state;
         if (password == '') {
@@ -137,7 +146,9 @@ class ResetPassword extends React.Component<Props, State> {
                     <div>
                         <Title>Lykilorð endurstillt!</Title>
                         <Link href="/innskraning">
-                            <NavLink>Smelltu hér til að fara á innskráningarsíðuna.</NavLink>
+                            <NavLink>
+                                Smelltu hér til að fara á innskráningarsíðuna.
+                            </NavLink>
                         </Link>
                     </div>
                 ) : (

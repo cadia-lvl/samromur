@@ -301,6 +301,11 @@ export default class UserClients {
         );
     };
 
+    /**
+     * Creates the reset password token for the user of the input email.
+     * Returns an error if the user is not found.
+     * @param email the email of the user
+     */
     createResetPasswordToken = async (email: string): Promise<string> => {
         if (!(await this.hasAccount(email))) {
             return Promise.reject(AuthError.USER_NOT_FOUND);
@@ -335,6 +340,11 @@ export default class UserClients {
             });
     };
 
+    /**
+     * Resets the password of the user that has the input reset password token
+     * @param resetPasswordToken reset password token to look for
+     * @param password the new password
+     */
     resetPassword = async (
         resetPasswordToken: string,
         password: string
@@ -367,6 +377,10 @@ export default class UserClients {
         }
     };
 
+    /**
+     * Validates that the reset password token exists in the db and has not expired
+     * @param token the reset password token to search for
+     */
     private validateToken = async (token: string): Promise<boolean> => {
         const [[row]] = await this.sql.query(
             `

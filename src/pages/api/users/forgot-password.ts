@@ -7,7 +7,11 @@ import EmailClient, { getEmailInstance } from '../../../server/email';
 
 const db: Database = getDatabaseInstance();
 const emailClient: EmailClient = getEmailInstance();
-
+/**
+ * Receives the api request for password recovery
+ * Uses the db to create a reset password token and then
+ * sends an email to the requested email address.
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
     if (method != 'POST') {
