@@ -108,9 +108,8 @@ class ForgotPassword extends React.Component<Props, State> {
                     </div>
                 ) : (
                     <Paragraph>
-                        Tölvupóstur með leiðbeiningum um hvernig á að
-                        endurstilla lykilorðið þitt hefur verið sendur til{' '}
-                        {email}
+                        Tölvupóstur með leiðbeiningum um hvernig á að lykilorðið
+                        þitt hefur verið sendur til {email}
                     </Paragraph>
                 )}
             </ForgotPasswordContainer>
