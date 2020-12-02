@@ -40,8 +40,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     .catch((error: AuthError) => {
                         // To-do: Log this attempt to a log file
 
-                        // Send back OK regardless, if user not found to avoid
-                        // attack trying to find user emails
+                        // Send back OK regardless if user not found to avoid
+                        // attacks trying to find user emails
                         res.status(200).end();
                     });
             }

@@ -98,12 +98,12 @@ class ForgotPassword extends React.Component<Props, State> {
                             <ErrorContainer>Ógilt tölvupóstfang</ErrorContainer>
                         )}
                         <Button onClick={this.handleResetPassword}>
-                            Send reset password link.
+                            Staðfesta
                         </Button>
                     </div>
                 ) : (
                     <Paragraph>
-                        Password reset link has been sent to {email}
+                        Tölvupóstur með leiðbeiningum um hvernig á að endurstilla lykilorðið þitt hefur verið sendur til {email}
                     </Paragraph>
                 )}
             </ForgotPasswordContainer>

@@ -23,7 +23,7 @@ const Title = styled.h3`
 `;
 
 const NavLink = styled.a`
-    font-size: 1.8rem;
+    font-size: 1rem;
     color: ${({ theme }) => theme.colors.blue};
     font-weight: 600;
     cursor: pointer;
@@ -137,12 +137,12 @@ class ResetPassword extends React.Component<Props, State> {
                     <div>
                         <Title>Lykilorð endurstillt!</Title>
                         <Link href="/innskraning">
-                            <NavLink>Go to my pages to sign in</NavLink>
+                            <NavLink>Smelltu hér til að fara á innskráningarsíðuna.</NavLink>
                         </Link>
                     </div>
                 ) : (
                     <div>
-                        <Title>Endur stilla lykilorð</Title>
+                        <Title>Endurstilla lykilorð</Title>
                         <TextInput
                             label="Lykilorð"
                             onChange={this.onPasswordChange}
@@ -161,7 +161,7 @@ class ResetPassword extends React.Component<Props, State> {
                             </ErrorContainer>
                         )}
                         <Button onClick={this.handleResetPassword}>
-                            Reset password
+                            Staðfesta
                         </Button>
                     </div>
                 )}
