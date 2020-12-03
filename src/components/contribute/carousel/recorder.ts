@@ -180,10 +180,10 @@ export default class Recorder {
         this.microphone = await this.getMicrophone();
         this.sampleRate = this.microphone.getAudioTracks()[0].getSettings()
             .sampleRate as number;
-    
+
         // Input and analysis nodes
         this.audioContext = new (window.AudioContext ||
-                window.webkitAudioContext)({ sampleRate: this.sampleRate });
+            window.webkitAudioContext)({ sampleRate: this.sampleRate });
 
         // Set sample rate to the active one
         this.sampleRate = this.audioContext.sampleRate;
