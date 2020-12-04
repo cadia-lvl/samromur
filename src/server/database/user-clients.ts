@@ -11,6 +11,7 @@ import {
     TotalUserVotes,
     UserClient,
 } from '../../types/user';
+import { query } from 'express';
 
 export default class UserClients {
     private sql: Sql;
@@ -298,5 +299,108 @@ export default class UserClients {
                     })
             )
         );
+    };
+
+    /**
+     * Creates the reset password token for the user of the input email.
+     * Returns an error if the user is not found.
+     * @param email the email of the user
+     */
+    createResetPasswordToken = async (email: string): Promise<string> => {
+        if (!(await this.hasAccount(email))) {
+            return Promise.reject(AuthError.USER_NOT_FOUND);
+        }
+        const resetPasswordToken = uuid();
+        const resetPasswordTokenExpire = (Date.now() + 3600000).toString();
+
+        return this.sql
+            .query(
+                `
+                UPDATE
+                    user_clients
+                SET
+                    reset_password_token = ?,
+                    reset_password_token_expires = ?
+                WHERE
+                    email = ?
+            `,
+                [
+                    sha512hash(resetPasswordToken),
+                    resetPasswordTokenExpire,
+                    email,
+                ]
+            )
+            .then(([{ affectedRows }]) => {
+                return !!affectedRows
+                    ? Promise.resolve(resetPasswordToken)
+                    : Promise.reject(AuthError.USER_NOT_FOUND);
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+    };
+
+    /**
+     * Resets the password of the user that has the input reset password token
+     * @param resetPasswordToken reset password token to look for
+     * @param password the new password
+     */
+    resetPassword = async (
+        resetPasswordToken: string,
+        password: string
+    ): Promise<void> => {
+        try {
+            if (await this.validateToken(resetPasswordToken)) {
+                await this.sql.query(
+                    `
+                    UPDATE
+                        user_clients
+                    SET 
+                        password = ?,
+                        reset_password_token = ?,
+                        reset_password_token_expires = ?
+                    WHERE
+                        reset_password_token = ?
+                `,
+                    [
+                        sha512hash(password),
+                        null,
+                        null,
+                        sha512hash(resetPasswordToken),
+                    ]
+                );
+                return Promise.resolve();
+            }
+            return Promise.reject(AuthError.FAILED);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    /**
+     * Validates that the reset password token exists in the db and has not expired
+     * @param token the reset password token to search for
+     */
+    private validateToken = async (token: string): Promise<boolean> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    reset_password_token, reset_password_token_expires
+                FROM
+                    user_clients
+                WHERE
+                    reset_password_token = ?
+            `,
+            [sha512hash(token)]
+        );
+        if (!!row) {
+            const expires = row['reset_password_token_expires'];
+
+            // If now is before expire return true
+            if (Date.now() < parseInt(expires)) {
+                return true;
+            }
+        }
+        return false;
     };
 }

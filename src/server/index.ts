@@ -14,6 +14,7 @@ import authMiddleware from './middlewares/auth';
 import batchUploadMiddleware, {
     uploadHandler,
 } from './middlewares/batch-upload';
+import rateLimiter from './middlewares/rate-limit';
 
 import { nextI18next } from './i18n';
 import { Config, getConfig, verifyConfig } from '../utilities/config-helper';
@@ -37,6 +38,7 @@ class Server {
         this.server.use(nextI18NextMiddleWare(nextI18next));
         this.server.use(clientIdMiddleware);
         this.server.use(authMiddleware);
+        this.server.use('/api/', rateLimiter);
 
         this.server.post(
             '/api/upload-batch',

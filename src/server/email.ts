@@ -72,6 +72,23 @@ export default class EmailClient {
         });
         return Promise.resolve();
     };
+
+    /**
+     * Sends a reset password email to the specified email address.
+     * @param email the email to send to
+     * @param url the password reset link
+     */
+    sendResetPasswordEmail = async (email: string, url: string) => {
+        const { FROM_EMAIL, RESET_TEMPLATE_ID } = this.emailConfig;
+        return sgMail.send({
+            to: email,
+            from: FROM_EMAIL,
+            templateId: RESET_TEMPLATE_ID,
+            dynamicTemplateData: {
+                URL: url,
+            },
+        });
+    };
 }
 
 let instance: EmailClient;

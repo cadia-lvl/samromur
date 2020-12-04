@@ -15,6 +15,7 @@ export type EmailOptions = {
     FROM_EMAIL: string;
     CONSENT_TEMPLATE_ID: string;
     SIGNUP_TEMPLATE_ID: string;
+    RESET_TEMPLATE_ID: string;
     SENDGRID_KEY: string;
 };
 
@@ -49,6 +50,7 @@ const defaults: Config = {
         FROM_EMAIL: '',
         CONSENT_TEMPLATE_ID: '',
         SIGNUP_TEMPLATE_ID: '',
+        RESET_TEMPLATE_ID: '',
         SENDGRID_KEY: '',
     },
 };

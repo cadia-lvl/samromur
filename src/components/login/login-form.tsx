@@ -1,10 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 import TextInput from '../ui/input/text';
 import { Button } from '../ui/buttons';
 
 import { AuthError, AuthRequest, FormError } from '../../types/auth';
+
+import validateEmail from '../../utilities/validate-email';
 
 const LoginFormContainer = styled.form`
     margin: 1rem auto;
@@ -107,7 +110,7 @@ class LoginForm extends React.Component<Props, State> {
         const { email, isSignup, password, passwordAgain } = this.state;
         if (email == '') {
             return FormError.MISSING_EMAIL;
-        } else if (!this.validateEmail(email)) {
+        } else if (!validateEmail(email)) {
             return FormError.INVALID_EMAIL;
         } else if (password == '') {
             return FormError.MISSING_PASSWORD;
@@ -120,11 +123,6 @@ class LoginForm extends React.Component<Props, State> {
             }
         }
         return null;
-    };
-
-    validateEmail = (email: string): boolean => {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email.toLowerCase());
     };
 
     getFormErrorMessage = (error: FormError): string => {
@@ -197,17 +195,21 @@ class LoginForm extends React.Component<Props, State> {
                     {isSignup ? 'Nýskrá' : 'Skrá inn'}
                 </Button>
                 <ForgotAndSignupContainer>
-                    <Button
-                        type="button"
-                        transparent
-                        onClick={
-                            isSignup
-                                ? this.handleSignup
-                                : this.handleLostPassword
-                        }
-                    >
-                        {isSignup ? 'Áttu aðgang?' : 'Týnt lykilorð'}
-                    </Button>
+                    {isSignup ? (
+                        <Button
+                            type="button"
+                            transparent
+                            onClick={this.handleSignup}
+                        >
+                            Áttu aðgang?
+                        </Button>
+                    ) : (
+                        <Link href="/tyntlykilord">
+                            <Button type="button" transparent>
+                                Týnt lykilorð
+                            </Button>
+                        </Link>
+                    )}
                     <Button
                         type="button"
                         color={isSignup ? 'grey' : 'blue'}
