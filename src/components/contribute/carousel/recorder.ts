@@ -181,15 +181,19 @@ export default class Recorder {
         this.sampleRate = this.microphone.getAudioTracks()[0].getSettings()
             .sampleRate as number;
 
+        // Input and analysis nodes
+        this.audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)({ sampleRate: this.sampleRate });
+
+        // Set sample rate to the active one
+        this.sampleRate = this.audioContext.sampleRate;
+
         this.encoder.postMessage({
             command: 'settings',
             sampleRate: this.sampleRate,
         });
 
-        this.audioContext = new (window.AudioContext ||
-            window.webkitAudioContext)({ sampleRate: this.sampleRate });
-
-        // Input and analysis nodes
+        // Connect the microphone to the audio context
         this.sourceNode = this.audioContext.createMediaStreamSource(
             this.microphone
         );
