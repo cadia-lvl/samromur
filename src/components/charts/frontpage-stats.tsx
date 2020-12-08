@@ -48,7 +48,8 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
             </p>
             <p>
                 Samrómur hófst í október 2019 og hingað til hafa um{' '}
-                <Stat>10</Stat> þúsund manns lesið rúmlega{' '}
+                <Stat>{Math.ceil(clients / 1000)}</Stat> þúsund manns lesið
+                rúmlega{' '}
                 <Stat>
                     {parseInt(minutes.toFixed(0))
                         .toLocaleString('is')

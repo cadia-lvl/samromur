@@ -187,7 +187,6 @@ class Contribute extends React.Component<Props, State> {
             <Layout game>
                 <ContributeContainer gaming={gaming} expanded={expanded}>
                     <div />
-
                     {!gaming ? (
                         <Instruction>{this.getInstruction()}</Instruction>
                     ) : (
@@ -195,17 +194,17 @@ class Contribute extends React.Component<Props, State> {
                     )}
                     {!contributeType ? (
                         <TypeSelect setType={this.selectType} />
+                    ) : !goal ? (
+                        <PackageSelect
+                            contributeType={contributeType}
+                            setGoal={this.setGoal}
+                        />
                     ) : contributeType == 'tala' && !demographic ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
                     ) : labels.length > 0 && !selectedBatch ? (
                         <BatchSelect
                             labels={labels}
                             setLabel={this.onSelectBatch}
-                        />
-                    ) : !goal ? (
-                        <PackageSelect
-                            contributeType={contributeType}
-                            setGoal={this.setGoal}
                         />
                     ) : !gaming ? (
                         <Tips

@@ -17,6 +17,7 @@ const ExpandableButtonContainer = styled(NoSelectDiv)<ButtonProps>`
     border-radius: 2rem;
     padding: 0.8rem 0rem;
     padding-left: 1rem;
+    width: ${({ visible }) => (visible ? 'auto' : 0)};
     background-color: ${({ active }) => (active ? 'gray' : 'white')};
     border: 2px solid
         ${({ active, theme }) => (!active ? theme.colors.borderGray : 'gray')};
@@ -105,10 +106,17 @@ export default class ExpandableButton extends React.Component<Props, State> {
     };
 
     calculateWidth = () => {
-        this.buttonRef.current?.addEventListener('focusout', this.onFocusOut);
-        const textWidth = this.textRef.current?.clientWidth;
-        if (textWidth) {
-            this.setState({ textWidth });
+        if (this.props.text === '') {
+            this.setState({ textWidth: 0 });
+        } else {
+            this.buttonRef.current?.addEventListener(
+                'focusout',
+                this.onFocusOut
+            );
+            const textWidth = this.textRef.current?.clientWidth;
+            if (textWidth) {
+                this.setState({ textWidth });
+            }
         }
     };
 
@@ -151,9 +159,11 @@ export default class ExpandableButton extends React.Component<Props, State> {
                     visible={visible}
                 >
                     <IconContainer>{children}</IconContainer>
-                    <ButtonText expanded={expanded} textWidth={textWidth}>
-                        {paddedText}
-                    </ButtonText>
+                    {text && (
+                        <ButtonText expanded={expanded} textWidth={textWidth}>
+                            {paddedText}
+                        </ButtonText>
+                    )}
                 </ExpandableButtonContainer>
                 <FakeText ref={this.textRef}>{paddedText}</FakeText>
             </React.Fragment>

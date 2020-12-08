@@ -75,6 +75,10 @@ const CardContainer = styled.div<CardContainerProps>`
         -moz-box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
         -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,.08);
     `}
+
+    ${({ theme }) => theme.media.extraSmallDown} {
+        max-height: 20vh;
+    }
 `;
 
 const Content = styled.div<{ position: number }>`

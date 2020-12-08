@@ -52,6 +52,10 @@ const WheelContainer = styled.div<WheelContainerProps>`
         max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     justify-items: center;
     padding: 0 1rem;
+    ${({ theme }) => theme.media.extraSmallDown} {
+        grid-template-rows: ${({ theme }) => theme.layout.hudHeight} 20% auto auto auto auto;
+        min-height: 10rem;
+    }
     ${({ theme }) => theme.media.smallUp} {
         max-height: 60rem;
     }
