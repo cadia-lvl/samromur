@@ -115,6 +115,7 @@ class MyApp extends App<Props> {
             undefined;
         !!demographics && setDemographics(demographics as Demographics);
 
+        // If the user has the skipTips tag in local storage, set it in store
         const skipTips: boolean = getSkipTips();
         skipTips && setSkipTips(skipTips);
 
