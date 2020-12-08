@@ -43,6 +43,7 @@ export interface UserClient {
     isAuthenticated: boolean;
     isSuperUser: boolean;
     stats: UserStats;
+    skipTips: boolean;
 }
 
 export interface UserConsents {

@@ -5,6 +5,7 @@ import { generateGUID } from '../../utilities/id';
 import {
     injectDemographics,
     injectConsents,
+    injectSkipTips,
 } from '../../utilities/local-storage';
 import { setUserCookie } from '../../utilities/cookies';
 
@@ -18,6 +19,7 @@ const initialState: UserState = {
             clips: undefined,
             votes: undefined,
         },
+        skipTips: false,
     },
     demographics: {
         age: {
@@ -103,6 +105,16 @@ export default createReducer(initialState)
             client: {
                 ...state.client,
                 isAuthenticated: action.payload,
+            },
+        };
+    })
+    .handleAction(userActions.setSkipTips, (state, action) => {
+        injectSkipTips(action.payload);
+        return {
+            ...state,
+            client: {
+                ...state.client,
+                skipTips: action.payload,
             },
         };
     })

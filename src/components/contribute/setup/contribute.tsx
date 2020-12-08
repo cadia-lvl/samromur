@@ -181,6 +181,7 @@ class Contribute extends React.Component<Props, State> {
             clips,
             contribute: { expanded, gaming, goal },
             sentences,
+            user: { client },
         } = this.props;
 
         return (
@@ -206,7 +207,7 @@ class Contribute extends React.Component<Props, State> {
                             labels={labels}
                             setLabel={this.onSelectBatch}
                         />
-                    ) : !gaming ? (
+                    ) : !gaming && !client.skipTips ? (
                         <Tips
                             onSkip={this.skipTips}
                             contributeType={contributeType}
