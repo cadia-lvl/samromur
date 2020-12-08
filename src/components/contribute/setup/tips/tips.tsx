@@ -109,7 +109,7 @@ class Tips extends React.Component<TipsProps, State> {
                         checked={checked}
                         onChange={this.handleSkipInFuture}
                     />
-                    <span>Ég vil ekki sjá góð ráð næst</span>
+                    <span>Sleppa þessum glugga næst</span>
                 </SkipInFutureContainer>
                 <SkipButton onClick={this.handleContinue}>Áfram</SkipButton>
             </TipsContainer>
