@@ -23,6 +23,8 @@ const AudioButton = styled.div<ButtonProps>`
     background-color: ${({ isPlaying, theme }) =>
         isPlaying ? theme.colors.green : theme.colors.blue};
     color: white;
+    padding-left: 10px;
+    
 `;
 
 interface AudioProps {
@@ -47,7 +49,7 @@ const AudioPlayer: React.FC<AudioProps> = ({ src }) => {
     };
     return (
         <AudioContainer>
-            <Audio ref={audioRef} src={src} />
+            <Audio ref={audioRef} src={src}/>
             <AudioButton isPlaying={isPlaying} onClick={handlePlayPause}>
                 Spila upptöku
             </AudioButton>
@@ -63,12 +65,22 @@ export const TipsVerify: React.FC<Props> = () => (
         >
             <p>
                 Meginreglan er að það sem er lesið upp verður að stemma við
-                textann sem birtist. Heyra dæmi um góða upptöku „Þú þarft að
-                fara út að leita“:
+                textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki lesinn rétt eða 
+                eða bara ekki lesin yfirhöfuð, þegar slíkt gerist á að merkja upptökuna
+                sem slæma. 
+                
+
+                Hér er að neðan er dæmi um góð upptöku og svo slæma upptöku þar sem setningin
+                „Þú þarft að fara út að leita“ er lesinn.
             </p>
             <AudioPlayer
                 src={
                     'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav'
+                }
+                />
+            <AudioPlayer
+                src={
+                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad1.wav'
                 }
             />
         </Tip>
@@ -78,12 +90,16 @@ export const TipsVerify: React.FC<Props> = () => (
         >
             <p>
                 Það kemur fyrir að upptaka heppnist illa og innihaldi svokallað
-                brothljóð. Slíkar upptökur á að merkja sem slæmar. Heyra dæmi um
-                góða upptöku „Allir verkir eru í burt“:
+                brothljóð. Þegar slíkt hljóð yfirgnæfir talið að miklu leiti á að 
+                merkja upptökuna sem slæma. 
+
+                
+                Hér má heyra dæmi þar sem setning „Allir verkir eru í burt“
+                er lesinn.
             </p>
             <AudioPlayer
                 src={
-                    'https://s3.eu-west-2.amazonaws.com/samromur.is/76afc108-683b-4c1f-9434-004f1ecc4e87/acdbce3bd86185c770e812cc2c2d37f340c20a976e9d3ceb0c912ccbbceca3a5.wav'
+                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav'
                 }
             />
         </Tip>
@@ -95,12 +111,18 @@ export const TipsVerify: React.FC<Props> = () => (
                 Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við
                 erum í. Því er allt í lagi að það heyrist smá kliður eða
                 bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem les.
-                Hér er dæmi um góða upptöku „Þakka honum þannig án þess að þakka
-                honum beinlínis sem væri harðbannað“:
+                
+                Hér er dæmi um góða og slæma upptöku þar sem setningin „Þetta er 
+                ekkert grín“ er lesinn.
             </p>
             <AudioPlayer
                 src={
-                    'https://s3.eu-west-2.amazonaws.com/samromur.is/e7dba315-7839-4e35-bfe5-30964d691328/a99ca87dab5615a0cca46af5c7fdafc4b39a324b72efe31da2d360402c47e7ee.wav'
+                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav'
+                }
+                />
+            <AudioPlayer
+                src={
+                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad3.wav'
                 }
             />
         </Tip>
