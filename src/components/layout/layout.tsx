@@ -34,7 +34,7 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
     `
             : `
         min-height: 100vh;
-        overflow-y: hidden;
+        overflow-y: scroll;
         background-color: ${theme.colors.white};
         
         display: flex;

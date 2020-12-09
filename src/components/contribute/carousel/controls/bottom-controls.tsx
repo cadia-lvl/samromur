@@ -13,7 +13,7 @@ import ExpandableButton from './expandable-button';
 import { InformationModal } from '../information-modal';
 
 const BottomControlsContainer = styled.div`
-    width: 90vw;
+    width: 100%;
     display: flex;
     height: 4rem;
     flex-direction: row;
@@ -39,7 +39,7 @@ const SubmitAndInfoContainer = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     & > div {
-        margin-right: 0.5rem;
+        margin-left: 0.5rem;
     }
     align-items: center;
 `;
@@ -182,4 +182,3 @@ export const BottomControls: React.FunctionComponent<Props> = ({
 };
 
 export default BottomControls;
-//Ráð

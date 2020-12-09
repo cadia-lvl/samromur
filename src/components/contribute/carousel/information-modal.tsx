@@ -19,28 +19,11 @@ const ModalMessage = styled.div`
     margin-bottom: 1rem;
 `;
 
-const ButtonsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    padding-top: 1rem;
-    & > div {
-        margin: 0 0.5rem;
-    }
-
-    ${({ theme }) => theme.media.extraSmallDown} {
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-    }
-`;
-
 const StyledButton = styled(Button)`
     vertical-align: middle;
     width: 45%;
     max-height: auto;
-    margin-bottom: 1rem;
+    margin: 1rem 0rem 2rem 0rem;
 
     ${({ theme }) => theme.media.extraSmallDown} {
         width: 90%;
@@ -70,6 +53,9 @@ export class InformationModal extends React.Component<InformationModalProps> {
                     <ModalMessage>
                         {isSpeak ? <TipsSpeak /> : <TipsVerify />}
                     </ModalMessage>
+                    <StyledButton onClick={this.props.onRequestClose}>
+                        Loka
+                    </StyledButton>
                 </Modal>
             </ModalContainer>
         );

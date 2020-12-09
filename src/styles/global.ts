@@ -116,7 +116,7 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
         font-size: 12px;
         font-smoothing: antialiased;
         -webkit-font-smoothing: antialiased;
-        @media (min-width: 320px) {
+        @media (min-width: 321px) {
             font-size: 14px;
         }
 

@@ -87,13 +87,13 @@ class Tips extends React.Component<TipsProps, State> {
         };
     }
 
-    handleSkipInFuture = () => {
+    handleCheckChanged = () => {
         this.setState({ checked: !this.state.checked });
     };
 
     handleContinue = () => {
         const { checked } = this.state;
-        this.props.setSkipTips(checked);
+        this.props.setSkipTips(checked); // dispatch to store
         this.props.onSkip();
     };
 
@@ -107,7 +107,7 @@ class Tips extends React.Component<TipsProps, State> {
                 <SkipInFutureContainer>
                     <Checkbox
                         checked={checked}
-                        onChange={this.handleSkipInFuture}
+                        onChange={this.handleCheckChanged}
                     />
                     <span>Sleppa þessum glugga næst</span>
                 </SkipInFutureContainer>

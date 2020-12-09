@@ -9,6 +9,7 @@ interface ButtonProps {
 }
 
 const ExpandableButtonContainer = styled(NoSelectDiv)<ButtonProps>`
+    align-items: center;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -17,7 +18,6 @@ const ExpandableButtonContainer = styled(NoSelectDiv)<ButtonProps>`
     border-radius: 2rem;
     padding: 0.8rem 0rem;
     padding-left: 1rem;
-    width: ${({ visible }) => (visible ? 'auto' : 0)};
     background-color: ${({ active }) => (active ? 'gray' : 'white')};
     border: 2px solid
         ${({ active, theme }) => (!active ? theme.colors.borderGray : 'gray')};
@@ -33,6 +33,11 @@ const ExpandableButtonContainer = styled(NoSelectDiv)<ButtonProps>`
 
     overflow: hidden;
     cursor: pointer;
+
+    ${({ theme }) => theme.media.extraSmallDown} {
+        font-size: 1rem;
+        padding: 0.5rem 0rem;
+    }
 `;
 
 interface ButtonTextProps {
@@ -42,6 +47,9 @@ interface ButtonTextProps {
 
 const IconContainer = styled.div`
     padding-right: 1rem;
+    ${({ theme }) => theme.media.extraSmallDown} {
+        padding: 0rem 0.5rem;
+    }
 `;
 
 const FakeText = styled.span`

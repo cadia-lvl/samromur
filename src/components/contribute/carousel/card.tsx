@@ -77,7 +77,7 @@ const CardContainer = styled.div<CardContainerProps>`
     `}
 
     ${({ theme }) => theme.media.extraSmallDown} {
-        max-height: 20vh;
+        max-height: 30%;
     }
 `;
 
