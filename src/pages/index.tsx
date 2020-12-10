@@ -139,7 +139,7 @@ const MarsContainer = styled.div`
 const Mars = styled.div`
     content: url(/images/mars.svg);
     display: block;
-    width: 12rem;
+    width: 8rem;
     ${({ theme }) => theme.media.small} {
         width: 8.5rem;
     }
@@ -255,7 +255,7 @@ class IndexPage extends React.Component<Props> {
                                 </MarsContainer>
                                 <TitleContainer>
                                     <CTATitle>
-                                        Þín rödd skiptir máli
+                                        Þín rödd skiptir máli! 
                                     </CTATitle>
                                     <CTAButton
                                         onClick={() =>

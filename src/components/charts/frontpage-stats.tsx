@@ -5,7 +5,7 @@ import { averageClipSeconds } from '../../constants/stats';
 
 const CTAStats = styled.div`
     margin: 1rem 0;
-    width: 40rem;
+    width: 50rem;
     max-width: 100%;
     font-size: 1.3rem;
     text-align: center;
@@ -58,7 +58,7 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
                 mínútur eða <Stat>{clips}</Stat> setningar. Hægt er að lesa
                 meira um verkefnið hér.{' '}
                 <Link href="/um">
-                    <SubStat>Lesa meira hér.</SubStat>
+                    <Stat>Lesa meira hér.</Stat>
                 </Link>
             </p>
         </CTAStats>
