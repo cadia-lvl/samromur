@@ -8,50 +8,94 @@ import UserSpeakBubble from '../../../ui/icons/user-speak-bubble';
 import CheckMarkCircle from '../../../ui/icons/check-mark-circle';
 import LineGraph from '../../../ui/icons/line-graph';
 import Tip from './tip';
+import { theme } from '../../../../styles/global';
 
 interface Props {}
-const AudioContainer = styled.div``;
+const AudioContainer = styled.div`
+    flex-basis: 35%;
+    padding: 0 0.5rem;
+`;
+
+enum AudioColor {
+    red = 'RED',
+    green = 'GREEN',
+}
 
 interface ButtonProps {
     isPlaying: boolean;
+    color: string;
 }
 
 const AudioButton = styled.div<ButtonProps>`
     width: auto;
     height: auto;
     cursor: pointer;
-    background-color: ${({ isPlaying, theme }) =>
-        isPlaying ? theme.colors.green : theme.colors.blue};
+    background-color: ${({ isPlaying, theme, color }) =>
+        isPlaying ? theme.colors.blue : color};
     color: white;
-    padding-left: 10px;
-    
+    padding: 0 10px;
+    text-align: center;
+`;
+
+const ExamplesContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: no-wrap;
+    align-items: stretch;
 `;
 
 interface AudioProps {
     src: string;
+    color?: AudioColor;
 }
 
 const Audio = styled.audio`
     display: none;
 `;
 
-const AudioPlayer: React.FC<AudioProps> = ({ src }) => {
+const AudioPlayer: React.FC<AudioProps> = ({ src, color }) => {
     const audioRef = React.createRef<HTMLAudioElement>();
     const [isPlaying, setIsPlaying] = React.useState(false);
+
     const handlePlayPause = () => {
+        audioRef.current?.addEventListener('ended', () => {
+            setIsPlaying(false);
+        });
         if (isPlaying) {
             audioRef.current?.pause();
+            if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+            }
             setIsPlaying(false);
         } else {
             audioRef.current?.play();
             setIsPlaying(true);
         }
     };
+    const getColorTheme = (): string => {
+        if (color) {
+            if (color === AudioColor.green) {
+                return theme.colors.green;
+            }
+            if (color === AudioColor.red) {
+                return theme.colors.red;
+            }
+        }
+        return theme.colors.green;
+    };
     return (
         <AudioContainer>
-            <Audio ref={audioRef} src={src}/>
-            <AudioButton isPlaying={isPlaying} onClick={handlePlayPause}>
-                Spila upptöku
+            <Audio ref={audioRef} src={src} />
+            <AudioButton
+                isPlaying={isPlaying}
+                onClick={handlePlayPause}
+                color={getColorTheme()}
+            >
+                {color === undefined || color === AudioColor.green
+                    ? 'Spila góða upptöku'
+                    : 'Spila slæma upptöku'}
             </AudioButton>
         </AudioContainer>
     );
@@ -65,24 +109,25 @@ export const TipsVerify: React.FC<Props> = () => (
         >
             <p>
                 Meginreglan er að það sem er lesið upp verður að stemma við
-                textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki lesinn rétt eða 
-                eða bara ekki lesin yfirhöfuð, þegar slíkt gerist á að merkja upptökuna
-                sem slæma. 
-                
-
-                Hér er að neðan er dæmi um góð upptöku og svo slæma upptöku þar sem setningin
-                „Þú þarft að fara út að leita“ er lesinn.
+                textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki
+                lesinn rétt eða eða bara ekki lesin yfirhöfuð, þegar slíkt
+                gerist á að merkja upptökuna sem slæma. Hér er að neðan er dæmi
+                um góð upptöku og svo slæma upptöku þar sem setningin „Þú þarft
+                að fara út að leita“ er lesinn.
             </p>
-            <AudioPlayer
-                src={
-                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav'
-                }
+            <ExamplesContainer>
+                <AudioPlayer
+                    src={
+                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav'
+                    }
                 />
-            <AudioPlayer
-                src={
-                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad1.wav'
-                }
-            />
+                <AudioPlayer
+                    src={
+                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad1.wav'
+                    }
+                    color={AudioColor.red}
+                />
+            </ExamplesContainer>
         </Tip>
         <Tip
             icon={<UserSpeakBubble height={40} width={40} fill={'gray'} />}
@@ -90,18 +135,17 @@ export const TipsVerify: React.FC<Props> = () => (
         >
             <p>
                 Það kemur fyrir að upptaka heppnist illa og innihaldi svokallað
-                brothljóð. Þegar slíkt hljóð yfirgnæfir talið að miklu leiti á að 
-                merkja upptökuna sem slæma. 
-
-                
-                Hér má heyra dæmi þar sem setning „Allir verkir eru í burt“
-                er lesinn.
+                brothljóð. Þegar slíkt hljóð yfirgnæfir talið að miklu leiti á
+                að merkja upptökuna sem slæma. Hér má heyra dæmi þar sem setning
+                „Allir verkir eru í burt“ er lesinn.
             </p>
-            <AudioPlayer
-                src={
-                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav'
-                }
-            />
+            <ExamplesContainer>
+                <AudioPlayer
+                    src={
+                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav'
+                    }
+                />
+            </ExamplesContainer>
         </Tip>
         <Tip
             icon={<Noise height={40} width={40} fill={'gray'} />}
@@ -111,20 +155,22 @@ export const TipsVerify: React.FC<Props> = () => (
                 Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við
                 erum í. Því er allt í lagi að það heyrist smá kliður eða
                 bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem les.
-                
-                Hér er dæmi um góða og slæma upptöku þar sem setningin „Þetta er 
+                Hér er dæmi um góða og slæma upptöku þar sem setningin „Þetta er
                 ekkert grín“ er lesinn.
             </p>
-            <AudioPlayer
-                src={
-                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav'
-                }
+            <ExamplesContainer>
+                <AudioPlayer
+                    src={
+                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav'
+                    }
                 />
-            <AudioPlayer
-                src={
-                    'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad3.wav'
-                }
-            />
+                <AudioPlayer
+                    src={
+                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad3.wav'
+                    }
+                    color={AudioColor.red}
+                />
+            </ExamplesContainer>
         </Tip>
     </div>
 );
