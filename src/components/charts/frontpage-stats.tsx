@@ -44,7 +44,8 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
                 vegna þurfum við þína aðstoð, með því að smella á „Taka þátt“ þá
                 getur þú lesið upp nokkrar setningar og lagt „þína rödd” af
                 mörkum. Við viljum sérstaklega hvetja fólk sem hefur íslensku
-                sem annað mál að taka þátt.
+                sem annað mál að taka þátt. Það er á okkar valdi að alltaf megi
+                finna svar á íslensku.
             </p>
             <p>
                 Samrómur hófst í október 2019 og hingað til hafa um{' '}

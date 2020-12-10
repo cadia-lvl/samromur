@@ -255,8 +255,7 @@ class IndexPage extends React.Component<Props> {
                                 </MarsContainer>
                                 <TitleContainer>
                                     <CTATitle>
-                                        Það er á okkar valdi að alltaf megi
-                                        finna svar á íslensku
+                                        Þín rödd skiptir máli
                                     </CTATitle>
                                     <CTAButton
                                         onClick={() =>
