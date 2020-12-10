@@ -254,9 +254,7 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>
-                                        Þín rödd skiptir máli! 
-                                    </CTATitle>
+                                    <CTATitle>Þín rödd skiptir máli!</CTATitle>
                                     <CTAButton
                                         onClick={() =>
                                             router.push(pages.contribute)
