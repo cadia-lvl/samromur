@@ -209,11 +209,15 @@ class Contribute extends React.Component<Props, State> {
                             labels={labels}
                             setLabel={this.onSelectBatch}
                         />
-                    ) : !gaming && !client.skipTips ? (
-                        <Tips
-                            onSkip={this.skipTips}
-                            contributeType={contributeType}
-                        />
+                    ) : !gaming ? (
+                        client.skipTips ? (
+                            this.skipTips()
+                        ) : (
+                            <Tips
+                                onSkip={this.skipTips}
+                                contributeType={contributeType}
+                            />
+                        )
                     ) : (
                         <CarouselWheel
                             batch={selectedBatch}
