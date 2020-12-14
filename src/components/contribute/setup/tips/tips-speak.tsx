@@ -36,8 +36,9 @@ export const TipsSpeak: React.FC<Props> = () => (
             title={'Þetta er eins og að lesa bók'}
         >
             <p>
-                Þú getur ímyndað þér að þú sért að lesa bók upphátt, þó án leikrænna tilburða
-                enda viljum að tæki framtíðarinnar skilji okkar eðlilega talanda.
+                Þú getur ímyndað þér að þú sért að lesa bók upphátt, þó án
+                leikrænna tilburða enda viljum að tæki framtíðarinnar skilji
+                okkar eðlilega talanda.
             </p>
         </Tip>
         <Tip
