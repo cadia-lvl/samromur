@@ -37,7 +37,7 @@ export const TipsSpeak: React.FC<Props> = () => (
         >
             <p>
                 Þú getur ímyndað þér að þú sért að lesa bók upphátt, þó án
-                leikrænna tilburða enda viljum að tæki framtíðarinnar skilji
+                leikrænna tilburða enda viljum við að tæki framtíðarinnar skilji
                 okkar eðlilega talanda.
             </p>
         </Tip>
