@@ -17,6 +17,8 @@ export const setTermsConsent = createAction('SET_TERMS_CONSENT')<boolean>();
 
 export const setAuthenticated = createAction('SET_AUTHENTICATED')<boolean>();
 
+export const setSkipTips = createAction('SET_SKIP_TIPS')<boolean>();
+
 export const fetchUser = createAsyncAction(
     'UPDATE_USER_REQUEST',
     'UPDATE_USER_SUCCESS',

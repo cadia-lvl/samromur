@@ -9,6 +9,7 @@ interface ButtonProps {
 }
 
 const ExpandableButtonContainer = styled(NoSelectDiv)<ButtonProps>`
+    align-items: center;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -32,6 +33,11 @@ const ExpandableButtonContainer = styled(NoSelectDiv)<ButtonProps>`
 
     overflow: hidden;
     cursor: pointer;
+
+    ${({ theme }) => theme.media.extraSmallDown} {
+        font-size: 1rem;
+        padding: 0.5rem 0rem;
+    }
 `;
 
 interface ButtonTextProps {
@@ -41,6 +47,9 @@ interface ButtonTextProps {
 
 const IconContainer = styled.div`
     padding-right: 1rem;
+    ${({ theme }) => theme.media.extraSmallDown} {
+        padding: 0rem 0.5rem;
+    }
 `;
 
 const FakeText = styled.span`
@@ -105,10 +114,17 @@ export default class ExpandableButton extends React.Component<Props, State> {
     };
 
     calculateWidth = () => {
-        this.buttonRef.current?.addEventListener('focusout', this.onFocusOut);
-        const textWidth = this.textRef.current?.clientWidth;
-        if (textWidth) {
-            this.setState({ textWidth });
+        if (this.props.text === '') {
+            this.setState({ textWidth: 0 });
+        } else {
+            this.buttonRef.current?.addEventListener(
+                'focusout',
+                this.onFocusOut
+            );
+            const textWidth = this.textRef.current?.clientWidth;
+            if (textWidth) {
+                this.setState({ textWidth });
+            }
         }
     };
 
@@ -151,9 +167,11 @@ export default class ExpandableButton extends React.Component<Props, State> {
                     visible={visible}
                 >
                     <IconContainer>{children}</IconContainer>
-                    <ButtonText expanded={expanded} textWidth={textWidth}>
-                        {paddedText}
-                    </ButtonText>
+                    {text && (
+                        <ButtonText expanded={expanded} textWidth={textWidth}>
+                            {paddedText}
+                        </ButtonText>
+                    )}
                 </ExpandableButtonContainer>
                 <FakeText ref={this.textRef}>{paddedText}</FakeText>
             </React.Fragment>

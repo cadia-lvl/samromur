@@ -1,13 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import WifiIcon from '../../../ui/icons/wifi';
-import SocialDistancingIcon from '../../../ui/icons/social-distancing';
-import UserSpeakBubble from '../../../ui/icons/user-speak-bubble';
-import CheckMarkCircle from '../../../ui/icons/check-mark-circle';
-import LineGraph from '../../../ui/icons/line-graph';
-import Tip from './tip';
 import TipsSpeak from './tips-speak';
 import TipsVerify from './tips-verify';
+import Checkbox from '../../../ui/input/checkbox';
+import { connect } from 'react-redux';
+import { setSkipTips } from '../../../../store/user/actions';
 
 const TipsContainer = styled.div`
     display: flex;
@@ -50,27 +47,74 @@ const SkipButton = styled.div`
     }
 `;
 
+const SkipInFutureContainer = styled.div`
+    display: grid;
+    grid-template-columns: 10% auto;
+    justify-items: flex-start;
+    align-items: center;
+    & span {
+        margin-left: 1rem;
+    }
+
+    grid-column: 1 / 3;
+
+    ${({ theme }) => theme.media.small} {
+        grid-column: 1;
+        max-width: 100%;
+    }
+`;
+
+const dispatchProps = {
+    setSkipTips,
+};
+
 interface Props {
     onSkip: () => void;
     contributeType: string;
 }
 
-interface State {}
+interface State {
+    checked: boolean;
+}
 
-export default class Tips extends React.Component<Props, State> {
-    constructor(props: Props) {
+type TipsProps = Props & typeof dispatchProps;
+
+class Tips extends React.Component<TipsProps, State> {
+    constructor(props: TipsProps) {
         super(props);
-        this.state = {};
+        this.state = {
+            checked: false,
+        };
     }
 
+    handleCheckChanged = () => {
+        this.setState({ checked: !this.state.checked });
+    };
+
+    handleContinue = () => {
+        const { checked } = this.state;
+        this.props.setSkipTips(checked); // dispatch to store
+        this.props.onSkip();
+    };
+
     render() {
-        const { onSkip, contributeType } = this.props;
+        const { contributeType } = this.props;
+        const { checked } = this.state;
         const isSpeak = contributeType == 'tala';
         return (
             <TipsContainer>
                 {isSpeak ? <TipsSpeak /> : <TipsVerify />}
-                <SkipButton onClick={onSkip}>Áfram</SkipButton>
+                <SkipInFutureContainer>
+                    <Checkbox
+                        checked={checked}
+                        onChange={this.handleCheckChanged}
+                    />
+                    <span>Sleppa þessum glugga næst</span>
+                </SkipInFutureContainer>
+                <SkipButton onClick={this.handleContinue}>Áfram</SkipButton>
             </TipsContainer>
         );
     }
 }
+
+export default connect(null, dispatchProps)(Tips);

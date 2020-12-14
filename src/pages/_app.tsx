@@ -4,6 +4,7 @@ import App, { AppProps, AppContext } from 'next/app';
 import Head from 'next/head';
 import withRedux from 'next-redux-wrapper';
 import initStore from '../store';
+import { getSkipTips } from '../utilities/local-storage';
 
 import { RootState } from 'typesafe-actions';
 
@@ -18,6 +19,7 @@ import {
     setDemographics,
     setConsents,
     fetchUser,
+    setSkipTips,
 } from '../store/user/actions';
 import { getUserAgent } from '../utilities/browser';
 
@@ -48,6 +50,7 @@ const dispatchProps = {
     setDemographics,
     setUserAgent,
     setConsents,
+    setSkipTips,
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -91,6 +94,7 @@ class MyApp extends App<Props> {
             setDemographics,
             setUserAgent,
             setConsents,
+            setSkipTips,
         } = this.props;
 
         // Set userAgent in store
@@ -110,6 +114,10 @@ class MyApp extends App<Props> {
             JSON.parse(localStorage.getItem('demographics') as string) ||
             undefined;
         !!demographics && setDemographics(demographics as Demographics);
+
+        // If the user has the skipTips tag in local storage, set it in store
+        const skipTips: boolean = getSkipTips();
+        skipTips && setSkipTips(skipTips);
 
         // If the user does not have a cookie, set it
         !appProps.user.hasCookie && setUserCookie(appProps.user.clientId);

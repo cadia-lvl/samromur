@@ -7,6 +7,9 @@ const InstructionsContainer = styled.div`
     width: 100%;
     text-align: center;
     margin: 1rem;
+    ${({ theme }) => theme.media.extraSmallDown} {
+        margin: 0.2rem;
+    }
 `;
 
 const NoSelect = styled.div`
