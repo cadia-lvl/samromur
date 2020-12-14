@@ -110,10 +110,10 @@ export const TipsVerify: React.FC<Props> = () => (
             <p>
                 Meginreglan er að það sem er lesið upp verður að stemma við
                 textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki
-                lesinn rétt eða eða bara ekki lesin yfirhöfuð, þegar slíkt
-                gerist á að merkja upptökuna sem slæma. Hér að neðan er dæmi
-                um góð upptöku og svo slæma upptöku þar sem setningin „Þú þarft
-                að fara út að leita“ er lesinn.
+                lesinn rétt eða bara ekki lesin yfirhöfuð, þegar slíkt gerist á
+                að merkja upptökuna sem slæma. Hér að neðan er dæmi um góð
+                upptöku og svo slæma upptöku þar sem setningin „Þú þarft að fara
+                út að leita“ er lesinn.
             </p>
             <ExamplesContainer>
                 <AudioPlayer
