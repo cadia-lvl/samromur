@@ -197,7 +197,9 @@ class Contribute extends React.Component<Props, State> {
                         <TypeSelect setType={this.selectType} />
                     ) : contributeType == 'tala' && !demographic ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
-                    ) : labels.length > 0 && !selectedBatch ? (
+                    ) : labels.length > 0 &&
+                      !selectedBatch &&
+                      contributeType != 'tala' ? (
                         <BatchSelect
                             labels={labels}
                             setLabel={this.onSelectBatch}
