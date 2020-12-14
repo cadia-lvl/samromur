@@ -46,7 +46,7 @@ export const theme = {
         borderGray: '#e2e2e2',
         blue: '#629ff4',
         darkerBlue: '#2D7FF0',
-        red: '#ff4f5e',
+        red: '#FF7886',
         darkerRed: '#FF0A1F',
         green: '#60C197',
         gray: '#999999',

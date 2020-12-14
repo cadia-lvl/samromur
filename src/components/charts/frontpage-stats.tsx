@@ -5,7 +5,7 @@ import { averageClipSeconds } from '../../constants/stats';
 
 const CTAStats = styled.div`
     margin: 1rem 0;
-    width: 40rem;
+    width: 50rem;
     max-width: 100%;
     font-size: 1.3rem;
     text-align: center;
@@ -44,7 +44,8 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
                 vegna þurfum við þína aðstoð, með því að smella á „Taka þátt“ þá
                 getur þú lesið upp nokkrar setningar og lagt „þína rödd” af
                 mörkum. Við viljum sérstaklega hvetja fólk sem hefur íslensku
-                sem annað mál að taka þátt.
+                sem annað mál að taka þátt. Það er á okkar valdi að alltaf megi
+                finna svar á íslensku.
             </p>
             <p>
                 Samrómur hófst í október 2019 og hingað til hafa um{' '}
@@ -58,7 +59,7 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
                 mínútur eða <Stat>{clips}</Stat> setningar. Hægt er að lesa
                 meira um verkefnið hér.{' '}
                 <Link href="/um">
-                    <SubStat>Lesa meira hér.</SubStat>
+                    <Stat>Lesa meira hér.</Stat>
                 </Link>
             </p>
         </CTAStats>
