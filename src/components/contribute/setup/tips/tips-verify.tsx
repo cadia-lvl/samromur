@@ -111,7 +111,7 @@ export const TipsVerify: React.FC<Props> = () => (
                 Meginreglan er að það sem er lesið upp verður að stemma við
                 textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki
                 lesinn rétt eða eða bara ekki lesin yfirhöfuð, þegar slíkt
-                gerist á að merkja upptökuna sem slæma. Hér er að neðan er dæmi
+                gerist á að merkja upptökuna sem slæma. Hér að neðan er dæmi
                 um góð upptöku og svo slæma upptöku þar sem setningin „Þú þarft
                 að fara út að leita“ er lesinn.
             </p>
@@ -155,7 +155,7 @@ export const TipsVerify: React.FC<Props> = () => (
                 Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við
                 erum í. Því er allt í lagi að það heyrist smá kliður eða
                 bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem les.
-                Hér er dæmi um góða og slæma upptöku þar sem setningin „Þetta er
+                Hér dæmi um góða og slæma upptöku þar sem setningin „Þetta er
                 ekkert grín“ er lesinn.
             </p>
             <ExamplesContainer>

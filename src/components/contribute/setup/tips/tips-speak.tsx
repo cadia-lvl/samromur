@@ -33,11 +33,11 @@ export const TipsSpeak: React.FC<Props> = () => (
         </Tip>
         <Tip
             icon={<CheckMarkCircle height={40} width={40} fill={'gray'} />}
-            title={'Lestu eins og þú lest bók'}
+            title={'Þetta er eins og að lesa bók'}
         >
             <p>
-                Þó án leikræna tilburða, við viljum að tæki framtíðarinnar
-                skilji okkur eðlilega talanda.
+                Þú getur ímyndað þér að þú sért að lesa bók upphátt, þó án leikrænna tilburða
+                enda viljum að tæki framtíðarinnar skilji okkar eðlilega talanda.
             </p>
         </Tip>
         <Tip
