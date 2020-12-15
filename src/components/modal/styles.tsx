@@ -75,7 +75,7 @@ export const Modal = styled(ReactModalAdapter)`
             box-sizing: border-box;
             padding: 2rem;
             max-width: 40rem;
-            min-height: auto;
+            max-height: 99vh;
             width: 100%;
             text-align: center;
             background: white;
@@ -83,7 +83,7 @@ export const Modal = styled(ReactModalAdapter)`
             box-shadow: 0 2px 44px 0 color-mod(#0043a0 alpha(50%));
 
             ${({ theme }) => theme.media.extraSmallDown} {
-                min-height: 99vh;
+                height: 99vh;
             }
         }
     }
