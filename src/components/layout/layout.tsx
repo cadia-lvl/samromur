@@ -19,6 +19,7 @@ interface LayoutContainerProps {
 const LayoutContainer = styled.div<LayoutContainerProps>`
     position: relative;
     width: 100vw;
+    max-width: 100%;
     overflow-x: hidden;
     ${({ game, theme }) =>
         !game
@@ -29,12 +30,12 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
         }
 
         ${theme.media.smallUp} {
-            overflow-y: scroll;
+            overflow-y: auto;
         }
     `
             : `
         min-height: 100vh;
-        overflow-y: scroll;
+        overflow-y: auto;
         background-color: ${theme.colors.white};
         
         display: flex;
