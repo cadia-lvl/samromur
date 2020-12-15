@@ -57,31 +57,39 @@ export default class Sentences {
         });
     };
 
-    // TO-DO: Order by clips count
+    // When getting new sentences we need to fetch a larger pool and shuffle it to make it less
+    // likely that different users requesting at the same time get the same data
+    SHUFFLE_SIZE = 500;
     fetchSentences = async (clientId: string, count: number): Promise<any> => {
         const [rows] = await this.sql.query(
             `
             SELECT 
-                id, text
+                * 
             FROM
-                sentences
-            WHERE is_used = 1
-            AND
-                NOT EXISTS (
-                    SELECT
-                        *
-                    FROM
-                        clips
-                    WHERE
-                        clips.original_sentence_id = sentences.id
-                    AND
-                        clips.client_id = ?
-                )
-            ORDER BY
+                (SELECT 
+                    id, text
+                FROM
+                    sentences
+                WHERE is_used = 1
+                AND
+                    NOT EXISTS (
+                        SELECT
+                            *
+                        FROM
+                            clips
+                        WHERE
+                            clips.original_sentence_id = sentences.id
+                        AND
+                            clips.client_id = ?
+                    )
+                ORDER BY
+                    clips_count asc
+                LIMIT ?) as result
+            ORDER BY 
                 RAND()
             LIMIT ?
             `,
-            [clientId ? clientId : 'fakeid', count]
+            [clientId ? clientId : 'fakeid', this.SHUFFLE_SIZE, count]
         );
         return rows;
     };
