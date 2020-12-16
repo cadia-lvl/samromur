@@ -17,7 +17,7 @@ const ModalMessage = styled.div`
     width: 100%;
     text-align: left;
     margin-bottom: 1rem;
-    max-height: 65vh;
+    max-height: 70vh;
     overflow-y: auto;
 `;
 

@@ -130,8 +130,8 @@ class Contribute extends React.Component<Props, State> {
             return 'Taka þátt';
         } else {
             if (contributeType == 'tala') {
-                if (!demographic) {
-                    return 'Hvað viltu lesa mikið?';
+                if (!demographic && goal) {
+                    return 'Þín rödd';
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
             } else {

@@ -28,7 +28,7 @@ interface ButtonProps {
 
 const AudioButton = styled.div<ButtonProps>`
     width: auto;
-    height: auto;
+    height: 100%;
     cursor: pointer;
     background-color: ${({ isPlaying, theme, color }) =>
         isPlaying ? theme.colors.blue : color};
@@ -39,6 +39,7 @@ const AudioButton = styled.div<ButtonProps>`
     display: flex;
     align-theme: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
 `;
 
