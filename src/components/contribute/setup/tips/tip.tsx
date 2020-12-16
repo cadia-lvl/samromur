@@ -40,7 +40,7 @@ const TitleContainer = styled(NoSelectDiv)`
 const AlignLeftContainer = styled(NoSelectDiv)`
     display: flex;
     justify-content: left;
-`
+`;
 interface ReadMoreProps {
     active: boolean;
 }
@@ -53,7 +53,7 @@ const ReadMoreContainer = styled(ShowMore)<ReadMoreProps>`
     }
 `;
 
-const Icon = styled(NoSelectDiv)``
+const Icon = styled(NoSelectDiv)``;
 
 const Arrow = styled(DropdownArrowIcon)<ReadMoreProps>`
     margin-left: 1rem;
