@@ -45,6 +45,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const nativeLanguage = decodeURIComponent(
             headers.native_language as string
         );
+        const sampleRate = parseInt(headers.sample_rate as string) || undefined;
+        const duration = parseFloat(headers.duration as string) || undefined;
+        const size = parseFloat(headers.size as string) || undefined;
 
         const clip: ClipMetadata = {
             age,
@@ -53,6 +56,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             nativeLanguage,
             sentence,
             userAgent,
+            sampleRate: sampleRate && sampleRate,
+            duration: duration && duration,
+            size: size && size,
         };
 
         const contentType = headers['content-type'] as string;

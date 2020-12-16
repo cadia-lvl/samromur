@@ -140,6 +140,9 @@ export default class Clips {
             nativeLanguage,
             userAgent,
             status,
+            sampleRate,
+            duration,
+            size,
         } = clip;
 
         try {
@@ -162,9 +165,9 @@ export default class Clips {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, user_agent, status, dialect)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, user_agent, status, sample_rate, duration, size, dialect)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
@@ -178,6 +181,9 @@ export default class Clips {
                     nativeLanguage,
                     userAgent,
                     status ? status : 'samromur',
+                    sampleRate ? sampleRate : null,
+                    duration ? duration : null,
+                    size ? size : null,
                     dialect,
                 ]
             );
