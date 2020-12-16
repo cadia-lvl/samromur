@@ -34,6 +34,8 @@ const AudioButton = styled.div<ButtonProps>`
         isPlaying ? theme.colors.blue : color};
     color: white;
     padding: 0 10px;
+    padding-bottom 3px;
+    padding-top 3px;
     display: flex;
     align-theme: center;
     justify-content: center;
