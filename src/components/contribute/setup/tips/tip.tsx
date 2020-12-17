@@ -37,6 +37,10 @@ const TitleContainer = styled(NoSelectDiv)`
     }
 `;
 
+const AlignLeftContainer = styled(NoSelectDiv)`
+    display: flex;
+    justify-content: left;
+`;
 interface ReadMoreProps {
     active: boolean;
 }
@@ -48,6 +52,8 @@ const ReadMoreContainer = styled(ShowMore)<ReadMoreProps>`
         margin-top: 0.5rem;
     }
 `;
+
+const Icon = styled(NoSelectDiv)``;
 
 const Arrow = styled(DropdownArrowIcon)<ReadMoreProps>`
     margin-left: 1rem;
@@ -80,10 +86,10 @@ export const Tip: React.FC<Props> = ({
     return (
         <TipContainer className={className} ref={ref}>
             <TitleContainer onClick={handleClick}>
-                <div>
-                    {icon}
+                <AlignLeftContainer>
+                    <Icon>{icon}</Icon>
                     <span>{title}</span>
-                </div>
+                </AlignLeftContainer>
                 <Arrow height={15} width={15} active={readMore} fill={'gray'} />
             </TitleContainer>
             <ReadMoreContainer active={readMore}>{children}</ReadMoreContainer>

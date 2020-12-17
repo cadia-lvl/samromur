@@ -130,7 +130,7 @@ class Contribute extends React.Component<Props, State> {
             return 'Taka þátt';
         } else {
             if (contributeType == 'tala') {
-                if (!demographic) {
+                if (!demographic && goal) {
                     return 'Þín rödd';
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
@@ -139,7 +139,7 @@ class Contribute extends React.Component<Props, State> {
                     ? 'Góð ráð við yfirferð'
                     : labels.length > 0 && !selectedBatch
                     ? 'Hvaða yfirferðarflokk viltu hlusta á?'
-                    : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
+                    : 'Veldu pakka';
             }
         }
     };

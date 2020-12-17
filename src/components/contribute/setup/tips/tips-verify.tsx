@@ -12,7 +12,7 @@ import { theme } from '../../../../styles/global';
 
 interface Props {}
 const AudioContainer = styled.div`
-    flex-basis: 35%;
+    flex-basis: 40%;
     padding: 0 0.5rem;
 `;
 
@@ -28,12 +28,18 @@ interface ButtonProps {
 
 const AudioButton = styled.div<ButtonProps>`
     width: auto;
-    height: auto;
+    height: 100%;
     cursor: pointer;
     background-color: ${({ isPlaying, theme, color }) =>
         isPlaying ? theme.colors.blue : color};
     color: white;
     padding: 0 10px;
+    padding-bottom 3px;
+    padding-top 3px;
+    display: flex;
+    align-theme: center;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 `;
 
