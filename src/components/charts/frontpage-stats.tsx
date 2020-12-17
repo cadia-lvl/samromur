@@ -19,6 +19,18 @@ const Stat = styled.span`
     color: ${({ theme }) => theme.colors.darkerBlue};
 `;
 
+const LinkText = styled.span`
+    font-size: 2.5 rem;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.darkerBlue};
+    cursor: pointer;
+
+    :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blackOlive};
+    }
+`;
+
 const SubStat = styled.a`
     font-size: 1.8 rem;
     color: ${({ theme }) => theme.colors.blue};
@@ -59,7 +71,7 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
                 mínútur eða <Stat>{clips}</Stat> setningar. Hægt er að lesa
                 meira um verkefnið hér.{' '}
                 <Link href="/um">
-                    <Stat>Lesa meira hér.</Stat>
+                    <LinkText>Lesa meira hér.</LinkText>
                 </Link>
             </p>
         </CTAStats>
