@@ -25,7 +25,7 @@ The following needs to be installed on your system to be able to start developin
 * MySQL 8.0.19
 * ffmpeg
 
-**Note:** This project uses prettier to automatically format the code for a uniform codeset. It is warmly recommended to use the prettier plugin for the IDE you are using.
+**Note:** This project uses [prettier](https://prettier.io/ 'Prettier Home Page'), an opinionated code formatter, to automatically format the code for a uniform codeset. It is warmly recommended to use the prettier plugin for the IDE you are using.
 
 ### *Configuration*
 You will need to populate two configuration files **config.json** and **database.json**.
@@ -53,7 +53,7 @@ npm run dev
 **Please note:** PWA support is disabled in development
 ## Production
 The only difference in setup between developement and production is the npm commands to run.
-Follow the development steps for **Configuration, S3, Database** and **Setup** but instead run these commands.
+Follow the development steps for **Requirements, Configuration, S3, Database** and **Setup** but instead run these commands.
 * The start command injects *NODE_ENV=production* on the fly and there is a separate command for starting on Windows because of a slightly different syntax doing that.
 
 ```
