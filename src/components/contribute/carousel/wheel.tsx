@@ -601,6 +601,7 @@ class CarouselWheel extends React.Component<Props, State> {
                 <BottomControls
                     clip={activeClip}
                     isDone={isDone}
+                    progress={progress}
                     isSpeak={isSpeak}
                     deleteClip={this.handleDeleteClip}
                     saveVote={this.handleSaveVote}
