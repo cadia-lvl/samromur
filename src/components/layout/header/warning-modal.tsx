@@ -67,9 +67,8 @@ class WarningModal extends React.Component<Props> {
 
     render() {
         const {
-            contribute: { progress, goal },
+            contribute: { progress, goal: { count, contributeType } = {} },
         } = this.props;
-        const count = goal ? goal.count : 0;
         return (
             <ModalContainer>
                 <Modal
@@ -78,14 +77,18 @@ class WarningModal extends React.Component<Props> {
                 >
                     <ModalTitle>Ertu viss?</ModalTitle>
                     <ModalMessage>
-                        Þú hefur lokið {`${progress}/${count}`} upptökum.
+                        {contributeType === 'tala'
+                            ? `Þú hefur lokið ${progress}/${count} upptökum.`
+                            : `Þú hefur yfirfarið ${progress}/${count} upptökum.`}
                     </ModalMessage>
                     <ButtonsContainer>
                         <StyledLeaveButton onClick={this.props.onExit} large>
                             Hætta
                         </StyledLeaveButton>
                         <StyledButton onClick={this.props.onStay} large>
-                            Halda upptökum áfram
+                            {contributeType === 'tala'
+                                ? `Halda upptökum áfram`
+                                : `Halda yfirferðinni áfram`}
                         </StyledButton>
                     </ButtonsContainer>
                 </Modal>
