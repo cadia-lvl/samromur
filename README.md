@@ -1,6 +1,9 @@
 # Samrómur
 
-Samrómur is a crowdsourcing data collection platform for icelandic. Samrómur aims to collect icelandic voice data which can be used to train voice-recognition software. Data collected via Samrómur is GDPR compliant. The dataset consists of multiple wav files containing the voice clips and the corresponding written text files along with demographic data about the speakers. The application is written in Typescript and uses React to build the website.
+Samrómur is a crowdsourcing data collection platform for icelandic. Samrómur aims to collect icelandic voice data which can be used to train voice-recognition software. Data collected via Samrómur is GDPR compliant. The dataset consists of multiple wav files containing the voice clips and the corresponding written text files along with demographic data about the speakers. 
+
+
+The application is written in Typescript and uses React to build the website. It has a frontend for the data collection and a backend for API calls and data storage.
 
 ## History
 [Samromur v1](https://github.com/aime-island/raddvefur 'Raddvefur repository') was a fork from [Mozilla Common Voice](https://github.com/mozilla/common-voice/ 'Mozilla Common Voice repository').
