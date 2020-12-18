@@ -371,7 +371,9 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleSkip = async () => {
-        await this.updateSentence(this.activeIndex, { removed: true });
+        if (!this.recorder?.isRecording) {
+            await this.updateSentence(this.activeIndex, { removed: true });
+        }
     };
 
     handleDeleteClip = async () => {
