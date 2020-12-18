@@ -49,6 +49,7 @@ export default class ListenControls extends React.Component<Props, State> {
         const { current: audio } = this.audioRef;
         if (audio != null) {
             if (!this.state.isPlaying) {
+                audio.muted = false;
                 audio.play();
                 this.setState({
                     isPlaying: true,
