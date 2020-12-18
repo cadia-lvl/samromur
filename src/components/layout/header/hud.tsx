@@ -102,6 +102,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
             progress > 0 &&
             goal &&
             progress != goal.count &&
+            path !== pages.frontPage &&
             !this.state.showWarningModal
         ) {
             this.setState(() => ({
