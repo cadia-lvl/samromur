@@ -227,18 +227,36 @@ class IndexPage extends React.Component<Props> {
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
-        // Total clips chart
-        await makeSSRDispatch(ctx, fetchTotalClipsTimeline.request);
+        // If missing props fetch from db
+        if (IndexPage.missingProps(ctx)) {
+            // Total clips chart
+            await makeSSRDispatch(ctx, fetchTotalClipsTimeline.request);
 
-        // Clips count chart
-        await makeSSRDispatch(ctx, fetchTotalClips.request);
+            // Clips count chart
+            await makeSSRDispatch(ctx, fetchTotalClips.request);
 
-        // Client count chart
-        await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
+            // Client count chart
+            await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
+        }
 
         return {
             namespacesRequired: ['common'],
         };
+    };
+
+    static missingProps = (ctx: NextPageContext): boolean => {
+        const { store } = ctx;
+        const {
+            stats: { totalClipsTimeline, totalClips, totalClipsClients },
+        } = store.getState();
+
+        // If any are missing, return false
+        return (
+            !store ||
+            totalClipsTimeline?.length === 0 ||
+            !totalClips ||
+            !totalClipsClients
+        );
     };
 
     render() {

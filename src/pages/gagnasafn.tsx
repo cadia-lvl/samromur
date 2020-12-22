@@ -40,13 +40,27 @@ type Props = DatasetPageProps & ReturnType<typeof mapStateToProps>;
 
 class DatasetPage extends React.Component<Props> {
     static getInitialProps = async (ctx: NextPageContext) => {
-        await makeSSRDispatch(ctx, fetchTotalClips.request);
-        await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
-        await makeSSRDispatch(ctx, fetchTotalValidatedClips.request);
+        // If any props are missing, fetch all
+        if (DatasetPage.missingProps(ctx)) {
+            await makeSSRDispatch(ctx, fetchTotalClips.request);
+            await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
+            await makeSSRDispatch(ctx, fetchTotalValidatedClips.request);
+        }
 
         return {
             namespacesRequired: ['common'],
         };
+    };
+
+    static missingProps = (ctx: NextPageContext): boolean => {
+        const { store } = ctx;
+        const {
+            stats: { totalClips, totalClipsClients, totalValidatedClips },
+        } = store.getState();
+
+        return (
+            !store || !totalClips || !totalClipsClients || !totalValidatedClips
+        );
     };
 
     render() {
