@@ -19,7 +19,7 @@ const ContinueModalContainer = styled.div<ContinueContainerProps>`
     display: grid;
     grid-template-rows: ${({ theme }) => theme.layout.hudHeight} 5rem 40% auto auto;
     width: 100%;
-    height: 100%;
+    height: ${({ expanded }) => (expanded ? '100vh' : '0px')};
     max-height: 55rem;
     padding: 1rem;
     padding-top: 2rem;
@@ -114,9 +114,9 @@ class ContinueModal extends React.Component<Props, State> {
 
         const progressToday =
             goal?.contributeType == 'tala'
-                ? weekly.clips[weekly.clips.length - 1].count
+                ? weekly.clips[weekly.clips.length - 1]?.count
                 : goal?.contributeType == 'hlusta'
-                ? weekly.votes[weekly.votes.length - 1].count
+                ? weekly.votes[weekly.votes.length - 1]?.count
                 : 0;
         return (
             <ContinueModalContainer expanded={expanded}>
