@@ -147,10 +147,7 @@ class CarouselWheel extends React.Component<Props, State> {
             }
         }
         window.addEventListener('keydown', this.handleKeyDown);
-        window.addEventListener(
-            'beforeunload',
-            this.handleOnBeforeUnload.bind(this)
-        );
+        window.addEventListener('beforeunload', this.handleOnBeforeUnload);
     };
 
     componentDidUpdate = async () => {
@@ -219,19 +216,16 @@ class CarouselWheel extends React.Component<Props, State> {
 
     componentWillUnmount = () => {
         window.removeEventListener('keydown', this.handleKeyDown);
-        window.removeEventListener(
-            'beforeunload',
-            this.handleOnBeforeUnload.bind(this)
-        );
+        window.removeEventListener('beforeunload', this.handleOnBeforeUnload);
     };
 
     handleOnBeforeUnload = (event: BeforeUnloadEvent) => {
         const {
-            contribute: { goal, progress },
+            contribute: { goal, progress, gaming },
         } = this.props;
         const message =
             'Ef þú hættir núna glatast það sem þú ert búinn að taka upp.';
-        if (progress > 0 && goal && goal.count != progress) {
+        if (gaming && progress > 0 && goal && goal.count != progress) {
             event.preventDefault();
             event.returnValue = message;
             return message;
@@ -601,6 +595,7 @@ class CarouselWheel extends React.Component<Props, State> {
                 <BottomControls
                     clip={activeClip}
                     isDone={isDone}
+                    progress={progress}
                     isSpeak={isSpeak}
                     deleteClip={this.handleDeleteClip}
                     saveVote={this.handleSaveVote}

@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { RootState } from 'typesafe-actions';
 import Modal from '../../modal/modal';
 import { Button } from '../../ui/buttons';
 
@@ -39,10 +41,15 @@ const StyledButton = styled(Button)`
     width: 45%;
     max-height: auto;
     margin-bottom: 1rem;
+    border-radius: 2rem;
 
     ${({ theme }) => theme.media.extraSmallDown} {
         width: 90%;
     }
+`;
+
+const StyledLeaveButton = styled(StyledButton)`
+    background: ${({ theme }) => theme.colors.red};
 `;
 
 interface WarningModalProps {
@@ -51,12 +58,17 @@ interface WarningModalProps {
     onExit: () => void;
 }
 
-export class WarningModal extends React.Component<WarningModalProps> {
-    constructor(props: WarningModalProps) {
+type Props = WarningModalProps & ReturnType<typeof mapStateToProps>;
+
+class WarningModal extends React.Component<Props> {
+    constructor(props: Props) {
         super(props);
     }
 
     render() {
+        const {
+            contribute: { progress, goal: { count, contributeType } = {} },
+        } = this.props;
         return (
             <ModalContainer>
                 <Modal
@@ -65,15 +77,18 @@ export class WarningModal extends React.Component<WarningModalProps> {
                 >
                     <ModalTitle>Ertu viss?</ModalTitle>
                     <ModalMessage>
-                        Ef þú hættir núna glatast það sem þú ert búinn að taka
-                        upp.
+                        {contributeType === 'tala'
+                            ? `Þú hefur lokið ${progress}/${count} upptökum.`
+                            : `Þú hefur yfirfarið ${progress}/${count} upptökum.`}
                     </ModalMessage>
                     <ButtonsContainer>
-                        <StyledButton onClick={this.props.onExit} large>
-                            Senda in upptökur
-                        </StyledButton>
+                        <StyledLeaveButton onClick={this.props.onExit} large>
+                            Hætta
+                        </StyledLeaveButton>
                         <StyledButton onClick={this.props.onStay} large>
-                            Halda upptökum áfram
+                            {contributeType === 'tala'
+                                ? `Halda upptökum áfram`
+                                : `Halda yfirferðinni áfram`}
                         </StyledButton>
                     </ButtonsContainer>
                 </Modal>
@@ -81,3 +96,9 @@ export class WarningModal extends React.Component<WarningModalProps> {
         );
     }
 }
+
+const mapStateToProps = (state: RootState) => ({
+    contribute: state.contribute,
+});
+
+export default connect(mapStateToProps)(WarningModal);

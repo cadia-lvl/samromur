@@ -74,6 +74,10 @@ const ButtonText = styled.span<ButtonTextProps>`
     overflow: hidden;
 `;
 
+const ExpandableContainer = styled.div<ButtonProps>`
+    ${({ visible }) => !visible && 'width: 0rem;'}
+`;
+
 interface Props {
     active?: boolean;
     children: React.ReactNode;
@@ -158,7 +162,7 @@ export default class ExpandableButton extends React.Component<Props, State> {
         const dirtyPadding = '\xa0\xa0\xa0\xa0\xa0\xa0';
         const paddedText = text + dirtyPadding;
         return (
-            <React.Fragment>
+            <ExpandableContainer visible={visible}>
                 <ExpandableButtonContainer
                     active={active}
                     onClick={this.handleClick}
@@ -174,7 +178,7 @@ export default class ExpandableButton extends React.Component<Props, State> {
                     )}
                 </ExpandableButtonContainer>
                 <FakeText ref={this.textRef}>{paddedText}</FakeText>
-            </React.Fragment>
+            </ExpandableContainer>
         );
     }
 }

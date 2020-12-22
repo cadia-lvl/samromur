@@ -5,7 +5,7 @@ import { WithRouterProps } from 'next/dist/client/with-router';
 import { pages } from '../../../constants/paths';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
-import { WarningModal } from './warning-modal';
+import WarningModal from './warning-modal';
 
 import { resetContribute, setGaming } from '../../../store/contribute/actions';
 

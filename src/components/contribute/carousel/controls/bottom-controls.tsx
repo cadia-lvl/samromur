@@ -80,6 +80,7 @@ interface Props {
     clip?: WheelClip;
     isDone: boolean;
     isSpeak: boolean;
+    progress: number;
     deleteClip: () => void;
     saveVote: (vote: ClipVote) => void;
     skipSentence: () => void;
@@ -91,6 +92,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
     clip,
     isDone,
     isSpeak,
+    progress,
     deleteClip,
     saveVote,
     skipSentence,
@@ -163,7 +165,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
                 />
             )}
             <SubmitAndInfoContainer>
-                <SubmitButton visible={isDone} onClick={handleSubmit}>
+                <SubmitButton visible={progress !== 0} onClick={handleSubmit}>
                     <span>Senda</span>
                 </SubmitButton>
                 {!isDone && (
