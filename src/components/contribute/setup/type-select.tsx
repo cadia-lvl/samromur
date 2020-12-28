@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 import MicIcon from '../../ui/icons/mic';
 import PlayIcon from '../../ui/icons/play';
-import PhoneIcon from '../../ui/icons/phone';
 import LoadingIcon from '../../ui/icons/loading';
+import Volume from '../../ui/icons/volume';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -139,6 +139,21 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>Hringja í aðra þátttakendur og taka upp samræður</p>
                 </Title>
             </CardContainer> */}
+            {/**
+            Below is the card for the tts-module on the takathatt page.
+            setType('herma') appears to be responsible for routing to the herma.tsx
+            The names need to match or there will be an error
+             */}
+            <CardContainer wide onClick={() => setType('herma')}>
+                <Volume height={50} width={50} fill={'green'} />
+                <Title>
+                    <h3>Herma eftir setningu</h3>
+                    <p>Hér getur þú gefið til söfnunarinnar með því
+                        að herma eftir lesinni setningu. </p>
+                    <p>Með því að lesa inn í Samróm leggur þitt af mörkum við
+                        varðveislu íslenskunnar.</p>
+                </Title>
+            </CardContainer>
             {(listenClicked || speakClicked) && (
                 <LoadingContainer>
                     <LoadingIcon large />
