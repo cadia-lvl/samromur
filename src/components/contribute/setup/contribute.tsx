@@ -79,7 +79,10 @@ interface State {
 class Contribute extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-
+        console.log('props ', this.props);
+        console.log('sentences ', this.props.sentences);
+        console.log('clips ', this.props.clips);
+        //needs to be changed so contribute type can be 'herma' or something else to signify HIT2 sentences
         this.state = {
             contributeType: this.props.clips
                 ? 'hlusta'
@@ -88,6 +91,7 @@ class Contribute extends React.Component<Props, State> {
             demographic: false,
             tips: false,
         };
+        console.log(this.state.contributeType);
     }
 
     componentDidMount = async () => {
@@ -134,12 +138,19 @@ class Contribute extends React.Component<Props, State> {
                     return 'Þín rödd';
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
-            } else {
+            } else if (contributeType == 'hlusta'){
                 return goal
                     ? 'Góð ráð við yfirferð'
                     : labels.length > 0 && !selectedBatch
                     ? 'Hvaða yfirferðarflokk viltu hlusta á?'
                     : 'Hvað viltu hlusta mikið/ Hvað viltu taka stóran pakka?';
+            } else {
+                return goal
+                    ? 'Góð ráð við yfirferð'
+                    : labels.length > 0 && !selectedBatch
+                    ? 'test text'
+                    : 'more test text';
+
             }
         }
     };
@@ -223,6 +234,7 @@ class Contribute extends React.Component<Props, State> {
                             batch={selectedBatch}
                             clips={batchClips ? batchClips : clips}
                             sentences={sentences}
+                            // Add a sentencesAndclips attribute here?
                         />
                     )}
                 </ContributeContainer>

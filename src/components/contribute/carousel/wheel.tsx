@@ -75,6 +75,7 @@ interface CarouselWheelProps {
     sentences?: WheelSentence[];
     batch?: string;
     clips?: WheelClip[];
+    //Add a property for sentencesAndClips? Or try to combine the sentence and clip attributes we already have?
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
