@@ -35,6 +35,11 @@ const initialState: UserState = {
             id: '',
             name: '',
         },
+        school: {
+            name: '',
+            code: '',
+            enrollment: 0,
+        },
     },
     consents: {
         cookies: false,
