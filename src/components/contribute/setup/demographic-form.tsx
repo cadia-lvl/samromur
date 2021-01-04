@@ -7,6 +7,7 @@ import {
     DemographicError,
     Demographics,
     Demographic,
+    School,
 } from '../../../types/user';
 
 import { setDemographics, setTermsConsent } from '../../../store/user/actions';
@@ -16,6 +17,8 @@ import {
     genders,
     nativeLanguages,
 } from '../../../constants/demographics';
+
+import { schools } from '../../../constants/schools';
 
 import Info from './information';
 import DropdownButton from '../../ui/input/dropdown';
@@ -144,6 +147,8 @@ interface State {
     hasConsent: boolean;
     nativeLanguage: Demographic;
     showConsentForm: boolean;
+    showSchoolSelection: boolean;
+    school: School;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -157,6 +162,7 @@ class DemographicForm extends React.Component<Props, State> {
         this.state = {
             agreed: this.props.user.consents.terms,
             showConsentForm: false,
+            showSchoolSelection: false,
             ...this.props.user.demographics,
         };
     }
@@ -178,10 +184,12 @@ class DemographicForm extends React.Component<Props, State> {
             (val: Demographic) => val.name == value
         ) as Demographic;
         const showConsentForm = !!age && age.id == 'barn';
+        const showSchoolSelection = !!age && age.id == 'barn';
         this.setState({
             age,
             hasConsent: false,
             showConsentForm,
+            showSchoolSelection,
         });
     };
 
@@ -203,6 +211,13 @@ class DemographicForm extends React.Component<Props, State> {
         this.setState({ nativeLanguage });
     };
 
+    onSchoolSelect = (value: string) => {
+        const school = schools.find(
+            (val: School) => val.name == value
+        ) as School;
+        this.setState({ school });
+    };
+
     formIsFilled = (): boolean => {
         const { age, agreed, gender } = this.state;
         return !!age?.name && agreed && !!gender?.name;
@@ -216,6 +231,7 @@ class DemographicForm extends React.Component<Props, State> {
             hasConsent,
             nativeLanguage,
             showConsentForm,
+            school,
         } = this.state;
         if (!agreed || (showConsentForm && !hasConsent)) {
             return;
@@ -233,6 +249,7 @@ class DemographicForm extends React.Component<Props, State> {
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
+            school,
         });
         this.props.setTermsConsent(true);
         this.props.onSubmit();
@@ -246,6 +263,7 @@ class DemographicForm extends React.Component<Props, State> {
             hasConsent,
             nativeLanguage,
             showConsentForm,
+            school,
         } = this.state;
         const formIsFilled = this.formIsFilled();
         return (
@@ -265,6 +283,13 @@ class DemographicForm extends React.Component<Props, State> {
                         visible={showConsentForm}
                     />
                 </ShowMoreContainer>
+                {/* TODO: Only show when kid (showSchoolSelection) */}
+                <DropdownButton
+                    content={schools.map((school: School) => school.name)}
+                    label={'Skóli'}
+                    onSelect={this.onSchoolSelect}
+                    selected={school ? school.name : ''}
+                />
                 <DropdownButton
                     content={genders.map((gender: Demographic) => gender.name)}
                     label={'Kyn'}
