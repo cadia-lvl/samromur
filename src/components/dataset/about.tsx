@@ -10,8 +10,9 @@ import { averageClipSeconds } from '../../constants/stats';
 
 const AboutDatasetContainer = styled.div`
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
+    max-width: 100%;
 
     ${({ theme }) => theme.media.small} {
         grid-template-columns: 100%;
