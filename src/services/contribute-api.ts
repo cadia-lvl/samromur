@@ -83,9 +83,12 @@ export const uploadClip = async (
             age: encodeURIComponent(age.id),
             clip_id: clip.id,
             gender: encodeURIComponent(gender.id),
-            native_language: encodeURIComponent('islenska'),
+            native_language: encodeURIComponent(demographics.nativeLanguage.id),
             sentence: encodeURIComponent(sentence.text),
             user_agent: encodeURIComponent(userAgent),
+            sample_rate: recording.sampleRate,
+            duration: recording.duration,
+            size: recording.blob?.size,
         },
         data: recording.blob,
     })

@@ -22,6 +22,9 @@ export interface ClipMetadata {
     nativeLanguage: string;
     status?: string;
     userAgent: string;
+    sampleRate?: number;
+    duration?: number;
+    size?: number;
 }
 
 export interface WheelClip extends Clip {
