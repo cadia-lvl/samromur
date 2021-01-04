@@ -97,6 +97,11 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                         Taka þátt
                     </NavLink>
                 </Link>
+                <Link href="/grunnskolakeppni">
+                    <NavLink isActive={pathname == '/grunnskolakeppni'}>
+                        Grunnskólakeppni
+                    </NavLink>
+                </Link>
                 <Link href="/gagnasafn">
                     <NavLink isActive={pathname == '/gagnasafn'}>
                         Gagnasafnið
