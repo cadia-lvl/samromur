@@ -66,18 +66,20 @@ const AudioPlayer: React.FC<AudioProps> = ({ src, color }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
 
     const handlePlayPause = () => {
-        audioRef.current?.addEventListener('ended', () => {
-            setIsPlaying(false);
-        });
-        if (isPlaying) {
-            audioRef.current?.pause();
-            if (audioRef.current) {
-                audioRef.current.currentTime = 0;
+        const audio = audioRef.current;
+        if (audio) {
+            audio.addEventListener('ended', () => {
+                setIsPlaying(false);
+            });
+            if (isPlaying) {
+                audio.pause();
+                audio.currentTime = 0;
+                setIsPlaying(false);
+            } else {
+                audio.muted = false;
+                audio.play();
+                setIsPlaying(true);
             }
-            setIsPlaying(false);
-        } else {
-            audioRef.current?.play();
-            setIsPlaying(true);
         }
     };
     const getColorTheme = (): string => {

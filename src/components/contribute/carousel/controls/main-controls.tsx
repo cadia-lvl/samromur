@@ -246,6 +246,7 @@ export default class MainControls extends React.Component<Props, State> {
             const { isPlaying, isReplaying } = this.state;
             const { clip } = this.props;
             if (!isPlaying) {
+                audio.muted = false;
                 audio.play();
                 this.setState({
                     isPlaying: true,
