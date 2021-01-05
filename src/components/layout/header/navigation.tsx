@@ -66,7 +66,7 @@ const NavigationLinks = styled.div<Props>`
     `
             : `
         justify-content: space-around;
-        font-size: 1.2rem;
+        font-size: 1rem;
         padding: 0 2rem;
         align-items: center;
     `}
