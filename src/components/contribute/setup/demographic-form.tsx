@@ -26,6 +26,8 @@ import Checkbox from '../../ui/input/checkbox';
 import ShowMore from '../../ui/animated/show-more';
 import ConsentForm from './consent-form';
 
+import { ageFromKennitala } from '../../../utilities/kennitala-helper';
+
 const DemographicContainer = styled.div`
     display: grid;
     gap: 1rem;
@@ -53,6 +55,10 @@ const Information = styled(Info)`
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
     }
+`;
+
+const CompetitionText = styled.div`
+    margin: auto;
 `;
 
 interface SubmitButtonProps {
@@ -149,6 +155,7 @@ interface State {
     showConsentForm: boolean;
     showSchoolSelection: boolean;
     school: School;
+    kennitala: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -163,6 +170,7 @@ class DemographicForm extends React.Component<Props, State> {
             agreed: this.props.user.consents.terms,
             showConsentForm: false,
             showSchoolSelection: false,
+            kennitala: '',
             ...this.props.user.demographics,
         };
     }
@@ -193,7 +201,8 @@ class DemographicForm extends React.Component<Props, State> {
         });
     };
 
-    onConsent = () => {
+    onConsent = (kennitala: string) => {
+        this.setState({ kennitala });
         this.setState({ hasConsent: true });
     };
 
@@ -245,7 +254,7 @@ class DemographicForm extends React.Component<Props, State> {
             language = nativeLanguage;
         }
         this.props.setDemographics({
-            age,
+            age: age.id == 'barn' ? this.getAgeUnder18() : age,
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
@@ -253,6 +262,12 @@ class DemographicForm extends React.Component<Props, State> {
         });
         this.props.setTermsConsent(true);
         this.props.onSubmit();
+    };
+
+    getAgeUnder18 = (): Demographic => {
+        const { kennitala } = this.state;
+        const age = ageFromKennitala(kennitala).toString();
+        return { id: age, name: age };
     };
 
     render() {
@@ -269,11 +284,25 @@ class DemographicForm extends React.Component<Props, State> {
         return (
             <DemographicContainer>
                 <DropdownButton
+                    content={schools.map((school: School) => school.name)}
+                    label={'Skóli'}
+                    onSelect={this.onSchoolSelect}
+                    selected={school ? school.name : ''}
+                />
+                {/* TODO: Update text to icelandic */}
+                <CompetitionText>
+                    Grunnskolakeppni is ongoing! Select the school you want to
+                    contribute to!
+                </CompetitionText>
+                <div />
+                <div />
+                <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
                     selected={age ? age.name : ''}
                 />
+                <div></div>
                 <ConsentMessage active={hasConsent}>
                     Leyfi staðfest
                 </ConsentMessage>
@@ -283,13 +312,6 @@ class DemographicForm extends React.Component<Props, State> {
                         visible={showConsentForm}
                     />
                 </ShowMoreContainer>
-                {/* TODO: Only show when kid (showSchoolSelection) */}
-                <DropdownButton
-                    content={schools.map((school: School) => school.name)}
-                    label={'Skóli'}
-                    onSelect={this.onSchoolSelect}
-                    selected={school ? school.name : ''}
-                />
                 <DropdownButton
                     content={genders.map((gender: Demographic) => gender.name)}
                     label={'Kyn'}
