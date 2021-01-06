@@ -8,6 +8,7 @@ import { SSRRequest } from '../types/ssr';
 export interface FetchSamplesPayload extends SSRRequest {
     batch?: string;
     clientId?: string;
+    age?: string;
     count: number;
 }
 
@@ -21,6 +22,7 @@ export const fetchSentences = async (
         url,
         headers: {
             client_id: payload.clientId && encodeURIComponent(payload.clientId),
+            age: payload.age && encodeURIComponent(payload.age),
         },
     })
         .then((response: AxiosResponse) => {

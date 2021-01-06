@@ -1,6 +1,7 @@
 import Sql from './sql';
 import { SimpleSentenceBatch } from '../../types/sentences';
 import { sha256hash as hash } from '../../utilities/hash';
+import { getAgeGroupFromString } from '../../utilities/demographics-age-helper';
 
 export default class Sentences {
     private sql: Sql;
@@ -60,7 +61,12 @@ export default class Sentences {
     // When getting new sentences we need to fetch a larger pool and shuffle it to make it less
     // likely that different users requesting at the same time get the same data
     SHUFFLE_SIZE = 500;
-    fetchSentences = async (clientId: string, count: number): Promise<any> => {
+    fetchSentences = async (
+        clientId: string,
+        count: number,
+        age: string
+    ): Promise<any> => {
+        const ageGroup = getAgeGroupFromString(age);
         const [rows] = await this.sql.query(
             `
             SELECT 
@@ -71,6 +77,7 @@ export default class Sentences {
                 FROM
                     sentences
                 WHERE is_used = 1
+                AND age = ?
                 AND
                     NOT EXISTS (
                         SELECT
@@ -89,7 +96,7 @@ export default class Sentences {
                 RAND()
             LIMIT ?
             `,
-            [clientId ? clientId : 'fakeid', this.SHUFFLE_SIZE, count]
+            [ageGroup, clientId ? clientId : 'fakeid', this.SHUFFLE_SIZE, count]
         );
         return rows;
     };

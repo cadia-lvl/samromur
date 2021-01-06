@@ -15,8 +15,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const count = parseInt(req.query.count as string, 10) || 5;
         const clientId =
             decodeURIComponent(req.headers.client_id as string) || '';
+        const age = decodeURIComponent(req.headers.age as string) || '';
         return db.sentences
-            .fetchSentences(clientId, count)
+            .fetchSentences(clientId, count, age)
             .then((response: Array<SimpleSentence>) => {
                 res.status(200).json(response);
             })
