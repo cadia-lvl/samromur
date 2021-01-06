@@ -8,7 +8,7 @@ import Card from './card';
 import { WheelClip, ClipVote, UploadError } from '../../../types/samples';
 import { AudioInfo, RecordingError, AudioError } from '../../../types/audio';
 import { WheelColor } from '../../../types/contribute';
-import { WheelSentence } from '../../../types/sentences';
+import { SimpleSentence, WheelSentence } from '../../../types/sentences';
 import {
     saveVote,
     SaveVoteRequest,
@@ -31,6 +31,8 @@ import MainControls from './controls/main-controls';
 import BottomControls from './controls/bottom-controls';
 
 import WheelControls from './controls/wheel-controls';
+import { UserState } from '../../../store/user/state';
+import { getAgeGroupFromDemographics } from '../../../utilities/demographics-age-helper';
 
 interface WheelContainerProps {
     expanded: boolean;
@@ -166,13 +168,19 @@ class CarouselWheel extends React.Component<Props, State> {
 
     refreshSentences = async () => {
         const { user } = this.props;
+        const freshSentences = await this.fetchNewSentences(user);
+        const newSentences = this.state.sentences.concat(freshSentences);
+        this.setState({ sentences: newSentences });
+    };
+
+    fetchNewSentences = async (user: UserState): Promise<WheelSentence[]> => {
         const fetchRequest: FetchSamplesPayload = {
             clientId: user.client.id,
+            age: user.demographics.age?.id,
             count: 20,
         };
         const freshSentences = await fetchSentences(fetchRequest);
-        const newSentences = this.state.sentences.concat(freshSentences);
-        this.setState({ sentences: newSentences });
+        return freshSentences;
     };
 
     /**
