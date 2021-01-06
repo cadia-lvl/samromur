@@ -259,13 +259,18 @@ class DemographicForm extends React.Component<Props, State> {
             showConsentForm,
         } = this.state;
         const formIsFilled = this.formIsFilled();
+        const selectedAge = age
+            ? ages.find((item) => item.name === age.name)
+                ? age.name
+                : ages[0].name
+            : '';
         return (
             <DemographicContainer>
                 <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
-                    selected={age ? age.name : ''}
+                    selected={selectedAge}
                 />
                 <ConsentMessage active={hasConsent}>
                     Leyfi staðfest
