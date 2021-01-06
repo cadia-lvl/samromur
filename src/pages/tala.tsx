@@ -16,13 +16,18 @@ import { WheelSentence } from '../types/sentences';
 import makeSSRDispatch from '../utilities/ssr-request';
 
 import ContributePage from '../components/contribute/setup/contribute';
+import { AgeGroups } from '../utilities/demographics-age-helper';
 
 const dispatchProps = {
     resetContribute,
 };
 
+export interface AllGroupsSentences {
+    [key: string]: WheelSentence[];
+}
+
 interface InitialProps {
-    initialSentences: WheelSentence[];
+    initialSentences: AllGroupsSentences;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -33,6 +38,12 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 interface State {
     demographic: boolean;
+}
+
+enum AgeLimit {
+    KIDS = '10',
+    TEENS = '15',
+    ADULT = '20',
 }
 
 const sentencesChunkSize = 20;
@@ -55,13 +66,35 @@ class SpeakPage extends React.Component<Props, State> {
         // Fetch some stats to display at the end of the session
         makeSSRDispatch(ctx, fetchWeeklyClips.request);
 
-        // Fetch sentences to prompt the user with
+        // Fetch Adult sentences to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialSentences = await fetchSentences({
+        const initialSentencesAdult = await fetchSentences({
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
+            age: AgeLimit.ADULT,
             host,
         });
+
+        // Fetch Teen sentences to promt the user with
+        const initialSentencesTeen = await fetchSentences({
+            clientId: (req?.headers.client_id as string) || '',
+            count: sentencesChunkSize,
+            age: AgeLimit.TEENS,
+            host,
+        });
+
+        // Fetch kids sentences to promt the user with
+        const initialSentencesKids = await fetchSentences({
+            clientId: (req?.headers.client_id as string) || '',
+            count: sentencesChunkSize,
+            age: AgeLimit.KIDS,
+            host,
+        });
+
+        const initialSentences: AllGroupsSentences = {};
+        initialSentences[AgeGroups.ADULTS] = initialSentencesAdult;
+        initialSentences[AgeGroups.TEENAGERS] = initialSentencesTeen;
+        initialSentences[AgeGroups.CHILDREN] = initialSentencesKids;
 
         return {
             namespacesRequired: ['common'],
@@ -76,7 +109,7 @@ class SpeakPage extends React.Component<Props, State> {
     render() {
         const { initialSentences } = this.props;
 
-        return <ContributePage sentences={initialSentences} />;
+        return <ContributePage goupedSentences={initialSentences} />;
     }
 }
 
