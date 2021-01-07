@@ -36,7 +36,7 @@ export const getAgeGroupFromDemographics = (demo: Demographic) => {
 };
 
 export const getAgeGroup = (age: string, nativeLanguage: string) => {
-    if (nativeLanguage !== 'islenska') {
+    if (nativeLanguage !== 'islenska' && nativeLanguage !== '') {
         return AgeGroups.TEENAGERS;
     } else {
         return getAgeGroupFromString(age);
