@@ -5,6 +5,8 @@ import { FetchUserRequest } from '../../services/user-api';
 
 export const setDemographics = createAction('SET_DEMOGRAPHICS')<Demographics>();
 
+export const resetDemographics = createAction('RESET_DEMOGRAPHICS')();
+
 export const setClientId = createAction('SET_CLIENT_ID')<string>();
 
 export const setUserAgent = createAction('SET_USER_AGENT')<string>();

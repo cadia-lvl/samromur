@@ -9,6 +9,22 @@ import {
 } from '../../utilities/local-storage';
 import { setUserCookie } from '../../utilities/cookies';
 
+const defaultDemoGraphics = {
+    age: {
+        id: '',
+        name: '',
+    },
+    gender: {
+        id: '',
+        name: '',
+    },
+    hasConsent: false,
+    nativeLanguage: {
+        id: '',
+        name: '',
+    },
+};
+
 const initialState: UserState = {
     client: {
         id: generateGUID(),
@@ -21,21 +37,7 @@ const initialState: UserState = {
         },
         skipTips: false,
     },
-    demographics: {
-        age: {
-            id: '',
-            name: '',
-        },
-        gender: {
-            id: '',
-            name: '',
-        },
-        hasConsent: false,
-        nativeLanguage: {
-            id: '',
-            name: '',
-        },
-    },
+    demographics: defaultDemoGraphics,
     consents: {
         cookies: false,
         terms: false,
@@ -130,4 +132,11 @@ export default createReducer(initialState)
     })
     .handleAction(userActions.fetchUser.failure, (state, action) => {
         return state;
+    })
+    .handleAction(userActions.resetDemographics, (state) => {
+        injectDemographics(defaultDemoGraphics);
+        return {
+            ...state,
+            demographics: defaultDemoGraphics,
+        };
     });
