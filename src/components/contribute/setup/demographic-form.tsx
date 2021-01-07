@@ -9,7 +9,11 @@ import {
     Demographic,
 } from '../../../types/user';
 
-import { setDemographics, setTermsConsent } from '../../../store/user/actions';
+import {
+    setDemographics,
+    resetDemographics,
+    setTermsConsent,
+} from '../../../store/user/actions';
 
 import {
     ages,
@@ -23,6 +27,9 @@ import Checkbox from '../../ui/input/checkbox';
 import ShowMore from '../../ui/animated/show-more';
 import ConsentForm from './consent-form';
 
+import * as authApi from '../../../services/auth-api';
+import { pages } from '../../../constants/paths';
+
 const DemographicContainer = styled.div`
     display: grid;
     gap: 1rem;
@@ -35,12 +42,12 @@ const DemographicContainer = styled.div`
     }
 `;
 
-interface ConsentMessageProps {
+interface ConsentContainerProps {
     active: boolean;
 }
 
-const ConsentMessage = styled.div<ConsentMessageProps>`
-    display: ${({ active }) => (active ? 'flex' : 'none')};
+const ConsentMessage = styled.div`
+    display: flex;
     align-items: center;
     text-decoration: underline;
 `;
@@ -128,8 +135,37 @@ const StyledLink = styled.a`
     }
 `;
 
+const ConsentAndSwitchUserContainer = styled.div<ConsentContainerProps>`
+    display: ${({ active }) => (active ? 'flex' : 'none')};
+    flex-direction: row;
+    justify-content: space-between;
+    grid-column: 2;
+    grid-row: 1;
+
+    ${({ theme }) => theme.media.small} {
+        grid-column: 1;
+        max-width: 100%;
+    }
+`;
+
+const SwitchUser = styled.div`
+    display: flex;
+    align-items: center;
+    background: ${({ theme }) => theme.colors.green};
+    color: ${({ theme }) => theme.colors.white};
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 0.1rem;
+    cursor: pointer;
+
+    :active {
+        transform: translateY(2px);
+    }
+`;
+
 const dispatchProps = {
     setDemographics,
+    resetDemographics,
     setTermsConsent,
 };
 
@@ -208,6 +244,28 @@ class DemographicForm extends React.Component<Props, State> {
         return !!age?.name && agreed && !!gender?.name;
     };
 
+    switchUser = async () => {
+        const { user } = this.props;
+        this.clearDemographics();
+        if (user.client.isAuthenticated) {
+            await authApi.logoutRedirectTo(pages.login);
+        }
+    };
+
+    clearDemographics = () => {
+        const { resetDemographics } = this.props;
+        const empty = { id: '', name: '' };
+        this.setState({
+            age: empty,
+            agreed: false,
+            gender: empty,
+            hasConsent: false,
+            nativeLanguage: empty,
+            showConsentForm: false,
+        });
+        resetDemographics();
+    };
+
     onSubmit = () => {
         const {
             age,
@@ -250,15 +308,18 @@ class DemographicForm extends React.Component<Props, State> {
         const formIsFilled = this.formIsFilled();
         return (
             <DemographicContainer>
+                <ConsentAndSwitchUserContainer active={hasConsent}>
+                    <ConsentMessage>Leyfi staðfest</ConsentMessage>
+                    <SwitchUser onClick={this.switchUser}>
+                        Skipta um notenda
+                    </SwitchUser>
+                </ConsentAndSwitchUserContainer>
                 <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
                     selected={age ? age.name : ''}
                 />
-                <ConsentMessage active={hasConsent}>
-                    Leyfi staðfest
-                </ConsentMessage>
                 <ShowMoreContainer active={showConsentForm && !hasConsent}>
                     <ConsentForm
                         onConsent={this.onConsent}
