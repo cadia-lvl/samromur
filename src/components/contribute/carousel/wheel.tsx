@@ -32,7 +32,10 @@ import BottomControls from './controls/bottom-controls';
 
 import WheelControls from './controls/wheel-controls';
 import { UserState } from '../../../store/user/state';
-import { getAgeGroupFromDemographics } from '../../../utilities/demographics-age-helper';
+import {
+    AgeLimit,
+    getAgeGroupFromDemographics,
+} from '../../../utilities/demographics-age-helper';
 
 interface WheelContainerProps {
     expanded: boolean;
@@ -167,16 +170,23 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     refreshSentences = async () => {
-        const { user } = this.props;
-        const freshSentences = await this.fetchNewSentences(user);
+        const freshSentences = await this.fetchNewSentences();
         const newSentences = this.state.sentences.concat(freshSentences);
         this.setState({ sentences: newSentences });
     };
 
-    fetchNewSentences = async (user: UserState): Promise<WheelSentence[]> => {
+    fetchNewSentences = async (): Promise<WheelSentence[]> => {
+        const {
+            user: {
+                client,
+                demographics: { age, nativeLanguage },
+            },
+        } = this.props;
+
         const fetchRequest: FetchSamplesPayload = {
-            clientId: user.client.id,
-            age: user.demographics.age?.id,
+            clientId: client.id,
+            age: age?.id,
+            nativeLanguage: nativeLanguage?.id,
             count: 20,
         };
         const freshSentences = await fetchSentences(fetchRequest);

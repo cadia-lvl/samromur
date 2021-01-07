@@ -16,7 +16,7 @@ import { WheelSentence } from '../types/sentences';
 import makeSSRDispatch from '../utilities/ssr-request';
 
 import ContributePage from '../components/contribute/setup/contribute';
-import { AgeGroups } from '../utilities/demographics-age-helper';
+import { AgeGroups, AgeLimit } from '../utilities/demographics-age-helper';
 
 const dispatchProps = {
     resetContribute,
@@ -38,12 +38,6 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 interface State {
     demographic: boolean;
-}
-
-enum AgeLimit {
-    KIDS = '10',
-    TEENS = '15',
-    ADULT = '20',
 }
 
 const sentencesChunkSize = 20;
@@ -72,6 +66,7 @@ class SpeakPage extends React.Component<Props, State> {
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             age: AgeLimit.ADULT,
+            nativeLanguage: '',
             host,
         });
 
@@ -80,6 +75,7 @@ class SpeakPage extends React.Component<Props, State> {
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             age: AgeLimit.TEENS,
+            nativeLanguage: '',
             host,
         });
 
@@ -88,6 +84,7 @@ class SpeakPage extends React.Component<Props, State> {
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             age: AgeLimit.KIDS,
+            nativeLanguage: '',
             host,
         });
 
