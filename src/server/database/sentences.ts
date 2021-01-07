@@ -1,7 +1,10 @@
 import Sql from './sql';
 import { SimpleSentenceBatch } from '../../types/sentences';
 import { sha256hash as hash } from '../../utilities/hash';
-import { getAgeGroupFromString } from '../../utilities/demographics-age-helper';
+import {
+    getAgeGroup,
+    getAgeGroupFromString,
+} from '../../utilities/demographics-age-helper';
 
 export default class Sentences {
     private sql: Sql;
@@ -64,9 +67,10 @@ export default class Sentences {
     fetchSentences = async (
         clientId: string,
         count: number,
-        age: string
+        age: string,
+        nativeLanguage: string
     ): Promise<any> => {
-        const ageGroup = getAgeGroupFromString(age);
+        const ageGroup = getAgeGroup(age, nativeLanguage);
         const [rows] = await this.sql.query(
             `
             SELECT 
