@@ -23,6 +23,8 @@ import Checkbox from '../../ui/input/checkbox';
 import ShowMore from '../../ui/animated/show-more';
 import ConsentForm from './consent-form';
 
+import { ageFromKennitala } from '../../../utilities/kennitala-helper';
+
 const DemographicContainer = styled.div`
     display: grid;
     gap: 1rem;
@@ -144,6 +146,7 @@ interface State {
     hasConsent: boolean;
     nativeLanguage: Demographic;
     showConsentForm: boolean;
+    kennitala: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -157,6 +160,7 @@ class DemographicForm extends React.Component<Props, State> {
         this.state = {
             agreed: this.props.user.consents.terms,
             showConsentForm: false,
+            kennitala: '',
             ...this.props.user.demographics,
         };
     }
@@ -185,7 +189,8 @@ class DemographicForm extends React.Component<Props, State> {
         });
     };
 
-    onConsent = () => {
+    onConsent = (kennitala: string) => {
+        this.setState({ kennitala });
         this.setState({ hasConsent: true });
     };
 
@@ -229,7 +234,7 @@ class DemographicForm extends React.Component<Props, State> {
             language = nativeLanguage;
         }
         this.props.setDemographics({
-            age,
+            age: age.id == 'barn' ? this.getAgeUnder18() : age,
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
@@ -238,9 +243,25 @@ class DemographicForm extends React.Component<Props, State> {
         this.props.onSubmit();
     };
 
+    getAgeUnder18 = (): Demographic => {
+        const { kennitala } = this.state;
+        const age = ageFromKennitala(kennitala).toString();
+        return { id: age, name: age };
+    };
+
+    // Returns the value to display in the dropdown menu for ages.
+    // For demographics not in the contents of the dropdown, under 18 is selected.
+    getAgeSelected = (): string => {
+        const { age } = this.state;
+        if (age && age.name === '') {
+            return '';
+        }
+        const found = ages.find((item) => item.name === age.name);
+        return found ? found.name : ages[0].name;
+    };
+
     render() {
         const {
-            age,
             agreed,
             gender,
             hasConsent,
@@ -248,13 +269,14 @@ class DemographicForm extends React.Component<Props, State> {
             showConsentForm,
         } = this.state;
         const formIsFilled = this.formIsFilled();
+        const selectedAge = this.getAgeSelected();
         return (
             <DemographicContainer>
                 <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
-                    selected={age ? age.name : ''}
+                    selected={selectedAge}
                 />
                 <ConsentMessage active={hasConsent}>
                     Leyfi staðfest
