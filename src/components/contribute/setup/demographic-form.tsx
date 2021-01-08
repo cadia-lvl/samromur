@@ -154,7 +154,7 @@ interface State {
     nativeLanguage: Demographic;
     showConsentForm: boolean;
     showSchoolSelection: boolean;
-    school: School;
+    school: Demographic;
     kennitala: string;
 }
 
@@ -224,7 +224,8 @@ class DemographicForm extends React.Component<Props, State> {
         const school = schools.find(
             (val: School) => val.name == value
         ) as School;
-        this.setState({ school });
+        const schoolDemo: Demographic = { id: school.code, name: school.name };
+        this.setState({ school: schoolDemo });
     };
 
     formIsFilled = (): boolean => {

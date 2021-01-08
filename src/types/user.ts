@@ -9,7 +9,7 @@ export interface Demographics {
     gender: Demographic;
     hasConsent: boolean;
     nativeLanguage: Demographic;
-    school: School;
+    school: Demographic;
 }
 
 export interface Demographic {
@@ -20,7 +20,10 @@ export interface Demographic {
 export interface School {
     name: string;
     code: string;
-    enrollment: number;
+    class1_3: number;
+    class4_10: number;
+    total: number;
+    division: number;
 }
 
 export interface TotalUserClips {
@@ -73,8 +76,7 @@ export const initialDemographics: Demographics = {
         name: '',
     },
     school: {
+        id: '',
         name: '',
-        code: '',
-        enrollment: 0,
     },
 };
