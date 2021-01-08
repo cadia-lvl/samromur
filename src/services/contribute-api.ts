@@ -38,6 +38,27 @@ export const fetchSentences = async (
         });
 };
 
+export const fetchGroupedSentences = async (
+    payload: FetchSamplesPayload
+): Promise<Array<SimpleSentence[]>> => {
+    const endpoint = `/api/contribute/sentences-group?count=${payload.count}`;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+    return axios({
+        method: 'GET',
+        url,
+        headers: {
+            client_id: payload.clientId && encodeURIComponent(payload.clientId),
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
+
 export const fetchClips = async (
     payload: FetchSamplesPayload
 ): Promise<Clip[]> => {

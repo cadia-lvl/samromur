@@ -2,6 +2,7 @@ import Sql from './sql';
 import { SimpleSentenceBatch } from '../../types/sentences';
 import { sha256hash as hash } from '../../utilities/hash';
 import {
+    AgeGroups,
     getAgeGroup,
     getAgeGroupFromString,
 } from '../../utilities/demographics-age-helper';
@@ -103,6 +104,31 @@ export default class Sentences {
             [ageGroup, clientId ? clientId : 'fakeid', this.SHUFFLE_SIZE, count]
         );
         return rows;
+    };
+
+    fetchAllAgeGroupsSentences = async (
+        clientId: string,
+        count: number
+    ): Promise<any> => {
+        const adultRows = await this.fetchSentences(
+            clientId,
+            count,
+            AgeGroups.ADULTS,
+            ''
+        );
+        const teenRows = await this.fetchSentences(
+            clientId,
+            count,
+            AgeGroups.TEENAGERS,
+            ''
+        );
+        const kidsRows = await this.fetchSentences(
+            clientId,
+            count,
+            AgeGroups.CHILDREN,
+            ''
+        );
+        return [adultRows, teenRows, kidsRows];
     };
 
     fetchAllSentencesInfo = async (): Promise<any> => {

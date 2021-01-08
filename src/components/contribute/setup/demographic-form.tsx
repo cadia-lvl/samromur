@@ -249,9 +249,19 @@ class DemographicForm extends React.Component<Props, State> {
         return { id: age, name: age };
     };
 
+    // Returns the value to display in the dropdown menu for ages.
+    // For demographics not in the contents of the dropdown, under 18 is selected.
+    getAgeSelected = (): string => {
+        const { age } = this.state;
+        if (age && age.name === '') {
+            return '';
+        }
+        const found = ages.find((item) => item.name === age.name);
+        return found ? found.name : ages[0].name;
+    };
+
     render() {
         const {
-            age,
             agreed,
             gender,
             hasConsent,
@@ -259,11 +269,7 @@ class DemographicForm extends React.Component<Props, State> {
             showConsentForm,
         } = this.state;
         const formIsFilled = this.formIsFilled();
-        const selectedAge = age
-            ? ages.find((item) => item.name === age.name)
-                ? age.name
-                : ages[0].name
-            : '';
+        const selectedAge = this.getAgeSelected();
         return (
             <DemographicContainer>
                 <DropdownButton

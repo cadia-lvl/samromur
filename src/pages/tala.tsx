@@ -10,7 +10,10 @@ import { WithRouterProps } from 'next/dist/client/with-router';
 import { fetchWeeklyClips } from '../store/stats/actions';
 import { resetContribute } from '../store/contribute/actions';
 
-import { fetchSentences } from '../services/contribute-api';
+import {
+    fetchGroupedSentences,
+    fetchSentences,
+} from '../services/contribute-api';
 import { WheelSentence } from '../types/sentences';
 
 import makeSSRDispatch from '../utilities/ssr-request';
@@ -62,36 +65,16 @@ class SpeakPage extends React.Component<Props, State> {
 
         // Fetch Adult sentences to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialSentencesAdult = await fetchSentences({
+        const initialSentencesGrouped = await fetchGroupedSentences({
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
-            age: AgeLimit.ADULT,
-            nativeLanguage: '',
-            host,
-        });
-
-        // Fetch Teen sentences to promt the user with
-        const initialSentencesTeen = await fetchSentences({
-            clientId: (req?.headers.client_id as string) || '',
-            count: sentencesChunkSize,
-            age: AgeLimit.TEENS,
-            nativeLanguage: '',
-            host,
-        });
-
-        // Fetch kids sentences to promt the user with
-        const initialSentencesKids = await fetchSentences({
-            clientId: (req?.headers.client_id as string) || '',
-            count: sentencesChunkSize,
-            age: AgeLimit.KIDS,
-            nativeLanguage: '',
             host,
         });
 
         const initialSentences: AllGroupsSentences = {};
-        initialSentences[AgeGroups.ADULTS] = initialSentencesAdult;
-        initialSentences[AgeGroups.TEENAGERS] = initialSentencesTeen;
-        initialSentences[AgeGroups.CHILDREN] = initialSentencesKids;
+        initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
+        initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
+        initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
 
         return {
             namespacesRequired: ['common'],
