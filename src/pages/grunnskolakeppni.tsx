@@ -12,6 +12,8 @@ import * as statsApi from '../services/stats-api';
 // Components
 import Layout from '../components/layout/layout';
 import Leaderboard from '../components/competition/leaderboard';
+import About from '../components/competition/about';
+
 import { SchoolStat } from '../types/competition';
 
 const CompetitionPageContainer = styled.div`
@@ -19,13 +21,9 @@ const CompetitionPageContainer = styled.div`
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 1.5rem;
-
-    & h2 {
-        margin-bottom: 2rem;
-    }
 `;
+
 
 const dispatchProps = {};
 
@@ -37,7 +35,7 @@ type Props = {
     WithRouterProps;
 
 interface State {
-    
+
 }
 
 class CompetitionPage extends React.Component<Props, State> {
@@ -45,7 +43,7 @@ class CompetitionPage extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            
+
         }
     }
 
@@ -77,9 +75,7 @@ class CompetitionPage extends React.Component<Props, State> {
         return (
             <Layout>
                 <CompetitionPageContainer>
-                    <h2>Grunnskólakeppni grunnskólanna fyrir skóla</h2>
-                    <p>Hér er stigatafla o.fl.</p>
-                    <Leaderboard stats={leaderboard || []} />
+                    <About />
                 </CompetitionPageContainer>
             </Layout>
         );
