@@ -292,8 +292,7 @@ class DemographicForm extends React.Component<Props, State> {
                 />
                 {/* TODO: Update text to icelandic */}
                 <CompetitionText>
-                    Grunnskolakeppni is ongoing! Select the school you want to
-                    contribute to!
+                    Lestrarkeppni grunnskólanna hefst 18. janúar!
                 </CompetitionText>
                 <div />
                 <div />
