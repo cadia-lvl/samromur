@@ -44,17 +44,17 @@ const AboutCompetition: React.FunctionComponent<Props> = () => {
         <AboutContainer>
             <TitleContainer>
                 <h2>Hvaða skóli les mest?</h2>
-                <span>Lestrarkeppni grunnskólana 18.-25.janúar</span>
+                <span>Lestrarkeppni grunnskólanna 18.-25.janúar</span>
             </TitleContainer>
-            <Paragraph>Lestrarkeppni á milli grunnskóla landsin verður haldinn í annað þar sem keppt er um fjölda setninga sem nemendur lesa inn setningar í Samróm. Forseti Íslands mun setja keppnina formlega af stað í Fellaskóla mánudaginn <span>18.janúar</span>. Keppnin stendur yfir í viku og lýkur <span>25. janúar</span>.</Paragraph>
-            <Paragraph>Þessi keppni er til þess að hvetja til þátttöku í verkefninu Samrómur sem snýr að því að safna upptökum af lestri sem notaður verður til þess að kenna tölvum og tækjum að skilja málið, hægt er að lesa meira <StyledLink
+            <Paragraph>Lestrarkeppni á milli grunnskóla landsins verður haldin í annað sinn þar sem keppt verður um fjölda setninga sem nemendur lesa inn í Samróm. Forseti Íslands mun setja keppnina formlega af stað í Fellaskóla mánudaginn <span>18.janúar</span>. Keppnin stendur yfir í viku og lýkur <span>25. janúar</span>.</Paragraph>
+            <Paragraph>Þessi keppni er haldin til þess að hvetja til þátttöku í verkefninu Samrómur sem snýr að því að safna upptökum af lestri sem notaður verður til þess að kenna tölvum og tækjum að skilja íslensku, hægt er að lesa meira <StyledLink
                 target={'blank'}
                 href={
                     '/um'
                 }
             >
                 hér
-                    </StyledLink>. Viðtökur við síðustu keppni voru stórkostlegar og tóku <span>1430</span> manns þátt fyrir hönd <span>130</span> skóla og lásu í kringum <span>144</span> þúsund setningar.</Paragraph>
+                    </StyledLink>. Viðtökur við síðustu keppni voru stórkostlegar en <span>1430</span> manns tóku þátt fyrir hönd <span>130</span> skóla og lásu í kringum <span>144</span> þúsund setningar.</Paragraph>
             <Paragraph>Allir geta tekið þátt og lesið fyrir sinn skóla með því að smella <StyledLink
                 target={'blank'}
                 href={
@@ -62,8 +62,8 @@ const AboutCompetition: React.FunctionComponent<Props> = () => {
                 }
             >
                 hér
-                    </StyledLink>,  biðja um leyfi foreldris/forráðamanns (hafi það ekki þegar verið gert), velja sinn skóla og lesa svo inn setningar sem vefurinn birtir. Staða keppninnar er síðan birt jafnóðum í stigatöflu sem verður aðgengileg á þessari síðu. Allir geta tekið þátt og eru því foreldrar og starfsmenn ekki síður hvattir til þess að lesa inn fyrir skólana. Hægt er að prófa að taka þátt núna en einungis munu upptökur sem koma inn eftir að keppni hefst telja til keppninnar.</Paragraph>
-            <Paragraph>Keppnin verður með sama sniði þó með þeirri breytingu að í ár verða þrír flokkar í stað tveggja og verða veitt verðlaun fyrir fyrsta sætið í hverjum flokki. Notast er við gögn frá Hagstofunni um fjölda nemenda sem og gögn frá keppninni í fyrra þegar skólum er raðað í flokka. Hver vinningsskóli mun fá <span>3 Sphero bolts</span> vélmenni en vélmennin tengja saman leik og forritunarkennslu og eru hönnuð til að ýta undir forvitni, sköpun og nýjar uppgötvanir. Hér er hægt að lesa nánar um <StyledLink
+                    </StyledLink>,  biðja um leyfi foreldris/forráðamanns (hafi það ekki þegar verið gert), velja sinn skóla og lesa svo inn setningar sem vefurinn birtir. Staða keppninnar er síðan birt jafnóðum í stigatöflu sem verður aðgengileg á þessari síðu. Allir geta tekið þátt og því eru foreldrar og starfsmenn ekki síður hvattir til þess að lesa inn fyrir skólana. Hægt er að prófa að taka þátt núna en einungis munu upptökur sem koma inn eftir að keppni hefst telja til keppninnar.</Paragraph>
+            <Paragraph>Keppnin í ár verður með sama sniði og í fyrra þó með þeirri breytingu að í ár verða þrír flokkar í stað tveggja og verða veitt verðlaun fyrir fyrsta sætið í hverjum flokki. Notast er við gögn frá Hagstofunni um fjölda nemenda sem og gögn frá keppninni í fyrra þegar skólum er raðað í flokka. Hver vinningsskóli mun fá <span>3 Sphero bolts</span> vélmenni en vélmennin tengja saman leik og forritunarkennslu og eru hönnuð til að ýta undir forvitni, sköpun og nýjar uppgötvanir. Hér er hægt að lesa nánar um <StyledLink
                 target={'blank'}
                 href={
                     'https://www.epli.is/aukahlutir/leikir/sphero-bolt/'
