@@ -38,7 +38,6 @@ const initialState: UserState = {
         school: {
             name: '',
             code: '',
-            enrollment: 0,
         },
     },
     consents: {

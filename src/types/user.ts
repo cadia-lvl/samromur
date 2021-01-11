@@ -9,7 +9,7 @@ export interface Demographics {
     gender: Demographic;
     hasConsent: boolean;
     nativeLanguage: Demographic;
-    school: Demographic;
+    school: Partial<School>;
 }
 
 export interface Demographic {
@@ -76,7 +76,7 @@ export const initialDemographics: Demographics = {
         name: '',
     },
     school: {
-        id: '',
+        code: '',
         name: '',
     },
 };
