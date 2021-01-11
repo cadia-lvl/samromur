@@ -7,19 +7,46 @@ import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 
+import * as statsApi from '../services/stats-api';
+
 // Components
 import Layout from '../components/layout/layout';
+import Leaderboard from '../components/competition/leaderboard';
+import { SchoolStat } from '../types/competition';
+
+const CompetitionPageContainer = styled.div`
+    max-width: ${({ theme }) => theme.layout.desktopWidth};
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+
+    & h2 {
+        margin-bottom: 2rem;
+    }
+`;
 
 const dispatchProps = {};
 
-type Props = ReturnType<typeof mapStateToProps> &
+type Props = {
+    leaderboard: SchoolStat[];
+} & ReturnType<typeof mapStateToProps> &
     typeof dispatchProps &
     WithTranslation &
     WithRouterProps;
 
-class CompetitionPage extends React.Component<Props> {
+interface State {
+    
+}
+
+class CompetitionPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
+
+        this.state = {
+            
+        }
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
@@ -28,8 +55,14 @@ class CompetitionPage extends React.Component<Props> {
             // make SSRDispatch  calls to get competidion data
         }
 
+        const { isServer, req } = ctx;
+
+        const host = isServer && req ? 'http://' + req.headers.host : undefined;
+        const leaderboard = await statsApi.fetchLeaderboard({ host });
+
         return {
             namespacesRequired: ['common'],
+            leaderboard
         };
     };
 
@@ -40,9 +73,14 @@ class CompetitionPage extends React.Component<Props> {
     };
 
     render() {
+        const { leaderboard } = this.props;
         return (
             <Layout>
-                <p>Grunnskolakeppni</p>
+                <CompetitionPageContainer>
+                    <h2>Grunnskólakeppni grunnskólanna fyrir skóla</h2>
+                    <p>Hér er stigatafla o.fl.</p>
+                    <Leaderboard stats={leaderboard || []} />
+                </CompetitionPageContainer>
             </Layout>
         );
     }
