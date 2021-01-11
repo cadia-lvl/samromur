@@ -1,5 +1,6 @@
 import Sql from './sql';
 import { TimelineStat } from '../../types/stats';
+import { SchoolStat } from '../../types/competition';
 
 export default class Clips {
     private sql: Sql;
@@ -157,4 +158,22 @@ export default class Clips {
         );
         return Promise.resolve(row.count);
     };
+
+    fetchLeaderboard = async (): Promise<SchoolStat[]> => {
+        const [rows] = await this.sql.query(
+            `
+          SELECT
+            institution,
+              COUNT(*) as count,
+              COUNT(DISTINCT client_id) as users,
+              @curRank := @curRank + 1 AS rank
+          FROM clips, (SELECT @curRank := 0) r
+          WHERE institution IS NOT NULL
+          AND institution != ''
+          GROUP BY institution
+          ORDER BY count DESC
+        `
+        );
+        return rows;
+    }
 }
