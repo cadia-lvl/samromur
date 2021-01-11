@@ -154,7 +154,7 @@ interface State {
     nativeLanguage: Demographic;
     showConsentForm: boolean;
     showSchoolSelection: boolean;
-    school: Demographic;
+    school: Partial<School>;
     kennitala: string;
 }
 
@@ -288,7 +288,7 @@ class DemographicForm extends React.Component<Props, State> {
                     content={schools.map((school: School) => school.name)}
                     label={'Skóli'}
                     onSelect={this.onSchoolSelect}
-                    selected={school ? school.name : ''}
+                    selected={school ? school.name ? school.name : '' : ''}
                 />
                 {/* TODO: Update text to icelandic */}
                 <CompetitionText>
