@@ -34,7 +34,8 @@ interface TabProps {
 
 const Tab = styled.div<TabProps>`
     padding: 1rem;
-    background-color: ${({ selected, theme }) => selected ? '#EBEBEB' : 'inherit'};
+    background-color: ${({ selected, theme }) =>
+        selected ? '#EBEBEB' : 'inherit'};
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
     cursor: pointer;
     transition: 0.3s;
@@ -60,14 +61,15 @@ const HeaderItem = styled.span<CellProps>`
     font-size: 1.2rem;
     font-family: ${({ theme }) => theme.fonts.title};
     font-weight: 600;
-    text-align: ${({ align }) => align ? align : 'right'};
+    text-align: ${({ align }) => (align ? align : 'right')};
     background-color: ${({ theme }) => theme.colors.darkerBlue};
     color: white;
 `;
 
 const StatItem = styled.span<CellProps>`
-    text-align: ${({ align }) => align ? align : 'right'};
-    background-color: ${({ darker, theme }) => darker ? theme.colors.lightGray : 'inherit'};
+    text-align: ${({ align }) => (align ? align : 'right')};
+    background-color: ${({ darker, theme }) =>
+        darker ? theme.colors.lightGray : 'inherit'};
 `;
 
 interface DividerProps {
@@ -75,7 +77,8 @@ interface DividerProps {
 }
 
 const Divider = styled.div<DividerProps>`
-    border-bottom: ${({ theme, thick }) => `${thick ? 2 : 1}px solid ${theme.colors.borderGray}`};
+    border-bottom: ${({ theme, thick }) =>
+        `${thick ? 2 : 1}px solid ${theme.colors.borderGray}`};
     grid-column: 1 / 6;
 `;
 
@@ -95,8 +98,8 @@ class Leaderboard extends React.Component<Props, State> {
 
         this.state = {
             selectedOption: 'all',
-        }
-    };
+        };
+    }
 
     render() {
         const { stats } = this.props;
@@ -104,48 +107,68 @@ class Leaderboard extends React.Component<Props, State> {
         return (
             <LeaderboardContainer>
                 <TabSelector>
-                <CategoryTitle>
-                    Flokkur
-                </CategoryTitle>
+                    <CategoryTitle>Flokkur</CategoryTitle>
                     <Tab
                         onClick={() => this.setState({ selectedOption: 'all' })}
-                        selected={selectedOption === 'all'}>Allt</Tab>
+                        selected={selectedOption === 'all'}
+                    >
+                        Allt
+                    </Tab>
                     <Tab
                         onClick={() => this.setState({ selectedOption: '1' })}
-                        selected={selectedOption === '1'}>1</Tab>
+                        selected={selectedOption === '1'}
+                    >
+                        1
+                    </Tab>
                     <Tab
                         onClick={() => this.setState({ selectedOption: '2' })}
-                        selected={selectedOption === '2'}>2</Tab>
+                        selected={selectedOption === '2'}
+                    >
+                        2
+                    </Tab>
                     <Tab
                         onClick={() => this.setState({ selectedOption: '3' })}
-                        selected={selectedOption === '3'}>3</Tab>
+                        selected={selectedOption === '3'}
+                    >
+                        3
+                    </Tab>
                     <Tab
-                        onClick={() => this.setState({ selectedOption: 'individual' })}
-                        selected={selectedOption === 'individual'}>Einstaklingar</Tab>
+                        onClick={() =>
+                            this.setState({ selectedOption: 'individual' })
+                        }
+                        selected={selectedOption === 'individual'}
+                    >
+                        Einstaklingar
+                    </Tab>
                 </TabSelector>
                 <LeaderboardContent>
-                    <HeaderItem align='left' thick>*</HeaderItem>
-                    <HeaderItem align='left'>Skóli</HeaderItem>
+                    <HeaderItem align="left" thick>
+                        *
+                    </HeaderItem>
+                    <HeaderItem align="left">Skóli</HeaderItem>
                     <HeaderItem>Keppendur</HeaderItem>
                     <HeaderItem>Hlutfall</HeaderItem>
                     <HeaderItem>Setningar</HeaderItem>
                     <Divider />
-                    {
-                        stats.map((stat: SchoolStat, i: number) =>
-                            <React.Fragment key={i}>
-                                <StatItem align='left'>{stat.rank}</StatItem>
-                                <StatItem align='left' darker={i % 2 != 0}>{stat.institution}</StatItem>
-                                <StatItem darker={i % 2 != 0}>{stat.users}</StatItem>
-                                <StatItem darker={i % 2 != 0}>{1}</StatItem>
-                                <StatItem darker={i % 2 != 0}>{stat.count}</StatItem>
-                                {i != stats.length - 1 && (
-                                    <Divider />
-                                )}
-                            </React.Fragment>
-                        )}
+                    {stats.map((stat: SchoolStat, i: number) => (
+                        <React.Fragment key={i}>
+                            <StatItem align="left">{stat.rank}</StatItem>
+                            <StatItem align="left" darker={i % 2 != 0}>
+                                {stat.institution}
+                            </StatItem>
+                            <StatItem darker={i % 2 != 0}>
+                                {stat.users}
+                            </StatItem>
+                            <StatItem darker={i % 2 != 0}>{1}</StatItem>
+                            <StatItem darker={i % 2 != 0}>
+                                {stat.count}
+                            </StatItem>
+                            {i != stats.length - 1 && <Divider />}
+                        </React.Fragment>
+                    ))}
                 </LeaderboardContent>
-            </LeaderboardContainer >
-        )
+            </LeaderboardContainer>
+        );
     }
 }
 

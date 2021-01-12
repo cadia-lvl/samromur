@@ -294,10 +294,12 @@ class DemographicForm extends React.Component<Props, State> {
         return (
             <DemographicContainer>
                 <DropdownButton
-                    content={schools.sort((a, b) => a.name.localeCompare(b.name, 'is-IS')).map((school: School) => school.name)}
+                    content={schools
+                        .sort((a, b) => a.name.localeCompare(b.name, 'is-IS'))
+                        .map((school: School) => school.name)}
                     label={'Skóli'}
                     onSelect={this.onSchoolSelect}
-                    selected={school ? school.name ? school.name : '' : ''}
+                    selected={school ? (school.name ? school.name : '') : ''}
                 />
                 <CompetitionText>
                     Lestrarkeppni grunnskólanna hefst 18. janúar!

@@ -126,7 +126,9 @@ export const fetchTodayClips = async (payload: SSRRequest): Promise<number> => {
         });
 };
 
-export const fetchLeaderboard = async (payload: SSRRequest): Promise<SchoolStat[]> => {
+export const fetchLeaderboard = async (
+    payload: SSRRequest
+): Promise<SchoolStat[]> => {
     const endpoint = `/api/stats/clips/competition/leaderboard`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({

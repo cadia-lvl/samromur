@@ -175,5 +175,5 @@ export default class Clips {
         `
         );
         return rows;
-    }
+    };
 }

@@ -24,7 +24,6 @@ const CompetitionPageContainer = styled.div`
     padding: 1.5rem;
 `;
 
-
 const dispatchProps = {};
 
 type Props = {
@@ -34,17 +33,13 @@ type Props = {
     WithTranslation &
     WithRouterProps;
 
-interface State {
-
-}
+interface State {}
 
 class CompetitionPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-
-        }
+        this.state = {};
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
@@ -60,7 +55,7 @@ class CompetitionPage extends React.Component<Props, State> {
 
         return {
             namespacesRequired: ['common'],
-            leaderboard
+            leaderboard,
         };
     };
 
