@@ -33,6 +33,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Demographics, UserConsents } from '../types/user';
+import { generateGUID } from '../utilities/id';
 
 interface CustomAppProps {
     appProps: {
@@ -64,7 +65,7 @@ class MyApp extends App<Props> {
         const allCookies = cookies(ctx);
         const { client_id } = allCookies;
         const hasCookie = !!client_id;
-        const clientId = client_id || store.getState().user.client.id;
+        const clientId = client_id || generateGUID();
 
         const isAuthenticated = ctx.req?.headers['is_authenticated'] === 'true';
 

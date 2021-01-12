@@ -3,6 +3,7 @@ import { SimpleSentenceBatch } from '../../types/sentences';
 import { sha256hash as hash } from '../../utilities/hash';
 import {
     AgeGroups,
+    AgeLimit,
     getAgeGroup,
     getAgeGroupFromString,
 } from '../../utilities/demographics-age-helper';
@@ -113,19 +114,19 @@ export default class Sentences {
         const adultRows = await this.fetchSentences(
             clientId,
             count,
-            AgeGroups.ADULTS,
+            AgeLimit.ADULT,
             ''
         );
         const teenRows = await this.fetchSentences(
             clientId,
             count,
-            AgeGroups.TEENAGERS,
+            AgeLimit.TEENS,
             ''
         );
         const kidsRows = await this.fetchSentences(
             clientId,
             count,
-            AgeGroups.CHILDREN,
+            AgeLimit.KIDS,
             ''
         );
         return [adultRows, teenRows, kidsRows];
