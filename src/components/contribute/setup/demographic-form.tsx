@@ -274,7 +274,7 @@ class DemographicForm extends React.Component<Props, State> {
     // For demographics not in the contents of the dropdown, under 18 is selected.
     getAgeSelected = (): string => {
         const { age } = this.state;
-        if (age && age.name === '') {
+        if (!age || age.name === '') {
             return '';
         }
         const found = ages.find((item) => item.name === age.name);
