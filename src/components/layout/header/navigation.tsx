@@ -66,7 +66,7 @@ const NavigationLinks = styled.div<Props>`
     `
             : `
         justify-content: space-around;
-        font-size: 1.2rem;
+        font-size: 1rem;
         padding: 0 2rem;
         align-items: center;
     `}
@@ -95,6 +95,11 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                 <Link href="/takathatt">
                     <NavLink isActive={pathname == '/takathatt'}>
                         Taka þátt
+                    </NavLink>
+                </Link>
+                <Link href="/grunnskolakeppni">
+                    <NavLink isActive={pathname == '/grunnskolakeppni'}>
+                        Grunnskólakeppni
                     </NavLink>
                 </Link>
                 <Link href="/gagnasafn">
