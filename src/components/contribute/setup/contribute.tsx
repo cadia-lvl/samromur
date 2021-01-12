@@ -28,6 +28,9 @@ import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
 import Tips from './tips/tips';
 
+import { getAgeGroup } from '../../../utilities/demographics-age-helper';
+import { AllGroupsSentences } from '../../../pages/tala';
+
 interface ContributeContainerProps {
     expanded: boolean;
     gaming: boolean;
@@ -59,7 +62,7 @@ const dispatchProps = {
 
 interface ContributeProps {
     clips?: WheelClip[];
-    sentences?: WheelSentence[];
+    goupedSentences?: AllGroupsSentences;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -74,6 +77,7 @@ interface State {
     demographic: boolean;
     tips: boolean;
     selectedBatch?: string;
+    sentences?: WheelSentence[];
 }
 
 class Contribute extends React.Component<Props, State> {
@@ -83,7 +87,7 @@ class Contribute extends React.Component<Props, State> {
         this.state = {
             contributeType: this.props.clips
                 ? 'hlusta'
-                : this.props.sentences && 'tala',
+                : this.props.goupedSentences && 'tala',
             labels: [],
             demographic: false,
             tips: false,
@@ -144,7 +148,18 @@ class Contribute extends React.Component<Props, State> {
         }
     };
 
-    onDemographicsSubmit = () => {
+    onDemographicsSubmit = async () => {
+        const {
+            user,
+            user: {
+                demographics: { age, nativeLanguage },
+            },
+            goupedSentences,
+        } = this.props;
+        const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
+        this.setState({
+            sentences: goupedSentences && goupedSentences[ageGroup],
+        });
         this.setState({ demographic: true });
     };
 
@@ -175,12 +190,12 @@ class Contribute extends React.Component<Props, State> {
             labels,
             selectedBatch,
             batchClips,
+            sentences,
         } = this.state;
 
         const {
             clips,
             contribute: { expanded, gaming, goal },
-            sentences,
             user: { client },
         } = this.props;
 

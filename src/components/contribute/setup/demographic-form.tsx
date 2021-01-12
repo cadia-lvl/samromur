@@ -270,10 +270,18 @@ class DemographicForm extends React.Component<Props, State> {
         const age = ageFromKennitala(kennitala).toString();
         return { id: age, name: age };
     };
-
+    // Returns the value to display in the dropdown menu for ages.
+    // For demographics not in the contents of the dropdown, under 18 is selected.
+    getAgeSelected = (): string => {
+        const { age } = this.state;
+        if (age && age.name === '') {
+            return '';
+        }
+        const found = ages.find((item) => item.name === age.name);
+        return found ? found.name : ages[0].name;
+    };
     render() {
         const {
-            age,
             agreed,
             gender,
             hasConsent,
@@ -282,6 +290,7 @@ class DemographicForm extends React.Component<Props, State> {
             school,
         } = this.state;
         const formIsFilled = this.formIsFilled();
+        const selectedAge = this.getAgeSelected();
         return (
             <DemographicContainer>
                 <DropdownButton
@@ -299,7 +308,7 @@ class DemographicForm extends React.Component<Props, State> {
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
-                    selected={age ? age.name : ''}
+                    selected={selectedAge}
                 />
                 <div></div>
                 <ConsentMessage active={hasConsent}>

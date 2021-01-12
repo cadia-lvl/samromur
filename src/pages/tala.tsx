@@ -10,19 +10,27 @@ import { WithRouterProps } from 'next/dist/client/with-router';
 import { fetchWeeklyClips } from '../store/stats/actions';
 import { resetContribute } from '../store/contribute/actions';
 
-import { fetchSentences } from '../services/contribute-api';
+import {
+    fetchGroupedSentences,
+    fetchSentences,
+} from '../services/contribute-api';
 import { WheelSentence } from '../types/sentences';
 
 import makeSSRDispatch from '../utilities/ssr-request';
 
 import ContributePage from '../components/contribute/setup/contribute';
+import { AgeGroups, AgeLimit } from '../utilities/demographics-age-helper';
 
 const dispatchProps = {
     resetContribute,
 };
 
+export interface AllGroupsSentences {
+    [key: string]: WheelSentence[];
+}
+
 interface InitialProps {
-    initialSentences: WheelSentence[];
+    initialSentences: AllGroupsSentences;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -55,13 +63,18 @@ class SpeakPage extends React.Component<Props, State> {
         // Fetch some stats to display at the end of the session
         makeSSRDispatch(ctx, fetchWeeklyClips.request);
 
-        // Fetch sentences to prompt the user with
+        // Fetch Adult sentences to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialSentences = await fetchSentences({
+        const initialSentencesGrouped = await fetchGroupedSentences({
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             host,
         });
+
+        const initialSentences: AllGroupsSentences = {};
+        initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
+        initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
+        initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
 
         return {
             namespacesRequired: ['common'],
@@ -76,7 +89,7 @@ class SpeakPage extends React.Component<Props, State> {
     render() {
         const { initialSentences } = this.props;
 
-        return <ContributePage sentences={initialSentences} />;
+        return <ContributePage goupedSentences={initialSentences} />;
     }
 }
 

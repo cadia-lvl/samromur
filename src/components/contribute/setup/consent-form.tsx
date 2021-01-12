@@ -167,6 +167,7 @@ class ConsentForm extends React.Component<Props, State> {
             } else {
                 const consent = await consentsApi.fetchConsent(kennitala);
                 if (consent) {
+                    // Under 18 consent given, send kennitala together with consent
                     this.props.onConsent(kennitala);
                 } else {
                     if (emailSent) {
