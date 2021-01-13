@@ -325,7 +325,7 @@ class Leaderboard extends React.Component<Props, State> {
                         *
                     </HeaderItem>
                     <HeaderItem align="left" onClick={() => this.sort('name')}>Skóli</HeaderItem>
-                    <HeaderItem disableMobile onClick={() => this.sort('users')}>{selectedOption == 'individual' ? 'Notandi' : 'Keppendur'}</HeaderItem>
+                    <HeaderItem disableMobile onClick={() => this.sort('users')}>{selectedOption == 'individual' ? 'Keppandi' : 'Keppendur'}</HeaderItem>
                     <HeaderItem onClick={() => this.sort('count')}>Setningar</HeaderItem>
                     <Divider />
                     {
