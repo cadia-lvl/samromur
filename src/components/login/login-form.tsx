@@ -40,6 +40,7 @@ interface Props {
 
 interface State {
     email: string;
+    username: string;
     formError?: FormError;
     isSignup: boolean;
     password: string;
@@ -52,6 +53,7 @@ class LoginForm extends React.Component<Props, State> {
 
         this.state = {
             email: '',
+            username: '',
             formError: undefined,
             isSignup: false,
             password: '',
@@ -66,6 +68,11 @@ class LoginForm extends React.Component<Props, State> {
 
     onEmailChange = (email: string) => {
         this.setState({ email });
+        this.cleanErrors();
+    };
+
+    onUserNameChange = (userName: string) => {
+        this.setState({ username: userName });
         this.cleanErrors();
     };
 
@@ -95,10 +102,11 @@ class LoginForm extends React.Component<Props, State> {
         if (formError) {
             this.setState({ formError });
         } else {
-            const { email, password, isSignup } = this.state;
+            const { email, username, password, isSignup } = this.state;
             this.props.onSubmit(
                 {
                     email,
+                    username,
                     password,
                 },
                 isSignup
@@ -152,6 +160,8 @@ class LoginForm extends React.Component<Props, State> {
                 return 'Tölvupóstfang þegar skráð';
             case AuthError.EMAIL_NOT_CONFIRMED:
                 return 'Tölvupóstfang hefur ekki verið staðfest';
+            case AuthError.USERNAME_USED:
+                return 'Notendanafnið er tekið, vinsamlegast veldu nýtt';
             default:
                 return 'Innskráning mistókst';
         }
@@ -170,6 +180,13 @@ class LoginForm extends React.Component<Props, State> {
                     onChange={this.onEmailChange}
                     placeholder=""
                 />
+                {isSignup && (
+                    <TextInput
+                        label="Notendanafn (valfrjálst)"
+                        onChange={this.onUserNameChange}
+                        placeholder="þörf fyrir einstaklingskeppni grunnskólanna"
+                    ></TextInput>
+                )}
                 <TextInput
                     label="Lykilorð"
                     onChange={this.onPasswordChange}
