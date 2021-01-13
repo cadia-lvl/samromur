@@ -196,8 +196,11 @@ export default class Clips {
                         clips
                     WHERE
                         institution IS NOT NULL
+                    AND clips.created_at > '2021-01-17'
+                    AND clips.created_at < '2021-01-26'
                     GROUP BY
-                        client_id
+                        client_id,
+                        institution
                 ) t1
             JOIN
                 (
