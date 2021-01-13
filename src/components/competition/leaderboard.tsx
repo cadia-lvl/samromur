@@ -1,11 +1,39 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { schools } from '../../constants/schools';
+
+import { SchoolStat } from '../../types/competition';
+
 const LeaderboardContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
     max-width: 50rem;
+    margin: 0 auto;
+`;
+
+const HeaderContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    ${({ theme }) => theme.media.small} {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+`;
+
+const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+
+    & a {
+        margin-top: 0.5rem;
+        text-align: right;
+    }
 `;
 
 const CategoryTitle = styled.span`
@@ -43,11 +71,30 @@ const Tab = styled.div<TabProps>`
 
 const LeaderboardContent = styled.div`
     display: grid;
-    grid-template-columns: 3rem auto 1fr 1fr 1fr;
+    grid-template-columns: 3rem 60% 1fr 1fr;
     width: 100%;
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
     & span {
         padding: 0.5rem 1rem;
+    }
+
+    
+    ${({ theme }) => theme.media.small} {
+        grid-template-columns: 3rem 60% 1fr;
+    }
+`;
+
+const StyledLink = styled.a`
+    color: ${({ theme }) => theme.colors.blue};
+    :visited,
+    :focus {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blue};
+    }
+
+    :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blackOlive};
     }
 `;
 
@@ -55,6 +102,7 @@ interface CellProps {
     align?: string;
     thick?: boolean;
     darker?: boolean;
+    disableMobile?: boolean;
 }
 
 const HeaderItem = styled.span<CellProps>`
@@ -64,12 +112,19 @@ const HeaderItem = styled.span<CellProps>`
     text-align: ${({ align }) => (align ? align : 'right')};
     background-color: ${({ theme }) => theme.colors.darkerBlue};
     color: white;
+    cursor: pointer;
+    ${({ theme }) => theme.media.small} {
+        ${({ disableMobile }) => disableMobile && `display: none;`}
+    }
 `;
 
 const StatItem = styled.span<CellProps>`
     text-align: ${({ align }) => (align ? align : 'right')};
     background-color: ${({ darker, theme }) =>
         darker ? theme.colors.lightGray : 'inherit'};
+        ${({ theme }) => theme.media.small} {
+            ${({ disableMobile }) => disableMobile && `display: none;`}
+        }
 `;
 
 interface DividerProps {
@@ -82,14 +137,15 @@ const Divider = styled.div<DividerProps>`
     grid-column: 1 / 6;
 `;
 
-import { SchoolStat } from '../../types/competition';
-
 interface Props {
     stats: SchoolStat[];
 }
 
 interface State {
+    filteredStats: SchoolStat[];
+    stats: SchoolStat[];
     selectedOption: 'all' | '1' | '2' | '3' | 'individual';
+    sortby: 'rank' | 'name' | 'users' | 'count';
 }
 
 class Leaderboard extends React.Component<Props, State> {
@@ -97,73 +153,187 @@ class Leaderboard extends React.Component<Props, State> {
         super(props);
 
         this.state = {
+            filteredStats: [],
+            stats: [],
             selectedOption: 'all',
+            sortby: 'rank',
         };
     }
 
-    render() {
+    statsToState = () => {
         const { stats } = this.props;
-        const { selectedOption } = this.state;
+        const usableStats = stats.filter((stat) => !!schools.find((school) => school.code == stat.institution));
+        const newStats = schools.sort((a, b) => a.name.localeCompare(b.name)).map((school, i: number) => {
+            const schoolStat = usableStats.find((stat) => stat.institution == school.code);
+            return schoolStat ? schoolStat : {
+                institution: school.code,
+                count: 0,
+                users: 0,
+                rank: i + usableStats.length + 1,
+            }
+        }).sort((a, b) => a.rank < b.rank ? -1 : 1);
+
+        this.setState({
+            filteredStats: newStats,
+            stats: newStats
+        });
+    }
+
+    sort = (sortBy: 'rank' | 'name' | 'users' | 'count') => {
+        this.setState((prevState) => {
+            const sortedStats = prevState.filteredStats.sort((a, b) => {
+                switch (sortBy) {
+                    case 'rank':
+                        return a.rank < b.rank ? -1 : 1;
+                    case 'name':
+                        const schoolA = schools.find((school) => school.code == a.institution);
+                        const schoolB = schools.find((school) => school.code == b.institution);
+                        return schoolA && schoolB ? schoolA.name.localeCompare(schoolB.name) : 1;
+                    case 'users':
+                        return a.users < b.users ? 1 : -1;
+                    case 'count':
+                        console.log('hæ');
+                        return a.count < b.count ? 1 : -1;
+                }
+            });
+
+            return {
+                ...prevState,
+                filteredStats: sortedStats
+            }
+        });
+    }
+
+    filterStats = (filter: string) => {
+        switch (filter) {
+            case 'all':
+                return this.state.stats;
+            case '1':
+                return this.state.stats.filter(
+                    (stat) => {
+                        const school = schools.find((value) => value.code == stat.institution);
+                        return school && school.division == 1;
+                    }
+                );
+            case '2':
+                return this.state.stats.filter(
+                    (stat) => {
+                        const school = schools.find((value) => value.code == stat.institution);
+                        return school && school.division == 2;
+                    }
+                );
+            case '3':
+                return this.state.stats.filter(
+                    (stat) => {
+                        const school = schools.find((value) => value.code == stat.institution);
+                        return school && school.division == 3;
+                    }
+                );
+            case 'individual':
+                return this.state.stats;
+            default:
+                return this.state.stats;
+        }
+    }
+
+    componentDidMount = () => this.statsToState();
+
+    componentDidUpdate = (prevProps: Props, prevState: State) => {
+        const prevStats = prevProps.stats;
+        const { stats } = this.props;
+        if (prevStats != stats) {
+            this.statsToState();
+        }
+        const prevFilter = prevState.selectedOption;
+        if (prevFilter != this.state.selectedOption) {
+            const newStats = this.filterStats(this.state.selectedOption);
+            this.setState({ filteredStats: newStats });
+        }
+    }
+
+    getSchoolName = (code: string) => {
+        const school = schools.find((school) => school.code == code);
+        return school ? school.name : '';
+    }
+
+    /*     getSchoolRatio = (code: string, count: number) => {
+            const school = schools.find((school) => school.code == code);
+            return school
+                ? (count / (school.class1_3 + school.class4_10)).toFixed(1)
+                : 1;
+        } */
+
+    render() {
+        const { filteredStats, selectedOption } = this.state;
         return (
             <LeaderboardContainer>
-                <TabSelector>
-                    <CategoryTitle>Flokkur</CategoryTitle>
-                    <Tab
-                        onClick={() => this.setState({ selectedOption: 'all' })}
-                        selected={selectedOption === 'all'}
-                    >
-                        Allt
+                <HeaderContainer>
+                    <TitleContainer>
+                        <h2>Hvaða skóli les mest?</h2>
+                        <span>Lestrarkeppni grunnskólanna 18.-25.janúar</span>
+                        <StyledLink href={'/grunnskolakeppni#um'}>
+                            Lesa meira um keppnina
+                        </StyledLink>
+                    </TitleContainer>
+
+                    <TabSelector>
+                        <CategoryTitle>Flokkur</CategoryTitle>
+                        <Tab
+                            onClick={() => this.setState({ selectedOption: 'all' })}
+                            selected={selectedOption === 'all'}
+                        >
+                            Allt
                     </Tab>
-                    <Tab
-                        onClick={() => this.setState({ selectedOption: '1' })}
-                        selected={selectedOption === '1'}
-                    >
-                        1
+                        <Tab
+                            onClick={() => this.setState({ selectedOption: '1' })}
+                            selected={selectedOption === '1'}
+                        >
+                            1
                     </Tab>
-                    <Tab
-                        onClick={() => this.setState({ selectedOption: '2' })}
-                        selected={selectedOption === '2'}
-                    >
-                        2
+                        <Tab
+                            onClick={() => this.setState({ selectedOption: '2' })}
+                            selected={selectedOption === '2'}
+                        >
+                            2
                     </Tab>
-                    <Tab
-                        onClick={() => this.setState({ selectedOption: '3' })}
-                        selected={selectedOption === '3'}
-                    >
-                        3
+                        <Tab
+                            onClick={() => this.setState({ selectedOption: '3' })}
+                            selected={selectedOption === '3'}
+                        >
+                            3
                     </Tab>
-                    <Tab
-                        onClick={() =>
-                            this.setState({ selectedOption: 'individual' })
-                        }
-                        selected={selectedOption === 'individual'}
-                    >
-                        Einstaklingar
+                        <Tab
+/*                             onClick={() =>
+                                this.setState({ selectedOption: 'individual' })
+                            } */
+                            selected={selectedOption === 'individual'}
+                        >
+                            Einstaklingar
                     </Tab>
-                </TabSelector>
+                    </TabSelector>
+                </HeaderContainer>
+                <h3>Stigatafla</h3>
                 <LeaderboardContent>
-                    <HeaderItem align="left" thick>
+                    <HeaderItem align="left" thick onClick={() => this.sort('rank')}>
                         *
                     </HeaderItem>
-                    <HeaderItem align="left">Skóli</HeaderItem>
-                    <HeaderItem>Keppendur</HeaderItem>
-                    <HeaderItem>Hlutfall</HeaderItem>
-                    <HeaderItem>Setningar</HeaderItem>
+                    <HeaderItem align="left" onClick={() => this.sort('name')}>Skóli</HeaderItem>
+                    <HeaderItem disableMobile onClick={() => this.sort('users')}>Keppendur</HeaderItem>
+                    <HeaderItem onClick={() => this.sort('count')}>Setningar</HeaderItem>
                     <Divider />
-                    {stats.map((stat: SchoolStat, i: number) => (
+                    {filteredStats.map((stat: SchoolStat, i: number) => (
                         <React.Fragment key={i}>
-                            <StatItem align="left">{stat.rank}</StatItem>
+                            <StatItem align="left" darker={i % 2 != 0}>{i + 1}</StatItem>
                             <StatItem align="left" darker={i % 2 != 0}>
-                                {stat.institution}
+                                {this.getSchoolName(stat.institution)}
                             </StatItem>
-                            <StatItem darker={i % 2 != 0}>
+                            <StatItem disableMobile darker={i % 2 != 0}>
                                 {stat.users}
                             </StatItem>
-                            <StatItem darker={i % 2 != 0}>{1}</StatItem>
                             <StatItem darker={i % 2 != 0}>
                                 {stat.count}
                             </StatItem>
-                            {i != stats.length - 1 && <Divider />}
+                            {i != filteredStats.length - 1 && <Divider />}
                         </React.Fragment>
                     ))}
                 </LeaderboardContent>

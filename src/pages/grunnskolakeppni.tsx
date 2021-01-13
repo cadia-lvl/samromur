@@ -33,7 +33,7 @@ type Props = {
     WithTranslation &
     WithRouterProps;
 
-interface State {}
+interface State { }
 
 class CompetitionPage extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -70,6 +70,7 @@ class CompetitionPage extends React.Component<Props, State> {
         return (
             <Layout>
                 <CompetitionPageContainer>
+                    <Leaderboard stats={leaderboard} />
                     <About />
                 </CompetitionPageContainer>
             </Layout>

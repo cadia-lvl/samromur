@@ -6,7 +6,7 @@ const AboutContainer = styled.div`
     flex-direction: column;
     max-width: 50rem;
     margin: 0 auto;
-    margin-top: 2rem;
+    margin-top: 4rem;
 `;
 
 const TitleContainer = styled.div`
@@ -39,9 +39,9 @@ interface Props {}
 
 const AboutCompetition: React.FunctionComponent<Props> = () => {
     return (
-        <AboutContainer>
+        <AboutContainer id='um'>
             <TitleContainer>
-                <h2>Hvaða skóli les mest?</h2>
+                <h2>Um keppnina</h2>
                 <span>Lestrarkeppni grunnskólanna 18.-25.janúar</span>
             </TitleContainer>
             <Paragraph>
