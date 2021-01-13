@@ -1,5 +1,6 @@
 export interface AuthRequest {
     email: string;
+    username: string;
     password: string;
 }
 
@@ -7,6 +8,7 @@ export enum AuthError {
     USER_NOT_FOUND = 'USER_NOT_FOUND',
     WRONG_PASSWORD = 'WRONG_PASSWORD',
     HAS_ACCOUNT = 'HAS_ACCOUNT',
+    USERNAME_USED = 'USERNAME_USED',
     EMAIL_NOT_CONFIRMED = 'EMAIL_NOT_CONFIRMED',
     EMAIL_NOT_SENT = 'EMAIL_NOT_SENT',
     FAILED = 'FAILED',
