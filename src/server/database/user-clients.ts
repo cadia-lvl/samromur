@@ -33,7 +33,10 @@ export default class UserClients {
         );
     };
 
-    signUpUser = async (email: string, password: string): Promise<string> => {
+    signUpUserWithoutUsername = async (
+        email: string,
+        password: string
+    ): Promise<string> => {
         if (await this.hasAccount(email)) {
             return Promise.reject(AuthError.HAS_ACCOUNT);
         }
@@ -62,6 +65,71 @@ export default class UserClients {
                 console.error(error);
                 return Promise.reject(AuthError.FAILED);
             });
+    };
+
+    signUpUser = async (
+        email: string,
+        username: string,
+        password: string
+    ): Promise<string> => {
+        if (!username) {
+            return await this.signUpUserWithoutUsername(email, password);
+        }
+        if (await this.hasAccount(email)) {
+            return Promise.reject(AuthError.HAS_ACCOUNT);
+        }
+        if (await this.userNameExists(username)) {
+            return Promise.reject(AuthError.USERNAME_USED);
+        }
+
+        const confirmId = uuid();
+        const clientId = generateGUID();
+
+        return this.sql
+            .query(
+                `
+                INSERT INTO
+                    user_clients (client_id, email, username,confirm_id, password, has_login)
+                VALUES
+                    (?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    email = VALUES(email),
+                    username = VALUES(username),
+                    confirm_id = VALUES(confirm_id),
+                    password = VALUES(password),
+                    has_login = VALUES(has_login)
+                `,
+                [
+                    clientId,
+                    email,
+                    username,
+                    confirmId,
+                    sha512hash(password),
+                    true,
+                ]
+            )
+            .then(() => {
+                return Promise.resolve(confirmId);
+            })
+            .catch((error) => {
+                console.error(error);
+                return Promise.reject(AuthError.FAILED);
+            });
+    };
+
+    userNameExists = async (username: string): Promise<boolean> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    *
+                FROM
+                    user_clients
+                WHERE
+                    username = ?
+            `,
+            [username]
+        );
+        return !!row;
     };
 
     confirmSignup = async (confirmId: string): Promise<void> => {

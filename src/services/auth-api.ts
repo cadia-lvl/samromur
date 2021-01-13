@@ -7,10 +7,14 @@ import password from '../pages/api/users/password';
 import { AuthRequest, AuthError } from '../types/auth';
 
 export const signUp = async (payload: AuthRequest): Promise<string> => {
-    const { email, password } = payload;
+    const { email, username, password } = payload;
+    console.log('api: ', username);
 
     const endpoint = '/api/users/signup';
-    const auth = Buffer.from(`${email}:${password}`, 'utf8').toString('base64');
+    const auth = Buffer.from(
+        `${email}:${username}:${password}`,
+        'utf8'
+    ).toString('base64');
 
     return axios({
         method: 'POST',
