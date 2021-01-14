@@ -131,6 +131,33 @@ export const resetPassword = async (
         });
 };
 
+/**
+ * Posts a request to the api to update the username of the
+ * currently signed in user. You can only update the username if
+ * the user does not already have a username
+ * @param username the new username of the user
+ */
+export const changeUserName = async (username: string): Promise<boolean> => {
+    const url = `api/users/username`;
+    const auth = Buffer.from(`${username}`, 'utf8').toString('base64');
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            console.log(response);
+            return Promise.resolve(true);
+        })
+        .catch((error: AxiosError) => {
+            console.log(error);
+            return Promise.reject(error.response?.data as keyof AuthError);
+        });
+};
+
 export const logout = async () => {
     document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     window.location.reload();
