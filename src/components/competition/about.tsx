@@ -42,13 +42,14 @@ const AboutCompetition: React.FunctionComponent<Props> = () => {
         <AboutContainer id='um'>
             <TitleContainer>
                 <h2>Um keppnina</h2>
-                <span>Lestrarkeppni grunnskólanna 18.-25.janúar</span>
             </TitleContainer>
             <Paragraph>
                 Lestrarkeppni á milli grunnskóla landsins verður haldin í annað
                 sinn þar sem keppt verður um fjölda setninga sem nemendur lesa
                 inn í Samróm. Forseti Íslands mun setja keppnina formlega af
-                stað í Fellaskóla mánudaginn <span>18.janúar</span>. Keppnin
+                stað í Fellaskóla mánudaginn <span>18.janúar</span> en setningu keppninnar verður streymt í beinni á <StyledLink target={'blank'} href={'https://www.facebook.com/samromur'}>
+                    Facebook-síðu Samróms
+                </StyledLink>. Keppnin
                 stendur yfir í viku og lýkur <span>25. janúar</span>.
             </Paragraph>
             <Paragraph>

@@ -29,10 +29,13 @@ const TitleContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
-
+    max-width: 45%;
+    
     & a {
         margin-top: 0.5rem;
-        text-align: right;
+    }
+    ${({ theme }) => theme.media.small} {
+        max-width: 100%;
     }
 `;
 
@@ -245,7 +248,10 @@ class Leaderboard extends React.Component<Props, State> {
         }
     }
 
-    componentDidMount = () => this.statsToState();
+    componentDidMount = () => {
+        this.isStarted();
+        this.statsToState();
+    }
 
     componentDidUpdate = (prevProps: Props, prevState: State) => {
         const prevStats = prevProps.stats;
@@ -265,6 +271,11 @@ class Leaderboard extends React.Component<Props, State> {
         return school ? school.name : '';
     }
 
+    isStarted = () => {
+        const startTime = new Date(2021, 1, 18, 15, 0, 0, 0);
+        return new Date() >= startTime;
+    }
+
     /*     getSchoolRatio = (code: string, count: number) => {
             const school = schools.find((school) => school.code == code);
             return school
@@ -279,7 +290,14 @@ class Leaderboard extends React.Component<Props, State> {
                 <HeaderContainer>
                     <TitleContainer>
                         <h2>Hvaða skóli les mest?</h2>
-                        <span>Lestrarkeppni grunnskólanna 18.-25.janúar</span>
+                         {
+                             !this.isStarted() ? (
+                                 <span>Lestrarkeppni grunnskólanna hefst mánudaginn 18. janúar klukkan 15:00</span>
+                             ) : (
+                                 <span>Lestrarkeppni grunnskólanna 18.-25. janúar</span>
+                             )
+                         }
+                        <span></span>
                         <StyledLink href={'/grunnskolakeppni#um'}>
                             Lesa meira um keppnina
                         </StyledLink>
