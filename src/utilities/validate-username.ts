@@ -4,10 +4,10 @@
  * @param username the email string to validate
  */
 const validateUsername = (username: string): boolean => {
-    // 5-30 charcters
+    // 5-25 charcters
     // icelandic alphabet ok
     // - and _ ok
-    const re = /^[A-ZÁÐÉÍÓÚÝÞÆÖa-záðéíóúýþæö][A-ZÁÐÉÍÓÚÝÞÆÖa-záðéíóúýþæö_-]{4,29}$/;
+    const re = /^[A-ZÁÐÉÍÓÚÝÞÆÖa-záðéíóúýþæö][A-ZÁÐÉÍÓÚÝÞÆÖa-záðéíóúýþæö_-]{4,24}$/;
     return re.test(username);
 };
 
