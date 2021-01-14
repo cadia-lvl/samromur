@@ -170,8 +170,8 @@ export default class Clips {
           FROM clips, (SELECT @curRank := 0) r
           WHERE institution IS NOT NULL
           AND institution != ''
-          AND clips.created_at > '2021-01-17'
-          AND clips.created_at < '2021-01-26'
+          AND clips.created_at > '2021-01-18 15:00'
+          AND clips.created_at < '2021-01-26 00:00'
           GROUP BY institution
           ORDER BY count DESC
         `
@@ -196,8 +196,8 @@ export default class Clips {
                         clips
                     WHERE
                         institution IS NOT NULL
-                    AND clips.created_at > '2021-01-17'
-                    AND clips.created_at < '2021-01-26'
+                    AND clips.created_at > '2021-01-18 15:00'
+                    AND clips.created_at < '2021-01-26 00:00'
                     GROUP BY
                         client_id,
                         institution
