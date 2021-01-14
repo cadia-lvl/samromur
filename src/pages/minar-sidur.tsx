@@ -93,7 +93,7 @@ class DashboardPage extends React.Component<Props, State> {
     render() {
         const { user } = this.props;
         const { selected } = this.state;
-        const hasUserName = !user.client.username;
+        const hasUserName = !!user.client.username;
         return (
             <Layout>
                 <DashboardContainer>

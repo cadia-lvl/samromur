@@ -169,7 +169,7 @@ class DashboardSettings extends React.Component<Props, State> {
         const { hasUserName } = this.props;
         return (
             <DashboardSettingsContainer>
-                {hasUserName && <EditUserNameForm />}
+                {!hasUserName && <EditUserNameForm />}
                 <EditPasswordContainer onSubmit={this.handleSubmit}>
                     <Title>Breyta lykilorði</Title>
                     <TextInput
