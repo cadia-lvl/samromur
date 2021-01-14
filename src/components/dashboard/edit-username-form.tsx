@@ -12,6 +12,8 @@ import {
     Title,
 } from './settings';
 
+import validateUsername from '../../utilities/validate-username';
+
 const Separator = styled.div`
     margin-top: 1.5rem;
     height: 2px;
@@ -80,11 +82,11 @@ class EditUserNameForm extends React.Component<Props, State> {
 
     validateForm = (): string | null => {
         const { userName } = this.state;
-        if (!userName) {
-            return FormError.INVALID_USERNAME;
-        }
         if (userName.length < 5) {
             return FormError.USERNAME_TOO_SHORT;
+        }
+        if (!validateUsername(userName)) {
+            return FormError.INVALID_USERNAME;
         }
         return null;
     };
@@ -93,7 +95,7 @@ class EditUserNameForm extends React.Component<Props, State> {
         const { userName } = this.state;
         switch (error) {
             case FormError.INVALID_USERNAME:
-                return 'Ógilt notandanafn';
+                return 'Ógilt notandanafn. Aðeins stafir, strik og undirstrik eru leyfð';
             case FormError.USERNAME_TOO_SHORT:
                 return 'Notandanafnið er of stutt (færri en 5 stafir)';
             case AuthError.USERNAME_USED:

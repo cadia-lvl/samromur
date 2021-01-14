@@ -8,6 +8,7 @@ import { Button } from '../ui/buttons';
 import { AuthError, AuthRequest, FormError } from '../../types/auth';
 
 import validateEmail from '../../utilities/validate-email';
+import validateUserName from '../../utilities/validate-username';
 
 const LoginFormContainer = styled.form`
     margin: 1rem auto;
@@ -115,7 +116,13 @@ class LoginForm extends React.Component<Props, State> {
     };
 
     validateForm = (): FormError | null => {
-        const { email, isSignup, password, passwordAgain } = this.state;
+        const {
+            email,
+            isSignup,
+            password,
+            passwordAgain,
+            username,
+        } = this.state;
         if (email == '') {
             return FormError.MISSING_EMAIL;
         } else if (!validateEmail(email)) {
@@ -128,6 +135,11 @@ class LoginForm extends React.Component<Props, State> {
             }
             if (password !== passwordAgain) {
                 return FormError.PASSWORD_MISMATCH;
+            }
+            if (username) {
+                if (!validateUserName(username)) {
+                    return FormError.INVALID_USERNAME;
+                }
             }
         }
         return null;
@@ -145,6 +157,8 @@ class LoginForm extends React.Component<Props, State> {
                 return 'Ógilt tölvupóstfang';
             case FormError.PASSWORD_MISMATCH:
                 return 'Lykilorð verða að stemma';
+            case FormError.INVALID_USERNAME:
+                return 'Ógilt notandanafn. Aðeins stafir, bandstrik og undirstrikir eru leyfðir. Lágmark er fimm stafir.';
             default:
                 return 'Villa í formi';
         }
