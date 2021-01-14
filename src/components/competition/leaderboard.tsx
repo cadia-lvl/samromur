@@ -39,6 +39,14 @@ const TitleContainer = styled.div`
     }
 `;
 
+const SubTitle = styled.div`
+    display: flex;
+    align-items: center;
+    & a {
+        margin-left: 1rem;
+    }
+`;
+
 const CategoryTitle = styled.span`
     grid-column: 1 / 6;
     display: flex;
@@ -74,7 +82,7 @@ const Tab = styled.div<TabProps>`
 
 const LeaderboardContent = styled.div`
     display: grid;
-    grid-template-columns: 3rem 60% 1fr 1fr;
+    grid-template-columns: 3rem 60% auto 1fr;
     width: 100%;
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
     & span {
@@ -101,11 +109,30 @@ const StyledLink = styled.a`
     }
 `;
 
+interface ConditionalMobileTextProps {
+    mobile: string;
+    desktop: string;
+}
+
+const ConditionalMobileText = styled.span<ConditionalMobileTextProps>`
+    & ::after {
+        content: ${({ desktop }) => `"${desktop}"`};
+    }
+
+    ${({ theme }) => theme.media.small} {
+        & ::after {
+            content: ${({ mobile }) => `"${mobile}"`};
+        }
+    }
+`;
+
 interface CellProps {
     align?: string;
     thick?: boolean;
     darker?: boolean;
     disableMobile?: boolean;
+    mobileText?: string;
+    desktopText?: string;
 }
 
 const HeaderItem = styled.span<CellProps>`
@@ -116,8 +143,16 @@ const HeaderItem = styled.span<CellProps>`
     background-color: ${({ theme }) => theme.colors.darkerBlue};
     color: white;
     cursor: pointer;
+
+    & ::after {
+        content: ${({ desktopText }) => desktopText ? `"${desktopText}"` : ""};
+    }
+
     ${({ theme }) => theme.media.small} {
         ${({ disableMobile }) => disableMobile && `display: none;`}
+        & ::after {
+            content: ${({ mobileText }) => mobileText ? `"${mobileText}"` : ""};
+        }
     }
 `;
 
@@ -204,7 +239,6 @@ class Leaderboard extends React.Component<Props, State> {
                     case 'users':
                         return a.users < b.users ? 1 : -1;
                     case 'count':
-                        console.log('hæ');
                         return a.count < b.count ? 1 : -1;
                 }
             });
@@ -290,13 +324,13 @@ class Leaderboard extends React.Component<Props, State> {
                 <HeaderContainer>
                     <TitleContainer>
                         <h2>Hvaða skóli les mest?</h2>
-                         {
-                             !this.isStarted() ? (
-                                 <span>Lestrarkeppni grunnskólanna hefst mánudaginn 18. janúar klukkan 15:00</span>
-                             ) : (
-                                 <span>Lestrarkeppni grunnskólanna 18.-25. janúar</span>
-                             )
-                         }
+                        {
+                            !this.isStarted() ? (
+                                <span>Lestrarkeppni grunnskólanna hefst mánudaginn 18. janúar klukkan 15:00</span>
+                            ) : (
+                                    <span>Lestrarkeppni grunnskólanna 18.-25. janúar</span>
+                                )
+                        }
                         <span></span>
                         <StyledLink href={'/grunnskolakeppni#um'}>
                             Lesa meira um keppnina
@@ -337,13 +371,24 @@ class Leaderboard extends React.Component<Props, State> {
                     </Tab>
                     </TabSelector>
                 </HeaderContainer>
-                <h3>Stigatafla</h3>
+                <SubTitle>
+                    <h3>Stigatafla</h3>
+                    {selectedOption == 'individual' && (
+                        <StyledLink href={'/minar-sidur'}>
+                            <ConditionalMobileText
+                                desktop={'Með því að búa til aðgang má halda utan um einstaklings árangur'}
+                                mobile={'Búa til aðang'}
+                            />
+                            {/* Með því að búa til aðgang má halda utan um einstaklings árangur */}
+                        </StyledLink>
+                    )}
+                </SubTitle>
                 <LeaderboardContent>
                     <HeaderItem align="left" thick onClick={() => this.sort('rank')}>
                         *
                     </HeaderItem>
-                    <HeaderItem align="left" onClick={() => this.sort('name')}>Skóli</HeaderItem>
-                    <HeaderItem disableMobile onClick={() => this.sort('users')}>{selectedOption == 'individual' ? 'Keppandi' : 'Keppendur'}</HeaderItem>
+                    <HeaderItem disableMobile={selectedOption == 'individual'} align="left" onClick={() => this.sort('name')}>Skóli</HeaderItem>
+                    <HeaderItem disableMobile={selectedOption != 'individual'} align="left" onClick={() => this.sort('users')}>{selectedOption == 'individual' ? 'Keppandi' : 'Keppendur'}</HeaderItem>
                     <HeaderItem onClick={() => this.sort('count')}>Setningar</HeaderItem>
                     <Divider />
                     {
@@ -351,10 +396,10 @@ class Leaderboard extends React.Component<Props, State> {
                             ? individualStats.map((stat: IndividualStat, i: number) => (
                                 <React.Fragment key={i}>
                                     <StatItem align="left" darker={i % 2 != 0}>{i + 1}</StatItem>
-                                    <StatItem align="left" darker={i % 2 != 0}>
+                                    <StatItem disableMobile align="left" darker={i % 2 != 0}>
                                         {this.getSchoolName(stat.institution)}
                                     </StatItem>
-                                    <StatItem disableMobile darker={i % 2 != 0}>
+                                    <StatItem align="left" darker={i % 2 != 0}>
                                         {stat.username}
                                     </StatItem>
                                     <StatItem darker={i % 2 != 0}>
