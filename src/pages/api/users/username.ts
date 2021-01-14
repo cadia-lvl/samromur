@@ -17,16 +17,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             if (data && clientId) {
                 const auth = data.split(' ')[1];
                 const username = Buffer.from(auth, 'base64').toString('utf8');
-                console.log(username);
 
                 return db.userClients
                     .changeUserName(username, clientId)
                     .then(() => {
-                        console.log('db success!');
                         return res.status(200).end();
                     })
                     .catch((error: AuthError) => {
-                        console.log('db error!', error);
                         res.status(401).send(error.toString());
                     });
             }
