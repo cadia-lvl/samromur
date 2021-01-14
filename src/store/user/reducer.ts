@@ -20,6 +20,7 @@ const initialState: UserState = {
             votes: undefined,
         },
         skipTips: false,
+        username: '',
     },
     demographics: {
         age: {
@@ -119,6 +120,15 @@ export default createReducer(initialState)
             client: {
                 ...state.client,
                 skipTips: action.payload,
+            },
+        };
+    })
+    .handleAction(userActions.setUserName, (state, action) => {
+        return {
+            ...state,
+            client: {
+                ...state.client,
+                username: action.payload,
             },
         };
     })
