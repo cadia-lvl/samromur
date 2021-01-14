@@ -34,7 +34,7 @@ type Props = {
     WithTranslation &
     WithRouterProps;
 
-interface State { }
+interface State {}
 
 class CompetitionPage extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -53,7 +53,9 @@ class CompetitionPage extends React.Component<Props, State> {
 
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
         const leaderboard = await statsApi.fetchLeaderboard({ host });
-        const individualLeaderboard = await statsApi.fetchIndividualLeaderboard({ host });
+        const individualLeaderboard = await statsApi.fetchIndividualLeaderboard(
+            { host }
+        );
         return {
             namespacesRequired: ['common'],
             individualLeaderboard,

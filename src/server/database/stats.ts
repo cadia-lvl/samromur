@@ -179,7 +179,7 @@ export default class Clips {
         return rows;
     };
 
-    fetchIndividualLeaderboard = async(): Promise<IndividualStat[]> => {
+    fetchIndividualLeaderboard = async (): Promise<IndividualStat[]> => {
         const [rows] = await this.sql.query(
             `
                 SELECT
@@ -217,5 +217,5 @@ export default class Clips {
             `
         );
         return rows;
-    }
+    };
 }
