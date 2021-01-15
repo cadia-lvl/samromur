@@ -96,7 +96,7 @@ export default class Sentences {
                             clips.client_id = ?
                     )
                 ORDER BY
-                    clips_count asc
+                    clips_count asc, RAND()
                 LIMIT ?) as result
             ORDER BY 
                 RAND()

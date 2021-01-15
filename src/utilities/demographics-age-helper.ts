@@ -28,17 +28,22 @@ export const getAgeGroupFromString = (age: string) => {
             return AgeGroups.TEENAGERS;
         }
     }
+    // handle 'barn' case
+    if (age === AgeGroups.CHILDREN) {
+        return AgeGroups.CHILDREN;
+    }
     return AgeGroups.ADULTS;
 };
 
-export const getAgeGroupFromDemographics = (demo: Demographic) => {
-    return getAgeGroupFromString(demo.name);
-};
-
 export const getAgeGroup = (age: string, nativeLanguage: string) => {
-    if (nativeLanguage !== 'islenska' && nativeLanguage !== '') {
+    const result = getAgeGroupFromString(age);
+    // If adult and non-icelanidc, return teens
+    if (
+        result === AgeGroups.ADULTS &&
+        nativeLanguage !== 'islenska' &&
+        nativeLanguage !== ''
+    ) {
         return AgeGroups.TEENAGERS;
-    } else {
-        return getAgeGroupFromString(age);
     }
+    return result;
 };

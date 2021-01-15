@@ -31,11 +31,6 @@ import MainControls from './controls/main-controls';
 import BottomControls from './controls/bottom-controls';
 
 import WheelControls from './controls/wheel-controls';
-import { UserState } from '../../../store/user/state';
-import {
-    AgeLimit,
-    getAgeGroupFromDemographics,
-} from '../../../utilities/demographics-age-helper';
 
 interface WheelContainerProps {
     expanded: boolean;

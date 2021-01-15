@@ -28,8 +28,12 @@ import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
 import Tips from './tips/tips';
 
-import { getAgeGroup } from '../../../utilities/demographics-age-helper';
+import {
+    AgeGroups,
+    getAgeGroup,
+} from '../../../utilities/demographics-age-helper';
 import { AllGroupsSentences } from '../../../pages/tala';
+import { Demographic } from '../../../types/user';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -148,18 +152,14 @@ class Contribute extends React.Component<Props, State> {
         }
     };
 
-    onDemographicsSubmit = async () => {
-        const {
-            user,
-            user: {
-                demographics: { age, nativeLanguage },
-            },
-            goupedSentences,
-        } = this.props;
+    onDemographicsSubmit = async (
+        age: Demographic,
+        nativeLanguage: Demographic
+    ) => {
+        const { goupedSentences: groupedSentences } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
-        this.setState({
-            sentences: goupedSentences && goupedSentences[ageGroup],
-        });
+        const sentences = groupedSentences && groupedSentences[ageGroup];
+        this.setState({ sentences });
         this.setState({ demographic: true });
     };
 

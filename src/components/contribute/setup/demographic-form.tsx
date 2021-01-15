@@ -143,7 +143,7 @@ const dispatchProps = {
 };
 
 interface DemographicFormProps {
-    onSubmit: () => void;
+    onSubmit: (age: Demographic, nativeLanguage: Demographic) => void;
 }
 
 interface State {
@@ -247,22 +247,23 @@ class DemographicForm extends React.Component<Props, State> {
             return;
         }
         let language;
-        if (!!age.name && !!gender.name && !nativeLanguage.name) {
+        if (!!age.name && !!gender.name && !nativeLanguage?.name) {
             language = nativeLanguages.find(
                 (val: Demographic) => val.id == 'islenska'
             ) as Demographic;
         } else {
             language = nativeLanguage;
         }
+        const demoAge = age.id == 'barn' ? this.getAgeUnder18() : age;
         this.props.setDemographics({
-            age: age.id == 'barn' ? this.getAgeUnder18() : age,
+            age: demoAge,
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
             school,
         });
         this.props.setTermsConsent(true);
-        this.props.onSubmit();
+        this.props.onSubmit(demoAge, language);
     };
 
     getAgeUnder18 = (): Demographic => {
