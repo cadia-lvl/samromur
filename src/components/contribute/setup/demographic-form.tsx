@@ -247,7 +247,7 @@ class DemographicForm extends React.Component<Props, State> {
             return;
         }
         let language;
-        if (!!age.name && !!gender.name && !nativeLanguage.name) {
+        if (!!age.name && !!gender.name && !nativeLanguage?.name) {
             language = nativeLanguages.find(
                 (val: Demographic) => val.id == 'islenska'
             ) as Demographic;
