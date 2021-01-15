@@ -412,7 +412,7 @@ class Leaderboard extends React.Component<Props, State> {
                             onClick={() =>
                                 this.setState({ selectedOption: 'B' })
                             }
-                            selected={selectedOption === 'C'}
+                            selected={selectedOption === 'B'}
                         >
                             B
                         </Tab>
