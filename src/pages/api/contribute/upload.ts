@@ -40,6 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const age = decodeURIComponent(headers.age as string);
         const clipId = parseInt(headers.clip_id as string) || undefined;
         const gender = decodeURIComponent(headers.gender as string);
+        const institution = decodeURIComponent(headers.institution as string);
         const sentence = decodeURIComponent(headers.sentence as string);
         const userAgent = decodeURIComponent(headers.user_agent as string);
         const nativeLanguage = decodeURIComponent(
@@ -53,6 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             age,
             id: clipId && clipId,
             gender,
+            institution,
             nativeLanguage,
             sentence,
             userAgent,

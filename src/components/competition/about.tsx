@@ -6,7 +6,7 @@ const AboutContainer = styled.div`
     flex-direction: column;
     max-width: 50rem;
     margin: 0 auto;
-    margin-top: 2rem;
+    margin-top: 4rem;
 `;
 
 const TitleContainer = styled.div`
@@ -39,17 +39,23 @@ interface Props {}
 
 const AboutCompetition: React.FunctionComponent<Props> = () => {
     return (
-        <AboutContainer>
+        <AboutContainer id="um">
             <TitleContainer>
-                <h2>Hvaða skóli les mest?</h2>
-                <span>Lestrarkeppni grunnskólanna 18.-25.janúar</span>
+                <h2>Um keppnina</h2>
             </TitleContainer>
             <Paragraph>
                 Lestrarkeppni á milli grunnskóla landsins verður haldin í annað
                 sinn þar sem keppt verður um fjölda setninga sem nemendur lesa
                 inn í Samróm. Forseti Íslands mun setja keppnina formlega af
-                stað í Fellaskóla mánudaginn <span>18.janúar</span>. Keppnin
-                stendur yfir í viku og lýkur <span>25. janúar</span>.
+                stað í Fellaskóla mánudaginn <span>18.janúar</span> en setningu
+                keppninnar verður streymt í beinni á{' '}
+                <StyledLink
+                    target={'blank'}
+                    href={'https://www.facebook.com/samromur'}
+                >
+                    Facebook-síðu Samróms
+                </StyledLink>
+                . Keppnin stendur yfir í viku og lýkur <span>25. janúar</span>.
             </Paragraph>
             <Paragraph>
                 Þessi keppni er haldin til þess að hvetja til þátttöku í

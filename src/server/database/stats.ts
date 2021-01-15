@@ -1,6 +1,6 @@
 import Sql from './sql';
 import { TimelineStat } from '../../types/stats';
-import { SchoolStat } from '../../types/competition';
+import { IndividualStat, SchoolStat } from '../../types/competition';
 
 export default class Clips {
     private sql: Sql;
@@ -170,9 +170,51 @@ export default class Clips {
           FROM clips, (SELECT @curRank := 0) r
           WHERE institution IS NOT NULL
           AND institution != ''
+          AND clips.created_at > '2021-01-18 15:00'
+          AND clips.created_at < '2021-01-26 00:00'
           GROUP BY institution
           ORDER BY count DESC
         `
+        );
+        return rows;
+    };
+
+    fetchIndividualLeaderboard = async (): Promise<IndividualStat[]> => {
+        const [rows] = await this.sql.query(
+            `
+                SELECT
+                t2.username,
+                t1.institution,
+                t1.count
+            FROM
+                (
+                    SELECT
+                        client_id,
+                        institution,
+                        COUNT(*) as count
+                    FROM
+                        clips
+                    WHERE
+                        institution IS NOT NULL
+                    AND clips.created_at > '2021-01-18 15:00'
+                    AND clips.created_at < '2021-01-26 00:00'
+                    GROUP BY
+                        client_id,
+                        institution
+                ) t1
+            JOIN
+                (
+                    SELECT
+                        client_id,
+                        username
+                    FROM
+                        user_clients
+                    WHERE
+                        username <> ''
+                ) t2
+            ON
+                t1.client_id = t2.client_id
+            `
         );
         return rows;
     };

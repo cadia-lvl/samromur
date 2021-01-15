@@ -14,7 +14,7 @@ import Layout from '../components/layout/layout';
 import Leaderboard from '../components/competition/leaderboard';
 import About from '../components/competition/about';
 
-import { SchoolStat } from '../types/competition';
+import { IndividualStat, SchoolStat } from '../types/competition';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -27,6 +27,7 @@ const CompetitionPageContainer = styled.div`
 const dispatchProps = {};
 
 type Props = {
+    individualLeaderboard: IndividualStat[];
     leaderboard: SchoolStat[];
 } & ReturnType<typeof mapStateToProps> &
     typeof dispatchProps &
@@ -52,9 +53,12 @@ class CompetitionPage extends React.Component<Props, State> {
 
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
         const leaderboard = await statsApi.fetchLeaderboard({ host });
-
+        const individualLeaderboard = await statsApi.fetchIndividualLeaderboard(
+            { host }
+        );
         return {
             namespacesRequired: ['common'],
+            individualLeaderboard,
             leaderboard,
         };
     };
@@ -66,10 +70,14 @@ class CompetitionPage extends React.Component<Props, State> {
     };
 
     render() {
-        const { leaderboard } = this.props;
+        const { individualLeaderboard, leaderboard } = this.props;
         return (
             <Layout>
                 <CompetitionPageContainer>
+                    <Leaderboard
+                        individualStats={individualLeaderboard}
+                        stats={leaderboard}
+                    />
                     <About />
                 </CompetitionPageContainer>
             </Layout>

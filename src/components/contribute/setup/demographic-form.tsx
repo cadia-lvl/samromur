@@ -224,7 +224,10 @@ class DemographicForm extends React.Component<Props, State> {
         const school = schools.find(
             (val: School) => val.name == value
         ) as School;
-        const schoolDemo: Demographic = { id: school.code, name: school.name };
+        const schoolDemo: Partial<School> = {
+            code: school.code,
+            name: school.name,
+        };
         this.setState({ school: schoolDemo });
     };
 

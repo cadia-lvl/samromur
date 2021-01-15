@@ -108,7 +108,7 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
     * {
         box-sizing: border-box;
     }
-    
+
     html, body {
         margin: 0;
         padding: 0;
@@ -116,6 +116,7 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
         font-size: 12px;
         font-smoothing: antialiased;
         -webkit-font-smoothing: antialiased;
+        scroll-behavior: smooth;
         @media (min-width: 321px) {
             font-size: 14px;
         }
