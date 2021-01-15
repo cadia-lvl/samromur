@@ -30,7 +30,7 @@ interface State {
     done: boolean;
     error?: string;
     success: boolean;
-    userName: string;
+    username: string;
 }
 
 class EditUserNameForm extends React.Component<Props, State> {
@@ -41,7 +41,7 @@ class EditUserNameForm extends React.Component<Props, State> {
             done: false,
             error: undefined,
             success: false,
-            userName: '',
+            username: '',
         };
     }
 
@@ -53,8 +53,8 @@ class EditUserNameForm extends React.Component<Props, State> {
         });
     };
 
-    onUserNameChange = (userName: string) => {
-        this.setState({ userName });
+    onUserNameChange = (username: string) => {
+        this.setState({ username });
         this.cleanErrors();
     };
 
@@ -64,9 +64,9 @@ class EditUserNameForm extends React.Component<Props, State> {
         if (error) {
             this.setState({ error });
         } else {
-            const { userName } = this.state;
+            const { username } = this.state;
             return authApi
-                .changeUserName(userName)
+                .changeUserName(username)
                 .then(() => {
                     window.location.reload();
                     this.setState({ done: true, success: true });
@@ -81,21 +81,20 @@ class EditUserNameForm extends React.Component<Props, State> {
     };
 
     validateForm = (): string | null => {
-        const { userName } = this.state;
-        if (userName.length < 5) {
+        const { username } = this.state;
+        if (username.length < 5) {
             return FormError.USERNAME_TOO_SHORT;
         }
-        if (!validateUsername(userName)) {
+        if (!validateUsername(username)) {
             return FormError.INVALID_USERNAME;
         }
         return null;
     };
 
     getErrorMessage = (error: string): string => {
-        const { userName } = this.state;
         switch (error) {
             case FormError.INVALID_USERNAME:
-                return 'Ógilt notandanafn. Aðeins stafir, strik og undirstrik eru leyfð';
+                return 'Aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir';
             case FormError.USERNAME_TOO_SHORT:
                 return 'Notandanafnið er of stutt (færri en 5 stafir)';
             case AuthError.USERNAME_USED:

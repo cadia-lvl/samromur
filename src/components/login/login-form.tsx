@@ -158,7 +158,7 @@ class LoginForm extends React.Component<Props, State> {
             case FormError.PASSWORD_MISMATCH:
                 return 'Lykilorð verða að stemma';
             case FormError.INVALID_USERNAME:
-                return 'Ógilt notandanafn. Aðeins stafir, bandstrik og undirstrikir eru leyfðir. Lágmark er fimm stafir.';
+                return 'Aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.';
             default:
                 return 'Villa í formi';
         }
