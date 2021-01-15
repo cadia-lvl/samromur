@@ -15,6 +15,7 @@ import {
     fetchTotalClipsClients,
     fetchTotalValidatedClips,
 } from '../store/stats/actions';
+import AgeGenderChart from '../components/dataset/charts/age-gender-chart';
 
 const DatasetPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -76,6 +77,7 @@ class DatasetPage extends React.Component<Props> {
                         clients={stats.totalClipsClients}
                         validated={stats.totalValidatedClips}
                     />
+                    <AgeGenderChart />
                 </DatasetPageContainer>
             </Layout>
         );
