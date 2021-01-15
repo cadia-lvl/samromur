@@ -290,7 +290,6 @@ class Leaderboard extends React.Component<Props, State> {
         switch (filter) {
             case 'all':
                 return this.state.stats;
-<<<<<<< HEAD
             case 'A':
                 return this.state.stats.filter(
                     (stat) => {
@@ -312,29 +311,6 @@ class Leaderboard extends React.Component<Props, State> {
                         return school && school.division == 3;
                     }
                 );
-=======
-            case '1':
-                return this.state.stats.filter((stat) => {
-                    const school = schools.find(
-                        (value) => value.code == stat.institution
-                    );
-                    return school && school.division == 1;
-                });
-            case '2':
-                return this.state.stats.filter((stat) => {
-                    const school = schools.find(
-                        (value) => value.code == stat.institution
-                    );
-                    return school && school.division == 2;
-                });
-            case '3':
-                return this.state.stats.filter((stat) => {
-                    const school = schools.find(
-                        (value) => value.code == stat.institution
-                    );
-                    return school && school.division == 3;
-                });
->>>>>>> a9f48f448bcc584941624546c14598a74bf7aad5
             case 'individual':
                 return this.state.stats;
             default:
@@ -420,7 +396,6 @@ class Leaderboard extends React.Component<Props, State> {
                             Allir
                         </Tab>
                         <Tab
-<<<<<<< HEAD
                             onClick={() => this.setState({ selectedOption: 'A' })}
                             selected={selectedOption === 'A'}
                         >
@@ -438,31 +413,6 @@ class Leaderboard extends React.Component<Props, State> {
                         >
                             C
                     </Tab>
-=======
-                            onClick={() =>
-                                this.setState({ selectedOption: '1' })
-                            }
-                            selected={selectedOption === '1'}
-                        >
-                            1
-                        </Tab>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: '2' })
-                            }
-                            selected={selectedOption === '2'}
-                        >
-                            2
-                        </Tab>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: '3' })
-                            }
-                            selected={selectedOption === '3'}
-                        >
-                            3
-                        </Tab>
->>>>>>> a9f48f448bcc584941624546c14598a74bf7aad5
                         <Tab
                             onClick={() =>
                                 this.setState({ selectedOption: 'individual' })
@@ -487,7 +437,6 @@ class Leaderboard extends React.Component<Props, State> {
                         </StyledLink>
                     )}
                 </SubTitle>
-<<<<<<< HEAD
                 <LeaderboardContent allColumns={selectedOption == 'all'}>
                     <HeaderItem align="left" thick onClick={() => this.sort('rank')}>
                         *
@@ -535,85 +484,6 @@ class Leaderboard extends React.Component<Props, State> {
                                 </React.Fragment>
                             ))
                     }
-=======
-                <LeaderboardContent>
-                    <HeaderItem
-                        align="left"
-                        thick
-                        onClick={() => this.sort('rank')}
-                    >
-                        *
-                    </HeaderItem>
-                    <HeaderItem
-                        disableMobile={selectedOption == 'individual'}
-                        align="left"
-                        onClick={() => this.sort('name')}
-                    >
-                        Skóli
-                    </HeaderItem>
-                    <HeaderItem
-                        disableMobile={selectedOption != 'individual'}
-                        align="left"
-                        onClick={() => this.sort('users')}
-                    >
-                        {selectedOption == 'individual'
-                            ? 'Keppandi'
-                            : 'Keppendur'}
-                    </HeaderItem>
-                    <HeaderItem onClick={() => this.sort('count')}>
-                        Setningar
-                    </HeaderItem>
-                    <Divider />
-                    {selectedOption == 'individual'
-                        ? individualStats.map(
-                              (stat: IndividualStat, i: number) => (
-                                  <React.Fragment key={i}>
-                                      <StatItem
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {i + 1}
-                                      </StatItem>
-                                      <StatItem
-                                          disableMobile
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {this.getSchoolName(stat.institution)}
-                                      </StatItem>
-                                      <StatItem
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {stat.username}
-                                      </StatItem>
-                                      <StatItem darker={i % 2 != 0}>
-                                          {stat.count}
-                                      </StatItem>
-                                      {i != individualStats.length - 1 && (
-                                          <Divider />
-                                      )}
-                                  </React.Fragment>
-                              )
-                          )
-                        : filteredStats.map((stat: SchoolStat, i: number) => (
-                              <React.Fragment key={i}>
-                                  <StatItem align="left" darker={i % 2 != 0}>
-                                      {i + 1}
-                                  </StatItem>
-                                  <StatItem align="left" darker={i % 2 != 0}>
-                                      {this.getSchoolName(stat.institution)}
-                                  </StatItem>
-                                  <StatItem disableMobile darker={i % 2 != 0}>
-                                      {stat.users}
-                                  </StatItem>
-                                  <StatItem darker={i % 2 != 0}>
-                                      {stat.count}
-                                  </StatItem>
-                                  {i != filteredStats.length - 1 && <Divider />}
-                              </React.Fragment>
-                          ))}
->>>>>>> a9f48f448bcc584941624546c14598a74bf7aad5
                 </LeaderboardContent>
             </LeaderboardContainer>
         );
