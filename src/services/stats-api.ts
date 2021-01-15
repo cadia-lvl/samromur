@@ -143,3 +143,18 @@ export const fetchLeaderboard = async (
             return Promise.reject(error.code);
         });
 };
+
+export const fetchAgeGenderStats = async (): Promise<any> => {
+    const endpoint = `/api/stats/age-gender`;
+    return axios({
+        method: 'GET',
+        url: endpoint,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};

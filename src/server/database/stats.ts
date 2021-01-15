@@ -176,4 +176,75 @@ export default class Clips {
         );
         return rows;
     };
+
+    async getAgeGenderStats(): Promise<any> {
+        const [rows] = await this.sql.query(
+            `
+                SELECT
+                    agegroup as age,
+                    COUNT(
+                    CASE
+                    WHEN sex = 'karl' AND (is_valid = 0 OR is_valid IS NULL) THEN 1
+                    ELSE NULL
+                    End
+                ) as karl,
+                    COUNT(
+                    CASE
+                    WHEN sex = 'karl' AND is_valid = 1 THEN 1
+                    ELSE NULL
+                    End
+                ) as karl_valid,
+                    COUNT(
+                    CASE
+                    WHEN sex = 'kona' AND (is_valid = 0 OR is_valid IS NULL)  THEN 1
+                    ELSE NULL
+                    End
+                ) as kona,
+                    COUNT(
+                    CASE
+                    WHEN sex = 'kona' AND is_valid = 1 THEN 1
+                    ELSE NULL
+                    End
+                ) as kona_valid,
+                    COUNT(
+                    CASE
+                    WHEN is_valid = 0 or is_valid IS NULL THEN 1
+                    END
+                ) as total,
+                    COUNT(
+                    CASE
+                    WHEN is_valid = 1 THEN 1
+                    END
+                ) as total_valid
+                FROM
+                (SELECT
+                    *,
+                    CASE
+                    WHEN clips.age IN ('6', 7, 8, 9) THEN '06-9 ára'
+                    WHEN clips.age IN (10, 11, 12) THEN '10-12 ára'
+                    WHEN clips.age IN (13, 14, 15, 16, 17) THEN '13-17 ára'
+                    WHEN clips.age = 'ungur_unglingur' THEN '13-17 ára'
+                    WHEN clips.age = 'unglingur' THEN '18-19 ára'
+                    WHEN clips.age = 'tvitugt' THEN '20-29 ára'
+                    WHEN clips.age = 'thritugt' THEN '30-39 ára'
+                    WHEN clips.age = 'fertugt' THEN '40-49 ára'
+                    WHEN clips.age = 'fimmtugt' THEN '50-59 ára '
+                    WHEN clips.age = 'sextugt' THEN '60-69 ára'
+                    WHEN clips.age = 'sjotugt' THEN '70-79 ára'
+                    WHEN clips.age = 'attraett' THEN '80-89 ára'
+                    WHEN clips.age = 'niraett' THEN '90+ ára'
+                    ELSE NULL
+                END agegroup
+                FROM
+                    clips
+                ) ages
+                WHERE
+                agegroup IS NOT NULL
+                GROUP BY
+                agegroup
+            `,
+            []
+        );
+        return rows;
+    }
 }
