@@ -33,7 +33,10 @@ export default class UserClients {
         );
     };
 
-    signUpUser = async (email: string, password: string): Promise<string> => {
+    signUpUserWithoutUsername = async (
+        email: string,
+        password: string
+    ): Promise<string> => {
         if (await this.hasAccount(email)) {
             return Promise.reject(AuthError.HAS_ACCOUNT);
         }
@@ -61,6 +64,118 @@ export default class UserClients {
             .catch((error) => {
                 console.error(error);
                 return Promise.reject(AuthError.FAILED);
+            });
+    };
+
+    signUpUser = async (
+        email: string,
+        username: string,
+        password: string
+    ): Promise<string> => {
+        if (!username) {
+            return await this.signUpUserWithoutUsername(email, password);
+        }
+        if (await this.hasAccount(email)) {
+            return Promise.reject(AuthError.HAS_ACCOUNT);
+        }
+        if (await this.userNameExists(username)) {
+            return Promise.reject(AuthError.USERNAME_USED);
+        }
+
+        const confirmId = uuid();
+        const clientId = generateGUID();
+
+        return this.sql
+            .query(
+                `
+                INSERT INTO
+                    user_clients (client_id, email, username,confirm_id, password, has_login)
+                VALUES
+                    (?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    email = VALUES(email),
+                    username = VALUES(username),
+                    confirm_id = VALUES(confirm_id),
+                    password = VALUES(password),
+                    has_login = VALUES(has_login)
+                `,
+                [
+                    clientId,
+                    email,
+                    username,
+                    confirmId,
+                    sha512hash(password),
+                    true,
+                ]
+            )
+            .then(() => {
+                return Promise.resolve(confirmId);
+            })
+            .catch((error) => {
+                console.error(error);
+                return Promise.reject(AuthError.FAILED);
+            });
+    };
+
+    userNameExists = async (username: string): Promise<boolean> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    *
+                FROM
+                    user_clients
+                WHERE
+                    username = ?
+            `,
+            [username]
+        );
+        return !!row;
+    };
+
+    userHasUsername = async (clientId: string): Promise<boolean> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    username
+                FROM
+                    user_clients
+                WHERE
+                    client_id = ?
+            `,
+            [clientId]
+        );
+        const { username } = row;
+        return !!username;
+    };
+
+    changeUserName = async (
+        username: string,
+        clientId: string
+    ): Promise<void> => {
+        if (await this.userNameExists(username)) {
+            return Promise.reject(AuthError.USERNAME_USED);
+        }
+        if (await this.userHasUsername(clientId)) {
+            return Promise.reject(AuthError.FAILED);
+        }
+
+        return this.sql
+            .query(
+                `
+                    UPDATE
+                        user_clients
+                    SET
+                        username = ?
+                    WHERE
+                        client_id = ?
+                `,
+                [username, clientId]
+            )
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch((error) => {
+                return Promise.reject();
             });
     };
 
@@ -233,6 +348,26 @@ export default class UserClients {
         const is_admin = row ? row['is_admin'] : false;
         const is_super_user = row ? row['is_super_user'] : false;
         return { isAdmin: !!is_admin, isSuperUser: !!is_super_user };
+    };
+
+    fetchUserClient = async (id: string): Promise<Partial<UserClient>> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    is_admin,
+                    is_super_user,
+                    username
+                FROM
+                    user_clients
+                WHERE
+                    client_id = ?
+            `,
+            [id]
+        );
+        const is_admin = row ? row['is_admin'] : false;
+        const is_super_user = row ? row['is_super_user'] : false;
+        const username = row ? row['username'] : '';
+        return { isAdmin: !!is_admin, isSuperUser: !!is_super_user, username };
     };
 
     makeSuperUser = async (email: string): Promise<void> => {

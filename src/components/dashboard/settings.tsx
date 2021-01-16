@@ -5,6 +5,7 @@ import { FormError } from '../../types/auth';
 import * as authApi from '../../services/auth-api';
 
 import TextInput from '../ui/input/text';
+import EditUserNameForm from './edit-username-form';
 
 const DashboardSettingsContainer = styled.div`
     display: flex;
@@ -14,7 +15,7 @@ const DashboardSettingsContainer = styled.div`
     padding: 2rem;
 `;
 
-const EditPasswordContainer = styled.form`
+export const EditPasswordContainer = styled.form`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -22,7 +23,7 @@ const EditPasswordContainer = styled.form`
     margin: 0 auto;
 `;
 
-const ErrorContainer = styled.div`
+export const ErrorContainer = styled.div`
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.red};
@@ -32,7 +33,7 @@ interface ButtonProps {
     success: boolean;
 }
 
-const Button = styled.button<ButtonProps>`
+export const Button = styled.button<ButtonProps>`
     border: none;
     display: flex;
     justify-content: center;
@@ -53,13 +54,14 @@ const Button = styled.button<ButtonProps>`
     }
 `;
 
-const Title = styled.h3`
+export const Title = styled.h3`
     margin-bottom: 2rem;
 `;
 
 interface Props {
     className?: string;
     ref?: React.Ref<HTMLDivElement>;
+    hasUserName: boolean;
 }
 
 interface State {
@@ -69,6 +71,7 @@ interface State {
     password: string;
     passwordAgain: string;
     success: boolean;
+    userName: string;
 }
 
 class DashboardSettings extends React.Component<Props, State> {
@@ -82,6 +85,7 @@ class DashboardSettings extends React.Component<Props, State> {
             password: '',
             passwordAgain: '',
             success: false,
+            userName: '',
         };
     }
 
@@ -108,6 +112,11 @@ class DashboardSettings extends React.Component<Props, State> {
         this.cleanErrors();
     };
 
+    onUserNameChange = (userName: string) => {
+        this.setState({ userName });
+        this.cleanErrors();
+    };
+
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formError = this.validateForm();
@@ -124,6 +133,10 @@ class DashboardSettings extends React.Component<Props, State> {
                     this.setState({ done: true, success: false });
                 });
         }
+    };
+
+    handleUserNameSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
     };
 
     validateForm = (): FormError | null => {
@@ -153,8 +166,10 @@ class DashboardSettings extends React.Component<Props, State> {
 
     render() {
         const { done, formError, success } = this.state;
+        const { hasUserName } = this.props;
         return (
             <DashboardSettingsContainer>
+                {!hasUserName && <EditUserNameForm />}
                 <EditPasswordContainer onSubmit={this.handleSubmit}>
                     <Title>Breyta lykilorði</Title>
                     <TextInput
@@ -183,7 +198,7 @@ class DashboardSettings extends React.Component<Props, State> {
                         </ErrorContainer>
                     )}
                     <Button success={success}>
-                        {success ? 'Breyting tókst' : 'Staðfesta'}
+                        {success ? 'Breyting tókst' : 'Staðfesta lykilorð'}
                     </Button>
                 </EditPasswordContainer>
             </DashboardSettingsContainer>
