@@ -1,6 +1,10 @@
 import Sql from './sql';
 import { TimelineStat } from '../../types/stats';
 import { IndividualStat, SchoolStat } from '../../types/competition';
+import lazyCache from '../lazy-cache';
+
+const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
+const cacheTimeMSLeaderBoard = 1000 * 60; // 1 minute
 
 export default class Clips {
     private sql: Sql;
@@ -9,9 +13,9 @@ export default class Clips {
         this.sql = sql;
     }
 
-    fetchWeeklyStats = async (
-        contributeType: string
-    ): Promise<TimelineStat[]> => {
+    fetchWeeklyStats = lazyCache(async (contributeType: string): Promise<
+        TimelineStat[]
+    > => {
         const table = contributeType == 'tala' ? 'clips' : 'votes';
         const [rows] = await this.sql.query(
             `
@@ -43,9 +47,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(rows);
-    };
+    }, cacheTimeMS);
 
-    fetchTotalClipsTimeline = async () => {
+    fetchTotalClipsTimeline = lazyCache(async () => {
         const [rows] = await this.sql.query(
             `
             SELECT
@@ -79,9 +83,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(rows);
-    };
+    }, cacheTimeMS);
 
-    fetchTotalClips = async (): Promise<number> => {
+    fetchTotalClips = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -91,9 +95,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    };
+    }, cacheTimeMS);
 
-    fetchTotalValidatedClips = async (): Promise<number> => {
+    fetchTotalValidatedClips = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -105,9 +109,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    };
+    }, cacheTimeMS);
 
-    fetchTotalVotes = async (): Promise<number> => {
+    fetchTotalVotes = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -117,9 +121,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    };
+    }, cacheTimeMS);
 
-    fetchTotalClipsClients = async (): Promise<number> => {
+    fetchTotalClipsClients = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -129,9 +133,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    };
+    }, cacheTimeMS);
 
-    fetchTodayClips = async (): Promise<number> => {
+    fetchTodayClips = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -143,9 +147,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    };
+    }, cacheTimeMS);
 
-    fetchTodayVotes = async (): Promise<number> => {
+    fetchTodayVotes = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -157,9 +161,9 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    };
+    }, cacheTimeMS);
 
-    fetchLeaderboard = async (): Promise<SchoolStat[]> => {
+    fetchLeaderboard = lazyCache(async (): Promise<SchoolStat[]> => {
         const [rows] = await this.sql.query(
             `
           SELECT
@@ -177,9 +181,11 @@ export default class Clips {
         `
         );
         return rows;
-    };
+    }, cacheTimeMSLeaderBoard);
 
-    fetchIndividualLeaderboard = async (): Promise<IndividualStat[]> => {
+    fetchIndividualLeaderboard = lazyCache(async (): Promise<
+        IndividualStat[]
+    > => {
         const [rows] = await this.sql.query(
             `
                 SELECT
@@ -217,5 +223,5 @@ export default class Clips {
             `
         );
         return rows;
-    };
+    }, cacheTimeMS);
 }

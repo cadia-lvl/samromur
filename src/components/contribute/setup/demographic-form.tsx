@@ -33,6 +33,7 @@ import ConsentForm from './consent-form';
 import * as authApi from '../../../services/auth-api';
 import { pages } from '../../../constants/paths';
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
+import moment from 'moment';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -341,6 +342,21 @@ class DemographicForm extends React.Component<Props, State> {
         const found = ages.find((item) => item.name === age.name);
         return found ? found.name : ages[0].name;
     };
+
+    getCompetitionText = (): string => {
+        const startDate = moment('2021-01-18 15:00:00', moment.ISO_8601);
+        const endDate = moment('2021-01-26 00:00:00', moment.ISO_8601);
+        const now = moment();
+        if (now.isBetween(startDate, endDate, 'seconds')) {
+            return 'Lestrarkeppni grunnsskóla er farin af stað!';
+        } else if (now.isAfter(endDate, 'seconds')) {
+            return 'Lestrarkeppni grunnsskóla er búin.';
+        } else if (now.isBefore(startDate, 'seconds')) {
+            return 'Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!';
+        }
+        return '';
+    };
+
     render() {
         const {
             agreed,
@@ -352,6 +368,7 @@ class DemographicForm extends React.Component<Props, State> {
         } = this.state;
         const formIsFilled = this.formIsFilled();
         const selectedAge = this.getAgeSelected();
+        const competitionText = this.getCompetitionText();
         return (
             <DemographicContainer>
                 <DropdownButton
@@ -362,9 +379,7 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onSchoolSelect}
                     selected={school ? (school.name ? school.name : '') : ''}
                 />
-                <CompetitionText>
-                    Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!
-                </CompetitionText>
+                <CompetitionText>{competitionText}</CompetitionText>
                 <div />
                 <div />
                 <DropdownButton
