@@ -4,6 +4,7 @@ import { IndividualStat, SchoolStat } from '../../types/competition';
 import lazyCache from '../lazy-cache';
 
 const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
+const cacheTimeMSLeaderBoard = 1000 * 60; // 1 minute
 
 export default class Clips {
     private sql: Sql;
@@ -180,7 +181,7 @@ export default class Clips {
         `
         );
         return rows;
-    }, cacheTimeMS);
+    }, cacheTimeMSLeaderBoard);
 
     fetchIndividualLeaderboard = lazyCache(async (): Promise<
         IndividualStat[]
