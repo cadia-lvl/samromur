@@ -223,5 +223,5 @@ export default class Clips {
             `
         );
         return rows;
-    }, cacheTimeMS);
+    }, cacheTimeMSLeaderBoard);
 }
