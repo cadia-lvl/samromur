@@ -8,6 +8,8 @@ import { SSRRequest } from '../types/ssr';
 export interface FetchSamplesPayload extends SSRRequest {
     batch?: string;
     clientId?: string;
+    age?: string;
+    nativeLanguage?: string;
     count: number;
 }
 
@@ -15,6 +17,31 @@ export const fetchSentences = async (
     payload: FetchSamplesPayload
 ): Promise<SimpleSentence[]> => {
     const endpoint = `/api/contribute/sentences?count=${payload.count}`;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+    return axios({
+        method: 'GET',
+        url,
+        headers: {
+            client_id: payload.clientId && encodeURIComponent(payload.clientId),
+            age: payload.age && encodeURIComponent(payload.age),
+            native_language:
+                payload.nativeLanguage &&
+                encodeURIComponent(payload.nativeLanguage),
+        },
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
+
+export const fetchGroupedSentences = async (
+    payload: FetchSamplesPayload
+): Promise<Array<SimpleSentence[]>> => {
+    const endpoint = `/api/contribute/sentences-group?count=${payload.count}`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',
@@ -73,7 +100,7 @@ export const uploadClip = async (
     const { recording, sentence } = clip;
     const { demographics, userAgent } = user;
 
-    const { age, gender } = demographics;
+    const { age, gender, school } = demographics;
 
     return axios({
         method: 'POST',
@@ -83,6 +110,7 @@ export const uploadClip = async (
             age: encodeURIComponent(age.id),
             clip_id: clip.id,
             gender: encodeURIComponent(gender.id),
+            institution: encodeURIComponent(school.code || ''),
             native_language: encodeURIComponent(demographics.nativeLanguage.id),
             sentence: encodeURIComponent(sentence.text),
             user_agent: encodeURIComponent(userAgent),

@@ -23,6 +23,10 @@ const defaultDemoGraphics = {
         id: '',
         name: '',
     },
+    school: {
+        name: '',
+        code: '',
+    },
 };
 
 const initialState: UserState = {
@@ -36,6 +40,7 @@ const initialState: UserState = {
             votes: undefined,
         },
         skipTips: false,
+        username: '',
     },
     demographics: defaultDemoGraphics,
     consents: {
@@ -117,6 +122,15 @@ export default createReducer(initialState)
             client: {
                 ...state.client,
                 skipTips: action.payload,
+            },
+        };
+    })
+    .handleAction(userActions.setUserName, (state, action) => {
+        return {
+            ...state,
+            client: {
+                ...state.client,
+                username: action.payload,
             },
         };
     })

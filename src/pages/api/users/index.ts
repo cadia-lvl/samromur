@@ -28,11 +28,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const {
                 isAdmin,
                 isSuperUser,
-            } = await db.userClients.fetchUserAccess(clientId);
+                username,
+            } = await db.userClients.fetchUserClient(clientId);
             const user: Partial<UserClient> = {
                 id: clientId,
                 isAdmin,
                 isSuperUser,
+                username,
                 stats: {
                     clips,
                     votes,

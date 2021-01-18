@@ -7,10 +7,14 @@ import password from '../pages/api/users/password';
 import { AuthRequest, AuthError } from '../types/auth';
 
 export const signUp = async (payload: AuthRequest): Promise<string> => {
-    const { email, password } = payload;
+    const { email, username, password } = payload;
+    console.log('api: ', username);
 
     const endpoint = '/api/users/signup';
-    const auth = Buffer.from(`${email}:${password}`, 'utf8').toString('base64');
+    const auth = Buffer.from(
+        `${email}:${username}:${password}`,
+        'utf8'
+    ).toString('base64');
 
     return axios({
         method: 'POST',
@@ -124,6 +128,33 @@ export const resetPassword = async (
         .catch((error: AxiosError) => {
             console.log(error);
             return Promise.reject(error.code);
+        });
+};
+
+/**
+ * Posts a request to the api to update the username of the
+ * currently signed in user. You can only update the username if
+ * the user does not already have a username
+ * @param username the new username of the user
+ */
+export const changeUserName = async (username: string): Promise<boolean> => {
+    const url = `api/users/username`;
+    const auth = Buffer.from(`${username}`, 'utf8').toString('base64');
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            Authorization: `Basic ${auth}`,
+        },
+    })
+        .then((response: AxiosResponse) => {
+            console.log(response);
+            return Promise.resolve(true);
+        })
+        .catch((error: AxiosError) => {
+            console.log(error);
+            return Promise.reject(error.response?.data as keyof AuthError);
         });
 };
 

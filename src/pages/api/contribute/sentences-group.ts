@@ -15,12 +15,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const count = parseInt(req.query.count as string, 10) || 5;
         const clientId =
             decodeURIComponent(req.headers.client_id as string) || '';
-        const age = decodeURIComponent(req.headers.age as string) || '';
-        const nativeLanguage =
-            decodeURIComponent(req.headers.native_language as string) || '';
         return db.sentences
-            .fetchSentences(clientId, count, age, nativeLanguage)
-            .then((response: Array<SimpleSentence>) => {
+            .fetchAllAgeGroupsSentences(clientId, count)
+            .then((response: Array<SimpleSentence[]>) => {
                 res.status(200).json(response);
             })
             .catch((error: any) => {

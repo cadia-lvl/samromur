@@ -28,6 +28,13 @@ import { WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
 import Tips from './tips/tips';
 
+import {
+    AgeGroups,
+    getAgeGroup,
+} from '../../../utilities/demographics-age-helper';
+import { AllGroupsSentences } from '../../../pages/tala';
+import { Demographic } from '../../../types/user';
+
 interface ContributeContainerProps {
     expanded: boolean;
     gaming: boolean;
@@ -59,7 +66,7 @@ const dispatchProps = {
 
 interface ContributeProps {
     clips?: WheelClip[];
-    sentences?: WheelSentence[];
+    goupedSentences?: AllGroupsSentences;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -74,6 +81,7 @@ interface State {
     demographic: boolean;
     tips: boolean;
     selectedBatch?: string;
+    sentences?: WheelSentence[];
 }
 
 class Contribute extends React.Component<Props, State> {
@@ -83,7 +91,7 @@ class Contribute extends React.Component<Props, State> {
         this.state = {
             contributeType: this.props.clips
                 ? 'hlusta'
-                : this.props.sentences && 'tala',
+                : this.props.goupedSentences && 'tala',
             labels: [],
             demographic: false,
             tips: false,
@@ -144,7 +152,14 @@ class Contribute extends React.Component<Props, State> {
         }
     };
 
-    onDemographicsSubmit = () => {
+    onDemographicsSubmit = async (
+        age: Demographic,
+        nativeLanguage: Demographic
+    ) => {
+        const { goupedSentences: groupedSentences } = this.props;
+        const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
+        const sentences = groupedSentences && groupedSentences[ageGroup];
+        this.setState({ sentences });
         this.setState({ demographic: true });
     };
 
@@ -175,12 +190,12 @@ class Contribute extends React.Component<Props, State> {
             labels,
             selectedBatch,
             batchClips,
+            sentences,
         } = this.state;
 
         const {
             clips,
             contribute: { expanded, gaming, goal },
-            sentences,
             user: { client },
         } = this.props;
 

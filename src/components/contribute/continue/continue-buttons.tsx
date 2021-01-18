@@ -9,6 +9,7 @@ import {
     resetContribute,
     setGoal,
     setExpanded,
+    setGaming,
 } from '../../../store/contribute/actions';
 import { listenGoals, speakGoals } from '../../../constants/packages';
 import { Goal } from '../../../types/contribute';
@@ -88,6 +89,7 @@ const dispatchProps = {
     resetContribute,
     setExpanded,
     setGoal,
+    setGaming,
 };
 
 interface ContinueButtonsProps {
@@ -143,9 +145,14 @@ class ContinueButtons extends React.Component<Props, State> {
         setExpanded(false);
     };
 
+    /**
+     * Switches the context (from speak to listen or vice verse.)
+     * and re-routes the user to the contribution amount selection.
+     */
     handleSwitch = () => {
         const {
             contribute: { expanded },
+            setGaming,
         } = this.props;
         if (!expanded) {
             return;
@@ -159,6 +166,7 @@ class ContinueButtons extends React.Component<Props, State> {
         } else {
             router.push(pages.listen);
         }
+        setGaming(false);
     };
 
     render() {

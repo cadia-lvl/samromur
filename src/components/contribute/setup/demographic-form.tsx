@@ -7,6 +7,7 @@ import {
     DemographicError,
     Demographics,
     Demographic,
+    School,
 } from '../../../types/user';
 
 import {
@@ -21,6 +22,8 @@ import {
     nativeLanguages,
 } from '../../../constants/demographics';
 
+import { schools } from '../../../constants/schools';
+
 import Info from './information';
 import DropdownButton from '../../ui/input/dropdown';
 import Checkbox from '../../ui/input/checkbox';
@@ -29,6 +32,7 @@ import ConsentForm from './consent-form';
 
 import * as authApi from '../../../services/auth-api';
 import { pages } from '../../../constants/paths';
+import { ageFromKennitala } from '../../../utilities/kennitala-helper';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -57,6 +61,10 @@ const Information = styled(Info)`
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
     }
+`;
+
+const CompetitionText = styled.div`
+    margin: auto;
 `;
 
 interface SubmitButtonProps {
@@ -170,7 +178,7 @@ const dispatchProps = {
 };
 
 interface DemographicFormProps {
-    onSubmit: () => void;
+    onSubmit: (age: Demographic, nativeLanguage: Demographic) => void;
 }
 
 interface State {
@@ -180,6 +188,9 @@ interface State {
     hasConsent: boolean;
     nativeLanguage: Demographic;
     showConsentForm: boolean;
+    showSchoolSelection: boolean;
+    school: Partial<School>;
+    kennitala: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -193,6 +204,8 @@ class DemographicForm extends React.Component<Props, State> {
         this.state = {
             agreed: this.props.user.consents.terms,
             showConsentForm: false,
+            showSchoolSelection: false,
+            kennitala: '',
             ...this.props.user.demographics,
         };
     }
@@ -214,14 +227,17 @@ class DemographicForm extends React.Component<Props, State> {
             (val: Demographic) => val.name == value
         ) as Demographic;
         const showConsentForm = !!age && age.id == 'barn';
+        const showSchoolSelection = !!age && age.id == 'barn';
         this.setState({
             age,
             hasConsent: false,
             showConsentForm,
+            showSchoolSelection,
         });
     };
 
-    onConsent = () => {
+    onConsent = (kennitala: string) => {
+        this.setState({ kennitala });
         this.setState({ hasConsent: true });
     };
 
@@ -237,6 +253,17 @@ class DemographicForm extends React.Component<Props, State> {
             (val: Demographic) => val.name == value
         ) as Demographic;
         this.setState({ nativeLanguage });
+    };
+
+    onSchoolSelect = (value: string) => {
+        const school = schools.find(
+            (val: School) => val.name == value
+        ) as School;
+        const schoolDemo: Partial<School> = {
+            code: school.code,
+            name: school.name,
+        };
+        this.setState({ school: schoolDemo });
     };
 
     formIsFilled = (): boolean => {
@@ -274,38 +301,57 @@ class DemographicForm extends React.Component<Props, State> {
             hasConsent,
             nativeLanguage,
             showConsentForm,
+            school,
         } = this.state;
         if (!agreed || (showConsentForm && !hasConsent)) {
             return;
         }
         let language;
-        if (!!age.name && !!gender.name && !nativeLanguage.name) {
+        if (!!age.name && !!gender.name && !nativeLanguage?.name) {
             language = nativeLanguages.find(
                 (val: Demographic) => val.id == 'islenska'
             ) as Demographic;
         } else {
             language = nativeLanguage;
         }
+        const demoAge = age.id == 'barn' ? this.getAgeUnder18() : age;
         this.props.setDemographics({
-            age,
+            age: demoAge,
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
+            school,
         });
         this.props.setTermsConsent(true);
-        this.props.onSubmit();
+        this.props.onSubmit(demoAge, language);
     };
 
+    getAgeUnder18 = (): Demographic => {
+        const { kennitala } = this.state;
+        const age = ageFromKennitala(kennitala).toString();
+        return { id: age, name: age };
+    };
+    // Returns the value to display in the dropdown menu for ages.
+    // For demographics not in the contents of the dropdown, under 18 is selected.
+    getAgeSelected = (): string => {
+        const { age } = this.state;
+        if (!age || age.name === '') {
+            return '';
+        }
+        const found = ages.find((item) => item.name === age.name);
+        return found ? found.name : ages[0].name;
+    };
     render() {
         const {
-            age,
             agreed,
             gender,
             hasConsent,
             nativeLanguage,
             showConsentForm,
+            school,
         } = this.state;
         const formIsFilled = this.formIsFilled();
+        const selectedAge = this.getAgeSelected();
         return (
             <DemographicContainer>
                 <ConsentAndSwitchUserContainer active={hasConsent}>
@@ -315,10 +361,23 @@ class DemographicForm extends React.Component<Props, State> {
                     </SwitchUser>
                 </ConsentAndSwitchUserContainer>
                 <DropdownButton
+                    content={schools
+                        .sort((a, b) => a.name.localeCompare(b.name, 'is-IS'))
+                        .map((school: School) => school.name)}
+                    label={'Skóli'}
+                    onSelect={this.onSchoolSelect}
+                    selected={school ? (school.name ? school.name : '') : ''}
+                />
+                <CompetitionText>
+                    Lestrarkeppni grunnskólanna hefst 18. janúar!
+                </CompetitionText>
+                <div />
+                <div />
+                <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={'Aldur'}
                     onSelect={this.onAgeSelect}
-                    selected={age ? age.name : ''}
+                    selected={selectedAge}
                 />
                 <ShowMoreContainer active={showConsentForm && !hasConsent}>
                     <ConsentForm

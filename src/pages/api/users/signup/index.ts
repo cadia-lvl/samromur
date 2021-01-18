@@ -22,9 +22,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             }
             const auth = data.split(' ')[1];
             const decoded = Buffer.from(auth, 'base64').toString('utf8');
-            const [email, password] = decoded.split(':');
+            const [email, username, password] = decoded.split(':');
             return db.userClients
-                .signUpUser(email, password)
+                .signUpUser(email, username, password)
                 .then(async (confirmId: string) => {
                     // Create email link from origin and id
                     const host = req.headers.origin;

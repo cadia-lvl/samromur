@@ -8,6 +8,7 @@ import { Button } from '../ui/buttons';
 import { AuthError, AuthRequest, FormError } from '../../types/auth';
 
 import validateEmail from '../../utilities/validate-email';
+import validateUserName from '../../utilities/validate-username';
 
 const LoginFormContainer = styled.form`
     margin: 1rem auto;
@@ -40,6 +41,7 @@ interface Props {
 
 interface State {
     email: string;
+    username: string;
     formError?: FormError;
     isSignup: boolean;
     password: string;
@@ -52,6 +54,7 @@ class LoginForm extends React.Component<Props, State> {
 
         this.state = {
             email: '',
+            username: '',
             formError: undefined,
             isSignup: false,
             password: '',
@@ -66,6 +69,11 @@ class LoginForm extends React.Component<Props, State> {
 
     onEmailChange = (email: string) => {
         this.setState({ email });
+        this.cleanErrors();
+    };
+
+    onUserNameChange = (userName: string) => {
+        this.setState({ username: userName });
         this.cleanErrors();
     };
 
@@ -95,10 +103,11 @@ class LoginForm extends React.Component<Props, State> {
         if (formError) {
             this.setState({ formError });
         } else {
-            const { email, password, isSignup } = this.state;
+            const { email, username, password, isSignup } = this.state;
             this.props.onSubmit(
                 {
                     email,
+                    username,
                     password,
                 },
                 isSignup
@@ -107,7 +116,13 @@ class LoginForm extends React.Component<Props, State> {
     };
 
     validateForm = (): FormError | null => {
-        const { email, isSignup, password, passwordAgain } = this.state;
+        const {
+            email,
+            isSignup,
+            password,
+            passwordAgain,
+            username,
+        } = this.state;
         if (email == '') {
             return FormError.MISSING_EMAIL;
         } else if (!validateEmail(email)) {
@@ -120,6 +135,11 @@ class LoginForm extends React.Component<Props, State> {
             }
             if (password !== passwordAgain) {
                 return FormError.PASSWORD_MISMATCH;
+            }
+            if (username) {
+                if (!validateUserName(username)) {
+                    return FormError.INVALID_USERNAME;
+                }
             }
         }
         return null;
@@ -137,6 +157,8 @@ class LoginForm extends React.Component<Props, State> {
                 return 'Ógilt tölvupóstfang';
             case FormError.PASSWORD_MISMATCH:
                 return 'Lykilorð verða að stemma';
+            case FormError.INVALID_USERNAME:
+                return 'Aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.';
             default:
                 return 'Villa í formi';
         }
@@ -152,6 +174,8 @@ class LoginForm extends React.Component<Props, State> {
                 return 'Tölvupóstfang þegar skráð';
             case AuthError.EMAIL_NOT_CONFIRMED:
                 return 'Tölvupóstfang hefur ekki verið staðfest';
+            case AuthError.USERNAME_USED:
+                return 'Notendanafnið er tekið, vinsamlegast veldu nýtt';
             default:
                 return 'Innskráning mistókst';
         }
@@ -170,6 +194,13 @@ class LoginForm extends React.Component<Props, State> {
                     onChange={this.onEmailChange}
                     placeholder=""
                 />
+                {isSignup && (
+                    <TextInput
+                        label="Notendanafn (valfrjálst)"
+                        onChange={this.onUserNameChange}
+                        placeholder="þörf fyrir einstaklingskeppni grunnskólanna"
+                    ></TextInput>
+                )}
                 <TextInput
                     label="Lykilorð"
                     onChange={this.onPasswordChange}

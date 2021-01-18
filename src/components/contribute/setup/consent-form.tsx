@@ -13,6 +13,8 @@ import Information from './information';
 
 import validateEmail from '../../../utilities/validate-email';
 
+import { ageFromKennitala } from '../../../utilities/kennitala-helper';
+
 const ConsentFormContainer = styled.div`
     width: 100%;
     display: grid;
@@ -98,7 +100,7 @@ interface State {
 }
 
 interface ConsentFormProps {
-    onConsent: () => void;
+    onConsent: (kennitala: string) => void;
     visible: boolean;
 }
 
@@ -165,7 +167,8 @@ class ConsentForm extends React.Component<Props, State> {
             } else {
                 const consent = await consentsApi.fetchConsent(kennitala);
                 if (consent) {
-                    this.props.onConsent();
+                    // Under 18 consent given, send kennitala together with consent
+                    this.props.onConsent(kennitala);
                 } else {
                     if (emailSent) {
                         this.setState({
@@ -197,17 +200,6 @@ class ConsentForm extends React.Component<Props, State> {
         }
     };
 
-    ageFromKennitala = (kennitala: string): number => {
-        const day = parseInt(kennitala[0] + kennitala[1]);
-        const month = parseInt(kennitala[2] + kennitala[3]);
-        const year = parseInt('20' + kennitala[4] + kennitala[5]);
-        const birthday = new Date(year, month - 1, day, 0, 0, 0, 0);
-        const diffMs = Date.now() - birthday.getTime();
-        const ageDate = new Date(diffMs);
-        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-        return age;
-    };
-
     validateKennitala = (kennitala: string): boolean => {
         if (kennitala == '0000000000') {
             return true;
@@ -215,7 +207,7 @@ class ConsentForm extends React.Component<Props, State> {
         const valid = Kennitala.Validate(kennitala);
         let error;
         if (valid == KennitalaType.Individual) {
-            if (this.ageFromKennitala(kennitala) > 17) {
+            if (ageFromKennitala(kennitala) > 17) {
                 error = 'Kennitala lögráða einstaklings';
             }
         } else {

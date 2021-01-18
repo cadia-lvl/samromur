@@ -21,6 +21,8 @@ export const setAuthenticated = createAction('SET_AUTHENTICATED')<boolean>();
 
 export const setSkipTips = createAction('SET_SKIP_TIPS')<boolean>();
 
+export const setUserName = createAction('SET_USERNAME')<string>();
+
 export const fetchUser = createAsyncAction(
     'UPDATE_USER_REQUEST',
     'UPDATE_USER_SUCCESS',

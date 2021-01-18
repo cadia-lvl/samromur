@@ -9,11 +9,21 @@ export interface Demographics {
     gender: Demographic;
     hasConsent: boolean;
     nativeLanguage: Demographic;
+    school: Partial<School>;
 }
 
 export interface Demographic {
     id: string;
     name: string;
+}
+
+export interface School {
+    name: string;
+    code: string;
+    class1_3: number;
+    class4_10: number;
+    total: number;
+    division: number;
 }
 
 export interface TotalUserClips {
@@ -44,6 +54,7 @@ export interface UserClient {
     isSuperUser: boolean;
     stats: UserStats;
     skipTips: boolean;
+    username: string;
 }
 
 export interface UserConsents {
@@ -63,6 +74,10 @@ export const initialDemographics: Demographics = {
     hasConsent: false,
     nativeLanguage: {
         id: '',
+        name: '',
+    },
+    school: {
+        code: '',
         name: '',
     },
 };
