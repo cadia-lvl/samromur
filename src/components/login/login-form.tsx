@@ -198,7 +198,7 @@ class LoginForm extends React.Component<Props, State> {
                     <TextInput
                         label="Notendanafn (valfrjálst)"
                         onChange={this.onUserNameChange}
-                        placeholder="þörf fyrir einstaklingskeppni grunnskólanna"
+                        placeholder="Notendanöfn birtast í einstaklings stigatöflunni"
                     ></TextInput>
                 )}
                 <TextInput
