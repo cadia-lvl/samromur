@@ -8,6 +8,7 @@ export type MysqlOptions = {
     password: string;
     host: string;
     port: number;
+    connectionLimit: number;
     connectTimeout: number;
     multipleStatements: boolean;
     namedPlaceholders: boolean;
@@ -33,6 +34,7 @@ export default class Sql {
             host: dbOptions.DB_HOST,
             port: dbOptions.DB_PORT,
             connectTimeout: 30000,
+            connectionLimit: 1000,
             multipleStatements: true,
             namedPlaceholders: true,
         };
@@ -73,6 +75,7 @@ export default class Sql {
 
         // Do not specify the database name when connecting.
         delete options.database;
+        delete options.connectionLimit; // Does not belong in createConnection options
 
         // Overwrite root values.
         const dbOptions = getConfig().DATABASE;
