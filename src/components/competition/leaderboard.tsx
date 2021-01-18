@@ -87,7 +87,7 @@ interface ColumnProps {
 const LeaderboardContent = styled.div<ColumnProps>`
     display: grid;
     grid-template-columns: min-content auto ${({ allColumns }) =>
-            allColumns ? 'min-content' : ''}min-content min-content;
+        allColumns ? 'min-content' : ''}min-content min-content;
     width: 100%;
     height: 100%;
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
@@ -158,14 +158,14 @@ const HeaderItem = styled.span<CellProps>`
 
     & ::after {
         content: ${({ desktopText }) =>
-            desktopText ? `"${desktopText}"` : ''};
+        desktopText ? `"${desktopText}"` : ''};
     }
 
     ${({ theme }) => theme.media.small} {
         ${({ disableMobile }) => disableMobile && `display: none;`}
         & ::after {
             content: ${({ mobileText }) =>
-                mobileText ? `"${mobileText}"` : ''};
+        mobileText ? `"${mobileText}"` : ''};
         }
     }
 `;
@@ -238,18 +238,32 @@ class Leaderboard extends React.Component<Props, State> {
                 return schoolStat
                     ? schoolStat
                     : {
-                          institution: school.code,
-                          count: 0,
-                          users: 0,
-                          rank: i + usableStats.length + 1,
-                      };
+                        institution: school.code,
+                        count: 0,
+                        users: 0,
+                        rank: i + usableStats.length + 1,
+                    };
             })
-            .sort((a, b) => (a.rank < b.rank ? -1 : 1));
+            .sort((a, b) => {
+                const schoolA = schools.find(
+                    (school) => school.code == a.institution
+                );
+                const schoolB = schools.find(
+                    (school) => school.code == b.institution
+                );
+                return a.count < b.count
+                    ? 1
+                    : a.count == b.count
+                        ? (schoolA && schoolB)
+                            ? schoolA.name.localeCompare(schoolB.name)
+                            : -1
+                        : -1;
+            });
 
         const usableIndividualStats = individualStats.filter(
             (stat) =>
                 !!schools.find((school) => school.code == stat.institution)
-        );
+        ).sort((a, b) => (a.count < b.count ? 1 : -1));
         this.setState({
             individualStats: usableIndividualStats,
             filteredStats: newStats,
@@ -258,31 +272,84 @@ class Leaderboard extends React.Component<Props, State> {
     };
 
     sort = (sortBy: 'rank' | 'name' | 'users' | 'count') => {
+        if (this.state.selectedOption == 'individual') {
+            return this.sortIndividuals(sortBy)
+        }
         this.setState((prevState) => {
             const sortedStats = prevState.filteredStats.sort((a, b) => {
+                const schoolA = schools.find(
+                    (school) => school.code == a.institution
+                );
+                const schoolB = schools.find(
+                    (school) => school.code == b.institution
+                );
                 switch (sortBy) {
                     case 'rank':
-                        return a.rank < b.rank ? -1 : 1;
+                    case 'count':
+                        return a.count < b.count
+                            ? 1
+                            : a.count == b.count
+                                ? (schoolA && schoolB)
+                                    ? schoolA.name.localeCompare(schoolB.name)
+                                    : -1
+                                : -1;
                     case 'name':
-                        const schoolA = schools.find(
-                            (school) => school.code == a.institution
-                        );
-                        const schoolB = schools.find(
-                            (school) => school.code == b.institution
-                        );
                         return schoolA && schoolB
                             ? schoolA.name.localeCompare(schoolB.name)
                             : 1;
                     case 'users':
-                        return a.users < b.users ? 1 : -1;
-                    case 'count':
-                        return a.count < b.count ? 1 : -1;
+                        return a.users < b.users
+                            ? 1
+                            : a.users == b.users
+                                ? (schoolA && schoolB)
+                                    ? schoolA.name.localeCompare(schoolB.name)
+                                    : -1
+                                : -1;
+                    default:
+                        return -1;
                 }
             });
 
             return {
                 ...prevState,
                 filteredStats: sortedStats,
+            };
+        });
+    };
+
+    sortIndividuals = (sortBy: 'rank' | 'name' | 'users' | 'username' | 'count') => {
+        this.setState((prevState) => {
+            const sortedStats = prevState.individualStats.sort((a, b) => {
+                const schoolA = schools.find(
+                    (school) => school.code == a.institution
+                );
+                const schoolB = schools.find(
+                    (school) => school.code == b.institution
+                );
+                switch (sortBy) {
+                    case 'name':
+                        return schoolA && schoolB
+                            ? schoolA.name.localeCompare(schoolB.name)
+                            : 1;
+                    case 'count':
+                    case 'rank':
+                        return a.count < b.count
+                            ? 1
+                            : a.count == b.count
+                                ? (schoolA && schoolB)
+                                    ? schoolA.name.localeCompare(schoolB.name)
+                                    : -1
+                                : -1;
+                    case 'users':
+                        return a.username.localeCompare(b.username);
+                    default:
+                        return -1;
+                }
+            });
+
+            return {
+                ...prevState,
+                individualStats: sortedStats,
             };
         });
     };
@@ -342,12 +409,12 @@ class Leaderboard extends React.Component<Props, State> {
         return !school
             ? 'C'
             : school.division == 1
-            ? 'A'
-            : school.division == 2
-            ? 'B'
-            : school.division == 3
-            ? 'C'
-            : 'C';
+                ? 'A'
+                : school.division == 2
+                    ? 'B'
+                    : school.division == 3
+                        ? 'C'
+                        : 'C';
     };
 
     getSchoolName = (code: string) => {
@@ -380,10 +447,10 @@ class Leaderboard extends React.Component<Props, State> {
                                 janúar klukkan 15:00
                             </span>
                         ) : (
-                            <span>
-                                Lestrarkeppni grunnskólanna 18.-25. janúar
-                            </span>
-                        )}
+                                <span>
+                                    Lestrarkeppni grunnskólanna 18.-25. janúar
+                                </span>
+                            )}
                         <span></span>
                         <StyledLink href={'/grunnskolakeppni#um'}>
                             Lesa meira um keppnina
@@ -466,7 +533,6 @@ class Leaderboard extends React.Component<Props, State> {
                     <HeaderItem
                         disabled={selectedOption != 'all'}
                         disableMobile
-                        onClick={() => this.sort('rank')}
                     >
                         Flokkur
                     </HeaderItem>
@@ -485,65 +551,65 @@ class Leaderboard extends React.Component<Props, State> {
                     <Divider allColumns={selectedOption == 'all'} />
                     {selectedOption == 'individual'
                         ? individualStats.map(
-                              (stat: IndividualStat, i: number) => (
-                                  <React.Fragment key={i}>
-                                      <StatItem
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {i + 1}
-                                      </StatItem>
-                                      <StatItem
-                                          disableMobile
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {this.getSchoolName(stat.institution)}
-                                      </StatItem>
-                                      <StatItem
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {stat.username}
-                                      </StatItem>
-                                      <StatItem darker={i % 2 != 0}>
-                                          {stat.count}
-                                      </StatItem>
-                                      {i != individualStats.length - 1 && (
-                                          <Divider allColumns={false} />
-                                      )}
-                                  </React.Fragment>
-                              )
-                          )
+                            (stat: IndividualStat, i: number) => (
+                                <React.Fragment key={i}>
+                                    <StatItem
+                                        align="left"
+                                        darker={i % 2 != 0}
+                                    >
+                                        {i + 1}
+                                    </StatItem>
+                                    <StatItem
+                                        disableMobile
+                                        align="left"
+                                        darker={i % 2 != 0}
+                                    >
+                                        {this.getSchoolName(stat.institution)}
+                                    </StatItem>
+                                    <StatItem
+                                        align="left"
+                                        darker={i % 2 != 0}
+                                    >
+                                        {stat.username}
+                                    </StatItem>
+                                    <StatItem darker={i % 2 != 0}>
+                                        {stat.count}
+                                    </StatItem>
+                                    {i != individualStats.length - 1 && (
+                                        <Divider allColumns={false} />
+                                    )}
+                                </React.Fragment>
+                            )
+                        )
                         : filteredStats.map((stat: SchoolStat, i: number) => (
-                              <React.Fragment key={i}>
-                                  <StatItem align="left" darker={i % 2 != 0}>
-                                      {i + 1}
-                                  </StatItem>
-                                  <StatItem align="left" darker={i % 2 != 0}>
-                                      {this.getSchoolName(stat.institution)}
-                                  </StatItem>
-                                  <StatItem
-                                      disabled={selectedOption != 'all'}
-                                      disableMobile
-                                      align="right"
-                                      darker={i % 2 != 0}
-                                  >
-                                      {this.getSchoolCategory(stat.institution)}
-                                  </StatItem>
-                                  <StatItem disableMobile darker={i % 2 != 0}>
-                                      {stat.users}
-                                  </StatItem>
-                                  <StatItem darker={i % 2 != 0}>
-                                      {stat.count}
-                                  </StatItem>
-                                  {i != filteredStats.length - 1 && (
-                                      <Divider
-                                          allColumns={selectedOption == 'all'}
-                                      />
-                                  )}
-                              </React.Fragment>
-                          ))}
+                            <React.Fragment key={i}>
+                                <StatItem align="left" darker={i % 2 != 0}>
+                                    {i + 1}
+                                </StatItem>
+                                <StatItem align="left" darker={i % 2 != 0}>
+                                    {this.getSchoolName(stat.institution)}
+                                </StatItem>
+                                <StatItem
+                                    disabled={selectedOption != 'all'}
+                                    disableMobile
+                                    align="right"
+                                    darker={i % 2 != 0}
+                                >
+                                    {this.getSchoolCategory(stat.institution)}
+                                </StatItem>
+                                <StatItem disableMobile darker={i % 2 != 0}>
+                                    {stat.users}
+                                </StatItem>
+                                <StatItem darker={i % 2 != 0}>
+                                    {stat.count}
+                                </StatItem>
+                                {i != filteredStats.length - 1 && (
+                                    <Divider
+                                        allColumns={selectedOption == 'all'}
+                                    />
+                                )}
+                            </React.Fragment>
+                        ))}
                 </LeaderboardContent>
             </LeaderboardContainer>
         );
