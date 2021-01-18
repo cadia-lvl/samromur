@@ -202,14 +202,6 @@ export const schools: Array<School> = [
         code: '4F1346AC',
     },
     {
-        name: 'Háaleitisskóli',
-        class1_3: 169,
-        class4_10: 370,
-        total: 539,
-        division: 1,
-        code: 'DFEF9B9A',
-    },
-    {
         name: 'Melaskóli',
         class1_3: 204,
         class4_10: 366,
@@ -416,6 +408,14 @@ export const schools: Array<School> = [
         total: 557,
         division: 1,
         code: 'DCE30A2A',
+    },
+    {
+        name: 'Álftamýrarskóli',
+        class1_3: 0,
+        class4_10: 380,
+        total: 380,
+        division: 2,
+        code: '8PI7UHFC',
     },
     {
         name: 'Hvaleyrarskóli',
@@ -736,6 +736,14 @@ export const schools: Array<School> = [
         total: 166,
         division: 2,
         code: '31DBE0F0',
+    },
+    {
+        name: 'Hvassaleitisskóli',
+        class1_3: 0,
+        class4_10: 180,
+        total: 180,
+        division: 2,
+        code: 'KV5EElAB',
     },
     {
         name: 'Grunnskóli Borgarfjarðar',
@@ -1168,6 +1176,14 @@ export const schools: Array<School> = [
         total: 39,
         division: 3,
         code: '026B7E57',
+    },
+    {
+        name: 'Öxarfjarðarskóli',
+        class1_3: 0,
+        class4_10: 29,
+        total: 29,
+        division: 3,
+        code: 'WHZU07YU',
     },
     {
         name: 'Reykjahlíðarskóli',
