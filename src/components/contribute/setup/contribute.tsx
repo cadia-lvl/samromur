@@ -66,7 +66,7 @@ const dispatchProps = {
 
 interface ContributeProps {
     clips?: WheelClip[];
-    goupedSentences?: AllGroupsSentences;
+    groupedSentences?: AllGroupsSentences;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -91,7 +91,7 @@ class Contribute extends React.Component<Props, State> {
         this.state = {
             contributeType: this.props.clips
                 ? 'hlusta'
-                : this.props.goupedSentences && 'tala',
+                : this.props.groupedSentences && 'tala',
             labels: [],
             demographic: false,
             tips: false,
@@ -156,7 +156,7 @@ class Contribute extends React.Component<Props, State> {
         age: Demographic,
         nativeLanguage: Demographic
     ) => {
-        const { goupedSentences: groupedSentences } = this.props;
+        const { groupedSentences } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
         const sentences = groupedSentences && groupedSentences[ageGroup];
         this.setState({ sentences });
