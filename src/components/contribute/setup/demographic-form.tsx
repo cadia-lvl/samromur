@@ -148,7 +148,7 @@ const ConsentAndSwitchUserContainer = styled.div<ConsentContainerProps>`
     flex-direction: row;
     justify-content: space-between;
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 3;
 
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
@@ -260,8 +260,8 @@ class DemographicForm extends React.Component<Props, State> {
             (val: School) => val.name == value
         ) as School;
         const schoolDemo: Partial<School> = {
-            code: school.code,
-            name: school.name,
+            code: school ? school.code : '',
+            name: school ? school.name : '',
         };
         this.setState({ school: schoolDemo });
     };
@@ -354,12 +354,6 @@ class DemographicForm extends React.Component<Props, State> {
         const selectedAge = this.getAgeSelected();
         return (
             <DemographicContainer>
-                <ConsentAndSwitchUserContainer active={hasConsent}>
-                    <ConsentMessage>Leyfi staðfest</ConsentMessage>
-                    <SwitchUser onClick={this.switchUser}>
-                        Skipta um notenda
-                    </SwitchUser>
-                </ConsentAndSwitchUserContainer>
                 <DropdownButton
                     content={schools
                         .sort((a, b) => a.name.localeCompare(b.name, 'is-IS'))
@@ -369,7 +363,7 @@ class DemographicForm extends React.Component<Props, State> {
                     selected={school ? (school.name ? school.name : '') : ''}
                 />
                 <CompetitionText>
-                    Lestrarkeppni grunnskólanna hefst 18. janúar!
+                    Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!
                 </CompetitionText>
                 <div />
                 <div />
@@ -379,6 +373,12 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onAgeSelect}
                     selected={selectedAge}
                 />
+                <ConsentAndSwitchUserContainer active={hasConsent}>
+                    <ConsentMessage>Leyfi staðfest</ConsentMessage>
+                    <SwitchUser onClick={this.switchUser}>
+                        Skipta um notenda
+                    </SwitchUser>
+                </ConsentAndSwitchUserContainer>
                 <ShowMoreContainer active={showConsentForm && !hasConsent}>
                     <ConsentForm
                         onConsent={this.onConsent}
