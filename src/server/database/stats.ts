@@ -12,11 +12,12 @@ export default class Clips {
         this.sql = sql;
     }
 
-    fetchWeeklyStats = lazyCache(
-        async (contributeType: string): Promise<TimelineStat[]> => {
-            const table = contributeType == 'tala' ? 'clips' : 'votes';
-            const [rows] = await this.sql.query(
-                `
+    fetchWeeklyStats = lazyCache(async (contributeType: string): Promise<
+        TimelineStat[]
+    > => {
+        const table = contributeType == 'tala' ? 'clips' : 'votes';
+        const [rows] = await this.sql.query(
+            `
                 SELECT
                     COUNT(${table}.id) as count,
                     DATE(cal.date) as date
@@ -43,16 +44,13 @@ export default class Clips {
                     cal.date
                 ASC
             `
-            );
-            return Promise.resolve(rows);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(rows);
+    }, cacheTimeMS);
 
-    fetchTotalClipsTimeline = lazyCache(
-        async () => {
-            const [rows] = await this.sql.query(
-                `
+    fetchTotalClipsTimeline = lazyCache(async () => {
+        const [rows] = await this.sql.query(
+            `
             SELECT
                 SUM(t2.count) as sum,
                 t1.date as date
@@ -82,31 +80,25 @@ export default class Clips {
             ORDER BY
                 t1.date
             `
-            );
-            return Promise.resolve(rows);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(rows);
+    }, cacheTimeMS);
 
-    fetchTotalClips = lazyCache(
-        async (): Promise<number> => {
-            const [[row]] = await this.sql.query(
-                `
+    fetchTotalClips = lazyCache(async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
                 SELECT
                     COUNT(*) as count
                 FROM
                     clips
             `
-            );
-            return Promise.resolve(row.count);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(row.count);
+    }, cacheTimeMS);
 
-    fetchTotalValidatedClips = lazyCache(
-        async (): Promise<number> => {
-            const [[row]] = await this.sql.query(
-                `
+    fetchTotalValidatedClips = lazyCache(async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
                 SELECT
                     COUNT(*) as count
                 FROM
@@ -114,46 +106,37 @@ export default class Clips {
                 WHERE
                     is_valid = 1
             `
-            );
-            return Promise.resolve(row.count);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(row.count);
+    }, cacheTimeMS);
 
-    fetchTotalVotes = lazyCache(
-        async (): Promise<number> => {
-            const [[row]] = await this.sql.query(
-                `
+    fetchTotalVotes = lazyCache(async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
                 SELECT
                     COUNT(*) as count
                 FROM
                     votes
             `
-            );
-            return Promise.resolve(row.count);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(row.count);
+    }, cacheTimeMS);
 
-    fetchTotalClipsClients = lazyCache(
-        async (): Promise<number> => {
-            const [[row]] = await this.sql.query(
-                `
+    fetchTotalClipsClients = lazyCache(async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
                 SELECT
                     COUNT(DISTINCT client_id) as count
                 FROM
                     clips
             `
-            );
-            return Promise.resolve(row.count);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(row.count);
+    }, cacheTimeMS);
 
-    fetchTodayClips = lazyCache(
-        async (): Promise<number> => {
-            const [[row]] = await this.sql.query(
-                `
+    fetchTodayClips = lazyCache(async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
                 SELECT
                     COUNT(*) as count
                 FROM
@@ -161,16 +144,13 @@ export default class Clips {
                 WHERE
                     DATE(created_at) = DATE(NOW())
             `
-            );
-            return Promise.resolve(row.count);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(row.count);
+    }, cacheTimeMS);
 
-    fetchTodayVotes = lazyCache(
-        async (): Promise<number> => {
-            const [[row]] = await this.sql.query(
-                `
+    fetchTodayVotes = lazyCache(async (): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
                 SELECT
                     COUNT(*) as count
                 FROM
@@ -178,16 +158,13 @@ export default class Clips {
                 WHERE
                     DATE(created_at) = DATE(NOW())
             `
-            );
-            return Promise.resolve(row.count);
-        },
-        cacheTimeMS
-    );
+        );
+        return Promise.resolve(row.count);
+    }, cacheTimeMS);
 
-    fetchLeaderboard = lazyCache(
-        async (): Promise<SchoolStat[]> => {
-            const [rows] = await this.sql.query(
-                `
+    fetchLeaderboard = lazyCache(async (): Promise<SchoolStat[]> => {
+        const [rows] = await this.sql.query(
+            `
           SELECT
             institution,
               COUNT(*) as count,
@@ -201,16 +178,15 @@ export default class Clips {
           GROUP BY institution
           ORDER BY count DESC
         `
-            );
-            return rows;
-        },
-        cacheTimeMS
-    );
+        );
+        return rows;
+    }, cacheTimeMS);
 
-    fetchIndividualLeaderboard = lazyCache(
-        async (): Promise<IndividualStat[]> => {
-            const [rows] = await this.sql.query(
-                `
+    fetchIndividualLeaderboard = lazyCache(async (): Promise<
+        IndividualStat[]
+    > => {
+        const [rows] = await this.sql.query(
+            `
                 SELECT
                 t2.username,
                 t1.institution,
@@ -244,9 +220,7 @@ export default class Clips {
             ON
                 t1.client_id = t2.client_id
             `
-            );
-            return rows;
-        },
-        cacheTimeMS
-    );
+        );
+        return rows;
+    }, cacheTimeMS);
 }

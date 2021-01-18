@@ -4,10 +4,7 @@ function isExpired(at: number, timeMs: number) {
     return Date.now() - at > timeMs;
 }
 
-export default function lazyCache<T, S>(
-    f: Fn<T, S>,
-    timeMs: number
-): Fn<T, S> {
+export default function lazyCache<T, S>(f: Fn<T, S>, timeMs: number): Fn<T, S> {
     const caches: {
         [key: string]: { at: number; value: T };
     } = {};
@@ -26,9 +23,9 @@ export default function lazyCache<T, S>(
             let a = {
                 at: Date.now(),
                 value: await f(...args),
-            }
+            };
             caches[key] = a;
             resolve(a.value);
-        })
+        });
     };
 }
