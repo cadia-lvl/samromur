@@ -1366,7 +1366,7 @@ export const schools: Array<School> = [
         class1_3: 0,
         class4_10: 0,
         total: 320,
-        division: 2,
+        division: 1,
         code: 'EB3109A6',
     },
     {
