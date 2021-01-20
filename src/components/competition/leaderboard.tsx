@@ -452,7 +452,8 @@ class Leaderboard extends React.Component<Props, State> {
                             </span>
                         ) : (
                             <span>
-                                Lestrarkeppni grunnskólanna 18.-25. janúar
+                                Lestrarkeppni grunskólanna lýkur mánudaginn 25.
+                                janúar á miðnætti
                             </span>
                         )}
                         <span></span>
