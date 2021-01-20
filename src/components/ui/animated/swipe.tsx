@@ -34,8 +34,6 @@ const FakeContainer = styled.div`
     pointer-events: none;
 `;
 
-const Container = styled.div``;
-
 interface Props {
     children?: React.ReactNode;
     className?: string;
@@ -83,7 +81,7 @@ class SwipeSwap extends React.Component<Props, State> {
         // TODO: there is a bug where the second child is placed under the first child,
         // and not over it. (example, remove the containers around the children in consent form)
         return (
-            <Container>
+            <React.Fragment>
                 <SwapContainer
                     className={className}
                     ref={ref}
@@ -99,7 +97,7 @@ class SwipeSwap extends React.Component<Props, State> {
                 <FakeContainer ref={this.secondFakeRef}>
                     {secondChild}
                 </FakeContainer>
-            </Container>
+            </React.Fragment>
         );
     }
 }
