@@ -78,6 +78,10 @@ const InputFields = styled(SwipeSwap)`
     width: 100%;
 `;
 
+const InputTextContainer = styled.div`
+    width: 100%;
+`;
+
 const Error = styled(ShowMore)`
     color: ${({ theme }) => theme.colors.red};
     text-align: center;
@@ -245,18 +249,22 @@ class ConsentForm extends React.Component<Props, State> {
                     <span>{error}</span>
                 </Error>
                 <InputFields second={emailPrompt}>
-                    <TextInput
-                        onChange={this.onKennitalaChange}
-                        label={'Kennitala ungmennis'}
-                        type="number"
-                        value={kennitala}
-                    />
-                    <TextInput
-                        onChange={this.onEmailChange}
-                        label={'Tölvupóstfang foreldris'}
-                        type="text"
-                        value={email}
-                    />
+                    <InputTextContainer>
+                        <TextInput
+                            onChange={this.onKennitalaChange}
+                            label={'Kennitala ungmennis'}
+                            type="number"
+                            value={kennitala}
+                        />
+                    </InputTextContainer>
+                    <InputTextContainer>
+                        <TextInput
+                            onChange={this.onEmailChange}
+                            label={'Tölvupóstfang foreldris'}
+                            type="text"
+                            value={email}
+                        />
+                    </InputTextContainer>
                 </InputFields>
                 <SubmitButton
                     onClick={this.handleSubmit}
