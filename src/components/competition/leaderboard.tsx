@@ -427,7 +427,7 @@ class Leaderboard extends React.Component<Props, State> {
     };
 
     isStarted = () => {
-        const startTime = new Date(2021, 1, 18, 15, 0, 0, 0);
+        const startTime = new Date(2021, 0, 18, 15, 0, 0, 0);
         return new Date() >= startTime;
     };
 
