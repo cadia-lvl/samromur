@@ -19,6 +19,7 @@ const CardGrid = styled.div`
 
 interface CardContainerProps {
     wide?: boolean;
+    disabled?: boolean;
 }
 
 const CardContainer = styled.div<CardContainerProps>`
@@ -37,6 +38,13 @@ const CardContainer = styled.div<CardContainerProps>`
     & :active {
         transform: translateY(2px);
     }
+
+    ${({ disabled }) =>
+        disabled &&
+        `
+        pointer-events: none;
+        opacity: 0.4;
+        `}
 
     ${({ theme }) => theme.media.smallUp} {
         ${({ wide }) => wide && `grid-column: 1 / 3;`}
@@ -57,15 +65,35 @@ const Title = styled.div`
     }
 `;
 
+const Loading = styled.h3`
+    padding: 2rem;
+    grid-column: span 2;
+    margin: auto;
+`;
+
 interface Props {
     setType: (contributeType: string) => void;
 }
 
 export const TypeSelect: React.FunctionComponent<Props> = (props) => {
+    const [speakClicked, setSpeakClicked] = React.useState(false);
+    const [listenClicked, setlistenClicked] = React.useState(false);
     const { setType } = props;
+
+    //TODO: add loading animation
+    const onSpeakClick = () => {
+        setSpeakClicked(true);
+        setType('tala');
+    };
+
+    const onlistenClick = () => {
+        setlistenClicked(true);
+        setType('hlusta');
+    };
+
     return (
         <CardGrid>
-            <CardContainer onClick={() => setType('tala')}>
+            <CardContainer onClick={onSpeakClick} disabled={speakClicked}>
                 <MicIcon height={50} width={50} fill={'blue'} />
                 <Title>
                     <h3>Tala</h3>
@@ -77,7 +105,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 </Title>
             </CardContainer>
 
-            <CardContainer onClick={() => setType('hlusta')}>
+            <CardContainer onClick={onlistenClick} disabled={listenClicked}>
                 <PlayIcon height={40} width={40} fill={'red'} />
                 <Title>
                     <h3>Hlusta</h3>
@@ -95,6 +123,9 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>Hringja í aðra þátttakendur og taka upp samræður</p>
                 </Title>
             </CardContainer> */}
+            {(listenClicked || speakClicked) && (
+                <Loading>Vinsamlegast bíðið á meðan gögnin hlaðast inn</Loading>
+            )}
         </CardGrid>
     );
 };
