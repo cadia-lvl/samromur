@@ -50,6 +50,7 @@ export default class Clips {
         );
     };
 
+    SHUFFLE_SIZE = 5000;
     fetchRandomClips = async (
         clientId: string,
         count: number,
@@ -57,28 +58,36 @@ export default class Clips {
     ): Promise<TableClip[]> => {
         const [clips] = await this.sql.query(
             `
-                SELECT
-                    *
-                FROM
-                    clips
-                WHERE
-                    is_valid IS NULL
-                AND
-                    EMPTY = 0
-                AND
-                    NOT EXISTS
-                        (
-                            SELECT * FROM votes WHERE votes.clip_id = clips.id AND client_id = ?
-                        )
-                AND
-                    client_id <> ?
-                AND
-                    status = ?
+                SELECT * FROM (
+                    SELECT
+                        *
+                    FROM
+                        clips
+                    WHERE
+                        is_valid IS NULL
+                    AND
+                        EMPTY = 0
+                    AND
+                        NOT EXISTS
+                            (
+                                SELECT * FROM votes WHERE votes.clip_id = clips.id AND client_id = ?
+                            )
+                    AND
+                        client_id <> ?
+                    AND
+                        status = ?
+                    LIMIT ?) as result
                 ORDER BY
                     RAND()
                 LIMIT ?
             `,
-            [clientId, clientId, status ? status : 'samromur', count]
+            [
+                clientId,
+                clientId,
+                status ? status : 'samromur',
+                this.SHUFFLE_SIZE,
+                count,
+            ]
         );
         return clips as TableClip[];
     };
