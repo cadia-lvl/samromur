@@ -28,7 +28,7 @@ export interface Theme {
     };
 }
 
-const breakpoints = {
+export const breakpoints = {
     extraSmall: '576px',
     small: '1024px',
     medium: '1280px',

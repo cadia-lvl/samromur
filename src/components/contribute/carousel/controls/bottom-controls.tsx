@@ -11,7 +11,7 @@ import InformationIcon from '../../../ui/icons/information';
 
 import ExpandableButton from './expandable-button';
 import { InformationModal } from '../information-modal';
-import { theme } from '../../../../styles/global';
+import { breakpoints, theme } from '../../../../styles/global';
 
 const BottomControlsContainer = styled.div`
     width: 100%;
@@ -107,7 +107,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
         setShowInformationModal(!showInformationModal);
     };
 
-    const isSmallScreen = theme.media.extraSmallDown;
+    const isSmallScreen = window.innerWidth <= parseInt(breakpoints.extraSmall);
     const skipText = isSmallScreen ? 'Sleppa' : 'Sleppa setningu';
 
     return (
