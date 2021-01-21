@@ -201,10 +201,25 @@ export default class Clips {
                 ]
             );
             const { insertId } = row;
+            this.increaseClipCountOnSentence(originalSentenceId);
             return Promise.resolve(insertId);
         } catch (error) {
             return Promise.reject(error);
         }
+    };
+
+    increaseClipCountOnSentence = async (sentenceId: string): Promise<void> => {
+        await this.sql.query(
+            `
+            UPDATE
+                sentences
+            SET
+                clips_count = clips_count + 1
+            WHERE
+                id = ?
+        `,
+            [sentenceId]
+        );
     };
 
     uploadClip = async (
