@@ -1,8 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import MicIcon from '../../ui/icons/mic';
 import PlayIcon from '../../ui/icons/play';
 import PhoneIcon from '../../ui/icons/phone';
+import LoadingIcon from '../../ui/icons/loading';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -65,10 +66,25 @@ const Title = styled.div`
     }
 `;
 
-const Loading = styled.h3`
+const spin = keyframes`
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+`;
+
+const LoadingContainer = styled.h3`
     padding: 2rem;
-    grid-column: span 2;
     margin: auto;
+    ${({ theme }) => theme.media.smallUp} {
+        grid-column: span 2;
+    }
+    animation-name: ${spin};
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 `;
 
 interface Props {
@@ -124,7 +140,9 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 </Title>
             </CardContainer> */}
             {(listenClicked || speakClicked) && (
-                <Loading>Vinsamlegast bíðið á meðan gögnin hlaðast inn</Loading>
+                <LoadingContainer>
+                    <LoadingIcon large />
+                </LoadingContainer>
             )}
         </CardGrid>
     );
