@@ -57,6 +57,7 @@ export const nativeLanguages: Array<Demographic> = [
     { id: 'islenska', name: 'Íslenska' },
     { id: 'italska', name: 'Ítalska' },
     { id: 'japanska', name: 'Japanska' },
+    { id: 'katalonska', name: 'Katalónska' },
     { id: 'kinverska', name: 'Kínverska' },
     { id: 'koreska', name: 'Kóreska' },
     { id: 'kurdiska', name: 'Kúrdíska' },
