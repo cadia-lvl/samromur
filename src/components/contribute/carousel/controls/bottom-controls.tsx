@@ -11,6 +11,7 @@ import InformationIcon from '../../../ui/icons/information';
 
 import ExpandableButton from './expandable-button';
 import { InformationModal } from '../information-modal';
+import { theme } from '../../../../styles/global';
 
 const BottomControlsContainer = styled.div`
     width: 100%;
@@ -106,6 +107,9 @@ export const BottomControls: React.FunctionComponent<Props> = ({
         setShowInformationModal(!showInformationModal);
     };
 
+    const isSmallScreen = theme.media.extraSmallDown;
+    const skipText = isSmallScreen ? 'Sleppa' : 'Sleppa setningu';
+
     return (
         <BottomControlsContainer>
             <SecondaryControls>
@@ -117,9 +121,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
                             onClickHandler={
                                 hasRecording ? deleteClip : skipSentence
                             }
-                            text={
-                                !hasRecording ? 'Sleppa setningu' : 'Fjarlægja?'
-                            }
+                            text={!hasRecording ? skipText : 'Fjarlægja?'}
                         >
                             {!hasRecording ? (
                                 <SkipIcon fill="grey" height={30} width={30} />
