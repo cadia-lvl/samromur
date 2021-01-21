@@ -64,6 +64,8 @@ export default class Clips {
                 WHERE
                     is_valid IS NULL
                 AND
+                    EMPTY = 0
+                AND
                     NOT EXISTS
                         (
                             SELECT * FROM votes WHERE votes.clip_id = clips.id AND client_id = ?
