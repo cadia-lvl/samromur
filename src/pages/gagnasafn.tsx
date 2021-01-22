@@ -36,6 +36,19 @@ const HeaderContainer = styled.div`
     overflow: visible;
 `;
 
+const ChartsContainer = styled.div`
+    width: 80%;
+    margin: 0 auto;
+
+    ${({ theme }) => theme.media.small} {
+        width: 100%;
+    }
+
+    & > * {
+        padding: 1rem 0;
+    }
+`;
+
 interface DatasetPageProps {}
 
 type Props = DatasetPageProps & ReturnType<typeof mapStateToProps>;
@@ -78,8 +91,10 @@ class DatasetPage extends React.Component<Props> {
                         clients={stats.totalClipsClients}
                         validated={stats.totalValidatedClips}
                     />
-                    <AgeGenderChart />
-                    <MilestoneChart />
+                    <ChartsContainer>
+                        <AgeGenderChart />
+                        <MilestoneChart />
+                    </ChartsContainer>
                 </DatasetPageContainer>
             </Layout>
         );
