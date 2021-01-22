@@ -93,6 +93,7 @@ class DashboardPage extends React.Component<Props, State> {
     render() {
         const { user } = this.props;
         const { selected } = this.state;
+        const hasUserName = !!user.client.username;
         return (
             <Layout>
                 <DashboardContainer>
@@ -105,7 +106,10 @@ class DashboardPage extends React.Component<Props, State> {
                         <DashboardStats key={selected} client={user.client} />
                     )}
                     {selected == 'stillingar' && (
-                        <DashboardSettings key={selected} />
+                        <DashboardSettings
+                            key={selected}
+                            hasUserName={hasUserName}
+                        />
                     )}
                     {selected == 'stjornandi' && (
                         <DashboardAdmin key={selected} />

@@ -38,7 +38,7 @@ class Server {
         this.server.use(nextI18NextMiddleWare(nextI18next));
         this.server.use(clientIdMiddleware);
         this.server.use(authMiddleware);
-        this.server.use('/api/', rateLimiter);
+        //this.server.use('/api/', rateLimiter);
 
         this.server.post(
             '/api/upload-batch',

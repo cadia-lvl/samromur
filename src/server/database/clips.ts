@@ -50,6 +50,7 @@ export default class Clips {
         );
     };
 
+    SHUFFLE_SIZE = 5000;
     fetchRandomClips = async (
         clientId: string,
         count: number,
@@ -57,26 +58,36 @@ export default class Clips {
     ): Promise<TableClip[]> => {
         const [clips] = await this.sql.query(
             `
-                SELECT
-                    *
-                FROM
-                    clips
-                WHERE
-                    is_valid IS NULL
-                AND
-                    NOT EXISTS
-                        (
-                            SELECT * FROM votes WHERE votes.clip_id = clips.id AND client_id = ?
-                        )
-                AND
-                    client_id <> ?
-                AND
-                    status = ?
+                SELECT * FROM (
+                    SELECT
+                        *
+                    FROM
+                        clips
+                    WHERE
+                        is_valid IS NULL
+                    AND
+                        EMPTY = 0
+                    AND
+                        NOT EXISTS
+                            (
+                                SELECT * FROM votes WHERE votes.clip_id = clips.id AND client_id = ?
+                            )
+                    AND
+                        client_id <> ?
+                    AND
+                        status = ?
+                    LIMIT ?) as result
                 ORDER BY
                     RAND()
                 LIMIT ?
             `,
-            [clientId, clientId, status ? status : 'samromur', count]
+            [
+                clientId,
+                clientId,
+                status ? status : 'samromur',
+                this.SHUFFLE_SIZE,
+                count,
+            ]
         );
         return clips as TableClip[];
     };
@@ -137,6 +148,7 @@ export default class Clips {
             gender,
             dialect,
             age,
+            institution,
             nativeLanguage,
             userAgent,
             status,
@@ -165,9 +177,9 @@ export default class Clips {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, user_agent, status, sample_rate, duration, size, dialect)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, institution, user_agent, status, sample_rate, duration, size, dialect)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
@@ -179,6 +191,7 @@ export default class Clips {
                     gender,
                     age,
                     nativeLanguage,
+                    institution ? institution : null,
                     userAgent,
                     status ? status : 'samromur',
                     sampleRate ? sampleRate : null,
@@ -188,10 +201,25 @@ export default class Clips {
                 ]
             );
             const { insertId } = row;
+            this.increaseClipCountOnSentence(originalSentenceId);
             return Promise.resolve(insertId);
         } catch (error) {
             return Promise.reject(error);
         }
+    };
+
+    increaseClipCountOnSentence = async (sentenceId: string): Promise<void> => {
+        await this.sql.query(
+            `
+            UPDATE
+                sentences
+            SET
+                clips_count = clips_count + 1
+            WHERE
+                id = ?
+        `,
+            [sentenceId]
+        );
     };
 
     uploadClip = async (

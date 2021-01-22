@@ -100,7 +100,7 @@ export const uploadClip = async (
     const { recording, sentence } = clip;
     const { demographics, userAgent } = user;
 
-    const { age, gender } = demographics;
+    const { age, gender, school } = demographics;
 
     return axios({
         method: 'POST',
@@ -110,6 +110,7 @@ export const uploadClip = async (
             age: encodeURIComponent(age.id),
             clip_id: clip.id,
             gender: encodeURIComponent(gender.id),
+            institution: encodeURIComponent(school.code || ''),
             native_language: encodeURIComponent(demographics.nativeLanguage.id),
             sentence: encodeURIComponent(sentence.text),
             user_agent: encodeURIComponent(userAgent),

@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 import { TimelineStat, TimelineSumStat } from '../types/stats';
 
 import { SSRRequest } from '../types/ssr';
-import { SchoolStat } from '../types/competition';
+import { IndividualStat, SchoolStat } from '../types/competition';
 
 export const fetchWeeklyClips = async (
     payload: SSRRequest
@@ -130,6 +130,24 @@ export const fetchLeaderboard = async (
     payload: SSRRequest
 ): Promise<SchoolStat[]> => {
     const endpoint = `/api/stats/clips/competition/leaderboard`;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+    return axios({
+        method: 'GET',
+        url,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
+
+export const fetchIndividualLeaderboard = async (
+    payload: SSRRequest
+): Promise<IndividualStat[]> => {
+    const endpoint = `/api/stats/clips/competition/individual-leaderboard`;
     const url = payload.host ? payload.host + endpoint : endpoint;
     return axios({
         method: 'GET',

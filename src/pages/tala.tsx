@@ -89,7 +89,7 @@ class SpeakPage extends React.Component<Props, State> {
     render() {
         const { initialSentences } = this.props;
 
-        return <ContributePage goupedSentences={initialSentences} />;
+        return <ContributePage groupedSentences={initialSentences} />;
     }
 }
 

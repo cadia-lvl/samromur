@@ -54,6 +54,7 @@ export interface UserClient {
     isSuperUser: boolean;
     stats: UserStats;
     skipTips: boolean;
+    username: string;
 }
 
 export interface UserConsents {

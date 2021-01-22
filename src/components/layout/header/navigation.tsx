@@ -82,7 +82,12 @@ interface NavigationProps {
 type Props = NavigationProps & WithRouterProps;
 
 export const Navigation: React.FunctionComponent<Props> = (props) => {
-    const { floating, router, user } = props;
+    const {
+        floating,
+        router,
+        user,
+        user: { username },
+    } = props;
     const { pathname } = router;
     const { t } = useTranslation(['links'], { i18n: nextI18next.i18n });
 
@@ -114,7 +119,7 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                     href="/minar-sidur"
                     isActive={pathname == '/minar-sidur'}
                 >
-                    Mínar síður
+                    {username ? `Hæ ${username}!` : 'Mínar síður'}
                 </NavLink>
                 {user.isAuthenticated && (
                     <NavButton onClick={authApi.logout}>Útskrá</NavButton>

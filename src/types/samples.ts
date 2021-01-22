@@ -18,6 +18,7 @@ export interface ClipMetadata {
     sentence: string;
     gender: string;
     dialect?: string;
+    institution?: string;
     age: string;
     nativeLanguage: string;
     status?: string;

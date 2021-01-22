@@ -4,3 +4,9 @@ export interface SchoolStat {
     users: number;
     rank: number;
 }
+
+export interface IndividualStat {
+    institution: string;
+    count: number;
+    username: string;
+}

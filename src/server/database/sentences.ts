@@ -65,7 +65,7 @@ export default class Sentences {
 
     // When getting new sentences we need to fetch a larger pool and shuffle it to make it less
     // likely that different users requesting at the same time get the same data
-    SHUFFLE_SIZE = 500;
+    SHUFFLE_SIZE = 5000;
     fetchSentences = async (
         clientId: string,
         count: number,
@@ -96,7 +96,7 @@ export default class Sentences {
                             clips.client_id = ?
                     )
                 ORDER BY
-                    clips_count asc, RAND()
+                    clips_count asc
                 LIMIT ?) as result
             ORDER BY 
                 RAND()

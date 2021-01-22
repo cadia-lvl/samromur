@@ -20,6 +20,7 @@ import {
     setConsents,
     fetchUser,
     setSkipTips,
+    setUserName,
 } from '../store/user/actions';
 import { getUserAgent } from '../utilities/browser';
 

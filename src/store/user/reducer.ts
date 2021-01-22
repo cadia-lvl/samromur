@@ -9,6 +9,26 @@ import {
 } from '../../utilities/local-storage';
 import { setUserCookie } from '../../utilities/cookies';
 
+const defaultDemoGraphics = {
+    age: {
+        id: '',
+        name: '',
+    },
+    gender: {
+        id: '',
+        name: '',
+    },
+    hasConsent: false,
+    nativeLanguage: {
+        id: '',
+        name: '',
+    },
+    school: {
+        name: '',
+        code: '',
+    },
+};
+
 const initialState: UserState = {
     client: {
         id: generateGUID(),
@@ -20,26 +40,9 @@ const initialState: UserState = {
             votes: undefined,
         },
         skipTips: false,
+        username: '',
     },
-    demographics: {
-        age: {
-            id: '',
-            name: '',
-        },
-        gender: {
-            id: '',
-            name: '',
-        },
-        hasConsent: false,
-        nativeLanguage: {
-            id: '',
-            name: '',
-        },
-        school: {
-            name: '',
-            code: '',
-        },
-    },
+    demographics: defaultDemoGraphics,
     consents: {
         cookies: false,
         terms: false,
@@ -122,6 +125,15 @@ export default createReducer(initialState)
             },
         };
     })
+    .handleAction(userActions.setUserName, (state, action) => {
+        return {
+            ...state,
+            client: {
+                ...state.client,
+                username: action.payload,
+            },
+        };
+    })
     .handleAction(userActions.fetchUser.request, (state) => state)
     .handleAction(userActions.fetchUser.success, (state, action) => {
         return {
@@ -134,4 +146,11 @@ export default createReducer(initialState)
     })
     .handleAction(userActions.fetchUser.failure, (state, action) => {
         return state;
+    })
+    .handleAction(userActions.resetDemographics, (state) => {
+        injectDemographics(defaultDemoGraphics);
+        return {
+            ...state,
+            demographics: defaultDemoGraphics,
+        };
     });

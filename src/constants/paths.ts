@@ -8,4 +8,5 @@ export const pages = {
     listen: '/hlusta',
     speak: '/tala',
     dashboard: '/minar-sidur',
+    login: '/innskraning',
 };

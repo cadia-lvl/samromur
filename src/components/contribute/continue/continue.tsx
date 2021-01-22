@@ -29,16 +29,15 @@ const ContinueModalContainer = styled.div<ContinueContainerProps>`
     & > * {
         pointer-events: ${({ expanded }) => (expanded ? 'auto' : 'none')};
         margin: 0 auto;
-        width: 100%;
-        max-width: 60rem;
+        width: 85%;
+        max-width: 62.5hm;
     }
 `;
 
 const ChartContainer = styled.div`
-    width: 100%;
     max-width: 45rem;
     height: 15rem;
-    padding: 0 1rem;
+    padding-top: 1rem;
 `;
 
 const Title = styled.h2`

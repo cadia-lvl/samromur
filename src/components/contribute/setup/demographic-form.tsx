@@ -10,7 +10,11 @@ import {
     School,
 } from '../../../types/user';
 
-import { setDemographics, setTermsConsent } from '../../../store/user/actions';
+import {
+    setDemographics,
+    resetDemographics,
+    setTermsConsent,
+} from '../../../store/user/actions';
 
 import {
     ages,
@@ -26,7 +30,10 @@ import Checkbox from '../../ui/input/checkbox';
 import ShowMore from '../../ui/animated/show-more';
 import ConsentForm from './consent-form';
 
+import * as authApi from '../../../services/auth-api';
+import { pages } from '../../../constants/paths';
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
+import moment from 'moment';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -40,12 +47,12 @@ const DemographicContainer = styled.div`
     }
 `;
 
-interface ConsentMessageProps {
+interface ConsentContainerProps {
     active: boolean;
 }
 
-const ConsentMessage = styled.div<ConsentMessageProps>`
-    display: ${({ active }) => (active ? 'flex' : 'none')};
+const ConsentMessage = styled.div`
+    display: flex;
     align-items: center;
     text-decoration: underline;
 `;
@@ -137,8 +144,37 @@ const StyledLink = styled.a`
     }
 `;
 
+const ConsentAndSwitchUserContainer = styled.div<ConsentContainerProps>`
+    display: ${({ active }) => (active ? 'flex' : 'none')};
+    flex-direction: row;
+    justify-content: space-between;
+    grid-column: 2;
+    grid-row: 3;
+
+    ${({ theme }) => theme.media.small} {
+        grid-column: 1;
+        max-width: 100%;
+    }
+`;
+
+const SwitchUser = styled.div`
+    display: flex;
+    align-items: center;
+    background: ${({ theme }) => theme.colors.green};
+    color: ${({ theme }) => theme.colors.white};
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 0.1rem;
+    cursor: pointer;
+
+    :active {
+        transform: translateY(2px);
+    }
+`;
+
 const dispatchProps = {
     setDemographics,
+    resetDemographics,
     setTermsConsent,
 };
 
@@ -224,13 +260,38 @@ class DemographicForm extends React.Component<Props, State> {
         const school = schools.find(
             (val: School) => val.name == value
         ) as School;
-        const schoolDemo: Demographic = { id: school.code, name: school.name };
+        const schoolDemo: Partial<School> = {
+            code: school ? school.code : '',
+            name: school ? school.name : '',
+        };
         this.setState({ school: schoolDemo });
     };
 
     formIsFilled = (): boolean => {
         const { age, agreed, gender } = this.state;
         return !!age?.name && agreed && !!gender?.name;
+    };
+
+    switchUser = async () => {
+        const { user } = this.props;
+        this.clearDemographics();
+        if (user.client.isAuthenticated) {
+            await authApi.logoutRedirectTo(pages.login);
+        }
+    };
+
+    clearDemographics = () => {
+        const { resetDemographics } = this.props;
+        const empty = { id: '', name: '' };
+        this.setState({
+            age: empty,
+            agreed: false,
+            gender: empty,
+            hasConsent: false,
+            nativeLanguage: empty,
+            showConsentForm: false,
+        });
+        resetDemographics();
     };
 
     onSubmit = () => {
@@ -281,6 +342,21 @@ class DemographicForm extends React.Component<Props, State> {
         const found = ages.find((item) => item.name === age.name);
         return found ? found.name : ages[0].name;
     };
+
+    getCompetitionText = (): string => {
+        const startDate = moment('2021-01-18 15:00:00', moment.ISO_8601);
+        const endDate = moment('2021-01-26 00:00:00', moment.ISO_8601);
+        const now = moment();
+        if (now.isBetween(startDate, endDate, 'seconds')) {
+            return 'Lestrarkeppni grunnsskóla er farin af stað!';
+        } else if (now.isAfter(endDate, 'seconds')) {
+            return 'Lestrarkeppni grunnsskóla er búin.';
+        } else if (now.isBefore(startDate, 'seconds')) {
+            return 'Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!';
+        }
+        return '';
+    };
+
     render() {
         const {
             agreed,
@@ -292,6 +368,7 @@ class DemographicForm extends React.Component<Props, State> {
         } = this.state;
         const formIsFilled = this.formIsFilled();
         const selectedAge = this.getAgeSelected();
+        const competitionText = this.getCompetitionText();
         return (
             <DemographicContainer>
                 <DropdownButton
@@ -302,9 +379,7 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onSchoolSelect}
                     selected={school ? (school.name ? school.name : '') : ''}
                 />
-                <CompetitionText>
-                    Lestrarkeppni grunnskólanna hefst 18. janúar!
-                </CompetitionText>
+                <CompetitionText>{competitionText}</CompetitionText>
                 <div />
                 <div />
                 <DropdownButton
@@ -313,10 +388,12 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onAgeSelect}
                     selected={selectedAge}
                 />
-                <div></div>
-                <ConsentMessage active={hasConsent}>
-                    Leyfi staðfest
-                </ConsentMessage>
+                <ConsentAndSwitchUserContainer active={hasConsent}>
+                    <ConsentMessage>Leyfi staðfest</ConsentMessage>
+                    <SwitchUser onClick={this.switchUser}>
+                        Skipta um notenda
+                    </SwitchUser>
+                </ConsentAndSwitchUserContainer>
                 <ShowMoreContainer active={showConsentForm && !hasConsent}>
                     <ConsentForm
                         onConsent={this.onConsent}

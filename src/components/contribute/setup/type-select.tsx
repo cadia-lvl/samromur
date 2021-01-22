@@ -1,8 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import MicIcon from '../../ui/icons/mic';
 import PlayIcon from '../../ui/icons/play';
 import PhoneIcon from '../../ui/icons/phone';
+import LoadingIcon from '../../ui/icons/loading';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -19,6 +20,7 @@ const CardGrid = styled.div`
 
 interface CardContainerProps {
     wide?: boolean;
+    disabled?: boolean;
 }
 
 const CardContainer = styled.div<CardContainerProps>`
@@ -37,6 +39,13 @@ const CardContainer = styled.div<CardContainerProps>`
     & :active {
         transform: translateY(2px);
     }
+
+    ${({ disabled }) =>
+        disabled &&
+        `
+        pointer-events: none;
+        opacity: 0.4;
+        `}
 
     ${({ theme }) => theme.media.smallUp} {
         ${({ wide }) => wide && `grid-column: 1 / 3;`}
@@ -57,15 +66,50 @@ const Title = styled.div`
     }
 `;
 
+const spin = keyframes`
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+`;
+
+const LoadingContainer = styled.h3`
+    padding: 2rem;
+    margin: auto;
+    ${({ theme }) => theme.media.smallUp} {
+        grid-column: span 2;
+    }
+    animation-name: ${spin};
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+`;
+
 interface Props {
     setType: (contributeType: string) => void;
 }
 
 export const TypeSelect: React.FunctionComponent<Props> = (props) => {
+    const [speakClicked, setSpeakClicked] = React.useState(false);
+    const [listenClicked, setlistenClicked] = React.useState(false);
     const { setType } = props;
+
+    //TODO: add loading animation
+    const onSpeakClick = () => {
+        setSpeakClicked(true);
+        setType('tala');
+    };
+
+    const onlistenClick = () => {
+        setlistenClicked(true);
+        setType('hlusta');
+    };
+
     return (
         <CardGrid>
-            <CardContainer onClick={() => setType('tala')}>
+            <CardContainer onClick={onSpeakClick} disabled={speakClicked}>
                 <MicIcon height={50} width={50} fill={'blue'} />
                 <Title>
                     <h3>Tala</h3>
@@ -77,7 +121,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 </Title>
             </CardContainer>
 
-            <CardContainer onClick={() => setType('hlusta')}>
+            <CardContainer onClick={onlistenClick} disabled={listenClicked}>
                 <PlayIcon height={40} width={40} fill={'red'} />
                 <Title>
                     <h3>Hlusta</h3>
@@ -95,6 +139,11 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>Hringja í aðra þátttakendur og taka upp samræður</p>
                 </Title>
             </CardContainer> */}
+            {(listenClicked || speakClicked) && (
+                <LoadingContainer>
+                    <LoadingIcon large />
+                </LoadingContainer>
+            )}
         </CardGrid>
     );
 };
