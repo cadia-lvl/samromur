@@ -182,7 +182,7 @@ class AgeGenderChart extends React.Component<Props, State> {
         const { data } = this.state;
         return (
             <div>
-                <ChartTitle>Uppökur efter aldri og kyni</ChartTitle>
+                <ChartTitle>Uppökur eftir aldri og kyni</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );

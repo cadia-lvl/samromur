@@ -110,7 +110,7 @@ class MilestoneChart extends React.Component<Props, State> {
         const { data } = this.state;
         return (
             <div>
-                <ChartTitle>Uppökur efter aldri og móðurmáli</ChartTitle>
+                <ChartTitle>Uppökur eftir aldri og móðurmáli</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );
