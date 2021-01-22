@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
+import styled from 'styled-components';
 import { fetchAgeGenderStats } from '../../../services/stats-api';
 
-const options = {
+const ChartTitle = styled.h5``;
+
+export const options = {
     scales: {
         yAxes: [
             {
@@ -25,6 +28,52 @@ const options = {
                 return !item.text.match('Staðfest');
             },
         },
+        onClick: (e: any) => {},
+        position: 'bottom',
+    },
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem: any, data: any) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                let total = 0;
+                switch (data.datasets[tooltipItem.datasetIndex].stack) {
+                    case 1: {
+                        total =
+                            data.datasets[0].data[tooltipItem.index] +
+                            data.datasets[1].data[tooltipItem.index];
+                        break;
+                    }
+                    case 2: {
+                        total =
+                            data.datasets[2].data[tooltipItem.index] +
+                            data.datasets[3].data[tooltipItem.index];
+                        break;
+                    }
+                    case 3: {
+                        total =
+                            data.datasets[4].data[tooltipItem.index] +
+                            data.datasets[5].data[tooltipItem.index];
+                        break;
+                    }
+                }
+
+                if (label) {
+                    label += ': ';
+                }
+                switch (tooltipItem.datasetIndex) {
+                    case 1:
+                    case 3:
+                    case 5: {
+                        label += total;
+                        break;
+                    }
+                    default: {
+                        label += tooltipItem.yLabel;
+                    }
+                }
+                return label;
+            },
+        },
     },
 };
 
@@ -44,7 +93,7 @@ class AgeGenderChart extends React.Component<Props, State> {
     componentDidMount = async () => {
         const ageGenderStats = await fetchAgeGenderStats();
         const data = this.generateDataSet(ageGenderStats);
-        console.log(ageGenderStats);
+        //console.log(ageGenderStats);
         console.table(ageGenderStats);
         this.setState({ data });
     };
@@ -73,39 +122,44 @@ class AgeGenderChart extends React.Component<Props, State> {
             datasets: [
                 {
                     label: 'Staðfest',
-                    data: karl_valid,
-                    backgroundColor: '#59cbb7',
-                    stack: 1,
-                    legend: { display: false },
-                },
-                {
-                    label: 'Karl',
-                    data: karl,
-                    backgroundColor: '#629ff4',
-                    stack: 1,
-                },
-                {
-                    label: 'Staðfest',
                     data: kona_valid,
                     backgroundColor: '#59cbb7',
-                    stack: 2,
+                    stack: 1,
                 },
                 {
                     label: 'Kona',
                     data: kona,
                     backgroundColor: '#ff4f5e',
+                    stack: 1,
+                },
+                {
+                    label: 'Staðfest',
+                    data: karl_valid,
+                    backgroundColor: '#59cbb7',
                     stack: 2,
                 },
                 {
-                    label: 'Þar af staðfest',
+                    label: 'Karl',
+                    data: karl,
+                    backgroundColor: '#629ff4',
+                    stack: 2,
+                },
+                {
+                    label: 'Staðfest',
                     data: total_valid,
                     backgroundColor: '#59cbb7',
                     stack: 3,
                 },
                 {
-                    label: 'Total',
+                    label: 'Samtals',
                     data: total,
                     backgroundColor: '#2b376c',
+                    stack: 3,
+                },
+                {
+                    label: 'Þar af staðfest',
+                    data: [],
+                    backgroundColor: '#59cbb7',
                     stack: 3,
                 },
             ],
@@ -120,7 +174,7 @@ class AgeGenderChart extends React.Component<Props, State> {
 
         return (
             <div>
-                This will be a nice chart
+                <ChartTitle>Uppökur efter aldri og kyni</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );
