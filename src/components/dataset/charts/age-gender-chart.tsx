@@ -75,6 +75,8 @@ export const options = {
             },
         },
     },
+    //maintainAspectRatio: false,
+    responsive: true,
 };
 
 interface Props {}
@@ -87,15 +89,23 @@ class AgeGenderChart extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { data: [] };
+        this.state = { data: { labels: [], datasets: [] } };
     }
 
     componentDidMount = async () => {
         const ageGenderStats = await fetchAgeGenderStats();
         const data = this.generateDataSet(ageGenderStats);
-        //console.log(ageGenderStats);
-        console.table(ageGenderStats);
         this.setState({ data });
+    };
+
+    // This handles the specific case of 06-9 ára
+    // we need the 0 in the db call to get the output in the
+    // right order, then we trim it here to make it look nice
+    ageFormatter = (ageGroup: string) => {
+        if (ageGroup && ageGroup[0] === '0') {
+            return ageGroup.slice(1);
+        }
+        return ageGroup;
     };
 
     generateDataSet = (data: any) => {
@@ -108,7 +118,7 @@ class AgeGenderChart extends React.Component<Props, State> {
         const total_valid: any[] = [];
 
         data.forEach((row: any) => {
-            labels.push(row.age);
+            labels.push(this.ageFormatter(row.age));
             karl.push(row.karl);
             karl_valid.push(row.karl_valid);
             kona.push(row.kona);
@@ -170,8 +180,6 @@ class AgeGenderChart extends React.Component<Props, State> {
 
     render() {
         const { data } = this.state;
-        console.table(data);
-
         return (
             <div>
                 <ChartTitle>Uppökur efter aldri og kyni</ChartTitle>

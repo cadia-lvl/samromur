@@ -16,14 +16,12 @@ class MilestoneChart extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { data: [] };
+        this.state = { data: { labels: [], datasets: [] } };
     }
 
     componentDidMount = async () => {
         const milestoneStats = await fetchMileStoneGroups();
         const data = this.generateDataSet(milestoneStats);
-        //console.log(ageGenderStats);
-        console.table(milestoneStats);
         this.setState({ data });
     };
 
@@ -110,8 +108,6 @@ class MilestoneChart extends React.Component<Props, State> {
 
     render() {
         const { data } = this.state;
-        console.table(data);
-
         return (
             <div>
                 <ChartTitle>Uppökur efter aldri og móðurmáli</ChartTitle>
