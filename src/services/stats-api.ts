@@ -176,3 +176,18 @@ export const fetchAgeGenderStats = async (): Promise<any> => {
             return Promise.reject(error.code);
         });
 };
+
+export const fetchMileStoneGroups = async (): Promise<any> => {
+    const endpoint = `/api/stats/milestones`;
+    return axios({
+        method: 'GET',
+        url: endpoint,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};

@@ -183,7 +183,7 @@ export default class Clips {
         return rows;
     }, cacheTimeMSLeaderBoard);
 
-    async getAgeGenderStats(): Promise<any> {
+    getAgeGenderStats = lazyCache(async (): Promise<any> => {
         const [rows] = await this.sql.query(
             `
                 SELECT
@@ -252,7 +252,7 @@ export default class Clips {
             []
         );
         return rows;
-    }
+    }, cacheTimeMS);
 
     fetchIndividualLeaderboard = lazyCache(async (): Promise<
         IndividualStat[]
@@ -295,4 +295,80 @@ export default class Clips {
         );
         return rows;
     }, cacheTimeMSLeaderBoard);
+
+    getMileStoneGroups = lazyCache(async (): Promise<any> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT
+                groups as hopur,
+                    COUNT(
+                    CASE
+                        WHEN sex = 'karl' AND (is_valid = 0 OR is_valid IS NULL) THEN 1
+                        ELSE NULL
+                    End
+                ) as karl,
+                COUNT(
+                CASE
+                    WHEN sex = 'karl' AND is_valid = 1 THEN 1
+                    ELSE NULL
+                End
+                ) as karl_valid,
+                    COUNT(
+                    CASE
+                        WHEN sex = 'kona' AND (is_valid = 0 OR is_valid IS NULL)  THEN 1
+                        ELSE NULL
+                    End
+                ) as kona,
+                    COUNT(
+                    CASE
+                        WHEN sex = 'kona' AND is_valid = 1 THEN 1
+                        ELSE NULL
+                    End
+                ) as kona_valid,
+                    COUNT(
+                    CASE
+                        WHEN is_valid = 0 or is_valid IS NULL THEN 1
+                    END
+                ) as total,
+                    COUNT(
+                    CASE
+                        WHEN is_valid = 1 THEN 1
+                    END
+                ) as total_valid
+            FROM
+                (SELECT
+                    *,
+                    CASE
+                        WHEN
+                            clips.age IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 'ungur_unglingur')
+                        THEN 'child'
+                        WHEN
+                            native_language = 'islenska'
+                    AND
+                        clips.age IN ('unglingur', 'tvitugt', 'thritugt', 'fertugt', 'fimmtugt', 'sextugt', 'sjotugt', 'attraett', 'niraett')
+                    THEN 'adult'
+                    WHEN
+                        native_language != 'islenska'
+                    AND
+                        native_language != ''
+                    AND
+                        clips.age IN ('unglingur', 'tvitugt', 'thritugt', 'fertugt', 'fimmtugt', 'sextugt', 'sjotugt', 'attraett', 'niraett')
+                    THEN 'adult_l2'
+                    ELSE NULL
+                    END groups
+                FROM
+                    clips
+                ) ages
+                WHERE
+                    groups IS NOT NULL
+                GROUP BY
+                    groups
+                ORDER BY
+                    total_valid
+                DESC
+            `,
+            []
+        );
+        return rows;
+    }, cacheTimeMS);
 }
