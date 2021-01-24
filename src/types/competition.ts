@@ -10,3 +10,19 @@ export interface IndividualStat {
     count: number;
     username: string;
 }
+
+const DefaultSchoolStat: SchoolStat = {
+    institution: '',
+    count: 0,
+    users: 0,
+    rank: 0,
+};
+
+const DefaultIndividualStat: IndividualStat = {
+    institution: '',
+    count: 0,
+    username: '',
+};
+
+export const DefaultSchoolStats: SchoolStat[] = [DefaultSchoolStat];
+export const DefaultIndividualStats: IndividualStat[] = [DefaultIndividualStat];
