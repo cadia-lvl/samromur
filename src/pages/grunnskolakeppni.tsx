@@ -41,6 +41,7 @@ type Props = {
 
 interface State {}
 
+//TODO: update dates
 export const startTime = new Date(2021, 0, 18, 15, 0, 0, 0);
 export const lastDay = new Date(2021, 0, 24, 0, 0, 0);
 export const endTime = new Date(2021, 0, 25, 0, 0, 0);

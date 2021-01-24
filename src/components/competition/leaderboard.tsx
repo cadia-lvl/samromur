@@ -149,7 +149,7 @@ const StyledCountDown = styled(Countdown)`
 
 const StyledImage = styled.img`
     width: 100%;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
 `;
 
 interface ConditionalMobileTextProps {
@@ -213,6 +213,10 @@ const StatItem = styled.span<CellProps>`
     ${({ theme }) => theme.media.small} {
         ${({ disableMobile }) => disableMobile && `display: none;`}
     }
+`;
+
+const EncourageText = styled.p`
+    font-weight: 600;
 `;
 
 interface DividerProps {
@@ -508,14 +512,13 @@ class Leaderboard extends React.Component<Props, State> {
                                 <div>
                                     <span>
                                         Lestrarkeppni grunskólanna lýkur
-                                        mánudaginn 25. janúar á miðnætti
+                                        mánudaginn 25. janúar á miðnætti.
                                     </span>
-                                    <span>
-                                        {' '}
-                                        {'<'}INSERT COMPETITIVE ARGUMENT AND
-                                        EXPLAIN BLURR HERE.
-                                        {'>'}
-                                    </span>
+                                    <EncourageText>
+                                        Keppnin er ótrúlega spennandi og náin!
+                                        Til að auka spennuna felum við stigin
+                                        síðasta sólarhringinn.
+                                    </EncourageText>
                                 </div>
                             ) : (
                                 <span>
@@ -587,7 +590,7 @@ class Leaderboard extends React.Component<Props, State> {
                 {createSuspense ? (
                     <div>
                         <CountDownContainer>
-                            <span>{'Tími sem eftir er af keppninni: '}</span>
+                            <span>{'Tími sem eftir er af keppninni'}</span>
                             <StyledCountDown
                                 date={endTime}
                                 onComplete={this.competitionDone}
