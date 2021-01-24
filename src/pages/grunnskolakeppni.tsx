@@ -14,7 +14,12 @@ import Layout from '../components/layout/layout';
 import Leaderboard from '../components/competition/leaderboard';
 import About from '../components/competition/about';
 
-import { IndividualStat, SchoolStat } from '../types/competition';
+import {
+    DefaultIndividualStats,
+    DefaultSchoolStats,
+    IndividualStat,
+    SchoolStat,
+} from '../types/competition';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -36,6 +41,12 @@ type Props = {
 
 interface State {}
 
+//TODO: update dates
+export const startTime = new Date(2021, 0, 18, 15, 0, 0, 0);
+export const lastDay = new Date(2021, 0, 25, 0, 0, 0);
+export const endTime = new Date(2021, 0, 26, 0, 0, 0);
+export const revealResultsTime = new Date(2021, 0, 27, 16, 0, 0);
+
 class CompetitionPage extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -49,9 +60,19 @@ class CompetitionPage extends React.Component<Props, State> {
             // make SSRDispatch  calls to get competidion data
         }
 
+        // TODO: only get data if not suspenseperiod.
         const { isServer, req } = ctx;
 
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
+
+        if (CompetitionPage.isSuspenceTime()) {
+            return {
+                namespacesRequired: ['common'],
+                individualLeaderboard: DefaultIndividualStats,
+                leaderboard: DefaultSchoolStats,
+            };
+        }
+
         const leaderboard = await statsApi.fetchLeaderboard({ host });
         const individualLeaderboard = await statsApi.fetchIndividualLeaderboard(
             { host }
@@ -63,12 +84,19 @@ class CompetitionPage extends React.Component<Props, State> {
         };
     };
 
+    static isSuspenceTime = (): boolean => {
+        const now = new Date();
+        return now >= lastDay && now <= revealResultsTime;
+    };
+
     static missingProps = (ctx: NextPageContext): boolean => {
         const { store } = ctx;
         return false;
         // check if data not found in localstorage//state
     };
 
+    // TODO: Move Title here
+    // TODO: Move Countdown here
     render() {
         const { individualLeaderboard, leaderboard } = this.props;
         return (

@@ -1,7 +1,14 @@
 import * as React from 'react';
+import Countdown from 'react-countdown';
 import styled from 'styled-components';
 
 import { schools } from '../../constants/schools';
+import {
+    endTime,
+    lastDay,
+    revealResultsTime,
+    startTime,
+} from '../../pages/grunnskolakeppni';
 
 import { IndividualStat, SchoolStat } from '../../types/competition';
 
@@ -25,7 +32,11 @@ const HeaderContainer = styled.div`
     }
 `;
 
-const TitleContainer = styled.div`
+interface TitleContainerProps {
+    doubleColumns?: boolean;
+}
+
+const TitleContainer = styled.div<TitleContainerProps>`
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
@@ -37,6 +48,7 @@ const TitleContainer = styled.div`
     ${({ theme }) => theme.media.small} {
         max-width: 100%;
     }
+    ${({ doubleColumns }) => doubleColumns && 'max-width: 100%;'}
 `;
 
 const SubTitle = styled.div`
@@ -82,6 +94,7 @@ const Tab = styled.div<TabProps>`
 
 interface ColumnProps {
     allColumns: boolean;
+    createSuspense?: boolean;
 }
 
 const LeaderboardContent = styled.div<ColumnProps>`
@@ -103,6 +116,18 @@ const LeaderboardContent = styled.div<ColumnProps>`
             font-size: calc(2vmin + 6px);
         }
     }
+
+    ${({ createSuspense }) =>
+        createSuspense &&
+        `
+        filter: blur(0.3rem);
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+/Edge */
+        user-select: none; /* Standard */
+        pointer-events: none;
+        
+    `}
 `;
 
 const StyledLink = styled.a`
@@ -117,6 +142,24 @@ const StyledLink = styled.a`
         text-decoration: none;
         color: ${({ theme }) => theme.colors.blackOlive};
     }
+`;
+
+const CountDownContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+`;
+
+const StyledCountDown = styled(Countdown)`
+    margin: 0 auto;
+`;
+
+const StyledImage = styled.img`
+    width: 100%;
+    margin: 0.5rem auto;
 `;
 
 interface ConditionalMobileTextProps {
@@ -182,6 +225,14 @@ const StatItem = styled.span<CellProps>`
     }
 `;
 
+const EncourageContainer = styled.div`
+    flex: 2;
+`;
+
+const EncourageText = styled.p`
+    font-weight: 600;
+`;
+
 interface DividerProps {
     allColumns: boolean;
     thick?: boolean;
@@ -208,6 +259,7 @@ interface State {
     stats: SchoolStat[];
     selectedOption: 'all' | 'A' | 'B' | 'C' | 'individual';
     sortby: 'rank' | 'name' | 'users' | 'count';
+    competitionDone: boolean;
 }
 
 class Leaderboard extends React.Component<Props, State> {
@@ -220,6 +272,7 @@ class Leaderboard extends React.Component<Props, State> {
             stats: [],
             selectedOption: 'all',
             sortby: 'rank',
+            competitionDone: false,
         };
     }
 
@@ -427,8 +480,15 @@ class Leaderboard extends React.Component<Props, State> {
     };
 
     isStarted = () => {
-        const startTime = new Date(2021, 0, 18, 15, 0, 0, 0);
         return new Date() >= startTime;
+    };
+
+    shouldCreateSuspense = (): boolean => {
+        return new Date() >= lastDay && new Date() <= revealResultsTime;
+    };
+
+    isFinished = (): boolean => {
+        return new Date() >= endTime;
     };
 
     /*     getSchoolRatio = (code: string, count: number) => {
@@ -438,22 +498,59 @@ class Leaderboard extends React.Component<Props, State> {
                 : 1;
         } */
 
+    competitionDone = () => {
+        this.setState({ competitionDone: true });
+    };
+
     render() {
-        const { individualStats, filteredStats, selectedOption } = this.state;
+        const {
+            individualStats,
+            filteredStats,
+            selectedOption,
+            competitionDone,
+        } = this.state;
+
+        const createSuspense = this.shouldCreateSuspense();
         return (
             <LeaderboardContainer>
                 <HeaderContainer>
-                    <TitleContainer>
+                    <TitleContainer doubleColumns={createSuspense}>
                         <h2>Hvaða skóli les mest?</h2>
                         {!this.isStarted() ? (
                             <span>
                                 Lestrarkeppni grunnskólanna hefst mánudaginn 18.
                                 janúar klukkan 15:00
                             </span>
+                        ) : !this.isFinished() ? (
+                            this.shouldCreateSuspense() ? (
+                                <EncourageContainer>
+                                    <span>
+                                        Lestrarkeppni grunskólanna lýkur
+                                        mánudaginn 25. janúar á miðnætti.
+                                    </span>
+                                    <EncourageText>
+                                        Frá miðnætti sunnudaginn 24. janúar
+                                        verður stigataflan hulin. Keppnin er
+                                        æsispennandi og úrslit munu líklegast
+                                        ráðast á síðustu metrunum.
+                                    </EncourageText>
+                                </EncourageContainer>
+                            ) : (
+                                <span>
+                                    Lestrarkeppni grunskólanna lýkur mánudaginn
+                                    25. janúar á miðnætti
+                                </span>
+                            )
                         ) : (
                             <span>
-                                Lestrarkeppni grunskólanna lýkur mánudaginn 25.
-                                janúar á miðnætti
+                                Lestrarkeppni grunnskóla lauk þann 25. janúar.
+                                Úrslit verða tilkynnt við hátíðlega athöfn á
+                                Bessastöðum þann 27. janúar. Fylgist með á{' '}
+                                <StyledLink
+                                    href={'https://www.facebook.com/samromur/'}
+                                >
+                                    facebook síðu Samróms
+                                </StyledLink>
                             </span>
                         )}
                         <span></span>
@@ -462,160 +559,208 @@ class Leaderboard extends React.Component<Props, State> {
                         </StyledLink>
                     </TitleContainer>
 
-                    <TabSelector>
-                        <CategoryTitle>Flokkur</CategoryTitle>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: 'all' })
-                            }
-                            selected={selectedOption === 'all'}
-                        >
-                            Allir
-                        </Tab>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: 'A' })
-                            }
-                            selected={selectedOption === 'A'}
-                        >
-                            A
-                        </Tab>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: 'B' })
-                            }
-                            selected={selectedOption === 'B'}
-                        >
-                            B
-                        </Tab>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: 'C' })
-                            }
-                            selected={selectedOption === 'C'}
-                        >
-                            C
-                        </Tab>
-                        <Tab
-                            onClick={() =>
-                                this.setState({ selectedOption: 'individual' })
-                            }
-                            selected={selectedOption === 'individual'}
-                        >
-                            Einstaklingar
-                        </Tab>
-                    </TabSelector>
-                </HeaderContainer>
-                <SubTitle>
-                    <h3>Stigatafla</h3>
-                    {selectedOption == 'individual' && (
-                        <StyledLink href={'/minar-sidur'}>
-                            <ConditionalMobileText
-                                desktop={
-                                    'Með því að búa til aðgang má halda utan um einstaklings árangur'
+                    {!createSuspense && (
+                        <TabSelector>
+                            <CategoryTitle>Flokkur</CategoryTitle>
+                            <Tab
+                                onClick={() =>
+                                    this.setState({ selectedOption: 'all' })
                                 }
-                                mobile={'Búa til aðang'}
-                            />
-                            {/* Með því að búa til aðgang má halda utan um einstaklings árangur */}
-                        </StyledLink>
+                                selected={selectedOption === 'all'}
+                            >
+                                Allir
+                            </Tab>
+                            <Tab
+                                onClick={() =>
+                                    this.setState({ selectedOption: 'A' })
+                                }
+                                selected={selectedOption === 'A'}
+                            >
+                                A
+                            </Tab>
+                            <Tab
+                                onClick={() =>
+                                    this.setState({ selectedOption: 'B' })
+                                }
+                                selected={selectedOption === 'B'}
+                            >
+                                B
+                            </Tab>
+                            <Tab
+                                onClick={() =>
+                                    this.setState({ selectedOption: 'C' })
+                                }
+                                selected={selectedOption === 'C'}
+                            >
+                                C
+                            </Tab>
+                            <Tab
+                                onClick={() =>
+                                    this.setState({
+                                        selectedOption: 'individual',
+                                    })
+                                }
+                                selected={selectedOption === 'individual'}
+                            >
+                                Einstaklingar
+                            </Tab>
+                        </TabSelector>
                     )}
-                </SubTitle>
-                <LeaderboardContent allColumns={selectedOption == 'all'}>
-                    <HeaderItem
-                        align="left"
-                        thick
-                        onClick={() => this.sort('rank')}
-                    >
-                        *
-                    </HeaderItem>
-                    <HeaderItem
-                        disableMobile={selectedOption == 'individual'}
-                        align="left"
-                        onClick={() => this.sort('name')}
-                    >
-                        Skóli
-                    </HeaderItem>
-                    <HeaderItem
-                        disabled={selectedOption != 'all'}
-                        disableMobile
-                    >
-                        Flokkur
-                    </HeaderItem>
-                    <HeaderItem
-                        disableMobile={selectedOption != 'individual'}
-                        align="left"
-                        onClick={() => this.sort('users')}
-                    >
-                        {selectedOption == 'individual'
-                            ? 'Keppandi'
-                            : 'Keppendur'}
-                    </HeaderItem>
-                    <HeaderItem onClick={() => this.sort('count')}>
-                        Setningar
-                    </HeaderItem>
-                    <Divider allColumns={selectedOption == 'all'} />
-                    {selectedOption == 'individual'
-                        ? individualStats.map(
-                              (stat: IndividualStat, i: number) => (
-                                  <React.Fragment key={i}>
-                                      <StatItem
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {i + 1}
-                                      </StatItem>
-                                      <StatItem
-                                          disableMobile
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {this.getSchoolName(stat.institution)}
-                                      </StatItem>
-                                      <StatItem
-                                          align="left"
-                                          darker={i % 2 != 0}
-                                      >
-                                          {stat.username}
-                                      </StatItem>
-                                      <StatItem darker={i % 2 != 0}>
-                                          {stat.count}
-                                      </StatItem>
-                                      {i != individualStats.length - 1 && (
-                                          <Divider allColumns={false} />
-                                      )}
-                                  </React.Fragment>
-                              )
-                          )
-                        : filteredStats.map((stat: SchoolStat, i: number) => (
-                              <React.Fragment key={i}>
-                                  <StatItem align="left" darker={i % 2 != 0}>
-                                      {i + 1}
-                                  </StatItem>
-                                  <StatItem align="left" darker={i % 2 != 0}>
-                                      {this.getSchoolName(stat.institution)}
-                                  </StatItem>
-                                  <StatItem
-                                      disabled={selectedOption != 'all'}
-                                      disableMobile
-                                      align="right"
-                                      darker={i % 2 != 0}
-                                  >
-                                      {this.getSchoolCategory(stat.institution)}
-                                  </StatItem>
-                                  <StatItem disableMobile darker={i % 2 != 0}>
-                                      {stat.users}
-                                  </StatItem>
-                                  <StatItem darker={i % 2 != 0}>
-                                      {stat.count}
-                                  </StatItem>
-                                  {i != filteredStats.length - 1 && (
-                                      <Divider
-                                          allColumns={selectedOption == 'all'}
-                                      />
+                </HeaderContainer>
+                {createSuspense ? (
+                    <div>
+                        <CountDownContainer>
+                            <span>{'Tími sem eftir er af keppninni'}</span>
+                            <StyledCountDown
+                                date={endTime}
+                                onComplete={this.competitionDone}
+                                daysInHours
+                            />
+                        </CountDownContainer>
+                        <StyledImage src="./images/leaderboard_blurred.png" />
+                    </div>
+                ) : (
+                    <div>
+                        <SubTitle>
+                            <h3>Stigatafla</h3>
+                            {selectedOption == 'individual' && (
+                                <StyledLink href={'/minar-sidur'}>
+                                    <ConditionalMobileText
+                                        desktop={
+                                            'Með því að búa til aðgang má halda utan um einstaklings árangur'
+                                        }
+                                        mobile={'Búa til aðang'}
+                                    />
+                                    {/* Með því að búa til aðgang má halda utan um einstaklings árangur */}
+                                </StyledLink>
+                            )}
+                        </SubTitle>
+                        <LeaderboardContent
+                            allColumns={selectedOption == 'all'}
+                            createSuspense={!competitionDone && createSuspense}
+                        >
+                            <HeaderItem
+                                align="left"
+                                thick
+                                onClick={() => this.sort('rank')}
+                            >
+                                *
+                            </HeaderItem>
+                            <HeaderItem
+                                disableMobile={selectedOption == 'individual'}
+                                align="left"
+                                onClick={() => this.sort('name')}
+                            >
+                                Skóli
+                            </HeaderItem>
+                            <HeaderItem
+                                disabled={selectedOption != 'all'}
+                                disableMobile
+                            >
+                                Flokkur
+                            </HeaderItem>
+                            <HeaderItem
+                                disableMobile={selectedOption != 'individual'}
+                                align="left"
+                                onClick={() => this.sort('users')}
+                            >
+                                {selectedOption == 'individual'
+                                    ? 'Keppandi'
+                                    : 'Keppendur'}
+                            </HeaderItem>
+                            <HeaderItem onClick={() => this.sort('count')}>
+                                Setningar
+                            </HeaderItem>
+                            <Divider allColumns={selectedOption == 'all'} />
+                            {selectedOption == 'individual'
+                                ? individualStats.map(
+                                      (stat: IndividualStat, i: number) => (
+                                          <React.Fragment key={i}>
+                                              <StatItem
+                                                  align="left"
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {i + 1}
+                                              </StatItem>
+                                              <StatItem
+                                                  disableMobile
+                                                  align="left"
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {this.getSchoolName(
+                                                      stat.institution
+                                                  )}
+                                              </StatItem>
+                                              <StatItem
+                                                  align="left"
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {stat.username}
+                                              </StatItem>
+                                              <StatItem darker={i % 2 != 0}>
+                                                  {stat.count}
+                                              </StatItem>
+                                              {i !=
+                                                  individualStats.length -
+                                                      1 && (
+                                                  <Divider allColumns={false} />
+                                              )}
+                                          </React.Fragment>
+                                      )
+                                  )
+                                : filteredStats.map(
+                                      (stat: SchoolStat, i: number) => (
+                                          <React.Fragment key={i}>
+                                              <StatItem
+                                                  align="left"
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {i + 1}
+                                              </StatItem>
+                                              <StatItem
+                                                  align="left"
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {this.getSchoolName(
+                                                      stat.institution
+                                                  )}
+                                              </StatItem>
+                                              <StatItem
+                                                  disabled={
+                                                      selectedOption != 'all'
+                                                  }
+                                                  disableMobile
+                                                  align="right"
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {this.getSchoolCategory(
+                                                      stat.institution
+                                                  )}
+                                              </StatItem>
+                                              <StatItem
+                                                  disableMobile
+                                                  darker={i % 2 != 0}
+                                              >
+                                                  {stat.users}
+                                              </StatItem>
+                                              <StatItem darker={i % 2 != 0}>
+                                                  {stat.count}
+                                              </StatItem>
+                                              {i !=
+                                                  filteredStats.length - 1 && (
+                                                  <Divider
+                                                      allColumns={
+                                                          selectedOption ==
+                                                          'all'
+                                                      }
+                                                  />
+                                              )}
+                                          </React.Fragment>
+                                      )
                                   )}
-                              </React.Fragment>
-                          ))}
-                </LeaderboardContent>
+                        </LeaderboardContent>
+                    </div>
+                )}
             </LeaderboardContainer>
         );
     }
