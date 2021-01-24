@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Countdown from 'react-countdown';
 import styled from 'styled-components';
 
 import { schools } from '../../constants/schools';
@@ -82,6 +83,7 @@ const Tab = styled.div<TabProps>`
 
 interface ColumnProps {
     allColumns: boolean;
+    createSuspense?: boolean;
 }
 
 const LeaderboardContent = styled.div<ColumnProps>`
@@ -103,6 +105,18 @@ const LeaderboardContent = styled.div<ColumnProps>`
             font-size: calc(2vmin + 6px);
         }
     }
+
+    ${({ createSuspense }) =>
+        createSuspense &&
+        `
+        filter: blur(0.3rem);
+        -webkit-user-select: none; /* Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+/Edge */
+        user-select: none; /* Standard */
+        pointer-events: none;
+        
+    `}
 `;
 
 const StyledLink = styled.a`
@@ -117,6 +131,17 @@ const StyledLink = styled.a`
         text-decoration: none;
         color: ${({ theme }) => theme.colors.blackOlive};
     }
+`;
+
+const CountDownContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    font-size: 1.5rem;
+`;
+
+const StyledCountDown = styled(Countdown)`
+    margin: 0 auto;
 `;
 
 interface ConditionalMobileTextProps {
@@ -208,6 +233,7 @@ interface State {
     stats: SchoolStat[];
     selectedOption: 'all' | 'A' | 'B' | 'C' | 'individual';
     sortby: 'rank' | 'name' | 'users' | 'count';
+    competitionDone: boolean;
 }
 
 class Leaderboard extends React.Component<Props, State> {
@@ -220,8 +246,13 @@ class Leaderboard extends React.Component<Props, State> {
             stats: [],
             selectedOption: 'all',
             sortby: 'rank',
+            competitionDone: false,
         };
     }
+    // TODO: this should be in variables for future competitions
+    startDay = new Date(2021, 0, 18, 15, 0, 0, 0);
+    lastDay = new Date(2021, 0, 25, 0, 0, 0);
+    endDay = new Date(2021, 0, 26, 0, 0, 0);
 
     statsToState = () => {
         const { individualStats, stats } = this.props;
@@ -427,8 +458,13 @@ class Leaderboard extends React.Component<Props, State> {
     };
 
     isStarted = () => {
-        const startTime = new Date(2021, 0, 18, 15, 0, 0, 0);
+        const startTime = this.startDay;
         return new Date() >= startTime;
+    };
+
+    isLastDay = (): boolean => {
+        const suspenseDay = this.lastDay;
+        return new Date() >= suspenseDay;
     };
 
     /*     getSchoolRatio = (code: string, count: number) => {
@@ -438,8 +474,19 @@ class Leaderboard extends React.Component<Props, State> {
                 : 1;
         } */
 
+    competitionDone = () => {
+        this.setState({ competitionDone: true });
+    };
+
     render() {
-        const { individualStats, filteredStats, selectedOption } = this.state;
+        const {
+            individualStats,
+            filteredStats,
+            selectedOption,
+            competitionDone,
+        } = this.state;
+
+        const createSuspense = this.isLastDay();
         return (
             <LeaderboardContainer>
                 <HeaderContainer>
@@ -506,6 +553,17 @@ class Leaderboard extends React.Component<Props, State> {
                         </Tab>
                     </TabSelector>
                 </HeaderContainer>
+
+                {createSuspense && (
+                    <CountDownContainer>
+                        <p>{'Tími sem eftir er af keppninni: '}</p>
+                        <StyledCountDown
+                            date={this.endDay}
+                            onComplete={this.competitionDone}
+                            daysInHours
+                        />
+                    </CountDownContainer>
+                )}
                 <SubTitle>
                     <h3>Stigatafla</h3>
                     {selectedOption == 'individual' && (
@@ -520,7 +578,10 @@ class Leaderboard extends React.Component<Props, State> {
                         </StyledLink>
                     )}
                 </SubTitle>
-                <LeaderboardContent allColumns={selectedOption == 'all'}>
+                <LeaderboardContent
+                    allColumns={selectedOption == 'all'}
+                    createSuspense={!competitionDone && createSuspense}
+                >
                     <HeaderItem
                         align="left"
                         thick
