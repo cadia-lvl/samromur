@@ -43,8 +43,9 @@ interface State {}
 
 //TODO: update dates
 export const startTime = new Date(2021, 0, 18, 15, 0, 0, 0);
-export const lastDay = new Date(2021, 0, 24, 0, 0, 0);
-export const endTime = new Date(2021, 0, 25, 0, 0, 0);
+export const lastDay = new Date(2021, 0, 25, 0, 0, 0);
+export const endTime = new Date(2021, 0, 26, 0, 0, 0);
+export const revealResultsTime = new Date(2021, 0, 27, 16, 0, 0);
 
 class CompetitionPage extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -64,7 +65,7 @@ class CompetitionPage extends React.Component<Props, State> {
 
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
 
-        if (CompetitionPage.isFinalDay()) {
+        if (CompetitionPage.isSuspenceTime()) {
             return {
                 namespacesRequired: ['common'],
                 individualLeaderboard: DefaultIndividualStats,
@@ -83,10 +84,9 @@ class CompetitionPage extends React.Component<Props, State> {
         };
     };
 
-    static isFinalDay = (): boolean => {
+    static isSuspenceTime = (): boolean => {
         const now = new Date();
-
-        return now >= lastDay && now <= endTime;
+        return now >= lastDay && now <= revealResultsTime;
     };
 
     static missingProps = (ctx: NextPageContext): boolean => {

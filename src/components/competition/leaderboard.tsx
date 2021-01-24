@@ -3,7 +3,12 @@ import Countdown from 'react-countdown';
 import styled from 'styled-components';
 
 import { schools } from '../../constants/schools';
-import { endTime, lastDay, startTime } from '../../pages/grunnskolakeppni';
+import {
+    endTime,
+    lastDay,
+    revealResultsTime,
+    startTime,
+} from '../../pages/grunnskolakeppni';
 
 import { IndividualStat, SchoolStat } from '../../types/competition';
 
@@ -27,7 +32,11 @@ const HeaderContainer = styled.div`
     }
 `;
 
-const TitleContainer = styled.div`
+interface TitleContainerProps {
+    doubleColumns?: boolean;
+}
+
+const TitleContainer = styled.div<TitleContainerProps>`
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
@@ -39,6 +48,7 @@ const TitleContainer = styled.div`
     ${({ theme }) => theme.media.small} {
         max-width: 100%;
     }
+    ${({ doubleColumns }) => doubleColumns && 'max-width: 100%;'}
 `;
 
 const SubTitle = styled.div`
@@ -213,6 +223,10 @@ const StatItem = styled.span<CellProps>`
     ${({ theme }) => theme.media.small} {
         ${({ disableMobile }) => disableMobile && `display: none;`}
     }
+`;
+
+const EncourageContainer = styled.div`
+    flex: 2;
 `;
 
 const EncourageText = styled.p`
@@ -469,8 +483,8 @@ class Leaderboard extends React.Component<Props, State> {
         return new Date() >= startTime;
     };
 
-    isLastDay = (): boolean => {
-        return new Date() >= lastDay && new Date() <= endTime;
+    shouldCreateSuspense = (): boolean => {
+        return new Date() >= lastDay && new Date() <= revealResultsTime;
     };
 
     isFinished = (): boolean => {
@@ -496,11 +510,11 @@ class Leaderboard extends React.Component<Props, State> {
             competitionDone,
         } = this.state;
 
-        const createSuspense = this.isLastDay();
+        const createSuspense = this.shouldCreateSuspense();
         return (
             <LeaderboardContainer>
                 <HeaderContainer>
-                    <TitleContainer>
+                    <TitleContainer doubleColumns={createSuspense}>
                         <h2>Hvaða skóli les mest?</h2>
                         {!this.isStarted() ? (
                             <span>
@@ -508,18 +522,19 @@ class Leaderboard extends React.Component<Props, State> {
                                 janúar klukkan 15:00
                             </span>
                         ) : !this.isFinished() ? (
-                            this.isLastDay() ? (
-                                <div>
+                            this.shouldCreateSuspense() ? (
+                                <EncourageContainer>
                                     <span>
                                         Lestrarkeppni grunskólanna lýkur
                                         mánudaginn 25. janúar á miðnætti.
                                     </span>
                                     <EncourageText>
-                                        Keppnin er ótrúlega spennandi og náin!
-                                        Til að auka spennuna felum við stigin
-                                        síðasta sólarhringinn.
+                                        Frá miðnætti sunnudaginn 24. janúar
+                                        verður stigataflan hulin. Keppnin er
+                                        æsispennandi og úrslit munu líklegast
+                                        ráðast á síðustu metrunum.
                                     </EncourageText>
-                                </div>
+                                </EncourageContainer>
                             ) : (
                                 <span>
                                     Lestrarkeppni grunskólanna lýkur mánudaginn
@@ -528,9 +543,14 @@ class Leaderboard extends React.Component<Props, State> {
                             )
                         ) : (
                             <span>
-                                Lestrarkeppni grunskólanna er lokið! Þakka öllum
-                                þátttakendum. Þetta hefur verið ótrúleg vika.
-                                Þið eruð öll ótrúleg!
+                                Lestrarkeppni grunnskóla lauk þann 25. janúar.
+                                Úrslit verða tilkynnt við hátíðlega athöfn á
+                                Bessastöðum þann 27. janúar. Fylgist með á{' '}
+                                <StyledLink
+                                    href={'https://www.facebook.com/samromur/'}
+                                >
+                                    facebook síðu Samróms
+                                </StyledLink>
                             </span>
                         )}
                         <span></span>
