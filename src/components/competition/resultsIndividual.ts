@@ -999,4 +999,164 @@ export const leaderBoardIndividualResults = [
         institution: '8337F266',
         count: 140,
     },
+    {
+        username: 'ÍrisD',
+        institution: 'AA24D1D3',
+        count: 3,
+    },
+    {
+        username: 'Gussí',
+        institution: 'B415ABEB',
+        count: 98,
+    },
+    {
+        username: 'rabasimnetis',
+        institution: 'EECA93CA',
+        count: 36,
+    },
+    {
+        username: 'Sibba',
+        institution: '6664874C',
+        count: 1269,
+    },
+    {
+        username: 'Maria_dis',
+        institution: '41FE7B8E',
+        count: 493,
+    },
+    {
+        username: 'ÞórunnM',
+        institution: 'FA8C054E',
+        count: 1332,
+    },
+    {
+        username: 'Alexxx',
+        institution: 'A3FBE1D6',
+        count: 20,
+    },
+    {
+        username: 'avókadó',
+        institution: 'B415ABEB',
+        count: 540,
+    },
+    {
+        username: 'Birgitta-Kara',
+        institution: 'F6A37041',
+        count: 69,
+    },
+    {
+        username: 'Asdiz',
+        institution: 'E4FF59FF',
+        count: 122,
+    },
+    {
+        username: 'Tristanro',
+        institution: 'EECA93CA',
+        count: 119,
+    },
+    {
+        username: 'alena',
+        institution: 'F6A37041',
+        count: 120,
+    },
+    {
+        username: 'AnnaRut',
+        institution: '1263E1D9',
+        count: 79,
+    },
+    {
+        username: 'Staffan',
+        institution: '0462D86F',
+        count: 22,
+    },
+    {
+        username: 'sys_sas',
+        institution: '46F3C530',
+        count: 338,
+    },
+    {
+        username: 'Hammedí',
+        institution: 'B89571E0',
+        count: 243,
+    },
+    {
+        username: 'Mathis',
+        institution: '8337F266',
+        count: 691,
+    },
+    {
+        username: 'Kriddicool',
+        institution: 'AA24D1D3',
+        count: 200,
+    },
+    {
+        username: 'Big_boy_Hörður',
+        institution: '5E3A3905',
+        count: 1,
+    },
+    {
+        username: 'Big_boy_Hörður',
+        institution: '7D4880B2',
+        count: 298,
+    },
+    {
+        username: 'mangó',
+        institution: 'B415ABEB',
+        count: 3433,
+    },
+    {
+        username: 'NonniB',
+        institution: '8337F266',
+        count: 866,
+    },
+    {
+        username: 'Orradóttir',
+        institution: 'B415ABEB',
+        count: 1409,
+    },
+    {
+        username: 'Heiðrún-Setbergs',
+        institution: 'EECA93CA',
+        count: 1195,
+    },
+    {
+        username: 'HemmiVlachos',
+        institution: 'AA24D1D3',
+        count: 928,
+    },
+    {
+        username: 'viktoria',
+        institution: 'A3FBE1D6',
+        count: 11,
+    },
+    {
+        username: 'Leothebaker',
+        institution: 'F6A37041',
+        count: 48,
+    },
+    {
+        username: 'Zuzanna',
+        institution: 'F6A37041',
+        count: 6691,
+    },
+    {
+        username: 'Daðla',
+        institution: 'B415ABEB',
+        count: 732,
+    },
+    {
+        username: 'Melóna',
+        institution: 'B415ABEB',
+        count: 298,
+    },
+    {
+        username: 'HeidiAC',
+        institution: '0D0197D0',
+        count: 43,
+    },
+    {
+        username: 'Klara_Dögg',
+        institution: '41FE7B8E',
+        count: 4108,
+    },
 ];

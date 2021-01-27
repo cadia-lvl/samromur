@@ -585,7 +585,7 @@ class Leaderboard extends React.Component<Props, State> {
                                     yfir frá því lok árs 2019 og fram að
                                     keppninni höfðum við safnað um 320 þúsund
                                     setningum. Það gerir um 131 setningu á hvern
-                                    þátttakenda en raunin var að tugir keppenda
+                                    þátttakanda en raunin var að tugir keppenda
                                     lásu þúsundir setninga.
                                 </p>
                                 <p>
