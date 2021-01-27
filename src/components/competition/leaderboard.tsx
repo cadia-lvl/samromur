@@ -60,7 +60,7 @@ const SubTitle = styled.div`
 `;
 
 const CategoryTitle = styled.span`
-    grid-column: 1 / 6;
+    grid-column: 1 / 7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,7 +74,7 @@ const CategoryTitle = styled.span`
 
 const TabSelector = styled.div`
     display: grid;
-    grid-template-columns: repeat(5, min-content);
+    grid-template-columns: repeat(6, min-content);
     //border: 1px solid ${({ theme }) => theme.colors.borderGray};
     margin-bottom: 1.5rem;
 `;
@@ -257,7 +257,7 @@ interface State {
     individualStats: IndividualStat[];
     filteredStats: SchoolStat[];
     stats: SchoolStat[];
-    selectedOption: 'all' | 'A' | 'B' | 'C' | 'individual';
+    selectedOption: 'all' | 'A' | 'B' | 'C' | 'individual' | 'graphs';
     sortby: 'rank' | 'name' | 'users' | 'count';
     competitionDone: boolean;
 }
@@ -604,6 +604,17 @@ class Leaderboard extends React.Component<Props, State> {
                             >
                                 Einstaklingar
                             </Tab>
+
+                            <Tab
+                                onClick={() =>
+                                    this.setState({
+                                        selectedOption: 'graphs',
+                                    })
+                                }
+                                selected={selectedOption === 'graphs'}
+                            >
+                                Línurit
+                            </Tab>
                         </TabSelector>
                     )}
                 </HeaderContainer>
@@ -619,7 +630,7 @@ class Leaderboard extends React.Component<Props, State> {
                         </CountDownContainer>
                         <StyledImage src="./images/leaderboard_blurred.png" />
                     </div>
-                ) : (
+                ) : selectedOption !== 'graphs' ? (
                     <div>
                         <SubTitle>
                             <h3>Stigatafla</h3>
@@ -760,6 +771,8 @@ class Leaderboard extends React.Component<Props, State> {
                                   )}
                         </LeaderboardContent>
                     </div>
+                ) : (
+                    <div>PUT GRAPHS HERE</div>
                 )}
             </LeaderboardContainer>
         );
