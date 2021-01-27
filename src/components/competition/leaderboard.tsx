@@ -502,6 +502,10 @@ class Leaderboard extends React.Component<Props, State> {
         this.setState({ competitionDone: true });
     };
 
+    revealResults = () => {
+        setTimeout(() => window.location.reload(), 1000);
+    };
+
     render() {
         const {
             individualStats,
@@ -511,6 +515,7 @@ class Leaderboard extends React.Component<Props, State> {
         } = this.state;
 
         const createSuspense = this.shouldCreateSuspense();
+        const isFinished = this.isFinished();
         return (
             <LeaderboardContainer>
                 <HeaderContainer>
@@ -541,7 +546,7 @@ class Leaderboard extends React.Component<Props, State> {
                                     25. janúar á miðnætti
                                 </span>
                             )
-                        ) : (
+                        ) : this.shouldCreateSuspense() ? (
                             <span>
                                 Lestrarkeppni grunnskóla lauk þann 25. janúar.
                                 Úrslit verða tilkynnt við hátíðlega athöfn á
@@ -551,6 +556,10 @@ class Leaderboard extends React.Component<Props, State> {
                                 >
                                     facebook síðu Samróms
                                 </StyledLink>
+                            </span>
+                        ) : (
+                            <span>
+                                Lestrarkeppni grunnskóla lauk þann 25. janúar.
                             </span>
                         )}
                         <span></span>
@@ -609,14 +618,27 @@ class Leaderboard extends React.Component<Props, State> {
                 </HeaderContainer>
                 {createSuspense ? (
                     <div>
-                        <CountDownContainer>
-                            <span>{'Tími sem eftir er af keppninni'}</span>
-                            <StyledCountDown
-                                date={endTime}
-                                onComplete={this.competitionDone}
-                                daysInHours
-                            />
-                        </CountDownContainer>
+                        {!isFinished ? (
+                            <CountDownContainer>
+                                <span>{'Tími sem eftir er af keppninni'}</span>
+                                <StyledCountDown
+                                    date={endTime}
+                                    onComplete={this.competitionDone}
+                                    daysInHours
+                                />
+                            </CountDownContainer>
+                        ) : (
+                            <CountDownContainer>
+                                <span>
+                                    {'Tími þar til niðurstöðurnar verða birta'}
+                                </span>
+                                <StyledCountDown
+                                    date={revealResultsTime}
+                                    onComplete={this.revealResults}
+                                    daysInHours
+                                />
+                            </CountDownContainer>
+                        )}
                         <StyledImage src="./images/leaderboard_blurred.png" />
                     </div>
                 ) : (
