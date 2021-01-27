@@ -25,6 +25,7 @@ const HeaderContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 
     ${({ theme }) => theme.media.small} {
         flex-direction: column;
@@ -48,7 +49,7 @@ const TitleContainer = styled.div<TitleContainerProps>`
     ${({ theme }) => theme.media.small} {
         max-width: 100%;
     }
-    ${({ doubleColumns }) => doubleColumns && 'max-width: 100%;'}
+    ${({ doubleColumns }) => doubleColumns && 'max-width: 100%; flex: 2 0 100%'}
 `;
 
 const SubTitle = styled.div`
@@ -77,6 +78,7 @@ const TabSelector = styled.div`
     grid-template-columns: repeat(5, min-content);
     //border: 1px solid ${({ theme }) => theme.colors.borderGray};
     margin-bottom: 1.5rem;
+    flex: 1;
 `;
 
 interface TabProps {
@@ -142,6 +144,7 @@ const StyledLink = styled.a`
         text-decoration: none;
         color: ${({ theme }) => theme.colors.blackOlive};
     }
+    flex: 1;
 `;
 
 const CountDownContainer = styled.div`
@@ -161,6 +164,8 @@ const StyledImage = styled.img`
     width: 100%;
     margin: 0.5rem auto;
 `;
+
+const FinishedText = styled.div``;
 
 interface ConditionalMobileTextProps {
     mobile: string;
@@ -502,6 +507,10 @@ class Leaderboard extends React.Component<Props, State> {
         this.setState({ competitionDone: true });
     };
 
+    revealResults = () => {
+        setTimeout(() => window.location.reload(), 1000);
+    };
+
     render() {
         const {
             individualStats,
@@ -511,11 +520,16 @@ class Leaderboard extends React.Component<Props, State> {
         } = this.state;
 
         const createSuspense = this.shouldCreateSuspense();
+        const isFinished = this.isFinished();
         return (
             <LeaderboardContainer>
                 <HeaderContainer>
-                    <TitleContainer doubleColumns={createSuspense}>
-                        <h2>Hvaða skóli les mest?</h2>
+                    <TitleContainer doubleColumns={true}>
+                        <h2>
+                            {isFinished
+                                ? 'Hvaða skóli las mest?'
+                                : 'Hvaða skóli les mest?'}
+                        </h2>
                         {!this.isStarted() ? (
                             <span>
                                 Lestrarkeppni grunnskólanna hefst mánudaginn 18.
@@ -541,7 +555,7 @@ class Leaderboard extends React.Component<Props, State> {
                                     25. janúar á miðnætti
                                 </span>
                             )
-                        ) : (
+                        ) : this.shouldCreateSuspense() ? (
                             <span>
                                 Lestrarkeppni grunnskóla lauk þann 25. janúar.
                                 Úrslit verða tilkynnt við hátíðlega athöfn á
@@ -552,6 +566,37 @@ class Leaderboard extends React.Component<Props, State> {
                                     facebook síðu Samróms
                                 </StyledLink>
                             </span>
+                        ) : (
+                            <FinishedText>
+                                <p>
+                                    Lestrarkeppni grunnskóla stóð yfir 18. - 25.
+                                    janúar 2021. Keppnin var hreint út sagt
+                                    ótrúleg og allir sem tóku þátt eiga hrós
+                                    skilið.
+                                </p>
+                                <p>
+                                    Smá tölulegar upplýsingar, í heildina voru
+                                    lesnar um 790 þúsund setningar frá 6172
+                                    manns fyrir 136 skóla Verkefnið hefur staðið
+                                    yfir frá því lok árs 2019 og fram að
+                                    keppninni höfðum við safnað um 320 þúsund
+                                    setningum. Það gerir um 131 setningu á hvern
+                                    þátttakenda en raunin var að tugir keppenda
+                                    lásu þúsundir setninga.
+                                </p>
+                                <p>
+                                    Veitt voru verðlaun til skólanna sem voru í
+                                    fyrsta sæti í sínum flokki, auk þess að þeir
+                                    skólar sem lásu mest þvert á flokka þar á
+                                    eftir fengu viðkenningu fyrir frábæran
+                                    árangur. Skólarnir sem sigruðu sína flokka
+                                    voru Setbergsskóli, Smáraskóli og
+                                    Grenivíkurskóli. Skólarnir sem fengur
+                                    viðkenningu fyrir framúrskarandi árangur
+                                    voru Höfðaskóli, Gerðaskóli og
+                                    Myllubakkaskóli.
+                                </p>
+                            </FinishedText>
                         )}
                         <span></span>
                         <StyledLink href={'/grunnskolakeppni#um'}>
@@ -609,14 +654,27 @@ class Leaderboard extends React.Component<Props, State> {
                 </HeaderContainer>
                 {createSuspense ? (
                     <div>
-                        <CountDownContainer>
-                            <span>{'Tími sem eftir er af keppninni'}</span>
-                            <StyledCountDown
-                                date={endTime}
-                                onComplete={this.competitionDone}
-                                daysInHours
-                            />
-                        </CountDownContainer>
+                        {!isFinished ? (
+                            <CountDownContainer>
+                                <span>{'Tími sem eftir er af keppninni'}</span>
+                                <StyledCountDown
+                                    date={endTime}
+                                    onComplete={this.competitionDone}
+                                    daysInHours
+                                />
+                            </CountDownContainer>
+                        ) : (
+                            <CountDownContainer>
+                                <span>
+                                    {'Tími þar til niðurstöðurnar verða birtar'}
+                                </span>
+                                <StyledCountDown
+                                    date={revealResultsTime}
+                                    onComplete={this.revealResults}
+                                    daysInHours
+                                />
+                            </CountDownContainer>
+                        )}
                         <StyledImage src="./images/leaderboard_blurred.png" />
                     </div>
                 ) : (
