@@ -11,6 +11,10 @@ import {
 } from '../../pages/grunnskolakeppni';
 
 import { IndividualStat, SchoolStat } from '../../types/competition';
+import AgeGenderChart from '../dataset/charts/age-gender-chart';
+import CompetitionAgeChart from './charts/age-chart';
+import CompetitionGenderChart from './charts/gender-chart';
+import CompetitionTimeLineChart from './charts/timeline-chart';
 
 const LeaderboardContainer = styled.div`
     display: flex;
@@ -830,7 +834,11 @@ class Leaderboard extends React.Component<Props, State> {
                         </LeaderboardContent>
                     </div>
                 ) : (
-                    <div>PUT GRAPHS HERE</div>
+                    <div>
+                        <CompetitionGenderChart />
+                        <CompetitionAgeChart />
+                        <CompetitionTimeLineChart />
+                    </div>
                 )}
             </LeaderboardContainer>
         );
