@@ -79,7 +79,9 @@ export const options = {
     responsive: true,
 };
 
-interface Props {}
+interface Props {
+    inputData?: any;
+}
 
 interface State {
     data: any;
@@ -94,7 +96,9 @@ class AgeGenderChart extends React.Component<Props, State> {
 
     componentDidMount = async () => {
         //TODO: make the calls ssr, move to gagnasafn page
-        const ageGenderStats = await fetchAgeGenderStats();
+        const ageGenderStats = this.props.inputData
+            ? this.props.inputData
+            : await fetchAgeGenderStats();
         const data = this.generateDataSet(ageGenderStats);
         this.setState({ data });
     };
