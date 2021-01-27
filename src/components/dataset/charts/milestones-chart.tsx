@@ -20,6 +20,7 @@ class MilestoneChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
+        //TODO: make the calls ssr, move to gagnasafn page
         const milestoneStats = await fetchMileStoneGroups();
         const data = this.generateDataSet(milestoneStats);
         this.setState({ data });

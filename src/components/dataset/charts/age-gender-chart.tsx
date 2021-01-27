@@ -93,6 +93,7 @@ class AgeGenderChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
+        //TODO: make the calls ssr, move to gagnasafn page
         const ageGenderStats = await fetchAgeGenderStats();
         const data = this.generateDataSet(ageGenderStats);
         this.setState({ data });
