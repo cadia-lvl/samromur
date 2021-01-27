@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { competitionGenderStats } from './gender';
 
@@ -9,15 +9,12 @@ export const options = {
     scales: {
         yAxes: [
             {
-                stacked: false,
-                ticks: {
-                    beginAtZero: true,
-                },
+                display: false,
             },
         ],
         xAxes: [
             {
-                stacked: false,
+                display: false,
             },
         ],
     },
@@ -25,7 +22,7 @@ export const options = {
         labels: {
             filter: function (item: any, chart: any) {
                 // Logic to remove a particular legend item goes here
-                return !item.text.match('Staðfest');
+                return !item.text.match('HIDELABEL');
             },
         },
         onClick: (e: any) => {},
@@ -55,31 +52,20 @@ class CompetitionGenderChart extends React.Component<Props, State> {
 
     generateDataSet = (data: any) => {
         const labels: any = [];
-        const karl: any[] = [data[1].count];
-        const kona: any[] = [data[0].count];
-        const annat: any[] = [data[2].count];
+        const count: any = [];
 
         data.forEach((row: any) => {
             labels.push(row.sex);
+            count.push(row.count);
         });
 
         const dataSet = {
-            labels: [''],
+            labels: labels,
             datasets: [
                 {
-                    label: 'Kona',
-                    data: kona,
-                    backgroundColor: '#ff4f5e',
-                },
-                {
-                    label: 'Karl',
-                    data: karl,
-                    backgroundColor: '#629ff4',
-                },
-                {
-                    label: 'Annað',
-                    data: annat,
-                    backgroundColor: '#2b376c',
+                    label: 'HIDELABEL',
+                    data: count,
+                    backgroundColor: ['#ff4f5e', '#629ff4', '#2b376c'],
                 },
             ],
         };
@@ -92,7 +78,7 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         return (
             <div>
                 <ChartTitle>Uppökur eftir kyni</ChartTitle>
-                <Bar data={data} options={options} />
+                <Pie data={data} options={options} />
             </div>
         );
     }
