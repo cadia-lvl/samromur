@@ -15,6 +15,8 @@ import {
     fetchTotalClipsClients,
     fetchTotalValidatedClips,
 } from '../store/stats/actions';
+import AgeGenderChart from '../components/dataset/charts/age-gender-chart';
+import MilestoneChart from '../components/dataset/charts/milestones-chart';
 
 const DatasetPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -32,6 +34,19 @@ const HeaderContainer = styled.div`
     justify-content: center;
     margin: 0 -1.5rem;
     overflow: visible;
+`;
+
+const ChartsContainer = styled.div`
+    width: 80%;
+    margin: 0 auto;
+
+    ${({ theme }) => theme.media.small} {
+        width: 100%;
+    }
+
+    & > * {
+        padding: 1rem 0;
+    }
 `;
 
 interface DatasetPageProps {}
@@ -76,6 +91,10 @@ class DatasetPage extends React.Component<Props> {
                         clients={stats.totalClipsClients}
                         validated={stats.totalValidatedClips}
                     />
+                    <ChartsContainer>
+                        <AgeGenderChart />
+                        <MilestoneChart />
+                    </ChartsContainer>
                 </DatasetPageContainer>
             </Layout>
         );
