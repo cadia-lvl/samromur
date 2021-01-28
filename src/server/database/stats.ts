@@ -4,6 +4,7 @@ import { IndividualStat, SchoolStat } from '../../types/competition';
 import lazyCache from '../lazy-cache';
 
 const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
+const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
 const cacheTimeMSLeaderBoard = 1000 * 60; // 1 minute
 
 export default class Clips {
@@ -341,9 +342,10 @@ export default class Clips {
                     CASE
                         WHEN
                             clips.age IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 'ungur_unglingur')
+                            AND native_language = 'islenska'
                         THEN 'child'
-                        WHEN
-                            native_language = 'islenska'
+                    WHEN
+                        native_language = 'islenska'
                     AND
                         clips.age IN ('unglingur', 'tvitugt', 'thritugt', 'fertugt', 'fimmtugt', 'sextugt', 'sjotugt', 'attraett', 'niraett')
                     THEN 'adult'
@@ -353,7 +355,14 @@ export default class Clips {
                         native_language != ''
                     AND
                         clips.age IN ('unglingur', 'tvitugt', 'thritugt', 'fertugt', 'fimmtugt', 'sextugt', 'sjotugt', 'attraett', 'niraett')
-                    THEN 'adult_l2'
+                    THEN 'l2_adult'
+                    WHEN
+                        native_language != 'islenska'
+                    AND
+                        native_language != ''
+                    AND
+                        clips.age IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 'ungur_unglingur')
+                    THEN 'l2_child'
                     ELSE NULL
                     END groups
                 FROM
@@ -364,11 +373,11 @@ export default class Clips {
                 GROUP BY
                     groups
                 ORDER BY
-                    total_valid
-                DESC
+                    groups
+                ASC
             `,
             []
         );
         return rows;
-    }, cacheTimeMS);
+    }, cacheTimeMSLong);
 }

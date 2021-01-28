@@ -30,8 +30,10 @@ class MilestoneChart extends React.Component<Props, State> {
         switch (label) {
             case 'adult':
                 return 'Fullorðnir, íslenska móðurmál';
-            case 'adult_l2':
+            case 'l2_adult':
                 return 'Fullorðnir, annað móðurmál';
+            case 'l2_child':
+                return 'Börn og unglingar, annað móðurmál';
             default:
                 return 'Börn og unglingar';
         }
