@@ -214,6 +214,17 @@ class DemographicForm extends React.Component<Props, State> {
         };
     }
 
+    componentDidMount = () => {
+        // Set school to empty values if
+        // not competition and there is a value
+        const now = this.props.user.demographics;
+        if (!this.isCompetition()) {
+            if (now.school?.code) {
+                this.setState({ school: { code: '', name: '' } });
+            }
+        }
+    };
+
     componentDidUpdate = (prevProps: Props) => {
         const prev = prevProps.user.demographics;
         const now = this.props.user.demographics;
