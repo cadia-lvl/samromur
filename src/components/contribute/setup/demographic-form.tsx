@@ -49,6 +49,7 @@ const DemographicContainer = styled.div`
 
 interface ConsentContainerProps {
     active: boolean;
+    isCompetition?: boolean;
 }
 
 const ConsentMessage = styled.div`
@@ -148,8 +149,10 @@ const ConsentAndSwitchUserContainer = styled.div<ConsentContainerProps>`
     display: ${({ active }) => (active ? 'flex' : 'none')};
     flex-direction: row;
     justify-content: space-between;
-    grid-column: 2;
-    grid-row: 3;
+    ${({ isCompetition }) =>
+        isCompetition &&
+        `grid-column: 2;
+        grid-row: 3;`}
 
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
@@ -357,6 +360,11 @@ class DemographicForm extends React.Component<Props, State> {
         return '';
     };
 
+    // TODO: add logic here for next competition
+    isCompetition = (): boolean => {
+        return false;
+    };
+
     render() {
         const {
             agreed,
@@ -371,15 +379,23 @@ class DemographicForm extends React.Component<Props, State> {
         const competitionText = this.getCompetitionText();
         return (
             <DemographicContainer>
-                <DropdownButton
-                    content={schools
-                        .sort((a, b) => a.name.localeCompare(b.name, 'is-IS'))
-                        .map((school: School) => school.name)}
-                    label={'Skóli'}
-                    onSelect={this.onSchoolSelect}
-                    selected={school ? (school.name ? school.name : '') : ''}
-                />
-                <CompetitionText>{competitionText}</CompetitionText>
+                {this.isCompetition() && (
+                    <DropdownButton
+                        content={schools
+                            .sort((a, b) =>
+                                a.name.localeCompare(b.name, 'is-IS')
+                            )
+                            .map((school: School) => school.name)}
+                        label={'Skóli'}
+                        onSelect={this.onSchoolSelect}
+                        selected={
+                            school ? (school.name ? school.name : '') : ''
+                        }
+                    />
+                )}
+                {this.isCompetition() && (
+                    <CompetitionText>{competitionText}</CompetitionText>
+                )}
                 <div />
                 <div />
                 <DropdownButton
@@ -388,7 +404,10 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onAgeSelect}
                     selected={selectedAge}
                 />
-                <ConsentAndSwitchUserContainer active={hasConsent}>
+                <ConsentAndSwitchUserContainer
+                    active={hasConsent}
+                    isCompetition={this.isCompetition()}
+                >
                     <ConsentMessage>Leyfi staðfest</ConsentMessage>
                     <SwitchUser onClick={this.switchUser}>
                         Skipta um notenda
