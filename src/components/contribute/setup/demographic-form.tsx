@@ -406,7 +406,7 @@ class DemographicForm extends React.Component<Props, State> {
                 />
                 <ConsentAndSwitchUserContainer
                     active={hasConsent}
-                    isCompetition={this.isCompeition}
+                    isCompetition={this.isCompetition()}
                 >
                     <ConsentMessage>Leyfi staðfest</ConsentMessage>
                     <SwitchUser onClick={this.switchUser}>
