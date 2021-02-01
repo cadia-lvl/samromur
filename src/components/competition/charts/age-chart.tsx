@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
+import { theme } from '../../../styles/global';
 import { competitionAgeStats } from './age';
 
 const ChartTitle = styled.h5``;
@@ -25,7 +26,7 @@ export const options = {
         labels: {
             filter: function (item: any, chart: any) {
                 // Logic to remove a particular legend item goes here
-                return !item.text.match('Staðfest');
+                return !item.text.match('Upptökur');
             },
         },
         onClick: (e: any) => {},
@@ -33,6 +34,21 @@ export const options = {
     },
     responsive: true,
 };
+
+const samromurColors = [
+    theme.colors.red,
+    theme.colors.red,
+    theme.colors.red,
+    theme.colors.red,
+    theme.colors.green,
+    theme.colors.green,
+    theme.colors.green,
+    theme.colors.green,
+    theme.colors.blue,
+    theme.colors.blue,
+    theme.colors.blue,
+    theme.colors.blue,
+];
 
 interface Props {}
 
@@ -66,9 +82,10 @@ class CompetitionAgeChart extends React.Component<Props, State> {
             labels: labels,
             datasets: [
                 {
-                    label: 'Staðfest',
+                    label: 'Upptökur',
                     data: count,
-                    backgroundColor: '#2b376c',
+                    backgroundColor: samromurColors,
+                    minBarLength: 3,
                 },
             ],
         };
