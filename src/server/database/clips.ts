@@ -174,12 +174,22 @@ export default class Clips {
                 return Promise.resolve(clip.id);
             }
 
+            // find the speaker id
+            const speaker_id = await this.findSpeakerId(
+                clientId,
+                gender,
+                age,
+                nativeLanguage
+            );
+
+            console.log('new_speaker_id: ', speaker_id);
+
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, institution, user_agent, status, sample_rate, duration, size, dialect)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, institution, user_agent, status, sample_rate, duration, size, dialect, speaker_id)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
@@ -198,6 +208,7 @@ export default class Clips {
                     duration ? duration : null,
                     size ? size : null,
                     dialect,
+                    speaker_id,
                 ]
             );
             const { insertId } = row;
@@ -208,17 +219,94 @@ export default class Clips {
         }
     };
 
+    /**
+     * Finds the speaker id for the input demographics
+     * @param client_id the id of the client
+     * @param gender the gender of user
+     * @param age the age of the user
+     * @param nativeLanguage the native language of the user
+     */
+    findSpeakerId = async (
+        client_id: string | undefined,
+        gender: string,
+        age: string,
+        nativeLanguage: string
+    ): Promise<string> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    speaker_id
+                FROM
+                    clips
+                WHERE
+                    client_id = ?
+                AND
+                    sex = ?
+                AND
+                    age = ?
+                AND
+                    native_language = ?
+                AND 
+                    speaker_id is not null
+                LIMIT 1
+            `,
+            [client_id, gender, age, nativeLanguage]
+        );
+
+        // If not found, generate new speaker id
+        if (!row) {
+            const new_speaker_id = await this.generateNewSpeakerId();
+            return new_speaker_id;
+        }
+
+        const { speaker_id } = row;
+        return speaker_id;
+    };
+
+    /**
+     * Counts how many speakers there are inte the db, and
+     * returns the number + 1 as a new speaker id on a 6 character string
+     * format, the number gets padded with zeros
+     */
+    generateNewSpeakerId = async (): Promise<string> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT 
+                    speaker_id 
+                FROM 
+                    clips 
+                ORDER BY 
+                    speaker_id desc 
+                LIMIT 1
+            `
+        );
+        const { speaker_id } = row;
+        console.log(row);
+        const speaker_id_parsed = parseInt(speaker_id)
+            ? parseInt(speaker_id)
+            : 0;
+        const new_speaker_id: string = (speaker_id_parsed + 1)
+            .toString()
+            .padStart(6, '0');
+        return new_speaker_id;
+    };
+
+    /**
+     * Counts the amounts of clips with the given sentence id
+     * and updates the clips_count in the sentences table accordingly
+     * @param sentenceId the sentence to update the count for
+     */
     increaseClipCountOnSentence = async (sentenceId: string): Promise<void> => {
         await this.sql.query(
             `
             UPDATE
                 sentences
             SET
-                clips_count = clips_count + 1
+                clips_count = (select count(*) from clips where original_sentence_id = ?)
             WHERE
                 id = ?
         `,
-            [sentenceId]
+            [sentenceId, sentenceId]
         );
     };
 
