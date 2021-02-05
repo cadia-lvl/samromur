@@ -182,8 +182,6 @@ export default class Clips {
                 nativeLanguage
             );
 
-            console.log('new_speaker_id: ', speaker_id);
-
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
@@ -281,7 +279,6 @@ export default class Clips {
             `
         );
         const { speaker_id } = row;
-        console.log(row);
         const speaker_id_parsed = parseInt(speaker_id)
             ? parseInt(speaker_id)
             : 0;
