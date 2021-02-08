@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
+import { theme } from '../../../styles/global';
 import { competitionTimeline } from './timeline';
 
 const ChartTitle = styled.h5``;
@@ -25,7 +26,7 @@ export const options = {
         labels: {
             filter: function (item: any, chart: any) {
                 // Logic to remove a particular legend item goes here
-                return !item.text.match('Staðfest');
+                return !item.text.match('Upptökur');
             },
         },
         onClick: (e: any) => {},
@@ -66,9 +67,9 @@ class CompetitionTimeLineChart extends React.Component<Props, State> {
             labels: labels,
             datasets: [
                 {
-                    label: 'Staðfest',
+                    label: 'Upptökur',
                     data: count,
-                    backgroundColor: '#2b376c',
+                    backgroundColor: theme.colors.blue,
                 },
             ],
         };
