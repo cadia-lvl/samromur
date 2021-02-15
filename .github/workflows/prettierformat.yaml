@@ -1,4 +1,4 @@
-name: prettier format
+name: prettier format check
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  format:
+  format-check:
 
     runs-on: ubuntu-latest
 
@@ -16,26 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with: 
-        ref: ${{ github.event.pull_request.head.ref }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - name: install node packages
-      run: npm install
-    - name: format with prettier
-      run: npm run auto-format
+      run: npm ci
     - name: check format with prettier
-      run: npm run format
-    # inspired by https://peterevans.dev/posts/github-actions-how-to-automate-code-formatting-in-pull-requests/
-    - name: check for modified files
-      id: git-check
-      run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-    - name: Commit format changes
-      if: steps.git-check.outputs.modified == 'true'
-      run: |
-        git config user.email "action@github.com"
-        git config user.name "GitHub Action [bot]"
-        git commit -m "making it prettier" -a
-        git push
+      run: npm run check-format
