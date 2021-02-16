@@ -42,7 +42,7 @@
     "next": "^10.0.6",
     "next-cookies": "^2.0.3",
     "next-i18next": "^4.5.0",
-    "next-pwa": "^3.1.5",
+    "next-pwa": "^5.0.5",
     "next-redux-wrapper": "^5.0.0",
     "popmotion": "^8.7.6",
     "proxy-agent": "^3.1.1",
