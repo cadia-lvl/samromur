@@ -20,13 +20,13 @@ export const speakGoals: Goal[] = [
         count: 50,
     },
 ];
- 
+
 export const listenGoals: Goal[] = [
     {
         contributeType: 'hlusta',
         name: 'Lítinn',
         text: '2 upptökur',
-        count: 2, 
+        count: 2,
     },
     {
         contributeType: 'hlusta',
