@@ -219,7 +219,7 @@ class DemographicForm extends React.Component<Props, State> {
         // not competition and there is a value
         const now = this.props.user.demographics;
         if (!this.isCompetition()) {
-            if (now.school?.code) {
+            if (now.school?.code != '') {
                 this.setState({ school: { code: '', name: '' } });
             }
         }
