@@ -21,6 +21,7 @@ import {
     fetchUser,
     setSkipTips,
     setUserName,
+    setCookieConsent,
 } from '../store/user/actions';
 import { getUserAgent } from '../utilities/browser';
 
@@ -53,6 +54,7 @@ const dispatchProps = {
     setUserAgent,
     setConsents,
     setSkipTips,
+    setCookieConsent,
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -96,6 +98,7 @@ class MyApp extends App<Props> {
             setUserAgent,
             setConsents,
             setSkipTips,
+            setCookieConsent,
         } = this.props;
 
         // Set userAgent in store
@@ -121,7 +124,9 @@ class MyApp extends App<Props> {
         skipTips && setSkipTips(skipTips);
 
         // If the user does not have a cookie, set it
+        // and update the store
         !appProps.user.hasCookie && setUserCookie(appProps.user.clientId);
+        !appProps.user.hasCookie && setCookieConsent(false);
 
         // Use audio-recorder-polyfill if necessary
         const [AudioRecorder] = await Promise.all([
