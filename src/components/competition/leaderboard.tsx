@@ -26,15 +26,10 @@ const LeaderboardContainer = styled.div`
 
 const HeaderContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
-
-    ${({ theme }) => theme.media.small} {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
 interface TitleContainerProps {
@@ -65,7 +60,6 @@ const SubTitle = styled.div`
 `;
 
 const CategoryTitle = styled.span`
-    grid-column: 1 / 7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,10 +69,12 @@ const CategoryTitle = styled.span`
     font-weight: 600;
     background-color: ${({ theme }) => theme.colors.darkerBlue};
     color: white;
+    width: 100%;
 `;
 
 const TabSelector = styled.div`
-    display: grid;
+    display: flex;
+    flex-flow: row wrap;
     grid-template-columns: repeat(6, min-content);
     //border: 1px solid ${({ theme }) => theme.colors.borderGray};
     margin-bottom: 1.5rem;
@@ -96,6 +92,8 @@ const Tab = styled.div<TabProps>`
     border: 1px solid ${({ theme }) => theme.colors.borderGray};
     cursor: pointer;
     transition: 0.3s;
+    flex-grow: 1;
+    text-align: center;
 `;
 
 interface ColumnProps {
