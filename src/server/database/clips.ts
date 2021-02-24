@@ -342,4 +342,95 @@ export default class Clips {
         const statuses = rows.map(({ status }: { status: string }) => status);
         return statuses;
     };
+
+    /**
+     * Fetches the clips (with sentences) for the herma (repeat) contribution type
+     * TEMPORARILY ALWAYS FETCHES IN ALPHABETICAL ORDER until db fixed
+     * TODO: switch to fetchRandomClipsToRepeat
+     * @param clientId
+     * @param count
+     */
+    fetchRepeatedClips = async (
+        clientId: string,
+        count: number
+    ): Promise<Clip[]> => {
+        try {
+            const repeatedClips = await this.fetchOrderedClipsToRepeat(count);
+            const withPublicUrls: Clip[] = await Promise.all(
+                repeatedClips.map((clip: TableClip) => {
+                    return {
+                        id: clip.id,
+                        recording: {
+                            url: this.bucket.getPublicUrl(clip.path),
+                        },
+                        sentence: {
+                            id: clip.original_sentence_id,
+                            text: clip.sentence,
+                        },
+                    } as Clip;
+                })
+            );
+            return Promise.resolve(withPublicUrls);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    /**
+     * Fetches the first count number of clips to repeat from the db
+     * TODO: remove when db fixed
+     * @param count
+     */
+    fetchOrderedClipsToRepeat = async (count: number): Promise<TableClip[]> => {
+        const [clips] = await this.sql.query(
+            `
+                SELECT
+                    id, sentence_id as original_sentence_id, sentence, path
+                FROM
+                    repeated_clips
+                ORDER BY
+                    original_sentence_id asc
+                LIMIT ?
+            `,
+            [count]
+        );
+        return clips as TableClip[];
+    };
+
+    /**
+     * Fetches random clips with sentences for the user to repeat
+     * TODO: add sorting to find rows with low clip count
+     * @param clientId
+     * @param count
+     */
+    fetchRandomClipsToRepeat = async (
+        clientId: string,
+        count: number
+    ): Promise<TableClip[]> => {
+        const [clips] = await this.sql.query(
+            `
+                SELECT
+                    id, sentence_id as original_sentence_id, sentence, path
+                FROM
+                    repeated_clips
+                WHERE
+                    NOT EXISTS
+                        (
+                            SELECT 
+                                * 
+                            FROM 
+                                clips 
+                            WHERE 
+                                clips.original_sentence_id = repeated_clips.sentence_id 
+                            AND 
+                                client_id = ?
+                        )
+                ORDER BY
+                    RAND()
+                LIMIT ?
+            `,
+            [clientId, count]
+        );
+        return clips as TableClip[];
+    };
 }
