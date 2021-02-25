@@ -175,7 +175,7 @@ class UploadAudioBatch extends React.Component<Props, State> {
 
     onSubmitRepeat = (packageName: string) => {
         const { files } = this.state;
-        if (!files || !label) {
+        if (!files || !packageName) {
             return;
         }
         this.setState({ uploading: true });
