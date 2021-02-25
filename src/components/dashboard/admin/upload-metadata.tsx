@@ -12,7 +12,7 @@ import { Demographic } from '../../../types/user';
 import DropdownButton from '../../ui/input/dropdown';
 import TextInput from '../../ui/input/text-input';
 
-const MetadataContainer = styled.div`
+export const MetadataContainer = styled.div`
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 1fr;
@@ -21,7 +21,7 @@ const MetadataContainer = styled.div`
     }
 `;
 
-const Button = styled.div`
+export const MetaDataButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,7 +211,9 @@ export default class UploadMetadata extends React.Component<Props, State> {
                             onSelect={this.onDialectSelect}
                             selected={dialect ? dialect.name : ''}
                         />
-                        <Button onClick={this.onSubmit}>Senda</Button>
+                        <MetaDataButton onClick={this.onSubmit}>
+                            Senda
+                        </MetaDataButton>
                     </React.Fragment>
                 )}
             </MetadataContainer>

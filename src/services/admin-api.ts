@@ -149,3 +149,26 @@ export const uploadVerificationBatch = async (
             return Promise.reject(error.code);
         });
 };
+
+export const uploadRepeatSentences = async (
+    files: File[],
+    packageName: string,
+    onUploadProgress: (ev: ProgressEvent) => void
+) => {
+    const url = '/api/upload-repeat-sentences/';
+    let formData: FormData = new FormData();
+
+    files.forEach((file: File) =>
+        file.type.startsWith('audio')
+            ? formData.append('audio', file)
+            : formData.append('metadata', file)
+    );
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+};

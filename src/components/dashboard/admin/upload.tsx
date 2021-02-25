@@ -6,6 +6,8 @@ import * as adminApi from '../../../services/admin-api';
 import FileBrowser from './file-browser';
 import UploadMetadata from './upload-metadata';
 import ProgressBar from './progress-bar';
+import { formatBytes, verifyFiles } from '../../../utilities/upload-helper';
+import { RepeatSentencesMetadata } from './repeat-sentences-metadata';
 
 const UploadAudioBatchContainer = styled.div`
     padding: 1rem;
@@ -17,14 +19,14 @@ const UploadAudioBatchContainer = styled.div`
     }
 `;
 
-const BrowseBar = styled.div`
+export const BrowseBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 `;
 
-const Status = styled.div`
+export const Status = styled.div`
     display: flex;
     align-items: center;
 
@@ -34,7 +36,7 @@ const Status = styled.div`
     }
 `;
 
-const Button = styled.div`
+export const Button = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,11 +51,19 @@ const Button = styled.div`
     }
 `;
 
-const Message = styled.div`
+export const Message = styled.div`
     font-size: 1.3rem;
 `;
 
-interface UploadAudioBatchProps {}
+export enum UploadType {
+    VERIFICATION_BATCH,
+    REPEAT_SENTENCES,
+    SENTENCES,
+}
+
+interface UploadAudioBatchProps {
+    uploadType: UploadType;
+}
 
 interface State {
     error: string;
@@ -97,7 +107,7 @@ class UploadAudioBatch extends React.Component<Props, State> {
     onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (files) {
-            const verified = this.verifyFiles(files);
+            const verified = verifyFiles(files);
             const fileCount = verified.length;
             const totalSize = verified.reduce(
                 (total, value) => total + value.size,
@@ -105,42 +115,6 @@ class UploadAudioBatch extends React.Component<Props, State> {
             );
             this.setState({ files: verified, fileCount, totalSize });
         }
-    };
-
-    verifyFiles = (files: FileList): File[] => {
-        const audio = Array.from(files).filter((file: File) =>
-            file.type.startsWith('audio')
-        );
-        const metadata = Array.from(files).filter(
-            (file: File) => file.type == 'text/plain'
-        );
-        const verifiedMetadata = metadata.filter(async (metadataFile: File) => {
-            const name = metadataFile.name.replace(/\.[^.]*$/, '');
-            return audio.find(
-                (file: File) => file.name.replace(/\.[^.]*$/, '') == name
-            );
-        });
-        const verifiedAudio = audio.filter((audioFile: File) => {
-            const name = audioFile.name.replace(/\.[^.]*$/, '');
-            return verifiedMetadata.find(
-                (file: File) => file.name.replace(/\.[^.]*$/, '') == name
-            );
-        });
-        return verifiedMetadata.concat(verifiedAudio);
-    };
-
-    formatBytes = (bytes: number, decimals: number = 2): string => {
-        if (bytes === 0) return '0 Bytes';
-
-        const k = 1024;
-        const dm = decimals < 0 ? 0 : decimals;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-        return (
-            parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
-        );
     };
 
     getDropdownLabels = (): string[] => {
@@ -199,6 +173,14 @@ class UploadAudioBatch extends React.Component<Props, State> {
             });
     };
 
+    onSubmitRepeat = (packageName: string) => {
+        const { files } = this.state;
+        if (!files || !label) {
+            return;
+        }
+        this.setState({ uploading: true });
+    };
+
     render() {
         const {
             error,
@@ -211,6 +193,8 @@ class UploadAudioBatch extends React.Component<Props, State> {
             successCount,
         } = this.state;
 
+        const { uploadType } = this.props;
+
         const labels = this.getDropdownLabels();
         return (
             <UploadAudioBatchContainer>
@@ -220,7 +204,7 @@ class UploadAudioBatch extends React.Component<Props, State> {
                             <React.Fragment>
                                 Fann <span>{fileCount / 2}</span> skrár{' '}
                                 <span>með</span> setningar, samtals{' '}
-                                <span>{this.formatBytes(totalSize)}</span>
+                                <span>{formatBytes(totalSize)}</span>
                             </React.Fragment>
                         )}
                     </Status>
@@ -237,9 +221,17 @@ class UploadAudioBatch extends React.Component<Props, State> {
                         )}
                     </Message>
                 )}
-                {fileCount > 0 && (
-                    <UploadMetadata labels={labels} onSubmit={this.onSubmit} />
-                )}
+                {fileCount > 0 &&
+                    (uploadType === UploadType.VERIFICATION_BATCH ? (
+                        <UploadMetadata
+                            labels={labels}
+                            onSubmit={this.onSubmit}
+                        />
+                    ) : (
+                        <RepeatSentencesMetadata
+                            onSubmit={this.onSubmitRepeat}
+                        />
+                    ))}
                 {uploading && !finished && (
                     <ProgressBar val={progress} max={progressTotal} />
                 )}
