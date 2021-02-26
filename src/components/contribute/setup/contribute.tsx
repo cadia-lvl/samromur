@@ -24,7 +24,7 @@ import CarouselWheel from '../carousel/wheel';
 import DemographicForm from './demographic-form';
 import PackageSelect from './package-select';
 import BatchSelect from './batch-select';
-import { WheelClip } from '../../../types/samples';
+import { Clip, WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
 import Tips from './tips/tips';
 
@@ -83,13 +83,14 @@ interface State {
     tips: boolean;
     selectedBatch?: string;
     sentences?: WheelSentence[];
+    clipsToRepeat?: Clip[];
 }
 
 class Contribute extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         console.log('props ', this.props);
-        console.log('sentences ', this.props.sentences);
+        //console.log('sentences ', this.props.sentences);
         console.log('clips ', this.props.clips);
         //needs to be changed so contribute type can be 'herma' or something else to signify HIT2 sentences
         this.state = {
@@ -97,6 +98,7 @@ class Contribute extends React.Component<Props, State> {
             labels: [],
             demographic: false,
             tips: false,
+            clipsToRepeat: this.props.clips,
         };
         console.log(this.state.contributeType);
     }
@@ -197,6 +199,7 @@ class Contribute extends React.Component<Props, State> {
             selectedBatch,
             batchClips,
             sentences,
+            clipsToRepeat: repeatedClips,
         } = this.state;
 
         const {
@@ -244,8 +247,9 @@ class Contribute extends React.Component<Props, State> {
                     ) : (
                         <CarouselWheel
                             batch={selectedBatch}
-                            clips={batchClips ? batchClips : clips}
+                            clips={batchClips ? batchClips : (contributeType !=  ContributeType.REPEAT) ? clips : undefined}
                             sentences={sentences}
+                            clipsToRepeat={repeatedClips}
                             // Add a sentencesAndclips attribute here?
                         />
                     )}

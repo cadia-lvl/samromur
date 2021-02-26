@@ -3,9 +3,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import Contribute from '../components/contribute/setup/contribute';
-import { fetchSentencesAndClips } from '../services/contribute-api';
+import { fetchClipsToRepeat } from '../services/contribute-api';
 import { resetContribute } from '../store/contribute/actions';
 import { ContributeType } from '../types/contribute';
+import { Clip } from '../types/samples';
 import makeSSRDispatch from '../utilities/ssr-request';
 
 const dispatchProps = {
@@ -14,7 +15,11 @@ const dispatchProps = {
 
 const sentencesChunkSize = 20;
 
-class RepeatPage extends React.Component {
+interface Props {
+    initialClips: Clip[];
+}
+
+class RepeatPage extends React.Component<Props> {
     static async getInitialProps(ctx: NextPageContext) {
         const { isServer, req, res, store } = ctx;
 
@@ -26,7 +31,7 @@ class RepeatPage extends React.Component {
 
         // Fetch clips to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialClips = await fetchSentencesAndClips({
+        const initialClips = await fetchClipsToRepeat({
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             host,
@@ -38,7 +43,13 @@ class RepeatPage extends React.Component {
     }
 
     render() {
-        return <Contribute contributeType={ContributeType.REPEAT} />;
+        const { initialClips } = this.props;
+        return (
+            <Contribute
+                clips={initialClips}
+                contributeType={ContributeType.REPEAT}
+            />
+        );
     }
 }
 
