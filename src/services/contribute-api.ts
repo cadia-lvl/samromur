@@ -4,7 +4,6 @@ import { UserState } from '../store/user/state';
 import { Clip, ClipVote, WheelClip, UploadError } from '../types/samples';
 import { SimpleSentence } from '../types/sentences';
 import { SSRRequest } from '../types/ssr';
-import { SimpleSentenceAndClips } from '../types/copy';
 
 export interface FetchSamplesPayload extends SSRRequest {
     batch?: string;
@@ -85,21 +84,16 @@ export const fetchClips = async (
 };
 
 /**
- * NOT FINISHED
- * api call that fetches the sentences and clips from the backend
+ * API call that fetches the sentences and clips for the contribute type repeat from the server
+ * If payload includes host, then it is a ssr request.
  * @param payload
  */
-export const fetchSentencesAndClips = async (
+export const fetchClipsToRepeat = async (
     payload: FetchSamplesPayload
-): Promise<SimpleSentenceAndClips[]> => {
-    /**
-     * We need a new endpoint and url that contains the sentences and clips needed
-     * for the tts-module
-     */
-    /*
-    //doesn't work yet
-    const endpoint = `/api/contribute/sentenceclips?count=${payload.count}`;
+): Promise<Clip[]> => {
+    const endpoint = `/api/contribute/repeat-clips?count=${payload.count}`;
     const url = payload.host ? payload.host + endpoint : endpoint;
+
     return axios({
         method: 'GET',
         url,
@@ -108,35 +102,12 @@ export const fetchSentencesAndClips = async (
         },
     })
         .then((response: AxiosResponse) => {
-            console.log('data:', response.data);
             return response.data;
         })
         .catch((error: AxiosError) => {
             console.error(error);
             return Promise.reject(error.code);
-        });*/
-
-    // Mock api until the new endpoint is implemented
-    return [
-        {
-            id: '1',
-            text: 'Þú þarft að fara út að leita',
-            clip:
-                'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav',
-        },
-        {
-            id: '2',
-            text: 'Allir verkir eru æi burt',
-            clip:
-                'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav',
-        },
-        {
-            id: '3',
-            text: 'Þetta er ekkert grín',
-            clip:
-                'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav',
-        },
-    ];
+        });
 };
 
 export interface UploadClipRequest {
