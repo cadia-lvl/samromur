@@ -2,7 +2,7 @@ import * as React from 'react';
 import Icon, { IconProps } from './icon';
 
 export const Volume: React.FC<IconProps> = (props) => (
-    <Icon viewBox="0 0 72.59 72.59" className="close" {...props}>
+    <Icon viewBox="0 0 72.59 72.59" {...props}>
         <g>
             <path
                 d="M46.547,64.825c0,1.638-0.947,3.128-2.429,3.823c-0.573,0.27-1.187,0.401-1.798,0.401c-0.965,0-1.922-0.332-2.695-0.972

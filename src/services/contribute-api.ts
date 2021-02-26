@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { UserState } from '../store/user/state';
 import { Clip, ClipVote, WheelClip, UploadError } from '../types/samples';
-import { SimpleSentence} from '../types/sentences';
+import { SimpleSentence } from '../types/sentences';
 import { SSRRequest } from '../types/ssr';
 import { SimpleSentenceAndClips } from '../types/copy';
 
@@ -87,7 +87,7 @@ export const fetchClips = async (
 /**
  * NOT FINISHED
  * api call that fetches the sentences and clips from the backend
- * @param payload 
+ * @param payload
  */
 export const fetchSentencesAndClips = async (
     payload: FetchSamplesPayload
@@ -118,10 +118,25 @@ export const fetchSentencesAndClips = async (
 
     // Mock api until the new endpoint is implemented
     return [
-        {"id":"1","text":"Þú þarft að fara út að leita","clip":"https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav"},
-        {"id":"2","text":"Allir verkir eru æi burt","clip":"https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav"},
-        {"id":"3","text":"Þetta er ekkert grín","clip":"https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav"}
-    ]
+        {
+            id: '1',
+            text: 'Þú þarft að fara út að leita',
+            clip:
+                'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav',
+        },
+        {
+            id: '2',
+            text: 'Allir verkir eru æi burt',
+            clip:
+                'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav',
+        },
+        {
+            id: '3',
+            text: 'Þetta er ekkert grín',
+            clip:
+                'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav',
+        },
+    ];
 };
 
 export interface UploadClipRequest {

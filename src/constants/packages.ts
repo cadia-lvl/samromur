@@ -1,20 +1,20 @@
-import { Goal } from '../types/contribute';
+import { ContributeType, Goal } from '../types/contribute';
 
 export const speakGoals: Goal[] = [
     {
-        contributeType: 'tala',
+        contributeType: ContributeType.SPEAK,
         name: 'Lítið',
         text: '2 setningar',
         count: 2,
     },
     {
-        contributeType: 'tala',
+        contributeType: ContributeType.SPEAK,
         name: 'Miðlungs',
         text: '20 setningar',
         count: 20,
     },
     {
-        contributeType: 'tala',
+        contributeType: ContributeType.SPEAK,
         name: 'Mikið',
         text: '50 setningar',
         count: 50,
@@ -23,19 +23,40 @@ export const speakGoals: Goal[] = [
 
 export const listenGoals: Goal[] = [
     {
-        contributeType: 'hlusta',
+        contributeType: ContributeType.LISTEN,
         name: 'Lítinn',
         text: '2 upptökur',
         count: 2,
     },
     {
-        contributeType: 'hlusta',
+        contributeType: ContributeType.LISTEN,
         name: 'Miðstærð',
         text: '20 upptökur',
         count: 20,
     },
     {
-        contributeType: 'hlusta',
+        contributeType: ContributeType.LISTEN,
+        name: 'Stóran',
+        text: '50 upptökur',
+        count: 50,
+    },
+];
+
+export const repeatGoals: Goal[] = [
+    {
+        contributeType: ContributeType.REPEAT,
+        name: 'Lítinn',
+        text: '10 upptökur',
+        count: 10,
+    },
+    {
+        contributeType: ContributeType.REPEAT,
+        name: 'Miðstærð',
+        text: '20 upptökur',
+        count: 20,
+    },
+    {
+        contributeType: ContributeType.REPEAT,
         name: 'Stóran',
         text: '50 upptökur',
         count: 50,

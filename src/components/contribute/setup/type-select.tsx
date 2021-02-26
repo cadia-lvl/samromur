@@ -148,10 +148,14 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 <Volume height={50} width={50} fill={'green'} />
                 <Title>
                     <h3>Herma eftir setningu</h3>
-                    <p>Hér getur þú gefið til söfnunarinnar með því
-                        að herma eftir lesinni setningu. </p>
-                    <p>Með því að lesa inn í Samróm leggur þitt af mörkum við
-                        varðveislu íslenskunnar.</p>
+                    <p>
+                        Hér getur þú gefið til söfnunarinnar með því að herma
+                        eftir lesinni setningu.{' '}
+                    </p>
+                    <p>
+                        Með því að lesa inn í Samróm leggur þitt af mörkum við
+                        varðveislu íslenskunnar.
+                    </p>
                 </Title>
             </CardContainer>
             {(listenClicked || speakClicked) && (

@@ -8,7 +8,7 @@ import {
     FetchSamplesPayload,
 } from '../../../services/contribute-api';
 import { SimpleSentence, WheelSentence } from '../../../types/sentences';
-import { Goal } from '../../../types/contribute';
+import { ContributeType, Goal } from '../../../types/contribute';
 import * as adminApi from '../../../services/admin-api';
 import * as contributeApi from '../../../services/contribute-api';
 
@@ -67,6 +67,7 @@ const dispatchProps = {
 interface ContributeProps {
     clips?: WheelClip[];
     groupedSentences?: AllGroupsSentences;
+    contributeType?: ContributeType;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -92,9 +93,7 @@ class Contribute extends React.Component<Props, State> {
         console.log('clips ', this.props.clips);
         //needs to be changed so contribute type can be 'herma' or something else to signify HIT2 sentences
         this.state = {
-            contributeType: this.props.clips
-                ? 'hlusta'
-                : this.props.groupedSentences && 'tala',
+            contributeType: this.props.contributeType,
             labels: [],
             demographic: false,
             tips: false,
@@ -141,24 +140,20 @@ class Contribute extends React.Component<Props, State> {
         if (!contributeType) {
             return 'Taka þátt';
         } else {
-            if (contributeType == 'tala') {
+            if (
+                contributeType == ContributeType.SPEAK ||
+                contributeType == ContributeType.REPEAT
+            ) {
                 if (!demographic && goal) {
                     return 'Þín rödd';
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
-            } else if (contributeType == 'hlusta'){
+            } else {
                 return goal
                     ? 'Góð ráð við yfirferð'
                     : labels.length > 0 && !selectedBatch
                     ? 'Hvaða yfirferðarflokk viltu hlusta á?'
                     : 'Veldu pakka';
-
-            } else {
-                return goal
-                    ? 'Góð ráð við yfirferð'
-                    : labels.length > 0 && !selectedBatch
-                    ? 'test text'
-                    : 'more test text';
             }
         }
     };
@@ -226,11 +221,13 @@ class Contribute extends React.Component<Props, State> {
                             contributeType={contributeType}
                             setGoal={this.setGoal}
                         />
-                    ) : contributeType == 'tala' && !demographic ? (
+                    ) : (contributeType == ContributeType.SPEAK ||
+                          ContributeType.REPEAT) &&
+                      !demographic ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
                     ) : labels.length > 0 &&
                       !selectedBatch &&
-                      contributeType != 'tala' ? (
+                      contributeType == ContributeType.LISTEN ? (
                         <BatchSelect
                             labels={labels}
                             setLabel={this.onSelectBatch}
