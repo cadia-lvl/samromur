@@ -47,7 +47,7 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
     clients,
     clips,
 }) => {
-    const hours = (clips * averageClipSeconds) / 3600;
+    const hours = Math.round((averageClipSeconds * clips) / 3600);
     return (
         <CTAStats>
             <p>
@@ -66,13 +66,13 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
                 <Stat>
                     {parseInt(hours.toFixed(0))
                         .toLocaleString('is')
-                        .replace(',', '.')}
+                        .replace(/,/g, '.')}
                 </Stat>{' '}
                 klukkustundir eða{' '}
                 <Stat>
                     {parseInt(clips.toFixed(0))
                         .toLocaleString('is')
-                        .replace(',', '.')}
+                        .replace(/,/g, '.')}
                 </Stat>{' '}
                 setningar. Hægt er að lesa meira um verkefnið hér.{' '}
                 <Link href="/um">
