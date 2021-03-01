@@ -154,7 +154,7 @@ export const uploadRepeatSentences = async (
     files: File[],
     packageName: string,
     onUploadProgress: (ev: ProgressEvent) => void
-) => {
+): Promise<number> => {
     const url = '/api/upload-sentences-with-clips/';
 
     let formData: FormData = new FormData();
