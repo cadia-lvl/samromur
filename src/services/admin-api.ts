@@ -155,7 +155,8 @@ export const uploadRepeatSentences = async (
     packageName: string,
     onUploadProgress: (ev: ProgressEvent) => void
 ) => {
-    const url = '/api/upload-repeat-sentences/';
+    const url = '/api/upload-sentences-with-clips/';
+
     let formData: FormData = new FormData();
 
     files.forEach((file: File) =>
@@ -169,6 +170,15 @@ export const uploadRepeatSentences = async (
         url,
         headers: {
             'Content-Type': 'multipart/form-data',
+            package_name: encodeURIComponent(packageName),
         },
-    });
+        data: formData,
+        onUploadProgress,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
 };

@@ -7,12 +7,15 @@ import {
     getAgeGroup,
     getAgeGroupFromString,
 } from '../../utilities/demographics-age-helper';
+import Bucket from './bucket';
 
 export default class Sentences {
     private sql: Sql;
+    private bucket: Bucket;
 
-    constructor(sql: Sql) {
+    constructor(sql: Sql, bucket: Bucket) {
         this.sql = sql;
+        this.bucket = bucket;
     }
 
     insertBatchSentence = async (
@@ -145,5 +148,61 @@ export default class Sentences {
             `
         );
         return rows;
+    };
+
+    /**
+     * Uploads a sentence with clip (for repeating purposes) to the db and s3 bucket.
+     * @param sentence the sentence to add to the db
+     * @param packageName the source of the sentence package
+     * @param audioFile the audio file to upload to the bucket
+     */
+    uploadSentenceWithClip = async (
+        sentence: string,
+        packageName: string,
+        audioFile: Express.Multer.File
+    ): Promise<number> => {
+        const {
+            path,
+            originalSentenceId,
+        } = await this.bucket.uploadRepeatSentenceClip(sentence, audioFile);
+
+        return this.insertSentenceWithClip(
+            sentence,
+            originalSentenceId,
+            packageName,
+            path
+        );
+    };
+
+    /**
+     * Inserts a sentence that has a clip for repeating purposes into the db
+     * @param sentence the sentence
+     * @param originalSentenceId the id of the sentence
+     * @param packageName the source/package name of the sentence
+     * @param path the path of the sentence clip
+     */
+    insertSentenceWithClip = async (
+        sentence: string,
+        originalSentenceId: string,
+        packageName: string,
+        path: string
+    ): Promise<number> => {
+        try {
+            const [row] = await this.sql.query(
+                `
+                    INSERT INTO
+                        sentences (id, text, is_used, source, clip_path)
+                    VALUES
+                        (?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE
+                        is_used = VALUES(is_used), clip_path = VALUES(clip_path)
+                `,
+                [originalSentenceId, sentence, true, packageName, path]
+            );
+            const { insertId } = row; // 0 if all ok
+            return Promise.resolve(insertId);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     };
 }

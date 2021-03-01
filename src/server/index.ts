@@ -11,14 +11,14 @@ import { default as NextServer } from 'next/dist/next-server/server/next-server'
 import nextI18NextMiddleWare from 'next-i18next/middleware';
 import clientIdMiddleware from './middlewares/client-id';
 import authMiddleware from './middlewares/auth';
-import batchUploadMiddleware, {
-    uploadHandler,
-} from './middlewares/batch-upload';
+import batchUploadMiddleware from './middlewares/batch-upload';
+import uploadSentencesWithClipsMiddleware from './middlewares/sentences-with-clips-upload';
 import rateLimiter from './middlewares/rate-limit';
 
 import { nextI18next } from './i18n';
 import { Config, getConfig, verifyConfig } from '../utilities/config-helper';
 import Database, { getDatabaseInstance } from './database/database';
+import { uploadHandler } from './middlewares/upload';
 
 class Server {
     private app: NextServer;
@@ -40,10 +40,18 @@ class Server {
         this.server.use(authMiddleware);
         //this.server.use('/api/', rateLimiter);
 
+        // Batch upload upload handler and api
         this.server.post(
             '/api/upload-batch',
             uploadHandler,
             batchUploadMiddleware
+        );
+
+        // Sentenes with clips upload handler and api
+        this.server.post(
+            '/api/upload-sentences-with-clips',
+            uploadHandler,
+            uploadSentencesWithClipsMiddleware
         );
 
         this.server.all('*', (req: Request, res: Response) => handle(req, res));

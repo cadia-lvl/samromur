@@ -10,3 +10,7 @@ export const pages = {
     dashboard: '/minar-sidur',
     login: '/innskraning',
 };
+
+export const bucketPaths = {
+    repeatSentences: 'herma',
+};
