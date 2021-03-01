@@ -55,6 +55,14 @@ export const Message = styled.div`
     font-size: 1.3rem;
 `;
 
+const InformationText = styled.span`
+    font-size: 1rem;
+`;
+
+const Bold = styled(InformationText)`
+    font-weight: 600;
+`;
+
 export enum UploadType {
     VERIFICATION_BATCH,
     REPEAT_SENTENCES,
@@ -178,7 +186,25 @@ class UploadAudioBatch extends React.Component<Props, State> {
         if (!files || !packageName) {
             return;
         }
-        adminApi.uploadRepeatSentences(files, packageName, this.onProgress);
+        adminApi
+            .uploadRepeatSentences(files, packageName, this.onProgress)
+            .then((successCount: number) => {
+                this.setState({
+                    finished: true,
+                    successCount,
+                    files: undefined,
+                    fileCount: -1,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                this.setState({
+                    error: 'Eitthvað fór úrskeiðis',
+                    finished: true,
+                    files: undefined,
+                    fileCount: -1,
+                });
+            });
     };
 
     render() {
@@ -216,13 +242,17 @@ class UploadAudioBatch extends React.Component<Props, State> {
                     <Message>
                         {error ? (
                             <span>{error}</span>
-                        ) : (
+                        ) : uploadType === UploadType.VERIFICATION_BATCH ? (
                             <span>Setti inn {successCount} upptökur</span>
+                        ) : (
+                            <span>
+                                Setti inn {successCount} setningar með upptökur
+                            </span>
                         )}
                     </Message>
                 )}
-                {fileCount > 0 &&
-                    (uploadType === UploadType.VERIFICATION_BATCH ? (
+                {fileCount > 0 ? (
+                    uploadType === UploadType.VERIFICATION_BATCH ? (
                         <UploadMetadata
                             labels={labels}
                             onSubmit={this.onSubmit}
@@ -231,7 +261,25 @@ class UploadAudioBatch extends React.Component<Props, State> {
                         <RepeatSentencesMetadata
                             onSubmit={this.onSubmitRepeat}
                         />
-                    ))}
+                    )
+                ) : (
+                    <Message>
+                        {uploadType === UploadType.VERIFICATION_BATCH ? (
+                            <InformationText>
+                                Hlaða inn skrám á sniðinu <Bold> id.txt</Bold>{' '}
+                                og samsvarandi
+                                <Bold> id.wav</Bold>. id.txt ættu að innihalda
+                                öll nauðsynleg metadata fyrir upptökur.
+                            </InformationText>
+                        ) : (
+                            <InformationText>
+                                Hlaða inn skrám á sniðinu <Bold>id.txt</Bold> og
+                                samsvarandi <Bold>id.wav</Bold>. id.txt ættu
+                                aðeins að innihalda setningu.
+                            </InformationText>
+                        )}
+                    </Message>
+                )}
                 {uploading && !finished && (
                     <ProgressBar val={progress} max={progressTotal} />
                 )}
