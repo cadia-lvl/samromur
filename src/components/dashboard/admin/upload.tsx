@@ -178,7 +178,7 @@ class UploadAudioBatch extends React.Component<Props, State> {
         if (!files || !packageName) {
             return;
         }
-        this.setState({ uploading: true });
+        adminApi.uploadRepeatSentences(files, packageName, this.onProgress);
     };
 
     render() {
