@@ -8,6 +8,7 @@ import Item from './item';
 import SuperUser from './super-user';
 import SuperUsersList from './super-users-list';
 import UploadAudioBatch from './upload';
+import { UploadVotes } from './upload-votes';
 
 const AdminContainer = styled.div`
     display: grid;
@@ -57,6 +58,9 @@ class DashboardAdmin extends React.Component<Props, State> {
             <AdminContainer>
                 <UploadItem title={'Batch upload'}>
                     <UploadAudioBatch />
+                </UploadItem>
+                <UploadItem title={'Clip votes'}>
+                    <UploadVotes />
                 </UploadItem>
                 <Item title={'Búa til ofurnotanda'}>
                     <SuperUser />
