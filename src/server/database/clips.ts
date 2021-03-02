@@ -15,6 +15,12 @@ interface TableClip {
     sentence: string;
 }
 
+interface SentenceWithClip {
+    original_sentence_id: string;
+    path: string;
+    sentence: string;
+}
+
 export default class Clips {
     private sql: Sql;
     private bucket: Bucket;
@@ -343,6 +349,7 @@ export default class Clips {
         return statuses;
     };
 
+    SMALL_SHUFFLE_SIZE = 500;
     /**
      * Fetches the clips (with sentences) for the herma (repeat) contribution type
      * TEMPORARILY ALWAYS FETCHES IN ALPHABETICAL ORDER until db fixed
@@ -355,11 +362,13 @@ export default class Clips {
         count: number
     ): Promise<Clip[]> => {
         try {
-            const repeatedClips = await this.fetchOrderedClipsToRepeat(count);
+            const repeatedClips = await this.fetchRandomClipsToRepeat(
+                clientId,
+                count
+            );
             const withPublicUrls: Clip[] = await Promise.all(
-                repeatedClips.map((clip: TableClip) => {
+                repeatedClips.map((clip: SentenceWithClip) => {
                     return {
-                        id: clip.id,
                         recording: {
                             url: this.bucket.getPublicUrl(clip.path),
                         },
@@ -381,56 +390,66 @@ export default class Clips {
      * TODO: remove when db fixed
      * @param count
      */
-    fetchOrderedClipsToRepeat = async (count: number): Promise<TableClip[]> => {
+    fetchOrderedClipsToRepeat = async (
+        count: number
+    ): Promise<SentenceWithClip[]> => {
         const [clips] = await this.sql.query(
             `
                 SELECT
-                    id, sentence_id as original_sentence_id, sentence, path
+                    id as original_sentence_id, text as sentence, clip_path as path
                 FROM
-                    repeated_clips
+                    sentences
+                WHERE
+                    clip_path IS NOT NULL
                 ORDER BY
-                    original_sentence_id asc
+                    clips_count asc
                 LIMIT ?
             `,
             [count]
         );
-        return clips as TableClip[];
+        return clips as SentenceWithClip[];
     };
 
     /**
      * Fetches random clips with sentences for the user to repeat
-     * TODO: add sorting to find rows with low clip count
      * @param clientId
      * @param count
      */
     fetchRandomClipsToRepeat = async (
         clientId: string,
         count: number
-    ): Promise<TableClip[]> => {
+    ): Promise<SentenceWithClip[]> => {
         const [clips] = await this.sql.query(
             `
-                SELECT
-                    id, sentence_id as original_sentence_id, sentence, path
-                FROM
-                    repeated_clips
-                WHERE
-                    NOT EXISTS
-                        (
-                            SELECT 
-                                * 
-                            FROM 
-                                clips 
-                            WHERE 
-                                clips.original_sentence_id = repeated_clips.sentence_id 
-                            AND 
-                                client_id = ?
-                        )
-                ORDER BY
+                SELECT * FROM (	
+                    SELECT 
+                        id as original_sentence_id, 
+                        text as sentence, 
+                        clip_path as path
+	                FROM 
+                        sentences 
+	                WHERE 
+                        is_used = ?
+	                AND 
+                        clip_path is not null 
+                    AND NOT exists (
+		                SELECT 
+                            *
+                        FROM 
+                            clips
+                        WHERE 
+                            clips.original_sentence_id = sentences.id
+                        AND 
+                            clips.client_id = ?)
+                    ORDER BY 
+                        clips_count asc
+                    LIMIT ?) as result
+                ORDER BY 
                     RAND()
                 LIMIT ?
             `,
-            [clientId, count]
+            [true, clientId, this.SMALL_SHUFFLE_SIZE, count]
         );
-        return clips as TableClip[];
+        return clips as SentenceWithClip[];
     };
 }
