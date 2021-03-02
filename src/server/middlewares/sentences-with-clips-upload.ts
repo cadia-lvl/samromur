@@ -1,14 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { assert } from 'console';
 import fs from 'fs';
-
-import { generateGUID } from '../../utilities/id';
+import Database, { getDatabaseInstance } from '../database/database';
 import {
     getSentenceFromFile,
     findMatchingAudioFile,
 } from '../utilities/upload-helper';
-import { ClipMetadata } from '../../types/samples';
-import Database, { getDatabaseInstance } from '../database/database';
 
 const db: Database = getDatabaseInstance();
 
@@ -28,62 +25,43 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         }
 
         try {
-            const newClientId = generateGUID();
-
-            await db.userClients.insertUserClient(newClientId);
-
-            const age = decodeURIComponent(headers.age as string);
-            const dialect = decodeURIComponent(headers.dialect as string);
-            const gender = decodeURIComponent(headers.gender as string);
-            const nativeLanguage = decodeURIComponent(
-                headers.native_language as string
+            const packageName = decodeURIComponent(
+                headers.package_name as string
             );
-            const status = decodeURIComponent(headers.status as string);
-
             const files = req.files as {
                 [fieldname: string]: Express.Multer.File[];
             };
             const { audio, metadata } = files;
 
-            const clipIds = await Promise.all(
+            const sentenceIds: number[] = await Promise.all(
                 metadata.map(async (file) => {
                     const sentence = await getSentenceFromFile(file);
-                    await db.sentences.insertBatchSentence(sentence, status);
-                    const clip: ClipMetadata = {
-                        age,
-                        dialect,
-                        gender,
-                        nativeLanguage,
-                        status,
-                        sentence,
-                        userAgent: 'undefined',
-                    };
-
                     const audioFile = findMatchingAudioFile(audio, file);
-                    return db.clips
-                        .uploadBatchClip(
-                            newClientId,
-                            clip,
+                    return db.sentences
+                        .uploadSentenceWithClip(
+                            sentence,
+                            packageName,
                             audioFile as Express.Multer.File
                         )
                         .then((id: number) => {
                             return Promise.resolve(id);
                         })
-                        .catch((error) => {
+                        .catch((error: any) => {
                             console.error(error);
                             return Promise.resolve(-1);
                         });
                 })
             );
 
+            // Delete the files
             audio.concat(metadata).forEach((file) => fs.unlinkSync(file.path));
 
-            const count = clipIds.reduce(
+            const count = sentenceIds.reduce(
                 (total, value) => (value != -1 ? total + 1 : total),
                 0
             );
             console.log(
-                `${count} clips uploaded under ${newClientId} with batch label ${status}`
+                `${count} sentences with clips uploaded with source label ${packageName}`
             );
             return res.status(200).json(count);
         } catch (error) {

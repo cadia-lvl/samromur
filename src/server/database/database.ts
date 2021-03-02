@@ -26,7 +26,7 @@ export default class Database {
         this.bucket = new Bucket();
         this.clips = new Clips(this.sql, this.bucket);
         this.consents = new Consents(this.sql);
-        this.sentences = new Sentences(this.sql);
+        this.sentences = new Sentences(this.sql, this.bucket);
         this.stats = new Stats(this.sql);
         this.userClients = new UserClients(this.sql);
         this.votes = new Votes(this.sql);

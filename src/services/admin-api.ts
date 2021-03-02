@@ -149,3 +149,36 @@ export const uploadVerificationBatch = async (
             return Promise.reject(error.code);
         });
 };
+
+export const uploadRepeatSentences = async (
+    files: File[],
+    packageName: string,
+    onUploadProgress: (ev: ProgressEvent) => void
+): Promise<number> => {
+    const url = '/api/upload-sentences-with-clips/';
+
+    let formData: FormData = new FormData();
+
+    files.forEach((file: File) =>
+        file.type.startsWith('audio')
+            ? formData.append('audio', file)
+            : formData.append('metadata', file)
+    );
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            package_name: encodeURIComponent(packageName),
+        },
+        data: formData,
+        onUploadProgress,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
+};

@@ -7,7 +7,7 @@ import { SuperUserStat } from '../../../types/user';
 import Item from './item';
 import SuperUser from './super-user';
 import SuperUsersList from './super-users-list';
-import UploadAudioBatch from './upload';
+import UploadAudioBatch, { UploadType } from './upload';
 
 const AdminContainer = styled.div`
     display: grid;
@@ -56,7 +56,17 @@ class DashboardAdmin extends React.Component<Props, State> {
         return (
             <AdminContainer>
                 <UploadItem title={'Batch upload'}>
+                    <UploadAudioBatch
+                        uploadType={UploadType.VERIFICATION_BATCH}
+                    />
+                </UploadItem>
+                {/* <UploadItem title={'Sentences upload'}>
                     <UploadAudioBatch />
+                </UploadItem> */}
+                <UploadItem title={'Repeat upload'}>
+                    <UploadAudioBatch
+                        uploadType={UploadType.REPEAT_SENTENCES}
+                    />
                 </UploadItem>
                 <Item title={'Búa til ofurnotanda'}>
                     <SuperUser />

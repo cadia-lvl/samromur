@@ -12,7 +12,7 @@ import { Demographic } from '../../../types/user';
 import DropdownButton from '../../ui/input/dropdown';
 import TextInput from '../../ui/input/text-input';
 
-const MetadataContainer = styled.div`
+export const MetadataContainer = styled.div`
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 1fr;
