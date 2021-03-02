@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { assert } from 'console';
 import fs from 'fs';
-import multer from 'multer';
-
-import { generateGUID } from '../../utilities/id';
-import { ClipMetadata } from '../../types/samples';
 import Database, { getDatabaseInstance } from '../database/database';
-import { getSentenceFromFile, findMatchingAudioFile } from './upload';
+import {
+    getSentenceFromFile,
+    findMatchingAudioFile,
+} from '../utilities/upload-helper';
 
 const db: Database = getDatabaseInstance();
 
@@ -54,6 +53,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 })
             );
 
+            // Delete the files
             audio.concat(metadata).forEach((file) => fs.unlinkSync(file.path));
 
             const count = sentenceIds.reduce(

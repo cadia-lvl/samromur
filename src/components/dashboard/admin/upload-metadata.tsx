@@ -21,7 +21,7 @@ export const MetadataContainer = styled.div`
     }
 `;
 
-export const MetaDataButton = styled.div`
+const Button = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,9 +211,7 @@ export default class UploadMetadata extends React.Component<Props, State> {
                             onSelect={this.onDialectSelect}
                             selected={dialect ? dialect.name : ''}
                         />
-                        <MetaDataButton onClick={this.onSubmit}>
-                            Senda
-                        </MetaDataButton>
+                        <Button onClick={this.onSubmit}>Senda</Button>
                     </React.Fragment>
                 )}
             </MetadataContainer>

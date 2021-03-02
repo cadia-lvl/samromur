@@ -19,14 +19,14 @@ const UploadAudioBatchContainer = styled.div`
     }
 `;
 
-export const BrowseBar = styled.div`
+const BrowseBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 `;
 
-export const Status = styled.div`
+const Status = styled.div`
     display: flex;
     align-items: center;
 
@@ -36,7 +36,7 @@ export const Status = styled.div`
     }
 `;
 
-export const Button = styled.div`
+const Button = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@ export const Button = styled.div`
     }
 `;
 
-export const Message = styled.div`
+const Message = styled.div`
     font-size: 1.3rem;
 `;
 
@@ -269,20 +269,11 @@ class UploadAudioBatch extends React.Component<Props, State> {
                 )}
                 {showHelpText && (
                     <Message>
-                        {uploadType === UploadType.VERIFICATION_BATCH ? (
-                            <InformationText>
-                                Hlaða inn skrám á sniðinu <Bold> id.txt</Bold>{' '}
-                                og samsvarandi
-                                <Bold> id.wav</Bold>. id.txt ættu að innihalda
-                                öll nauðsynleg metadata fyrir upptökur.
-                            </InformationText>
-                        ) : (
-                            <InformationText>
-                                Hlaða inn skrám á sniðinu <Bold>id.txt</Bold> og
-                                samsvarandi <Bold>id.wav</Bold>. id.txt ættu
-                                aðeins að innihalda setningu.
-                            </InformationText>
-                        )}
+                        <InformationText>
+                            Hlaða inn skrám á sniðinu <Bold>id.txt</Bold> og
+                            samsvarandi <Bold>id.wav</Bold>. id.txt ættu aðeins
+                            að innihalda setningu.
+                        </InformationText>
                     </Message>
                 )}
             </UploadAudioBatchContainer>

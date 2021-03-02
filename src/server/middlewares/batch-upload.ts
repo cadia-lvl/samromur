@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { assert } from 'console';
 import fs from 'fs';
-import multer from 'multer';
 
 import { generateGUID } from '../../utilities/id';
-import { getSentenceFromFile, findMatchingAudioFile } from './upload';
+import {
+    getSentenceFromFile,
+    findMatchingAudioFile,
+} from '../utilities/upload-helper';
 import { ClipMetadata } from '../../types/samples';
 import Database, { getDatabaseInstance } from '../database/database';
 

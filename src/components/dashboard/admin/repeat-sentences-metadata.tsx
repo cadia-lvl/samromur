@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { validateSentencePackageName } from '../../../utilities/upload-helper';
 import TextInput from '../../ui/input/text-input';
-import { MetaDataButton, MetadataContainer } from './upload-metadata';
+import { MetadataContainer } from './upload-metadata';
 
 const Button = styled.div`
     display: flex;

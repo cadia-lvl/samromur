@@ -18,7 +18,7 @@ import rateLimiter from './middlewares/rate-limit';
 import { nextI18next } from './i18n';
 import { Config, getConfig, verifyConfig } from '../utilities/config-helper';
 import Database, { getDatabaseInstance } from './database/database';
-import { uploadHandler } from './middlewares/upload';
+import { uploadHandler } from './utilities/upload-helper';
 
 class Server {
     private app: NextServer;
