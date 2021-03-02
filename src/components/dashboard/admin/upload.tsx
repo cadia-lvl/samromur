@@ -222,6 +222,8 @@ class UploadAudioBatch extends React.Component<Props, State> {
         const { uploadType } = this.props;
 
         const labels = this.getDropdownLabels();
+
+        const showHelpText = !uploading && !finished && fileCount <= 0;
         return (
             <UploadAudioBatchContainer>
                 <BrowseBar>
@@ -251,8 +253,8 @@ class UploadAudioBatch extends React.Component<Props, State> {
                         )}
                     </Message>
                 )}
-                {fileCount > 0 ? (
-                    uploadType === UploadType.VERIFICATION_BATCH ? (
+                {fileCount > 0 &&
+                    (uploadType === UploadType.VERIFICATION_BATCH ? (
                         <UploadMetadata
                             labels={labels}
                             onSubmit={this.onSubmit}
@@ -261,8 +263,11 @@ class UploadAudioBatch extends React.Component<Props, State> {
                         <RepeatSentencesMetadata
                             onSubmit={this.onSubmitRepeat}
                         />
-                    )
-                ) : (
+                    ))}
+                {uploading && !finished && (
+                    <ProgressBar val={progress} max={progressTotal} />
+                )}
+                {showHelpText && (
                     <Message>
                         {uploadType === UploadType.VERIFICATION_BATCH ? (
                             <InformationText>
@@ -279,9 +284,6 @@ class UploadAudioBatch extends React.Component<Props, State> {
                             </InformationText>
                         )}
                     </Message>
-                )}
-                {uploading && !finished && (
-                    <ProgressBar val={progress} max={progressTotal} />
                 )}
             </UploadAudioBatchContainer>
         );
