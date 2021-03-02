@@ -8,6 +8,7 @@ import {
 
 import { SSRRequest } from '../types/ssr';
 import { Demographics, SuperUserStat } from '../types/user';
+import { VoteBatch } from '../types/votes';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm';
@@ -148,4 +149,9 @@ export const uploadVerificationBatch = async (
         .catch((error: AxiosError) => {
             return Promise.reject(error.code);
         });
+};
+
+export const addVotesBatch = async (voteBatch: VoteBatch): Promise<number> => {
+    const url = '/api/admin/upload/votes';
+    return Promise.reject(0);
 };
