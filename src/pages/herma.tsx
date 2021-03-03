@@ -46,7 +46,7 @@ class RepeatPage extends React.Component<Props> {
         const { initialClips } = this.props;
         return (
             <Contribute
-                clips={initialClips}
+                clipsToRepeat={initialClips}
                 contributeType={ContributeType.REPEAT}
             />
         );

@@ -116,7 +116,7 @@ class CarouselWheel extends React.Component<Props, State> {
             clips: this.props.clips || [],
             clipsToRepeat: this.props.clipsToRepeat,
             clipIndex: 0,
-            isSpeak: this.props.contributeType != ContributeType.LISTEN,
+            isSpeak: this.props.contributeType !== ContributeType.LISTEN,
             sentenceIndex: 0,
             recordingError: undefined,
             audioError: undefined,
@@ -557,7 +557,8 @@ class CarouselWheel extends React.Component<Props, State> {
             contribute: { expanded, gaming, goal, progress },
         } = this.props;
         const activeClip = clips[clipIndex] || undefined;
-        const activeClipToRepeat = clipsToRepeat && clipsToRepeat[clipIndex] || undefined;
+        const activeClipToRepeat =
+            (clipsToRepeat && clipsToRepeat[clipIndex]) || undefined;
         const isDone = !!(
             (goal && goal.count == progress) ||
             // for when there are not enough clips to verify

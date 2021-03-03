@@ -68,6 +68,7 @@ interface ContributeProps {
     clips?: WheelClip[];
     groupedSentences?: AllGroupsSentences;
     contributeType?: ContributeType;
+    clipsToRepeat?: WheelClip[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -77,13 +78,13 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 interface State {
     batchClips?: WheelClip[];
-    contributeType?: string;
+    contributeType?: ContributeType;
     labels: string[];
     demographic: boolean;
     tips: boolean;
     selectedBatch?: string;
     sentences?: WheelSentence[];
-    clipsToRepeat?: Clip[];
+    clipsToRepeat?: WheelClip[];
 }
 
 class Contribute extends React.Component<Props, State> {
@@ -98,7 +99,7 @@ class Contribute extends React.Component<Props, State> {
             labels: [],
             demographic: false,
             tips: false,
-            clipsToRepeat: this.props.clips,
+            clipsToRepeat: this.props.clipsToRepeat,
         };
         console.log(this.state.contributeType);
     }
@@ -247,9 +248,16 @@ class Contribute extends React.Component<Props, State> {
                     ) : (
                         <CarouselWheel
                             batch={selectedBatch}
-                            clips={batchClips ? batchClips : (contributeType !=  ContributeType.REPEAT) ? clips : undefined}
+                            clips={
+                                batchClips
+                                    ? batchClips
+                                    : contributeType != ContributeType.REPEAT
+                                    ? clips
+                                    : undefined
+                            }
                             sentences={sentences}
                             clipsToRepeat={repeatedClips}
+                            contributeType={contributeType}
                             // Add a sentencesAndclips attribute here?
                         />
                     )}
