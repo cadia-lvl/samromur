@@ -15,16 +15,16 @@ import {
 
 import Wave from '../wave';
 import { RepeatClipPlayButton } from './repeat-clip-play-button';
+import { Glow } from './glow';
 
 const Audio = styled.audio`
     display: none;
 `;
 
-const AudioRepeated = styled(Audio)``
+const AudioRepeated = styled(Audio)``;
 
 const MainControlsContainer = styled.div`
     position: relative;
-
     width: 100%;
     display: flex;
     justify-content: center;
@@ -39,28 +39,6 @@ const MainControlsContainer = styled.div`
             black,
             rgba(0, 0, 0, 0) 97%
         );
-    }
-`;
-
-interface GlowProps {
-    color: WheelColor;
-}
-
-const Glow = styled.div<GlowProps>`
-    position: absolute;
-    width: 6.2rem;
-    height: 6.2rem;
-    opacity: 0.5;
-    background: linear-gradient(
-        to left,
-        ${({ color }) => getWheelColorHEXShades(color)}
-    );
-    border-radius: 50%;
-    filter: blur(7.6px);
-    transition: opacity 0.2s linear;
-
-    & :hover {
-        opacity: 1;
     }
 `;
 
@@ -361,14 +339,7 @@ export default class MainControls extends React.Component<Props, State> {
                     //src={clipToRepeat && clipToRepeat.recording?.url}
                     src={clip && clip.recording && clip.recording.url}
                 />
-                <AudioRepeated
-                    ref={this.audioRef}
-                    preload="auto"
-                    controls
-                    controlsList="nodownload"
-                    onEnded={this.handleHasPlayed}
-                    src={clipToRepeat && clipToRepeat.recording?.url}
-                />
+
                 {!isSpeak && (
                     <VoteButton
                         color={'green'}
@@ -431,14 +402,17 @@ export default class MainControls extends React.Component<Props, State> {
                         </MainButton>
                     )}
                 </MainButtonContainer>
-                {   hasRepeatClip && 
-                    <MainButtonContainer isActive={isRecording || isPlaying}>
-                        <Glow color={color} />
-                        <RepeatClipPlayButton 
-                            src={clipToRepeat && clipToRepeat.recording && clipToRepeat.recording.url}
-                            />
-                    </MainButtonContainer>
-                    }
+                {hasRepeatClip && (
+                    // <MainButtonContainer isActive={isRecording || isPlaying}>
+                    <RepeatClipPlayButton
+                        src={
+                            clipToRepeat &&
+                            clipToRepeat.recording &&
+                            clipToRepeat.recording.url
+                        }
+                    />
+                    // </MainButtonContainer>
+                )}
                 {!isSpeak && (
                     <VoteButton
                         color={'red'}
