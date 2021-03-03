@@ -14,6 +14,8 @@ import {
 } from '../../../../utilities/color-utility';
 
 import Wave from '../wave';
+import { RepeatClipPlayButton } from './repeat-clip-play-button';
+import { Glow } from './glow';
 
 const Audio = styled.audio`
     display: none;
@@ -21,7 +23,6 @@ const Audio = styled.audio`
 
 const MainControlsContainer = styled.div`
     position: relative;
-
     width: 100%;
     display: flex;
     justify-content: center;
@@ -36,28 +37,6 @@ const MainControlsContainer = styled.div`
             black,
             rgba(0, 0, 0, 0) 97%
         );
-    }
-`;
-
-interface GlowProps {
-    color: WheelColor;
-}
-
-const Glow = styled.div<GlowProps>`
-    position: absolute;
-    width: 6.2rem;
-    height: 6.2rem;
-    opacity: 0.5;
-    background: linear-gradient(
-        to left,
-        ${({ color }) => getWheelColorHEXShades(color)}
-    );
-    border-radius: 50%;
-    filter: blur(7.6px);
-    transition: opacity 0.2s linear;
-
-    & :hover {
-        opacity: 1;
     }
 `;
 
@@ -131,6 +110,7 @@ const VoteButton = styled.div<VoteButtonProps>`
 
 interface Props {
     clip?: WheelClip;
+    clipToRepeat?: WheelClip;
     color: WheelColor;
     isDone: boolean;
     isSpeak: boolean;
@@ -332,10 +312,11 @@ export default class MainControls extends React.Component<Props, State> {
     };
 
     render() {
-        const { clip, color, isSpeak } = this.props;
+        const { clip, color, isSpeak, clipToRepeat } = this.props;
         const { hasPlayed, isPlaying, isRecording, isReplaying } = this.state;
 
-        const hasRecording = !!clip && !!clip.recording;
+        const hasRecording = clip && !!clip.recording;
+        const hasRepeatClip = !!clipToRepeat;
         const clipVote = clip?.vote;
         const colorString = getWheelColorString(color);
 
@@ -355,6 +336,7 @@ export default class MainControls extends React.Component<Props, State> {
                     onEnded={this.handleHasPlayed}
                     src={clip && clip.recording && clip.recording.url}
                 />
+
                 {!isSpeak && (
                     <VoteButton
                         color={'green'}
@@ -393,6 +375,7 @@ export default class MainControls extends React.Component<Props, State> {
                             )}
                         </MainButton>
                     ) : (
+                        // When speaking and not having a recording
                         <MainButton
                             onClick={
                                 isRecording
@@ -416,6 +399,15 @@ export default class MainControls extends React.Component<Props, State> {
                         </MainButton>
                     )}
                 </MainButtonContainer>
+                {hasRepeatClip && (
+                    <RepeatClipPlayButton
+                        src={
+                            clipToRepeat &&
+                            clipToRepeat.recording &&
+                            clipToRepeat.recording.url
+                        }
+                    />
+                )}
                 {!isSpeak && (
                     <VoteButton
                         color={'red'}

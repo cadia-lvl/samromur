@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-// Is this file used anywhere?
 import { WheelClip, ClipVote } from '../../../../types/samples';
 import {
     PlayButton,
@@ -38,7 +37,6 @@ export default class ListenControls extends React.Component<Props, State> {
     private audioRef: React.RefObject<HTMLAudioElement>;
     constructor(props: Props) {
         super(props);
-        console.log('Listen-controls SOMEHOW made');
         this.state = {
             isPlaying: false,
         };

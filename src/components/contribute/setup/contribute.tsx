@@ -8,7 +8,7 @@ import {
     FetchSamplesPayload,
 } from '../../../services/contribute-api';
 import { SimpleSentence, WheelSentence } from '../../../types/sentences';
-import { Goal } from '../../../types/contribute';
+import { ContributeType, Goal } from '../../../types/contribute';
 import * as adminApi from '../../../services/admin-api';
 import * as contributeApi from '../../../services/contribute-api';
 
@@ -24,7 +24,7 @@ import CarouselWheel from '../carousel/wheel';
 import DemographicForm from './demographic-form';
 import PackageSelect from './package-select';
 import BatchSelect from './batch-select';
-import { WheelClip } from '../../../types/samples';
+import { Clip, WheelClip } from '../../../types/samples';
 import TypeSelect from './type-select';
 import Tips from './tips/tips';
 
@@ -67,6 +67,8 @@ const dispatchProps = {
 interface ContributeProps {
     clips?: WheelClip[];
     groupedSentences?: AllGroupsSentences;
+    contributeType?: ContributeType;
+    clipsToRepeat?: WheelClip[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -76,30 +78,26 @@ type Props = ReturnType<typeof mapStateToProps> &
 
 interface State {
     batchClips?: WheelClip[];
-    contributeType?: string;
+    contributeType?: ContributeType;
     labels: string[];
     demographic: boolean;
     tips: boolean;
     selectedBatch?: string;
     sentences?: WheelSentence[];
+    clipsToRepeat?: WheelClip[];
 }
 
 class Contribute extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        console.log('props ', this.props);
-        console.log('sentences ', this.props.sentences);
-        console.log('clips ', this.props.clips);
-        //needs to be changed so contribute type can be 'herma' or something else to signify HIT2 sentences
+
         this.state = {
-            contributeType: this.props.clips
-                ? 'hlusta'
-                : this.props.groupedSentences && 'tala',
+            contributeType: this.props.contributeType,
             labels: [],
             demographic: false,
             tips: false,
+            clipsToRepeat: this.props.clipsToRepeat,
         };
-        console.log(this.state.contributeType);
     }
 
     componentDidMount = async () => {
@@ -141,24 +139,20 @@ class Contribute extends React.Component<Props, State> {
         if (!contributeType) {
             return 'Taka þátt';
         } else {
-            if (contributeType == 'tala') {
+            if (
+                contributeType == ContributeType.SPEAK ||
+                contributeType == ContributeType.REPEAT
+            ) {
                 if (!demographic && goal) {
                     return 'Þín rödd';
                 }
                 return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
-            } else if (contributeType == 'hlusta'){
+            } else {
                 return goal
                     ? 'Góð ráð við yfirferð'
                     : labels.length > 0 && !selectedBatch
                     ? 'Hvaða yfirferðarflokk viltu hlusta á?'
                     : 'Veldu pakka';
-
-            } else {
-                return goal
-                    ? 'Góð ráð við yfirferð'
-                    : labels.length > 0 && !selectedBatch
-                    ? 'test text'
-                    : 'more test text';
             }
         }
     };
@@ -202,6 +196,7 @@ class Contribute extends React.Component<Props, State> {
             selectedBatch,
             batchClips,
             sentences,
+            clipsToRepeat: repeatedClips,
         } = this.state;
 
         const {
@@ -226,11 +221,13 @@ class Contribute extends React.Component<Props, State> {
                             contributeType={contributeType}
                             setGoal={this.setGoal}
                         />
-                    ) : contributeType == 'tala' && !demographic ? (
+                    ) : (contributeType == ContributeType.SPEAK ||
+                          ContributeType.REPEAT) &&
+                      !demographic ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
                     ) : labels.length > 0 &&
                       !selectedBatch &&
-                      contributeType != 'tala' ? (
+                      contributeType == ContributeType.LISTEN ? (
                         <BatchSelect
                             labels={labels}
                             setLabel={this.onSelectBatch}
@@ -247,8 +244,16 @@ class Contribute extends React.Component<Props, State> {
                     ) : (
                         <CarouselWheel
                             batch={selectedBatch}
-                            clips={batchClips ? batchClips : clips}
+                            clips={
+                                batchClips
+                                    ? batchClips
+                                    : contributeType != ContributeType.REPEAT
+                                    ? clips
+                                    : undefined
+                            }
                             sentences={sentences}
+                            clipsToRepeat={repeatedClips}
+                            contributeType={contributeType}
                             // Add a sentencesAndclips attribute here?
                         />
                     )}

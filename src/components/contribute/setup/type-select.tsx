@@ -132,26 +132,18 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     </p>
                 </Title>
             </CardContainer>
-            {/*             <CardContainer wide onClick={() => { }}>
-                <PhoneIcon height={40} width={40} fill={'gray'} />
-                <Title>
-                    <h3>Samræður</h3>
-                    <p>Hringja í aðra þátttakendur og taka upp samræður</p>
-                </Title>
-            </CardContainer> */}
-            {/**
-            Below is the card for the tts-module on the takathatt page.
-            setType('herma') appears to be responsible for routing to the herma.tsx
-            The names need to match or there will be an error
-             */}
             <CardContainer wide onClick={() => setType('herma')}>
-                <Volume height={50} width={50} fill={'green'} />
+                <Volume height={40} width={40} fill={'green'} />
                 <Title>
                     <h3>Herma eftir setningu</h3>
-                    <p>Hér getur þú gefið til söfnunarinnar með því
-                        að herma eftir lesinni setningu. </p>
-                    <p>Með því að lesa inn í Samróm leggur þitt af mörkum við
-                        varðveislu íslenskunnar.</p>
+                    <p>
+                        Hér getur þú gefið til söfnunarinnar með því að herma
+                        eftir lesinni setningu.{' '}
+                    </p>
+                    <p>
+                        Með því að lesa inn í Samróm leggur þitt af mörkum við
+                        varðveislu íslenskunnar.
+                    </p>
                 </Title>
             </CardContainer>
             {(listenClicked || speakClicked) && (

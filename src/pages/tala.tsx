@@ -20,6 +20,7 @@ import makeSSRDispatch from '../utilities/ssr-request';
 
 import ContributePage from '../components/contribute/setup/contribute';
 import { AgeGroups, AgeLimit } from '../utilities/demographics-age-helper';
+import { ContributeType } from '../types/contribute';
 
 const dispatchProps = {
     resetContribute,
@@ -89,7 +90,12 @@ class SpeakPage extends React.Component<Props, State> {
     render() {
         const { initialSentences } = this.props;
 
-        return <ContributePage groupedSentences={initialSentences} />;
+        return (
+            <ContributePage
+                groupedSentences={initialSentences}
+                contributeType={ContributeType.SPEAK}
+            />
+        );
     }
 }
 

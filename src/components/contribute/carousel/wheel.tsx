@@ -5,9 +5,9 @@ import { RootState } from 'typesafe-actions';
 
 import Recorder from './recorder';
 import Card from './card';
-import { WheelClip, ClipVote, UploadError } from '../../../types/samples';
+import { WheelClip, ClipVote, UploadError, Clip } from '../../../types/samples';
 import { AudioInfo, RecordingError, AudioError } from '../../../types/audio';
-import { WheelColor } from '../../../types/contribute';
+import { ContributeType, WheelColor } from '../../../types/contribute';
 import { SimpleSentence, WheelSentence } from '../../../types/sentences';
 import {
     saveVote,
@@ -75,7 +75,8 @@ interface CarouselWheelProps {
     sentences?: WheelSentence[];
     batch?: string;
     clips?: WheelClip[];
-    //Add a property for sentencesAndClips? Or try to combine the sentence and clip attributes we already have?
+    contributeType?: ContributeType;
+    clipsToRepeat?: Clip[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -85,6 +86,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 interface State {
     sentences: WheelSentence[];
     clips: WheelClip[];
+    clipsToRepeat?: WheelClip[];
     clipIndex: number;
     color: WheelColor;
     isSpeak: boolean;
@@ -104,13 +106,16 @@ class CarouselWheel extends React.Component<Props, State> {
         this.state = {
             sentences:
                 this.props.sentences ||
-                (this.props.clips &&
-                    this.sentencesFromClips(this.props.clips)) ||
+                (this.props.clips
+                    ? this.sentencesFromClips(this.props.clips)
+                    : this.props.clipsToRepeat &&
+                      this.sentencesFromClips(this.props.clipsToRepeat)) ||
                 [],
             color: WheelColor.BLUE,
             clips: this.props.clips || [],
+            clipsToRepeat: this.props.clipsToRepeat,
             clipIndex: 0,
-            isSpeak: !!this.props.sentences,
+            isSpeak: this.props.contributeType !== ContributeType.LISTEN,
             sentenceIndex: 0,
             recordingError: undefined,
             audioError: undefined,
@@ -135,7 +140,8 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     componentDidMount = async () => {
-        if (!!this.props.sentences) {
+        const { isSpeak } = this.state;
+        if (isSpeak) {
             // To-do: Stop microphone when idle to remove recording indicator from browser tab
             this.recorder = new Recorder();
             try {
@@ -537,6 +543,7 @@ class CarouselWheel extends React.Component<Props, State> {
     render() {
         const {
             clips,
+            clipsToRepeat,
             clipIndex,
             color,
             isSpeak,
@@ -549,6 +556,8 @@ class CarouselWheel extends React.Component<Props, State> {
             contribute: { expanded, gaming, goal, progress },
         } = this.props;
         const activeClip = clips[clipIndex] || undefined;
+        const activeClipToRepeat =
+            (clipsToRepeat && clipsToRepeat[clipIndex]) || undefined;
         const isDone = !!(
             (goal && goal.count == progress) ||
             // for when there are not enough clips to verify
@@ -597,6 +606,7 @@ class CarouselWheel extends React.Component<Props, State> {
                 />
                 <MainControls
                     clip={activeClip}
+                    clipToRepeat={activeClipToRepeat}
                     color={color}
                     isDone={isDone}
                     isSpeak={isSpeak}

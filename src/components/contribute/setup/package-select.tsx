@@ -1,8 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import PackageCard from './package-card';
-import { listenGoals, speakGoals } from '../../../constants/packages';
-import { Goal } from '../../../types/contribute';
+import {
+    listenGoals,
+    repeatGoals,
+    speakGoals,
+} from '../../../constants/packages';
+import { ContributeType, Goal } from '../../../types/contribute';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -29,11 +33,15 @@ export const TypeSelect: React.FunctionComponent<Props> = ({
 }) => {
     return (
         <CardGrid>
-            {contributeType == 'hlusta'
+            {contributeType == ContributeType.LISTEN
                 ? listenGoals.map((goal: Goal, i: number) => (
                       <PackageCard goal={goal} key={i} setGoal={setGoal} />
                   ))
-                : speakGoals.map((goal: Goal, i: number) => (
+                : contributeType == ContributeType.SPEAK
+                ? speakGoals.map((goal: Goal, i: number) => (
+                      <PackageCard goal={goal} key={i} setGoal={setGoal} />
+                  ))
+                : repeatGoals.map((goal: Goal, i: number) => (
                       <PackageCard goal={goal} key={i} setGoal={setGoal} />
                   ))}
         </CardGrid>
