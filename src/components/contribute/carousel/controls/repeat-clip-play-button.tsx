@@ -41,10 +41,6 @@ const RelativePlayIconContainer = styled.div`
     cursor: pointer;
 `;
 
-// const Audio = styled.audio`
-//     display: none;
-// `;
-
 interface Props {
     src: string | undefined;
 }

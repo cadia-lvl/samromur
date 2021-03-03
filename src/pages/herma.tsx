@@ -27,6 +27,7 @@ class RepeatPage extends React.Component<Props> {
         store.dispatch(resetContribute());
 
         // // Fetch some stats to display at the end of the session
+        //TODO: make this work for SSR dispatch
         // makeSSRDispatch(ctx, fetchWeeklyClips.request);
 
         // Fetch clips to prompt the user with

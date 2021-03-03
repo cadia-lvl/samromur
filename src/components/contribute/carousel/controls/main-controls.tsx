@@ -21,8 +21,6 @@ const Audio = styled.audio`
     display: none;
 `;
 
-const AudioRepeated = styled(Audio)``;
-
 const MainControlsContainer = styled.div`
     position: relative;
     width: 100%;
@@ -336,7 +334,6 @@ export default class MainControls extends React.Component<Props, State> {
                     controls
                     controlsList="nodownload"
                     onEnded={this.handleHasPlayed}
-                    //src={clipToRepeat && clipToRepeat.recording?.url}
                     src={clip && clip.recording && clip.recording.url}
                 />
 
@@ -403,7 +400,6 @@ export default class MainControls extends React.Component<Props, State> {
                     )}
                 </MainButtonContainer>
                 {hasRepeatClip && (
-                    // <MainButtonContainer isActive={isRecording || isPlaying}>
                     <RepeatClipPlayButton
                         src={
                             clipToRepeat &&
@@ -411,7 +407,6 @@ export default class MainControls extends React.Component<Props, State> {
                             clipToRepeat.recording.url
                         }
                     />
-                    // </MainButtonContainer>
                 )}
                 {!isSpeak && (
                     <VoteButton

@@ -90,10 +90,7 @@ interface State {
 class Contribute extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        console.log('props ', this.props);
-        //console.log('sentences ', this.props.sentences);
-        console.log('clips ', this.props.clips);
-        //needs to be changed so contribute type can be 'herma' or something else to signify HIT2 sentences
+
         this.state = {
             contributeType: this.props.contributeType,
             labels: [],
@@ -101,7 +98,6 @@ class Contribute extends React.Component<Props, State> {
             tips: false,
             clipsToRepeat: this.props.clipsToRepeat,
         };
-        console.log(this.state.contributeType);
     }
 
     componentDidMount = async () => {
