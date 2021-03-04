@@ -154,20 +154,24 @@ export const uploadVerificationBatch = async (
 
 /**
  * Send the API request to the server to add a batch of votes to the votes table
- * @param voteBatchFile 
+ * @param voteBatchFile
  */
-export const addVotesBatch = async (voteBatchFile: VoteBatchFile): Promise<number> => {
-    const url = '/api/admin/upload/votes';
+export const addVotesBatch = async (
+    voteBatchFile: VoteBatchFile
+): Promise<number> => {
+    const url = '/api/admin/votes/upload-batch';
     return axios({
         method: 'POST',
         url,
         headers: {
             'Content-Type': 'text/plain',
         },
-        data: voteBatchFile.text
-    }).then((response: AxiosResponse) => {
-        return response.data;
-    }).catch((error: AxiosError) => {
-        return Promise.reject(error.code);
+        data: voteBatchFile.text,
     })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
 };
