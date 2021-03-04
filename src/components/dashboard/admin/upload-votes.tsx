@@ -1,8 +1,11 @@
+import { verify } from 'jsonwebtoken';
 import * as React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { SentenceBatch } from '../../../types/sentences';
 import FileBrowser from '../../admin/sentences/file-browser';
+import * as adminApi from '../../../services/admin-api';
+import { VoteBatchFile } from '../../../types/votes';
 
 const UploadVotesContainer = styled.div`
     padding: 1rem;
@@ -50,11 +53,9 @@ const Message = styled.div`
     font-size: 1.3rem;
 `;
 
-interface VoteBatchFile {
-    name: string;
-    size: number;
-    text: string;
-}
+const InformationText = styled.div`
+    font-size: 1rem;
+`;
 
 export const UploadVotes: React.FunctionComponent = () => {
     const [voteBatch, setVoteBatch] = useState<VoteBatchFile | undefined>(
@@ -63,6 +64,18 @@ export const UploadVotes: React.FunctionComponent = () => {
     const onChange = (batch: SentenceBatch): void => {
         const voteBatchFile: VoteBatchFile = batch.file;
         setVoteBatch(voteBatchFile);
+    };
+
+    const submit = () => {
+        if (verifyBatch() && voteBatch) {
+            adminApi.addVotesBatch(voteBatch);
+        }
+        console.log(voteBatch?.text);
+    };
+
+    const verifyBatch = (): boolean => {
+        //TODO: add nice verification logic that the file is in the right format
+        return true;
     };
 
     return (
@@ -81,6 +94,16 @@ export const UploadVotes: React.FunctionComponent = () => {
                     <Button>Velja skrár</Button>
                 </FileBrowser>
             </BrowseBar>
+            <Message>
+                {!voteBatch ? (
+                    <InformationText>
+                        Upload votes in a comma separated text file with clipid,
+                        vote.
+                    </InformationText>
+                ) : (
+                    <Button onClick={submit}>Senda in</Button>
+                )}
+            </Message>
         </UploadVotesContainer>
     );
 };

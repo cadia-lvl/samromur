@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { response } from 'express';
 
 import {
     SentenceBatch,
@@ -8,7 +9,7 @@ import {
 
 import { SSRRequest } from '../types/ssr';
 import { Demographics, SuperUserStat } from '../types/user';
-import { VoteBatch } from '../types/votes';
+import { VoteBatch, VoteBatchFile } from '../types/votes';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm';
@@ -151,7 +152,22 @@ export const uploadVerificationBatch = async (
         });
 };
 
-export const addVotesBatch = async (voteBatch: VoteBatch): Promise<number> => {
+/**
+ * Send the API request to the server to add a batch of votes to the votes table
+ * @param voteBatchFile 
+ */
+export const addVotesBatch = async (voteBatchFile: VoteBatchFile): Promise<number> => {
     const url = '/api/admin/upload/votes';
-    return Promise.reject(0);
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            'Content-Type': 'text/plain',
+        },
+        data: voteBatchFile.text
+    }).then((response: AxiosResponse) => {
+        return response.data;
+    }).catch((error: AxiosError) => {
+        return Promise.reject(error.code);
+    })
 };

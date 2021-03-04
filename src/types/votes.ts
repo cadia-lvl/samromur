@@ -6,3 +6,9 @@ export interface Vote {
 export interface VoteBatch {
     votes: Array<Vote>;
 }
+
+export interface VoteBatchFile {
+    name: string;
+    size: number;
+    text: string;
+}
