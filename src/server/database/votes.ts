@@ -1,5 +1,7 @@
 import Sql from './sql';
 import { ClipVote } from '../../types/samples';
+import { Vote } from '../../types/votes';
+import { generateGUID } from '../../utilities/id';
 
 export enum ClipStatus {
     VALID = 'VALID',
@@ -114,6 +116,89 @@ export default class Votes {
             this.updateClipStatus(clipId, isSuper, vote);
 
             return Promise.resolve(insertId);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    addVoteBatch = async (votes: Vote[]): Promise<number> => {
+        try {
+            // Find Marosijo user_client or create a new one if none exists
+            const marosijo_client_id = await this.findMarosijoClientId();
+
+            // Create a pool for adding many votes to increase performance
+            // and avoid deadlocks
+            const pool = await this.sql.createPool();
+            const results = await Promise.all(
+                votes.map((vote) => {
+                    return pool.query(
+                        `
+                            INSERT INTO
+                                votes (clip_id, client_id, is_valid, is_super, is_unsure)
+                            VALUES
+                                (?, ?, ?, ?, ?)
+                            ON DUPLICATE KEY UPDATE
+                                is_valid = VALUES(is_valid),
+                                is_super = VALUES(is_super),
+                                is_unsure = VALUES(is_unsure)
+                        `,
+                        [
+                            vote.clipId,
+                            marosijo_client_id,
+                            vote.vote == ClipVote.VALID ? true : false,
+                            false,
+                            false,
+                            false,
+                        ]
+                    );
+                })
+            );
+            pool.end().catch((e: any) => console.error(e));
+            return Promise.resolve(results.length);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    MAROSIJO_CLIENT_ID = 'ef80dd7f-c13f-4302-92b6-628b56ef77e7';
+    private findMarosijoClientId = async (): Promise<string> => {
+        try {
+            const [[row]] = await this.sql.query(
+                `
+                    SELECT 
+                        client_id 
+                    from 
+                        user_clients
+                    WHERE
+                        client_id = ?
+                `,
+                [this.MAROSIJO_CLIENT_ID]
+            );
+            let { client_id } = row;
+            if (client_id) {
+                return Promise.resolve(client_id);
+            }
+            // No marosijo client found
+            // create a new client for marosijo
+            return await this.insertMarosijoClient();
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    insertMarosijoClient = async (): Promise<string> => {
+        const id = this.MAROSIJO_CLIENT_ID;
+        try {
+            await this.sql.query(
+                `
+                    INSERT INTO
+                        user_clients (client_id, email, username)
+                    VALUES
+                        (?,?,?)
+                `,
+                [id]
+            );
+            return Promise.resolve(id);
         } catch (error) {
             return Promise.reject(error);
         }
