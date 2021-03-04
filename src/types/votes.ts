@@ -1,6 +1,8 @@
+import { ClipVote } from './samples';
+
 export interface Vote {
     clipId: number;
-    vote: boolean;
+    vote: ClipVote;
 }
 
 export interface VoteBatch {
