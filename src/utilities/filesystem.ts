@@ -10,7 +10,7 @@ interface WaitingBatch {
 const tmpDir = './src/tmp';
 
 export const saveTempBatch = async (batch: WaitingBatch) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         const obj = JSON.stringify(batch);
         const filename = batch.id + '.json';
         fs.writeFile(join(tmpDir, filename), obj, (error) => {
@@ -36,7 +36,7 @@ export const loadTempBatch = async (id: string): Promise<WaitingBatch> => {
     });
 };
 
-export const removeTempBatch = async (id: string): Promise<WaitingBatch> => {
+export const removeTempBatch = async (id: string): Promise<void> => {
     return new Promise((resolve, reject) => {
         const filename = id + '.json';
         fs.unlink(join(tmpDir, filename), (error) => {
