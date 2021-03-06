@@ -9,7 +9,7 @@ import {
 
 import { SSRRequest } from '../types/ssr';
 import { Demographics, SuperUserStat } from '../types/user';
-import { VoteBatch, VoteBatchFile } from '../types/votes';
+import { Vote, VoteBatch, VoteBatchFile } from '../types/votes';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm';
@@ -157,7 +157,8 @@ export const uploadVerificationBatch = async (
  * @param voteBatchFile
  */
 export const addVotesBatch = async (
-    voteBatchFile: VoteBatchFile
+    //voteBatchFile: voteBatchFile
+    voteBatch: Array<Vote>
 ): Promise<number> => {
     const url = '/api/admin/votes/upload-batch';
     return axios({
@@ -166,9 +167,11 @@ export const addVotesBatch = async (
         headers: {
             'Content-Type': 'text/plain',
         },
-        data: voteBatchFile.text,
+        //data: voteBatchFile.text,
+        data: JSON.stringify(voteBatch),
     })
         .then((response: AxiosResponse) => {
+            console.log('got response from axios call');
             return response.data;
         })
         .catch((error: AxiosError) => {
