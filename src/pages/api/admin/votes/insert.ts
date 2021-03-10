@@ -23,13 +23,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const id = decodeURIComponent(headers.id as string);
 
         try {
+            // Load votes from temp file
             const waitingVotesBatch = await loadTempVotesBatch(id);
             const votes = waitingVotesBatch.votes;
 
-            const chunkSize = 100;
-            //const voteChunks: Array<Array<Vote>> = [];
+            // Set chunksize
+            const chunkSize = 500;
             let insertedVotes = 0;
 
+            // Loop through votes and add chunks from votes to the db
             for (let i = 0; i < votes.length; i += chunkSize) {
                 // push into voteChunks a slice of votes
                 const inserted = await db.votes.addVoteBatch(

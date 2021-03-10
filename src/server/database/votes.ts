@@ -126,33 +126,8 @@ export default class Votes {
             // Find Marosijo user_client or create a new one if none exists
             const marosijo_client_id = await this.findMarosijoClientId();
 
-            // Create a pool for adding many votes to increase performance
-            // and avoid deadlocks
-            // const pool = await this.sql.createPool();
+            // Map the votes to db inserts
             const results = await Promise.all(
-                // votes.map(async (vote) => {
-                //     const result = await pool.query(
-                //         `
-                //             INSERT INTO
-                //                 votes (clip_id, client_id, is_valid, is_super, is_unsure)
-                //             VALUES
-                //                 (?, ?, ?, ?, ?)
-                //             ON DUPLICATE KEY UPDATE
-                //                 is_valid = VALUES(is_valid),
-                //                 is_super = VALUES(is_super),
-                //                 is_unsure = VALUES(is_unsure)
-                //         `,
-                //         [
-                //             vote.clipId,
-                //             marosijo_client_id,
-                //             vote.vote == ClipVote.VALID ? true : false,
-                //             false,
-                //             false,
-                //             false,
-                //         ]
-                //     );
-                //     return Promise.resolve(result);
-                // })
                 votes.map(async (vote) => {
                     const saveVoteResult = await this.saveVote(
                         marosijo_client_id,
@@ -163,8 +138,7 @@ export default class Votes {
                     return Promise.resolve(saveVoteResult);
                 })
             );
-            // pool.end().catch((e: any) => console.error(e));
-            console.log('results length: ', results.length);
+            // Return successful votes inserts
             return Promise.resolve(results.length);
         } catch (error) {
             return Promise.reject(error);
