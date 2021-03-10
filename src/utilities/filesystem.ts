@@ -1,15 +1,21 @@
 import fs from 'fs';
 import { join } from 'path';
+import { Vote } from '../types/votes';
 
-interface WaitingBatch {
+export interface WaitingBatch {
     id: string;
     name: string;
     sentences: Array<string>;
 }
 
+export interface WaitingVoteBatch {
+    id: string;
+    votes: Array<Vote>;
+}
+
 const tmpDir = './src/tmp';
 
-export const saveTempBatch = async (batch: WaitingBatch) => {
+export const saveTempBatch = async (batch: WaitingBatch | WaitingVoteBatch) => {
     return new Promise<void>((resolve, reject) => {
         const obj = JSON.stringify(batch);
         const filename = batch.id + '.json';
@@ -24,6 +30,21 @@ export const saveTempBatch = async (batch: WaitingBatch) => {
 };
 
 export const loadTempBatch = async (id: string): Promise<WaitingBatch> => {
+    return new Promise((resolve, reject) => {
+        const filename = id + '.json';
+        fs.readFile(join(tmpDir, filename), 'utf8', (error, data) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(JSON.parse(data));
+            }
+        });
+    });
+};
+
+export const loadTempVotesBatch = async (
+    id: string
+): Promise<WaitingVoteBatch> => {
     return new Promise((resolve, reject) => {
         const filename = id + '.json';
         fs.readFile(join(tmpDir, filename), 'utf8', (error, data) => {

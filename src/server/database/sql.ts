@@ -34,7 +34,7 @@ export default class Sql {
             host: dbOptions.DB_HOST,
             port: dbOptions.DB_PORT,
             connectTimeout: 30000,
-            connectionLimit: 1000,
+            connectionLimit: 10,
             multipleStatements: true,
             namedPlaceholders: true,
         };

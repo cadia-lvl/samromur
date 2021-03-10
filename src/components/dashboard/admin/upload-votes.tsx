@@ -1,4 +1,3 @@
-import { verify } from 'jsonwebtoken';
 import * as React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -7,8 +6,9 @@ import FileBrowser from '../../admin/sentences/file-browser';
 import * as adminApi from '../../../services/admin-api';
 import { Vote, VoteBatchFile } from '../../../types/votes';
 import { ClipVote } from '../../../types/samples';
-import { array } from 'js-md5';
 import ProgressBar from './progress-bar';
+import { SocketController } from '../../../controller/socket-controller';
+import { UploadStatus } from '../../../types/socket';
 
 const UploadVotesContainer = styled.div`
     padding: 1rem;
@@ -69,6 +69,7 @@ export const UploadVotes: React.FunctionComponent = () => {
         undefined
     );
     const [progress, setProgress] = useState(0);
+    const [uploaded, setUploaded] = useState(false);
 
     const onChange = (batch: SentenceBatch): void => {
         const voteBatchFile: VoteBatchFile = batch.file;
@@ -77,30 +78,26 @@ export const UploadVotes: React.FunctionComponent = () => {
 
     const onSubmit = async () => {
         if (verifyBatch() && voteBatch) {
-            startUploadProcess();
-
-            //console.log('got result back frontend: ', result);
+            startUpload();
         }
     };
 
-    const startUploadProcess = async () => {
+    const startUpload = async () => {
         // Process file to managable object
         if (!voteBatch) {
             // TODO: do error handling here
             return;
         }
-        const votes: Array<Array<Vote>> = convertFileToVotesArray(voteBatch);
-        for (let i = 0; i < votes.length; i++) {
-            const result = await adminApi.addVotesBatch(votes[i]);
-            console.log(`index ${i + 1} and length ${votes.length}.`);
-            console.log(`inserted ${result} votes.`);
-            setProgress((i + 1) / votes.length);
+        const votes: Array<Vote> = convertFileToVotesArray(voteBatch);
+        const result = await adminApi.addVotesBatch(votes);
+
+        if (result) {
+            setUploaded(true);
+            adminApi.insertVotesFromBatch(result);
         }
     };
 
-    const convertFileToVotesArray = (
-        voteBatch: VoteBatchFile
-    ): Array<Array<Vote>> => {
+    const convertFileToVotesArray = (voteBatch: VoteBatchFile): Array<Vote> => {
         const votesArray: Array<string> = voteBatch.text.split('\n');
         const votes: Array<Vote> = votesArray.map((item) => {
             const clipVote =
@@ -113,15 +110,7 @@ export const UploadVotes: React.FunctionComponent = () => {
             };
             return vote;
         });
-
-        // Create chunks
-        const chunkSize = 1000;
-        const voteChunks: Array<Array<Vote>> = [];
-        for (let i = 0; i < votes.length; i += chunkSize) {
-            voteChunks.push(votes.slice(i, i + chunkSize));
-            // Update progress bar
-        }
-        return voteChunks;
+        return votes;
     };
 
     const verifyBatch = (): boolean => {
@@ -160,6 +149,7 @@ export const UploadVotes: React.FunctionComponent = () => {
                     </ProgressBar>
                 </PogressBarContainer>
             </Message>
+            <Message>{uploaded ? 'File uploaded' : 'No file uploaded'}</Message>
         </UploadVotesContainer>
     );
 };
