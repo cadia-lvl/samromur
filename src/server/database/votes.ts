@@ -1,7 +1,6 @@
 import Sql from './sql';
 import { ClipVote } from '../../types/samples';
 import { Vote } from '../../types/votes';
-import { generateGUID } from '../../utilities/id';
 
 export enum ClipStatus {
     VALID = 'VALID',
