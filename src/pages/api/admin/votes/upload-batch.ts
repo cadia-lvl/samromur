@@ -1,22 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { v4 as uuid } from 'uuid';
-import {
-    saveTempBatch,
-    WaitingVoteBatch,
-} from '../../../../utilities/filesystem';
-import { Vote, VoteBatch } from '../../../../types/votes';
+import { saveTempBatch } from '../../../../utilities/filesystem';
+import { Vote, WaitingVoteBatch } from '../../../../types/votes';
 import Database, {
     getDatabaseInstance,
 } from '../../../../server/database/database';
-
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '30mb',
-        },
-    },
-};
 
 const db: Database = getDatabaseInstance();
 

@@ -1,16 +1,11 @@
 import fs from 'fs';
 import { join } from 'path';
-import { Vote } from '../types/votes';
+import { WaitingVoteBatch } from '../types/votes';
 
 export interface WaitingBatch {
     id: string;
     name: string;
     sentences: Array<string>;
-}
-
-export interface WaitingVoteBatch {
-    id: string;
-    votes: Array<Vote>;
 }
 
 const tmpDir = './src/tmp';

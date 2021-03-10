@@ -14,3 +14,8 @@ export interface VoteBatchFile {
     size: number;
     text: string;
 }
+
+export interface WaitingVoteBatch {
+    id: string;
+    votes: Array<Vote>;
+}

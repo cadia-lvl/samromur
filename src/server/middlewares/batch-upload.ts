@@ -10,14 +10,14 @@ import Database, { getDatabaseInstance } from '../database/database';
 const db: Database = getDatabaseInstance();
 
 const storage = multer.diskStorage({
-destination: (req, file, cb) => {
-    cb(null, './uploads/');
-},
-filename: (req, file, cb) => {
-    if (file.fieldname == 'audio') {
-        cb(null, file.originalname);
-    } else if (file.fieldname) {
-        cb(null, file.originalname);
+    destination: (req, file, cb) => {
+        cb(null, './uploads/');
+    },
+    filename: (req, file, cb) => {
+        if (file.fieldname == 'audio') {
+            cb(null, file.originalname);
+        } else if (file.fieldname) {
+            cb(null, file.originalname);
         }
     },
 });
