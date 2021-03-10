@@ -198,6 +198,7 @@ export const UploadVotes: React.FunctionComponent = () => {
                 <Status>
                     {voteBatch && (
                         <React.Fragment>
+                            {/* TODO: Add format bytes here when it is moved to utils (herma) */}
                             File has size <span>{voteBatch.size}b</span> with{' '}
                             <span>{voteBatch.text.split('\n').length}</span>{' '}
                             votes{' '}

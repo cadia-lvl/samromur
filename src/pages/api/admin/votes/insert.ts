@@ -1,19 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-
-import { SimpleSentenceBatch } from '../../../../types/sentences';
 import {
-    loadTempBatch,
     loadTempVotesBatch,
     removeTempBatch,
-    WaitingVoteBatch,
 } from '../../../../utilities/filesystem';
 import Database, {
     getDatabaseInstance,
 } from '../../../../server/database/database';
-import { Vote } from '../../../../types/votes';
 
 const db: Database = getDatabaseInstance();
 
+/**
+ * Inserts the batch of votes from the file named id.json where
+ * id should be present in the header.
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
     if (method != 'POST') {
@@ -29,17 +28,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
             // Set chunksize
             const chunkSize = 500;
-            let insertedVotes = 0;
 
             // Loop through votes and add chunks from votes to the db
             for (let i = 0; i < votes.length; i += chunkSize) {
-                // push into voteChunks a slice of votes
-                const inserted = await db.votes.addVoteBatch(
-                    votes.slice(i, i + chunkSize)
-                );
-                insertedVotes += inserted;
-                console.log(`Inserterd: ${insertedVotes} votes`);
+                // add chunk to db
+                await db.votes.addVoteBatch(votes.slice(i, i + chunkSize));
             }
+
+            // Remove the temp file
+            await removeTempBatch(id);
+
             return res.status(200).json('success');
         } catch (error) {
             return res.status(500).json(`Error: ${error.code}`);
