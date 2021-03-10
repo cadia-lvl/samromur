@@ -11,9 +11,6 @@ const ClickableDiv = styled.div`
     flex-direction: row;
     align-items: center;
     cursor: pointer;
-    &:active {
-        margin-top: 2px;
-    }
 `;
 
 interface Props {
