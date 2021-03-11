@@ -205,4 +205,8 @@ export default class Sentences {
             return Promise.reject(error);
         }
     };
+
+    closeConnection = async () => {
+        this.sql.endConnection();
+    };
 }

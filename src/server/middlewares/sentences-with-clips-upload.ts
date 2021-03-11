@@ -67,6 +67,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         } catch (error) {
             console.error(error);
             return res.status(500).json(error);
+        } finally {
+            // Test to see if connections close correctly
+            db.sentences.closeConnection();
         }
     }
 };
