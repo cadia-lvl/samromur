@@ -60,7 +60,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     };
 
                     const audioFile = findMatchingAudioFile(audio, file);
-                    return db.clips
+                    return await db.clips
                         .uploadBatchClip(
                             newClientId,
                             clip,
@@ -89,6 +89,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         } catch (error) {
             console.error(error);
             return res.status(500).json(error);
+        } finally {
+            db.sentences.closeConnection();
         }
     }
 };
