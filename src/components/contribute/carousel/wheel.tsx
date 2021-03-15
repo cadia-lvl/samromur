@@ -177,6 +177,12 @@ class CarouselWheel extends React.Component<Props, State> {
         }
     };
 
+    /**
+     * This function is responsible for acquireing new clips to repeat
+     * from the database for the herma workflow.
+     * It fetches new clips from the db, filters out any duplicates and
+     * and updates the sentences from them.
+     */
     refreshClipsToRepeat = async () => {
         const { clipsToRepeat } = this.state;
         let freshClipsToRepeat: WheelClip[] = await this.fetchNewClipsToRepeat();
@@ -195,6 +201,10 @@ class CarouselWheel extends React.Component<Props, State> {
         });
     };
 
+    /**
+     * Fetches new clips to repeat form the db.
+     * @returns a batchSize of clips to repeat for the herma workflow from the db.
+     */
     fetchNewClipsToRepeat = async (): Promise<WheelClip[]> => {
         const { user, batch } = this.props;
 
@@ -205,6 +215,9 @@ class CarouselWheel extends React.Component<Props, State> {
         };
 
         const clipsToRepeat = await fetchClipsToRepeat(fetchRequest);
+
+        //TODO: handle case where db has run out of clips to repeat for this user.
+        // is rather unlikely though.
         return clipsToRepeat;
     };
 
