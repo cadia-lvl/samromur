@@ -1,5 +1,6 @@
 import Sql from './sql';
 import { ClipVote } from '../../types/samples';
+import { Vote } from '../../types/votes';
 
 export enum ClipStatus {
     VALID = 'VALID',
@@ -114,6 +115,76 @@ export default class Votes {
             this.updateClipStatus(clipId, isSuper, vote);
 
             return Promise.resolve(insertId);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    addVoteBatch = async (votes: Vote[]): Promise<number> => {
+        try {
+            // Find Marosijo user_client or create a new one if none exists
+            const marosijo_client_id = await this.findMarosijoClientId();
+
+            // Map the votes to db inserts
+            const results = await Promise.all(
+                votes.map(async (vote) => {
+                    const saveVoteResult = await this.saveVote(
+                        marosijo_client_id,
+                        vote.clipId,
+                        false,
+                        vote.vote
+                    );
+                    return Promise.resolve(saveVoteResult);
+                })
+            );
+            // Return successful votes inserts
+            return Promise.resolve(results.length);
+        } catch (error) {
+            return Promise.reject(error);
+        } finally {
+            this.sql.endConnection();
+        }
+    };
+
+    MAROSIJO_CLIENT_ID = 'ef80dd7f-c13f-4302-92b6-628b56ef77e7';
+    private findMarosijoClientId = async (): Promise<string> => {
+        try {
+            const [[row]] = await this.sql.query(
+                `
+                    SELECT 
+                        client_id 
+                    from 
+                        user_clients
+                    WHERE
+                        client_id = ?
+                `,
+                [this.MAROSIJO_CLIENT_ID]
+            );
+            let { client_id } = row;
+            if (client_id) {
+                return Promise.resolve(client_id);
+            }
+            // No marosijo client found
+            // create a new client for marosijo
+            return await this.insertMarosijoClient();
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    insertMarosijoClient = async (): Promise<string> => {
+        const id = this.MAROSIJO_CLIENT_ID;
+        try {
+            await this.sql.query(
+                `
+                    INSERT INTO
+                        user_clients (client_id, email, username)
+                    VALUES
+                        (?,?,?)
+                `,
+                [id]
+            );
+            return Promise.resolve(id);
         } catch (error) {
             return Promise.reject(error);
         }
