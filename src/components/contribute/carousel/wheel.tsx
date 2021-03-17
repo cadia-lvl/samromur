@@ -17,6 +17,7 @@ import {
     fetchClips,
     fetchSentences,
     FetchSamplesPayload,
+    fetchClipsToRepeat,
 } from '../../../services/contribute-api';
 
 import {
@@ -100,6 +101,7 @@ interface State {
 class CarouselWheel extends React.Component<Props, State> {
     private recorder?: Recorder;
     private activeIndex: number;
+    private batchSize = 20;
     constructor(props: Props) {
         super(props);
 
@@ -158,17 +160,65 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     componentDidUpdate = async () => {
-        const { clips, isSpeak, sentences } = this.state;
+        const { clips, isSpeak, sentences, clipsToRepeat } = this.state;
         if (isSpeak) {
             const notUsedSentences = sentences.filter(
                 (sentence: WheelSentence) =>
                     !sentence.removed && !sentence.hasClip
             );
-            notUsedSentences.length <= 10 && this.refreshSentences();
+            if (notUsedSentences.length <= 10) {
+                clipsToRepeat
+                    ? this.refreshClipsToRepeat()
+                    : this.refreshSentences();
+            }
         } else {
             const nonVotedClips = clips.filter((clip: WheelClip) => !clip.vote);
             nonVotedClips.length <= 10 && this.refreshClips();
         }
+    };
+
+    /**
+     * This function is responsible for acquireing new clips to repeat
+     * from the database for the herma workflow.
+     * It fetches new clips from the db, filters out any duplicates and
+     * and updates the sentences from them.
+     */
+    refreshClipsToRepeat = async () => {
+        const { clipsToRepeat } = this.state;
+        let freshClipsToRepeat: WheelClip[] = await this.fetchNewClipsToRepeat();
+
+        if (clipsToRepeat) {
+            freshClipsToRepeat = this.getUniqueClipsToRepeat(
+                clipsToRepeat.concat(freshClipsToRepeat)
+            );
+        }
+        // refresh sentences for the clips
+        const newSentences = await this.sentencesFromClips(freshClipsToRepeat);
+
+        this.setState({
+            clipsToRepeat: freshClipsToRepeat,
+            sentences: newSentences,
+        });
+    };
+
+    /**
+     * Fetches new clips to repeat form the db.
+     * @returns a batchSize of clips to repeat for the herma workflow from the db.
+     */
+    fetchNewClipsToRepeat = async (): Promise<WheelClip[]> => {
+        const { user, batch } = this.props;
+
+        const fetchRequest: FetchSamplesPayload = {
+            batch,
+            clientId: user.client.id,
+            count: this.batchSize,
+        };
+
+        const clipsToRepeat = await fetchClipsToRepeat(fetchRequest);
+
+        //TODO: handle case where db has run out of clips to repeat for this user.
+        // is rather unlikely though.
+        return clipsToRepeat;
     };
 
     refreshSentences = async () => {
@@ -189,7 +239,7 @@ class CarouselWheel extends React.Component<Props, State> {
             clientId: client.id,
             age: age?.id,
             nativeLanguage: nativeLanguage?.id,
-            count: 20,
+            count: this.batchSize,
         };
         const freshSentences = await fetchSentences(fetchRequest);
         return freshSentences;
@@ -205,9 +255,12 @@ class CarouselWheel extends React.Component<Props, State> {
         const fetchRequest: FetchSamplesPayload = {
             batch,
             clientId: user.client.id,
-            count: 20,
+            count: this.batchSize,
         };
         const freshClips = await fetchClips(fetchRequest);
+        if (freshClips.length < this.batchSize) {
+            // TODO: handle running out of clips
+        }
         const newClips = this.getUniqueClips(
             this.state.clips.concat(freshClips)
         );
@@ -232,6 +285,21 @@ class CarouselWheel extends React.Component<Props, State> {
             return !duplicate;
         });
         return filteredClips;
+    };
+
+    /**
+     * Takes in an array of clipsToRepeat that can include duplicates and returns
+     * an array with no duplicates. Finds duplicates via the sentence of the clip.
+     * @param clips an array of WheelClips that might include duplicates
+     */
+    getUniqueClipsToRepeat = (clips: WheelClip[]) => {
+        const seen = new Set();
+        const filteredClipsToRepeat = clips.filter((clip: WheelClip) => {
+            const duplicate = seen.has(clip.sentence.id);
+            seen.add(clip.sentence.id);
+            return !duplicate;
+        });
+        return filteredClipsToRepeat;
     };
 
     componentWillUnmount = () => {
