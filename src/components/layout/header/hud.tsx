@@ -128,6 +128,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         }
         switch (pathname) {
             case '/tala':
+            case '/herma':
                 return path
                     ? pages.contribute
                     : goal
