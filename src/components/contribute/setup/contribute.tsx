@@ -221,8 +221,8 @@ class Contribute extends React.Component<Props, State> {
                             contributeType={contributeType}
                             setGoal={this.setGoal}
                         />
-                    ) : (contributeType == ContributeType.SPEAK ||
-                          ContributeType.REPEAT) &&
+                    ) : (contributeType === ContributeType.SPEAK ||
+                          contributeType === ContributeType.REPEAT) &&
                       !demographic ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
                     ) : labels.length > 0 &&
