@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { response } from 'express';
 
 import {
     SentenceBatch,
@@ -8,6 +9,7 @@ import {
 
 import { SSRRequest } from '../types/ssr';
 import { Demographics, SuperUserStat } from '../types/user';
+import { Vote, VoteBatch, VoteBatchFile } from '../types/votes';
 
 export const confirmSentences = async (id: string): Promise<boolean> => {
     const endpoint = '/api/admin/sentences/confirm';
@@ -181,4 +183,45 @@ export const uploadRepeatSentences = async (
         .catch((error: AxiosError) => {
             return Promise.reject(error.code);
         });
+};
+
+/**
+ * Sends the votes to the server for temporary storage, returns the id of the temporary file
+ * @param voteBatch an array of votes with clipid and vote
+ */
+export const addVotesBatch = async (
+    //voteBatchFile: voteBatchFile
+    voteBatch: Array<Vote>
+): Promise<string> => {
+    const url = '/api/admin/votes/upload-batch';
+    return axios({
+        method: 'POST',
+        url,
+        headers: { 'Content-Type': 'text/plain' },
+        data: JSON.stringify(voteBatch),
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
+};
+
+/**
+ * Asks the server to insert the votes from the batch with id
+ * @param id
+ */
+export const insertVotesFromBatch = async (id: string) => {
+    const url = '/api/admin/votes/insert';
+    try {
+        const response: AxiosResponse = await axios({
+            method: 'POST',
+            url,
+            headers: { id: encodeURIComponent(id) },
+        });
+        return response.data;
+    } catch (error) {
+        return Promise.reject(error.code);
+    }
 };

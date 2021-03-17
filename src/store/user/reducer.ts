@@ -44,7 +44,7 @@ const initialState: UserState = {
     },
     demographics: defaultDemoGraphics,
     consents: {
-        cookies: false,
+        cookies: true,
         terms: false,
     },
     userAgent: '',
