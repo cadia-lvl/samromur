@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 const Input = styled.input.attrs({
-    accept: '.wav, .txt',
+    accept: '.wav, .mp3, .txt',
     multiple: true,
     type: 'file',
 })`
