@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Url } from 'url';
 import { ContributeType, WheelColor } from '../../../../types/contribute';
@@ -47,7 +47,14 @@ interface Props {
 
 export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [audio] = useState(new Audio(props.src));
+    const [audio, setAudio] = useState(new Audio(props.src));
+
+    // Use effect to update the audio source when the props change.
+    useEffect(() => {
+        if (props.src) {
+            audio.src = props.src;
+        }
+    }, [props.src]);
 
     const handleTogglePlay = () => {
         setIsPlaying(!isPlaying);
