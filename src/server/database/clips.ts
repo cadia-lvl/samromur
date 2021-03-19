@@ -349,6 +349,40 @@ export default class Clips {
         return statuses;
     };
 
+    fetchVerificationLabelsNeedingVotes = async (
+        clientId: string
+    ): Promise<string[]> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                status
+            FROM
+                ( SELECT
+                    status, COUNT(*) AS count
+                FROM
+                    clips
+                WHERE
+                    NOT EXISTS (
+                        SELECT
+                            *
+                        FROM
+                            votes
+                        WHERE
+                            votes.clip_id = clips.id
+                        AND
+                            client_id = ?)
+                    AND
+                        is_valid is null
+                    GROUP BY
+                        status
+                ) AS res
+        `,
+            [clientId]
+        );
+        const statuses = rows.map(({ status }: { status: string }) => status);
+        return statuses;
+    };
+
     SMALL_SHUFFLE_SIZE = 500;
     /**
      * Fetches the clips (with sentences) for the herma (repeat) contribution type
