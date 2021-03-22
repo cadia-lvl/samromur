@@ -107,8 +107,10 @@ class Contribute extends React.Component<Props, State> {
             },
         } = this.props;
         if (isSuperUser) {
-            const labels = await adminApi.fetchVerificationLabels();
-            this.setState({ labels });
+            const labels = await adminApi.fetchVerificationBatches();
+            this.setState({
+                labels: labels.filter((label) => label !== null),
+            });
         }
     };
 

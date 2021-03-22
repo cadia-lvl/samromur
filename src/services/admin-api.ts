@@ -112,6 +112,20 @@ export const fetchVerificationLabels = async (): Promise<string[]> => {
         });
 };
 
+export const fetchVerificationBatches = async (): Promise<string[]> => {
+    const url = '/api/contribute/verification-batches';
+    return axios({
+        method: 'GET',
+        url,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
+};
+
 export const uploadVerificationBatch = async (
     files: File[],
     age: string,
