@@ -422,7 +422,7 @@ export default class MainControls extends React.Component<Props, State> {
                       </MainButton>
                   )}
                 )}
-            </MainControlsContainer>
+            </MainButtonContainer>
           </MainControlsContainer>
         );
     }
