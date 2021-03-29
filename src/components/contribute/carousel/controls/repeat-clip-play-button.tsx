@@ -8,7 +8,7 @@ import PlayIcon, { Play } from '../../../ui/icons/play';
 import { Glow } from './glow';
 
 const PlayButton = styled.div`
-    margin-right: 5rem;
+    margin-right : 5rem;
     display: grid;
     & :hover {
         & > div {

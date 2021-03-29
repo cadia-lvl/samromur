@@ -419,7 +419,7 @@ export default class MainControls extends React.Component<Props, State> {
                                   width={35}
                               />
                           )}
-                      </MainButton>  
+                      </MainButton>
                 )}
             </MainButtonContainer>
           </MainControlsContainer>
