@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Url } from 'url';
 import { ContributeType, WheelColor } from '../../../../types/contribute';
-import Pause from '../../../ui/icons/pause';
+import PauseIcon from '../../../ui/icons/pause';
 import PlayIcon, { Play } from '../../../ui/icons/play';
 import { Glow } from './glow';
 
 const PlayButton = styled.div`
-    margin-right : 5rem;
+    margin-right: 5rem;
     display: grid;
     & :hover {
         & > div {
@@ -53,24 +53,41 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         if (props.src) {
             audio.src = props.src;
+
         }
     }, [props.src]);
+
+    audio.onended = () => {
+      setIsPlaying(false);
+    }
 
     const handleTogglePlay = () => {
         setIsPlaying(!isPlaying);
         if (isPlaying) {
             audio.pause();
+
             return;
         }
         audio.play();
+
+
     };
 
     return (
+
         <PlayButton onClick={handleTogglePlay}>
             <RelativePlayIconContainer>
-                <RelativePlayIcon height={35} width={35} fill={'green'} />
-            </RelativePlayIconContainer>
-            <RelativeGlow color={WheelColor.GREEN} />
+              {
+                isPlaying ? <PauseIcon height={35} width={35} fill={'green'}  />
+
+                  : <div>
+                  <RelativePlayIcon height={35} width={35} fill={'green'} />
+
+                    </div>
+
+              }
+              </RelativePlayIconContainer>
+              <RelativeGlow color={WheelColor.GREEN} />
         </PlayButton>
     );
 };
