@@ -351,78 +351,78 @@ export default class MainControls extends React.Component<Props, State> {
                     </VoteButton>
                 )}
                 {hasRepeatClip && (
-                  <RepeatClipPlayButton
-                      src={
-                          clipToRepeat &&
-                          clipToRepeat.recording &&
-                          clipToRepeat.recording.url
-                      }
-                  />
-              )}
-
-              {!isSpeak && (
-                  <VoteButton
-                      color={'red'}
-                      active={invalidActive}
-                      onClick={() => this.handleSaveVote(ClipVote.INVALID)}
-                  >
-                      <ThumbDownIcon
-                          fill={invalidActive ? 'white' : 'gray'}
-                          height={30}
-                          width={30}
-                      />
-                  </VoteButton>
-              )}
-              <MainButtonContainer isActive={isRecording || isPlaying}>
-                  <Glow color={color} />
-
-                  {hasRecording ? (
-                      <MainButton
-                          hasRecording
-                          onClick={
-                              !isPlaying ? this.handlePlay : this.handlePause
-                          }
-                      >
-                          {!isPlaying ? (
-                              <PlayIcon
-                                  fill={colorString}
-                                  height={35}
-                                  width={35}
-                              />
-                          ) : (
-                              <PauseIcon
-                                  fill={colorString}
-                                  height={35}
-                                  width={35}
-                              />
-                          )}
-                      </MainButton>
-                  ) : (
-                      // When speaking and not having a recording
-                      <MainButton
-                          onClick={
-                              isRecording
-                                  ? this.handleStopRecording
-                                  : this.handleStartRecording
-                          }
-                      >
-                          {!isRecording ? (
-                              <MicIcon
-                                  fill={colorString}
-                                  height={35}
-                                  width={35}
-                              />
-                          ) : (
-                              <PauseIcon
-                                  fill={colorString}
-                                  height={35}
-                                  width={35}
-                              />
-                          )}
-                      </MainButton>
+                    <RepeatClipPlayButton
+                        src={
+                            clipToRepeat &&
+                            clipToRepeat.recording &&
+                            clipToRepeat.recording.url
+                        }
+                    />
                 )}
-            </MainButtonContainer>
-          </MainControlsContainer>
+
+                {!isSpeak && (
+                    <VoteButton
+                        color={'red'}
+                        active={invalidActive}
+                        onClick={() => this.handleSaveVote(ClipVote.INVALID)}
+                    >
+                        <ThumbDownIcon
+                            fill={invalidActive ? 'white' : 'gray'}
+                            height={30}
+                            width={30}
+                        />
+                    </VoteButton>
+                )}
+                <MainButtonContainer isActive={isRecording || isPlaying}>
+                    <Glow color={color} />
+
+                    {hasRecording ? (
+                        <MainButton
+                            hasRecording
+                            onClick={
+                                !isPlaying ? this.handlePlay : this.handlePause
+                            }
+                        >
+                            {!isPlaying ? (
+                                <PlayIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            ) : (
+                                <PauseIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            )}
+                        </MainButton>
+                    ) : (
+                        // When speaking and not having a recording
+                        <MainButton
+                            onClick={
+                                isRecording
+                                    ? this.handleStopRecording
+                                    : this.handleStartRecording
+                            }
+                        >
+                            {!isRecording ? (
+                                <MicIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            ) : (
+                                <PauseIcon
+                                    fill={colorString}
+                                    height={35}
+                                    width={35}
+                                />
+                            )}
+                        </MainButton>
+                    )}
+                </MainButtonContainer>
+            </MainControlsContainer>
         );
     }
 }
