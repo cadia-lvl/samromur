@@ -198,17 +198,19 @@ class CarouselWheel extends React.Component<Props, State> {
      * and updates the sentences from them.
      */
     refreshClipsToRepeat = async () => {
-        const { clipsToRepeat } = this.state;
+        const { clipsToRepeat, sentences } = this.state;
         const freshClipsToRepeat: WheelClip[] = await this.fetchNewClipsToRepeat();
 
         if (clipsToRepeat) {
             const newClipsToRepeat = this.getUniqueClipsToRepeat(
                 clipsToRepeat.concat(freshClipsToRepeat)
             );
-            // refresh sentences for the clips
-            const newSentences = await this.sentencesFromClips(
-                newClipsToRepeat
+
+            // get sentences for the new clips
+            const freshSentences = await this.sentencesFromClips(
+                newClipsToRepeat.slice(clipsToRepeat.length)
             );
+            const newSentences = sentences.concat(freshSentences);
 
             // If fewer than batchSize, then we are running out of clips
             if (freshClipsToRepeat.length < this.batchSize) {
