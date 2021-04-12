@@ -56,7 +56,7 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
 
         }
     }, [props.src]);
-    //when clip ends, change icon of button
+
     audio.onended = () => {
       setIsPlaying(false);
     }
@@ -67,21 +67,24 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
             audio.pause();
 
             return;
-        } 
+        }
         audio.play();
 
 
     };
 
     return (
-      //show stop button while playing repeated clip and stop button when playing clip
+
         <PlayButton onClick={handleTogglePlay}>
             <RelativePlayIconContainer>
               {
                 isPlaying ? <PauseIcon height={35} width={35} fill={'green'}  />
 
-                  :
+                  : <div>
                   <RelativePlayIcon height={35} width={35} fill={'green'} />
+
+                    </div>
+
               }
               </RelativePlayIconContainer>
               <RelativeGlow color={WheelColor.GREEN} />

@@ -24,6 +24,7 @@ import {
     decrementProgress,
     incrementProgress,
     setExpanded,
+    setGoal,
 } from '../../../store/contribute/actions';
 
 import Instructions from './instructions';
@@ -70,6 +71,7 @@ const dispatchProps = {
     decrementProgress,
     incrementProgress,
     setExpanded,
+    setGoal,
 };
 
 interface CarouselWheelProps {
@@ -96,6 +98,7 @@ interface State {
     audioError?: AudioError;
     uploadError?: UploadError;
     expanded: boolean;
+    outOfClips?: boolean;
 }
 
 class CarouselWheel extends React.Component<Props, State> {
@@ -124,6 +127,7 @@ class CarouselWheel extends React.Component<Props, State> {
             uploadError: undefined,
 
             expanded: false,
+            outOfClips: false,
         };
 
         this.activeIndex = 0;
@@ -160,20 +164,30 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     componentDidUpdate = async () => {
-        const { clips, isSpeak, sentences, clipsToRepeat } = this.state;
+        const {
+            clips,
+            isSpeak,
+            sentences,
+            clipsToRepeat,
+            outOfClips,
+        } = this.state;
         if (isSpeak) {
             const notUsedSentences = sentences.filter(
                 (sentence: WheelSentence) =>
                     !sentence.removed && !sentence.hasClip
             );
-            if (notUsedSentences.length <= 10) {
+
+            if (notUsedSentences.length <= 10 && !outOfClips) {
                 clipsToRepeat
                     ? this.refreshClipsToRepeat()
                     : this.refreshSentences();
             }
         } else {
             const nonVotedClips = clips.filter((clip: WheelClip) => !clip.vote);
-            nonVotedClips.length <= 10 && this.refreshClips();
+
+            if (nonVotedClips.length <= 10 && !outOfClips) {
+                this.refreshClips();
+            }
         }
     };
 
@@ -185,20 +199,27 @@ class CarouselWheel extends React.Component<Props, State> {
      */
     refreshClipsToRepeat = async () => {
         const { clipsToRepeat } = this.state;
-        let freshClipsToRepeat: WheelClip[] = await this.fetchNewClipsToRepeat();
+        const freshClipsToRepeat: WheelClip[] = await this.fetchNewClipsToRepeat();
 
         if (clipsToRepeat) {
-            freshClipsToRepeat = this.getUniqueClipsToRepeat(
+            const newClipsToRepeat = this.getUniqueClipsToRepeat(
                 clipsToRepeat.concat(freshClipsToRepeat)
             );
-        }
-        // refresh sentences for the clips
-        const newSentences = await this.sentencesFromClips(freshClipsToRepeat);
+            // refresh sentences for the clips
+            const newSentences = await this.sentencesFromClips(
+                newClipsToRepeat
+            );
 
-        this.setState({
-            clipsToRepeat: freshClipsToRepeat,
-            sentences: newSentences,
-        });
+            // If fewer than batchSize, then we are running out of clips
+            if (freshClipsToRepeat.length < this.batchSize) {
+                this.handleOutOfClips(newClipsToRepeat.length);
+            }
+
+            this.setState({
+                clipsToRepeat: newClipsToRepeat,
+                sentences: newSentences,
+            });
+        }
     };
 
     /**
@@ -216,9 +237,27 @@ class CarouselWheel extends React.Component<Props, State> {
 
         const clipsToRepeat = await fetchClipsToRepeat(fetchRequest);
 
-        //TODO: handle case where db has run out of clips to repeat for this user.
-        // is rather unlikely though.
         return clipsToRepeat;
+    };
+
+    /**
+     * This function handles what should happen when we have run out of clips
+     * for verification or for herma
+     */
+    handleOutOfClips = (clipsLeft: number) => {
+        const {
+            contribute: { goal },
+            contributeType,
+            setGoal,
+        } = this.props;
+        const { clipsToRepeat, clips } = this.state;
+
+        // Update state
+        this.setState({ outOfClips: true });
+
+        if (goal) {
+            setGoal({ ...goal, count: clipsLeft });
+        }
     };
 
     refreshSentences = async () => {
@@ -258,12 +297,15 @@ class CarouselWheel extends React.Component<Props, State> {
             count: this.batchSize,
         };
         const freshClips = await fetchClips(fetchRequest);
-        if (freshClips.length < this.batchSize) {
-            // TODO: handle running out of clips
-        }
+
         const newClips = this.getUniqueClips(
             this.state.clips.concat(freshClips)
         );
+
+        // If fewer than batchSize, then we are running out of clips
+        if (freshClips.length < this.batchSize) {
+            this.handleOutOfClips(newClips.length);
+        }
 
         // refresh sentences for the clips
         const newSentences = await this.sentencesFromClips(newClips);
@@ -607,27 +649,6 @@ class CarouselWheel extends React.Component<Props, State> {
             sentences: newSentences,
         });
     };
-    //function to build array for non skipped sentences
-      getActualClipToRepeat = (): WheelClip | undefined  => {
-        const {sentences,sentenceIndex, clipsToRepeat} = this.state;
-    //if there is no clip to repeat, return undifined
-        if (!clipsToRepeat) {
-          return undefined;
-        }
-    //otherwise
-        let nonSkippedIndex = [];
-        for (let i = 0; i < sentences.length; i++ ) {
-          if(!sentences[i].removed) {
-            nonSkippedIndex.push(i)
-            if (nonSkippedIndex.length > sentenceIndex) {
-              break;
-            }
-          }
-
-        }
-        //return the clip in the index saved in the new array made for non skipped sentences.
-        return clipsToRepeat[nonSkippedIndex[sentenceIndex]];
-     }
 
     render() {
         const {
@@ -645,10 +666,8 @@ class CarouselWheel extends React.Component<Props, State> {
             contribute: { expanded, gaming, goal, progress },
         } = this.props;
         const activeClip = clips[clipIndex] || undefined;
-        //return the clip from non skeipped sentences in getActualClipToRepeat function
-        const activeClipToRepeat = this.getActualClipToRepeat();
-        console.log(activeClipToRepeat);
-
+        const activeClipToRepeat =
+            (clipsToRepeat && clipsToRepeat[clipIndex]) || undefined;
         const isDone = !!(
             (goal && goal.count == progress) ||
             // for when there are not enough clips to verify
