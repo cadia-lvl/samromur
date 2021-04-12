@@ -53,13 +53,12 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         if (props.src) {
             audio.src = props.src;
-
         }
     }, [props.src]);
 
     audio.onended = () => {
-      setIsPlaying(false);
-    }
+        setIsPlaying(false);
+    };
 
     const handleTogglePlay = () => {
         setIsPlaying(!isPlaying);
@@ -69,25 +68,18 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
             return;
         }
         audio.play();
-
-
     };
 
     return (
-
         <PlayButton onClick={handleTogglePlay}>
             <RelativePlayIconContainer>
-              {
-                isPlaying ? <PauseIcon height={35} width={35} fill={'green'}  />
-
-                  : <div>
-                  <RelativePlayIcon height={35} width={35} fill={'green'} />
-
-                    </div>
-
-              }
-              </RelativePlayIconContainer>
-              <RelativeGlow color={WheelColor.GREEN} />
+                {isPlaying ? (
+                    <PauseIcon height={35} width={35} fill={'green'} />
+                ) : (
+                    <RelativePlayIcon height={35} width={35} fill={'green'} />
+                )}
+            </RelativePlayIconContainer>
+            <RelativeGlow color={WheelColor.GREEN} />
         </PlayButton>
     );
 };

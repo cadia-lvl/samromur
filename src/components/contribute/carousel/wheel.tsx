@@ -650,6 +650,27 @@ class CarouselWheel extends React.Component<Props, State> {
         });
     };
 
+    //function to build array for non skipped sentences
+    getActualClipToRepeat = (): WheelClip | undefined => {
+        const { sentences, sentenceIndex, clipsToRepeat } = this.state;
+        //if there is no clip to repeat, return undifined
+        if (!clipsToRepeat) {
+            return undefined;
+        }
+        //otherwise
+        let nonSkippedIndex = [];
+        for (let i = 0; i < sentences.length; i++) {
+            if (!sentences[i].removed) {
+                nonSkippedIndex.push(i);
+                if (nonSkippedIndex.length > sentenceIndex) {
+                    break;
+                }
+            }
+        }
+        //return the clip in the index saved in the new array made for non skipped sentences.
+        return clipsToRepeat[nonSkippedIndex[sentenceIndex]];
+    };
+
     render() {
         const {
             clips,
@@ -666,8 +687,7 @@ class CarouselWheel extends React.Component<Props, State> {
             contribute: { expanded, gaming, goal, progress },
         } = this.props;
         const activeClip = clips[clipIndex] || undefined;
-        const activeClipToRepeat =
-            (clipsToRepeat && clipsToRepeat[clipIndex]) || undefined;
+        const activeClipToRepeat = this.getActualClipToRepeat();
         const isDone = !!(
             (goal && goal.count == progress) ||
             // for when there are not enough clips to verify
