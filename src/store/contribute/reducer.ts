@@ -10,6 +10,7 @@ const initialState: ContributeState = {
     progress: 0,
     totalSpoken: 0,
     totalVerified: 0,
+    hasPlayedRepeatClip: false,
 };
 
 export default createReducer(initialState)

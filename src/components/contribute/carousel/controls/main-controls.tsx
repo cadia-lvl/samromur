@@ -99,15 +99,6 @@ const MainButton = styled.div<MainButtonProps>`
     cursor: pointer;
     ${({ hasRecording }) => hasRecording && `padding-left: 0.2rem;`}
 `;
-// ${({ isActive }) =>
-//     isActive
-//         ? `
-//         opacity: 1;
-//         `
-//         : `
-//         opacity: 0.5;
-//         pointer-events: none;
-//         `}
 
 MainButton.defaultProps = {
     isActive: true,
