@@ -6,15 +6,23 @@ import { ContributeType, WheelColor } from '../../../../types/contribute';
 import PauseIcon from '../../../ui/icons/pause';
 import PlayIcon, { Play } from '../../../ui/icons/play';
 import { Glow } from './glow';
+import { connect } from 'react-redux';
+import { setHasPlayedRepeatClip } from '../../../../store/contribute/actions';
 
-const PlayButton = styled.div`
+interface PlayButtonProps {
+    isActive?: boolean;
+}
+
+const PlayButton = styled.div<PlayButtonProps>`
     margin-right: 5rem;
     display: grid;
-    & :hover {
-        & > div {
-            opacity: 1;
-        }
-    }
+    ${({ isActive }) =>
+        isActive
+            ? `opacity:1;`
+            : `
+     opacity:0.5;
+     pointer-events: none;
+     `}
 `;
 
 const RelativeGlow = styled(Glow)`
@@ -41,11 +49,18 @@ const RelativePlayIconContainer = styled.div`
     cursor: pointer;
 `;
 
-interface Props {
-    src: string | undefined;
-}
+const dispatchProps = {
+    setHasPlayedRepeatClip,
+};
 
-export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
+interface RepeatClipPlayButtonProps {
+    src: string | undefined;
+    contribute: ContributeState;
+    isActive: boolean;
+}
+type Props = RepeatClipPlayButtonProps & typeof dispatchProps;
+
+const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio, setAudio] = useState(new Audio(props.src));
 
@@ -53,25 +68,31 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
     useEffect(() => {
         if (props.src) {
             audio.src = props.src;
+            props.setHasPlayedRepeatClip(false);
         }
     }, [props.src]);
-
+    //when clip ends, change icon of button
     audio.onended = () => {
         setIsPlaying(false);
+        props.setHasPlayedRepeatClip(true);
     };
 
     const handleTogglePlay = () => {
+        // check if the playrepeatclip button is active or not
+        if (!props.isActive) return;
+
         setIsPlaying(!isPlaying);
         if (isPlaying) {
+            //deactive
             audio.pause();
-
             return;
         }
         audio.play();
     };
 
     return (
-        <PlayButton onClick={handleTogglePlay}>
+        //show stop button while playing repeated clip and stop button when playing clip
+        <PlayButton onClick={handleTogglePlay} isActive={props.isActive}>
             <RelativePlayIconContainer>
                 {isPlaying ? (
                     <PauseIcon height={35} width={35} fill={'green'} />
@@ -83,3 +104,10 @@ export const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
         </PlayButton>
     );
 };
+
+const mapStateToProps = (state: RootState) => {
+    const contribute = state.contribute;
+    return { contribute };
+};
+
+export default connect(mapStateToProps, dispatchProps)(RepeatClipPlayButton);

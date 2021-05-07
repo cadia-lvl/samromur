@@ -41,6 +41,13 @@ export default createReducer(initialState)
             gaming: action.payload,
         };
     })
+    .handleAction(ContributeActions.setHasPlayedRepeatClip, (state, action) => {
+        return {
+            ...state,
+            hasPlayedRepeatClip: action.payload,
+        };
+    })
+
     .handleAction(ContributeActions.resetContribute, (state, action) => {
         return {
             ...initialState,
