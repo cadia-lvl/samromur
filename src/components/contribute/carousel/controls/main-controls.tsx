@@ -16,6 +16,7 @@ import {
 import Wave from '../wave';
 import RepeatClipPlayButton from './repeat-clip-play-button';
 import { Glow } from './glow';
+import RootState from '../../../../store/root-state';
 
 const Audio = styled.audio`
     display: none;
@@ -40,8 +41,11 @@ const MainControlsContainer = styled.div`
     }
 `;
 
+// isActive controls if glow should have full opacity
+// isDisabled controls if the whole container should be disabled
 interface MainButtonContainerProps {
     isActive: boolean;
+    isDisabled: boolean;
 }
 
 const MainButtonContainer = styled.div<MainButtonContainerProps>`
@@ -49,6 +53,32 @@ const MainButtonContainer = styled.div<MainButtonContainerProps>`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    ${({ isDisabled }) =>
+        isDisabled
+            ? `
+            opacity: 0.5;
+            pointer-events: none;
+            `
+            : `
+            opacity: 1;
+            `}
+
+    & :hover {
+        & > div {
+            opacity: 1;
+        }
+    }
+
+    ${({ isActive }) =>
+        isActive &&
+        `    
+        & > div {
+            opacity: 1;
+        }
+    `}
+
+    transition: opacity 0.5s ease-in-out;
 `;
 
 interface MainButtonProps {
@@ -68,15 +98,16 @@ const MainButton = styled.div<MainButtonProps>`
     border-radius: 50%;
     cursor: pointer;
     ${({ hasRecording }) => hasRecording && `padding-left: 0.2rem;`}
-
-    ${({ isActive }) =>
-        isActive
-            ? `opacity: 1;`
-            : `
-            opacity: 0.5;
-            pointer-events: none;
-             `}
 `;
+// ${({ isActive }) =>
+//     isActive
+//         ? `
+//         opacity: 1;
+//         `
+//         : `
+//         opacity: 0.5;
+//         pointer-events: none;
+//         `}
 
 MainButton.defaultProps = {
     isActive: true,
@@ -340,9 +371,6 @@ class MainControls extends React.Component<Props, State> {
         const invalidActive =
             (clipVote == ClipVote.INVALID || hasPlayed) && !isReplaying;
 
-        // const isRecordingActive =
-        //     (hasRepeatClip && hasPlayedRepeatClip) || !hasRepeatClip;
-
         return (
             <MainControlsContainer>
                 <canvas ref={this.canvasRef} />
@@ -379,7 +407,12 @@ class MainControls extends React.Component<Props, State> {
                     />
                 )}
 
-                <MainButtonContainer isActive={isRecording || isPlaying}>
+                <MainButtonContainer
+                    isActive={isPlaying || isRecording}
+                    isDisabled={
+                        !!hasRepeatClip && !hasRecording && !hasPlayedRepeatClip
+                    }
+                >
                     <Glow color={color} />
 
                     {hasRecording ? (
@@ -406,7 +439,6 @@ class MainControls extends React.Component<Props, State> {
                     ) : (
                         // When speaking and not having a recording
                         <MainButton
-                            isActive={hasPlayedRepeatClip || !hasRepeatClip}
                             onClick={
                                 isRecording
                                     ? this.handleStopRecording
