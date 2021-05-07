@@ -748,7 +748,6 @@ class CarouselWheel extends React.Component<Props, State> {
                     startRecording={this.handleStartRecording}
                     stopRecording={this.handleStopRecording}
                     removeRecording={this.handleRemoveRecording}
-                    hasPlayed={this.handleHasPlayed}
                 />
                 <BottomControls
                     clip={activeClip}
