@@ -8,6 +8,8 @@ import PlayIcon, { Play } from '../../../ui/icons/play';
 import { Glow } from './glow';
 import { connect } from 'react-redux';
 import { setHasPlayedRepeatClip } from '../../../../store/contribute/actions';
+import RootState from '../../../../store/root-state';
+import { ContributeState } from '../../../../store/contribute/state';
 
 interface PlayButtonProps {
     isActive?: boolean;
@@ -16,13 +18,19 @@ interface PlayButtonProps {
 const PlayButton = styled.div<PlayButtonProps>`
     margin-right: 5rem;
     display: grid;
+    & :hover {
+        & > div {
+            opacity: 1;
+        }
+    }
     ${({ isActive }) =>
         isActive
             ? `opacity:1;`
             : `
-     opacity:0.5;
-     pointer-events: none;
-     `}
+            opacity:0.5;
+            pointer-events: none;
+            `}
+    transition: opacity .5s ease-in-out;
 `;
 
 const RelativeGlow = styled(Glow)`
