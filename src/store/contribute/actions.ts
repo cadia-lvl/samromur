@@ -20,3 +20,7 @@ export const setGaming = createAction('SET_GAMING')<boolean>();
 export const incrementProgress = createAction('INCREMENT_PROGRESS')();
 
 export const decrementProgress = createAction('DECREMENT_PROGRESS')();
+
+export const setHasPlayedRepeatClip = createAction(
+    'SET_HAS_PLAYED_REPEAT_CLIP'
+)<boolean>();

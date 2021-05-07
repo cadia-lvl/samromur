@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
+import { connect } from 'react-redux';
 import PlayIcon from '../../../ui/icons/play';
 import MicIcon from '../../../ui/icons/mic';
 import PauseIcon from '../../../ui/icons/pause';
@@ -14,8 +14,9 @@ import {
 } from '../../../../utilities/color-utility';
 
 import Wave from '../wave';
-import { RepeatClipPlayButton } from './repeat-clip-play-button';
+import RepeatClipPlayButton from './repeat-clip-play-button';
 import { Glow } from './glow';
+import RootState from '../../../../store/root-state';
 
 const Audio = styled.audio`
     display: none;
@@ -40,8 +41,11 @@ const MainControlsContainer = styled.div`
     }
 `;
 
+// isActive controls if glow should have full opacity
+// isDisabled controls if the whole container should be disabled
 interface MainButtonContainerProps {
     isActive: boolean;
+    isDisabled: boolean;
 }
 
 const MainButtonContainer = styled.div<MainButtonContainerProps>`
@@ -50,22 +54,36 @@ const MainButtonContainer = styled.div<MainButtonContainerProps>`
     justify-content: center;
     align-items: center;
 
-    ${({ isActive }) =>
-        isActive &&
-        `
-        & > div {
+    ${({ isDisabled }) =>
+        isDisabled
+            ? `
+            opacity: 0.5;
+            pointer-events: none;
+            `
+            : `
             opacity: 1;
-        }
-    `}
+            `}
+
     & :hover {
         & > div {
             opacity: 1;
         }
     }
+
+    ${({ isActive }) =>
+        isActive &&
+        `    
+        & > div {
+            opacity: 1;
+        }
+    `}
+
+    transition: opacity 0.5s ease-in-out;
 `;
 
 interface MainButtonProps {
     hasRecording?: boolean;
+    isActive?: boolean;
 }
 
 const MainButton = styled.div<MainButtonProps>`
@@ -81,6 +99,10 @@ const MainButton = styled.div<MainButtonProps>`
     cursor: pointer;
     ${({ hasRecording }) => hasRecording && `padding-left: 0.2rem;`}
 `;
+
+MainButton.defaultProps = {
+    isActive: true,
+};
 
 interface VoteButtonProps {
     active: boolean;
@@ -108,7 +130,7 @@ const VoteButton = styled.div<VoteButtonProps>`
     -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.08);
 `;
 
-interface Props {
+interface MainControlsProps {
     clip?: WheelClip;
     clipToRepeat?: WheelClip;
     color: WheelColor;
@@ -123,6 +145,8 @@ interface Props {
     removeRecording: () => Promise<void>;
 }
 
+type Props = MainControlsProps & ReturnType<typeof mapStateToProps>;
+
 interface State {
     hasPlayed: boolean;
     isPlaying: boolean;
@@ -131,7 +155,7 @@ interface State {
     isStartingRecording: boolean;
 }
 
-export default class MainControls extends React.Component<Props, State> {
+class MainControls extends React.Component<Props, State> {
     private audioRef: React.RefObject<HTMLAudioElement>;
     private canvasRef: React.RefObject<HTMLCanvasElement>;
     private wave?: Wave;
@@ -271,7 +295,14 @@ export default class MainControls extends React.Component<Props, State> {
      */
     handleStartRecording = () => {
         const { isStartingRecording } = this.state;
+        const { hasPlayedRepeatClip, clipToRepeat } = this.props;
+
         if (isStartingRecording) {
+            return;
+        }
+
+        if (!hasPlayedRepeatClip && !!clipToRepeat) {
+            //deactivate record button
             return;
         }
 
@@ -312,7 +343,13 @@ export default class MainControls extends React.Component<Props, State> {
     };
 
     render() {
-        const { clip, color, isSpeak, clipToRepeat } = this.props;
+        const {
+            clip,
+            color,
+            isSpeak,
+            clipToRepeat,
+            hasPlayedRepeatClip,
+        } = this.props;
         const { hasPlayed, isPlaying, isRecording, isReplaying } = this.state;
 
         const hasRecording = clip && !!clip.recording;
@@ -352,6 +389,7 @@ export default class MainControls extends React.Component<Props, State> {
                 )}
                 {hasRepeatClip && (
                     <RepeatClipPlayButton
+                        isActive={!isRecording}
                         src={
                             clipToRepeat &&
                             clipToRepeat.recording &&
@@ -360,20 +398,12 @@ export default class MainControls extends React.Component<Props, State> {
                     />
                 )}
 
-                {!isSpeak && (
-                    <VoteButton
-                        color={'red'}
-                        active={invalidActive}
-                        onClick={() => this.handleSaveVote(ClipVote.INVALID)}
-                    >
-                        <ThumbDownIcon
-                            fill={invalidActive ? 'white' : 'gray'}
-                            height={30}
-                            width={30}
-                        />
-                    </VoteButton>
-                )}
-                <MainButtonContainer isActive={isRecording || isPlaying}>
+                <MainButtonContainer
+                    isActive={isPlaying || isRecording}
+                    isDisabled={
+                        !!hasRepeatClip && !hasRecording && !hasPlayedRepeatClip
+                    }
+                >
                     <Glow color={color} />
 
                     {hasRecording ? (
@@ -422,7 +452,29 @@ export default class MainControls extends React.Component<Props, State> {
                         </MainButton>
                     )}
                 </MainButtonContainer>
+                {!isSpeak && (
+                    <VoteButton
+                        color={'red'}
+                        active={invalidActive}
+                        onClick={() => this.handleSaveVote(ClipVote.INVALID)}
+                    >
+                        <ThumbDownIcon
+                            fill={invalidActive ? 'white' : 'gray'}
+                            height={30}
+                            width={30}
+                        />
+                    </VoteButton>
+                )}
             </MainControlsContainer>
         );
     }
 }
+
+const mapStateToProps = (state: RootState) => {
+    const {
+        contribute: { hasPlayedRepeatClip },
+    } = state;
+    return { hasPlayedRepeatClip };
+};
+
+export default connect(mapStateToProps)(MainControls);

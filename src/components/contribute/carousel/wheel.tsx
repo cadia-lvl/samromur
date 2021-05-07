@@ -27,7 +27,7 @@ import {
     setGoal,
 } from '../../../store/contribute/actions';
 
-import Instructions from './instructions';
+import { Instructions } from './instructions';
 
 import MainControls from './controls/main-controls';
 import BottomControls from './controls/bottom-controls';
@@ -651,6 +651,26 @@ class CarouselWheel extends React.Component<Props, State> {
             sentences: newSentences,
         });
     };
+    //function to build array for non skipped sentences
+    getActualClipToRepeat = (): WheelClip | undefined => {
+        const { sentences, sentenceIndex, clipsToRepeat } = this.state;
+        //if there is no clip to repeat, return undifined
+        if (!clipsToRepeat) {
+            return undefined;
+        }
+        //otherwise
+        let nonSkippedIndex = [];
+        for (let i = 0; i < sentences.length; i++) {
+            if (!sentences[i].removed) {
+                nonSkippedIndex.push(i);
+                if (nonSkippedIndex.length > sentenceIndex) {
+                    break;
+                }
+            }
+        }
+        //return the clip in the index saved in the new array made for non skipped sentences.
+        return clipsToRepeat[nonSkippedIndex[sentenceIndex]];
+    };
 
     //function to build array for non skipped sentences
     getActualClipToRepeat = (): WheelClip | undefined => {
@@ -749,6 +769,7 @@ class CarouselWheel extends React.Component<Props, State> {
                     startRecording={this.handleStartRecording}
                     stopRecording={this.handleStopRecording}
                     removeRecording={this.handleRemoveRecording}
+                    hasPlayed={this.handleHasPlayed}
                 />
                 <BottomControls
                     clip={activeClip}

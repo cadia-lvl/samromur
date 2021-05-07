@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { WheelColor } from "../../../../types/contribute";
-import { getWheelColorHEXShades } from "../../../../utilities/color-utility";
+import styled from 'styled-components';
+import { WheelColor } from '../../../../types/contribute';
+import { getWheelColorHEXShades } from '../../../../utilities/color-utility';
 
 export interface GlowProps {
     color: WheelColor;
