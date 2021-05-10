@@ -75,6 +75,9 @@ const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
     // Use effect to update the audio source when the props change.
     useEffect(() => {
         if (props.src) {
+            audio.pause();
+            audio.currentTime = 0;
+            setIsPlaying(false);
             audio.src = props.src;
             props.setHasPlayedRepeatClip(false);
         }
