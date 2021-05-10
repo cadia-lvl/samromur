@@ -634,8 +634,15 @@ class CarouselWheel extends React.Component<Props, State> {
         this.props.setExpanded(true);
     };
 
+    /**
+     * Handles what should happen if the user have finished a contribution
+     * and want to continue with the same type of contribution.
+     * Filters out deleted/skipped/used/voted/recorded clips and sentences
+     * and resets the indexes
+     */
     handleContinue = () => {
-        const { clips, isSpeak, sentences } = this.state;
+        const { clips, isSpeak, sentences, clipsToRepeat } = this.state;
+        const { contributeType } = this.props;
 
         const newClips = isSpeak ? [] : clips.filter((clip) => !clip.vote);
         const newSentences = isSpeak
@@ -643,14 +650,42 @@ class CarouselWheel extends React.Component<Props, State> {
                   (sentence) => !sentence.removed && !sentence.hasClip
               )
             : this.sentencesFromClips(newClips);
+        const newClipsToRepeat =
+            contributeType === ContributeType.REPEAT
+                ? this.filterOutUsedSentences(clipsToRepeat, newSentences)
+                : undefined;
         this.activeIndex = 0;
         this.setState({
             clipIndex: 0,
             sentenceIndex: 0,
             clips: newClips,
             sentences: newSentences,
+            clipsToRepeat: newClipsToRepeat,
         });
     };
+
+    /**
+     * Takes in the clips to repeat and filters out the used sentences
+     * @param clipsToRepeat the clips to repeat in state
+     * @param newSentences the new sentences that have filtered out used and removed onee
+     * @returns an array of clips to repeat that matches the new sentences
+     */
+    filterOutUsedSentences(
+        clipsToRepeat: WheelClip[] | undefined,
+        newSentences: WheelSentence[]
+    ): WheelClip[] {
+        // Return empty array if no input array
+        if (!clipsToRepeat) {
+            return [];
+        }
+        const newClipsToRepeat = clipsToRepeat.filter((clip) =>
+            newSentences.some(
+                (sentence) => sentence.text === clip.sentence.text
+            )
+        );
+        return newClipsToRepeat;
+    }
+
     //function to build array for non skipped sentences
     getActualClipToRepeat = (): WheelClip | undefined => {
         const { sentences, sentenceIndex, clipsToRepeat } = this.state;
