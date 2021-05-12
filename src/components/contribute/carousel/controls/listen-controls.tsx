@@ -37,7 +37,6 @@ export default class ListenControls extends React.Component<Props, State> {
     private audioRef: React.RefObject<HTMLAudioElement>;
     constructor(props: Props) {
         super(props);
-
         this.state = {
             isPlaying: false,
         };

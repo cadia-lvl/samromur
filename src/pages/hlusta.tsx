@@ -14,6 +14,7 @@ import makeSSRDispatch from '../utilities/ssr-request';
 import { saveVote } from '../services/contribute-api';
 
 import ContributePage from '../components/contribute/setup/contribute';
+import { ContributeType } from '../types/contribute';
 
 const dispatchProps = {
     resetContribute,
@@ -65,7 +66,12 @@ class SpeakPage extends React.Component<Props, State> {
     render() {
         const { initialClips } = this.props;
 
-        return <ContributePage clips={initialClips} />;
+        return (
+            <ContributePage
+                contributeType={ContributeType.LISTEN}
+                clips={initialClips}
+            />
+        );
     }
 }
 

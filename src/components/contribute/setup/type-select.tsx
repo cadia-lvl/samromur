@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 import MicIcon from '../../ui/icons/mic';
 import PlayIcon from '../../ui/icons/play';
-import PhoneIcon from '../../ui/icons/phone';
 import LoadingIcon from '../../ui/icons/loading';
+import Volume from '../../ui/icons/volume';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -132,13 +132,20 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     </p>
                 </Title>
             </CardContainer>
-            {/*             <CardContainer wide onClick={() => { }}>
-                <PhoneIcon height={40} width={40} fill={'gray'} />
+            <CardContainer wide onClick={() => setType('herma')}>
+                <Volume height={40} width={40} fill={'green'} />
                 <Title>
-                    <h3>Samræður</h3>
-                    <p>Hringja í aðra þátttakendur og taka upp samræður</p>
+                    <h3>Herma eftir setningu</h3>
+                    <p>
+                        Hér getur þú gefið til söfnunarinnar með því að herma
+                        eftir lesinni setningu.{' '}
+                    </p>
+                    <p>
+                        Með því að lesa inn í Samróm leggur þitt af mörkum við
+                        varðveislu íslenskunnar.
+                    </p>
                 </Title>
-            </CardContainer> */}
+            </CardContainer>
             {(listenClicked || speakClicked) && (
                 <LoadingContainer>
                     <LoadingIcon large />

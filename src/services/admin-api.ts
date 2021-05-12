@@ -112,6 +112,20 @@ export const fetchVerificationLabels = async (): Promise<string[]> => {
         });
 };
 
+export const fetchVerificationBatches = async (): Promise<string[]> => {
+    const url = '/api/contribute/verification-batches';
+    return axios({
+        method: 'GET',
+        url,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
+};
+
 export const uploadVerificationBatch = async (
     files: File[],
     age: string,
@@ -152,6 +166,39 @@ export const uploadVerificationBatch = async (
         });
 };
 
+export const uploadRepeatSentences = async (
+    files: File[],
+    packageName: string,
+    onUploadProgress: (ev: ProgressEvent) => void
+): Promise<number> => {
+    const url = '/api/upload-sentences-with-clips/';
+
+    let formData: FormData = new FormData();
+
+    files.forEach((file: File) =>
+        file.type.startsWith('audio')
+            ? formData.append('audio', file)
+            : formData.append('metadata', file)
+    );
+
+    return axios({
+        method: 'POST',
+        url,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            package_name: encodeURIComponent(packageName),
+        },
+        data: formData,
+        onUploadProgress,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            return Promise.reject(error.code);
+        });
+};
+
 /**
  * Sends the votes to the server for temporary storage, returns the id of the temporary file
  * @param voteBatch an array of votes with clipid and vote
@@ -164,9 +211,7 @@ export const addVotesBatch = async (
     return axios({
         method: 'POST',
         url,
-        headers: {
-            'Content-Type': 'text/plain',
-        },
+        headers: { 'Content-Type': 'text/plain' },
         data: JSON.stringify(voteBatch),
     })
         .then((response: AxiosResponse) => {

@@ -5,6 +5,7 @@ import fs from 'fs';
 import { Request } from 'express';
 import { ClipMetadata } from '../../types/samples';
 import { sha256hash as hash } from '../../utilities/hash';
+import { bucketPaths } from '../../constants/paths';
 
 export interface UploadClipResponse {
     path: string;
@@ -106,6 +107,37 @@ export default class Bucket {
                     Bucket: this.bucketName,
                     Key: clipFileName,
                     Body: fs.createReadStream(audio.path),
+                    ContentType: 'audio/wav',
+                })
+                .promise();
+            return Promise.resolve({
+                path: clipFileName,
+                originalSentenceId: filePrefix,
+            });
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    uploadRepeatSentenceClip = async (
+        sentence: string,
+        audioFile: Express.Multer.File
+    ): Promise<UploadClipResponse> => {
+        const folder = bucketPaths.repeatSentences + '/';
+
+        // Create folder if it does not exist;
+        await this.assertFolder(folder);
+
+        // Filename is a hash of the sentence
+        const filePrefix = hash(sentence);
+        const clipFileName = folder + filePrefix + '.wav';
+
+        try {
+            await this.s3
+                .upload({
+                    Bucket: this.bucketName,
+                    Key: clipFileName,
+                    Body: fs.createReadStream(audioFile.path),
                     ContentType: 'audio/wav',
                 })
                 .promise();

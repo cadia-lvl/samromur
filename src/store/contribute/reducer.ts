@@ -10,6 +10,7 @@ const initialState: ContributeState = {
     progress: 0,
     totalSpoken: 0,
     totalVerified: 0,
+    hasPlayedRepeatClip: false,
 };
 
 export default createReducer(initialState)
@@ -41,6 +42,13 @@ export default createReducer(initialState)
             gaming: action.payload,
         };
     })
+    .handleAction(ContributeActions.setHasPlayedRepeatClip, (state, action) => {
+        return {
+            ...state,
+            hasPlayedRepeatClip: action.payload,
+        };
+    })
+
     .handleAction(ContributeActions.resetContribute, (state, action) => {
         return {
             ...initialState,

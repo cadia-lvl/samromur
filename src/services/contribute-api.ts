@@ -74,6 +74,34 @@ export const fetchClips = async (
         },
     })
         .then((response: AxiosResponse) => {
+            console.log(response.data);
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
+
+/**
+ * API call that fetches the sentences and clips for the contribute type repeat from the server
+ * If payload includes host, then it is a ssr request.
+ * @param payload
+ */
+export const fetchClipsToRepeat = async (
+    payload: FetchSamplesPayload
+): Promise<Clip[]> => {
+    const endpoint = `/api/contribute/repeat-clips?count=${payload.count}`;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+
+    return axios({
+        method: 'GET',
+        url,
+        headers: {
+            client_id: payload.clientId && encodeURIComponent(payload.clientId),
+        },
+    })
+        .then((response: AxiosResponse) => {
             return response.data;
         })
         .catch((error: AxiosError) => {

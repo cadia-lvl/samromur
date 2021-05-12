@@ -5,6 +5,7 @@ import TipsVerify from './tips-verify';
 import Checkbox from '../../../ui/input/checkbox';
 import { connect } from 'react-redux';
 import { setSkipTips } from '../../../../store/user/actions';
+import { ContributeType } from '../../../../types/contribute';
 
 const TipsContainer = styled.div`
     display: flex;
@@ -100,7 +101,7 @@ class Tips extends React.Component<TipsProps, State> {
     render() {
         const { contributeType } = this.props;
         const { checked } = this.state;
-        const isSpeak = contributeType == 'tala';
+        const isSpeak = contributeType != ContributeType.LISTEN;
         return (
             <TipsContainer>
                 {isSpeak ? <TipsSpeak /> : <TipsVerify />}

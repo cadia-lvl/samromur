@@ -11,3 +11,9 @@ export enum WheelColor {
     GREEN = 'GREEN',
     GRAY = 'GRAY',
 }
+
+export enum ContributeType {
+    LISTEN = 'hlusta',
+    SPEAK = 'tala',
+    REPEAT = 'herma',
+}

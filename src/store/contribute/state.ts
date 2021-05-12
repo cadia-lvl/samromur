@@ -7,4 +7,5 @@ export interface ContributeState {
     progress: number;
     totalSpoken: number;
     totalVerified: number;
+    hasPlayedRepeatClip: boolean;
 }

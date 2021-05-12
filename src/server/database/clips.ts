@@ -15,6 +15,12 @@ interface TableClip {
     sentence: string;
 }
 
+interface SentenceWithClip {
+    original_sentence_id: string;
+    path: string;
+    sentence: string;
+}
+
 export default class Clips {
     private sql: Sql;
     private bucket: Bucket;
@@ -341,5 +347,143 @@ export default class Clips {
         `);
         const statuses = rows.map(({ status }: { status: string }) => status);
         return statuses;
+    };
+
+    fetchVerificationLabelsNeedingVotes = async (
+        clientId: string
+    ): Promise<string[]> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                status
+            FROM
+                ( SELECT
+                    status, COUNT(*) AS count
+                FROM
+                    clips
+                WHERE
+                    NOT EXISTS (
+                        SELECT
+                            *
+                        FROM
+                            votes
+                        WHERE
+                            votes.clip_id = clips.id
+                        AND
+                            client_id = ?)
+                    AND
+                        is_valid is null
+                    GROUP BY
+                        status
+                ) AS res
+        `,
+            [clientId]
+        );
+        const statuses = rows.map(({ status }: { status: string }) => status);
+        return statuses;
+    };
+
+    SMALL_SHUFFLE_SIZE = 500;
+    /**
+     * Fetches the clips (with sentences) for the herma (repeat) contribution type
+     * TEMPORARILY ALWAYS FETCHES IN ALPHABETICAL ORDER until db fixed
+     * TODO: switch to fetchRandomClipsToRepeat
+     * @param clientId
+     * @param count
+     */
+    fetchRepeatedClips = async (
+        clientId: string,
+        count: number
+    ): Promise<Clip[]> => {
+        try {
+            const repeatedClips = await this.fetchRandomClipsToRepeat(
+                clientId,
+                count
+            );
+            const withPublicUrls: Clip[] = await Promise.all(
+                repeatedClips.map((clip: SentenceWithClip) => {
+                    return {
+                        recording: {
+                            url: this.bucket.getPublicUrl(clip.path),
+                        },
+                        sentence: {
+                            id: clip.original_sentence_id,
+                            text: clip.sentence,
+                        },
+                    } as Clip;
+                })
+            );
+            return Promise.resolve(withPublicUrls);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    };
+
+    /**
+     * Fetches the first count number of clips to repeat from the db
+     * TODO: remove when db fixed
+     * @param count
+     */
+    fetchOrderedClipsToRepeat = async (
+        count: number
+    ): Promise<SentenceWithClip[]> => {
+        const [clips] = await this.sql.query(
+            `
+                SELECT
+                    id as original_sentence_id, text as sentence, clip_path as path
+                FROM
+                    sentences
+                WHERE
+                    clip_path IS NOT NULL
+                ORDER BY
+                    clips_count asc
+                LIMIT ?
+            `,
+            [count]
+        );
+        return clips as SentenceWithClip[];
+    };
+
+    /**
+     * Fetches random clips with sentences for the user to repeat
+     * @param clientId
+     * @param count
+     */
+    fetchRandomClipsToRepeat = async (
+        clientId: string,
+        count: number
+    ): Promise<SentenceWithClip[]> => {
+        const [clips] = await this.sql.query(
+            `
+                SELECT * FROM (	
+                    SELECT 
+                        id as original_sentence_id, 
+                        text as sentence, 
+                        clip_path as path
+	                FROM 
+                        sentences 
+	                WHERE 
+                        is_used = ?
+	                AND 
+                        clip_path is not null 
+                    AND NOT exists (
+		                SELECT 
+                            *
+                        FROM 
+                            clips
+                        WHERE 
+                            clips.original_sentence_id = sentences.id
+                        AND 
+                            clips.client_id = ?)
+                    ORDER BY 
+                        clips_count asc
+                    LIMIT ?) as result
+                ORDER BY 
+                    RAND()
+                LIMIT ?
+            `,
+            [true, clientId, this.SMALL_SHUFFLE_SIZE, count]
+        );
+        return clips as SentenceWithClip[];
     };
 }
