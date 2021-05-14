@@ -132,7 +132,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     </p>
                 </Title>
             </CardContainer>
-            <CardContainer wide onClick={() => setType('herma')}>
+            {/* <CardContainer wide onClick={() => setType('herma')}>
                 <Volume height={40} width={40} fill={'green'} />
                 <Title>
                     <h3>Herma eftir setningu</h3>
@@ -145,7 +145,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                         varðveislu íslenskunnar.
                     </p>
                 </Title>
-            </CardContainer>
+            </CardContainer> */}
             {(listenClicked || speakClicked) && (
                 <LoadingContainer>
                     <LoadingIcon large />
