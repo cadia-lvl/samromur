@@ -194,8 +194,6 @@ export default class Sentences {
                         sentences (id, text, is_used, source, clip_path)
                     VALUES
                         (?, ?, ?, ?, ?)
-                    ON DUPLICATE KEY UPDATE
-                        is_used = VALUES(is_used), clip_path = VALUES(clip_path)
                 `,
                 [originalSentenceId, sentence, true, packageName, path]
             );
