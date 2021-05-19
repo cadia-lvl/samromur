@@ -61,7 +61,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                 0
             );
             console.log(
-                `${count} sentences with clips uploaded with source label ${packageName}`
+                `${count}/${sentenceIds.length} sentences with clips uploaded with source label ${packageName}`
             );
             return res.status(200).json(count);
         } catch (error) {

@@ -618,8 +618,10 @@ class CarouselWheel extends React.Component<Props, State> {
 
     handleUpload = async (i: number): Promise<void> => {
         const clip = this.state.clips[i];
-        const { user } = this.props;
-        uploadClip(clip, user)
+        const { user, contributeType } = this.props;
+        const isRepeated = contributeType === ContributeType.REPEAT;
+
+        uploadClip(clip, user, isRepeated)
             .then((clipId: number) =>
                 this.updateClip(i, { clipId, uploaded: true })
             )

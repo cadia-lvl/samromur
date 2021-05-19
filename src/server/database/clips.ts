@@ -161,6 +161,7 @@ export default class Clips {
             sampleRate,
             duration,
             size,
+            isRepeated,
         } = clip;
 
         try {
@@ -191,9 +192,9 @@ export default class Clips {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, institution, user_agent, status, sample_rate, duration, size, dialect, speaker_id)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, institution, user_agent, status, sample_rate, duration, size, dialect, speaker_id, is_repeated)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
@@ -213,6 +214,7 @@ export default class Clips {
                     size ? size : null,
                     dialect,
                     speaker_id,
+                    isRepeated ? 1 : 0,
                 ]
             );
             const { insertId } = row;

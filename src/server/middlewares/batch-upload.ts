@@ -57,6 +57,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                         status,
                         sentence,
                         userAgent: 'undefined',
+                        isRepeated: false,
                     };
 
                     const audioFile = findMatchingAudioFile(audio, file);
