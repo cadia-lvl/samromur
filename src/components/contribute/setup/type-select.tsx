@@ -87,29 +87,45 @@ const LoadingContainer = styled.h3`
     animation-timing-function: linear;
 `;
 
+enum Options {
+    speak = 'tala',
+    listen = 'hlusta',
+    repeat = 'herma',
+}
+
+type Option = Options | undefined;
+
 interface Props {
     setType: (contributeType: string) => void;
 }
 
 export const TypeSelect: React.FunctionComponent<Props> = (props) => {
-    const [speakClicked, setSpeakClicked] = React.useState(false);
-    const [listenClicked, setlistenClicked] = React.useState(false);
+    const [selectedOption, setSelectedOption] = React.useState<Option>(
+        undefined
+    );
     const { setType } = props;
 
-    //TODO: add loading animation
     const onSpeakClick = () => {
-        setSpeakClicked(true);
-        setType('tala');
+        setSelectedOption(Options.speak);
+        setType(Options.speak);
     };
 
     const onlistenClick = () => {
-        setlistenClicked(true);
-        setType('hlusta');
+        setSelectedOption(Options.listen);
+        setType(Options.listen);
+    };
+
+    const onRepeatClick = () => {
+        setSelectedOption(Options.repeat);
+        setType(Options.repeat);
     };
 
     return (
         <CardGrid>
-            <CardContainer onClick={onSpeakClick} disabled={speakClicked}>
+            <CardContainer
+                onClick={onSpeakClick}
+                disabled={selectedOption && selectedOption !== Options.speak}
+            >
                 <MicIcon height={50} width={50} fill={'blue'} />
                 <Title>
                     <h3>Tala</h3>
@@ -121,7 +137,10 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 </Title>
             </CardContainer>
 
-            <CardContainer onClick={onlistenClick} disabled={listenClicked}>
+            <CardContainer
+                onClick={onlistenClick}
+                disabled={selectedOption && selectedOption !== Options.listen}
+            >
                 <PlayIcon height={40} width={40} fill={'red'} />
                 <Title>
                     <h3>Hlusta</h3>
@@ -132,7 +151,11 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     </p>
                 </Title>
             </CardContainer>
-            {/* <CardContainer wide onClick={() => setType('herma')}>
+            <CardContainer
+                wide
+                onClick={onRepeatClick}
+                disabled={selectedOption && selectedOption !== Options.repeat}
+            >
                 <Volume height={40} width={40} fill={'green'} />
                 <Title>
                     <h3>Herma eftir setningu</h3>
@@ -145,8 +168,8 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                         varðveislu íslenskunnar.
                     </p>
                 </Title>
-            </CardContainer> */}
-            {(listenClicked || speakClicked) && (
+            </CardContainer>
+            {selectedOption && (
                 <LoadingContainer>
                     <LoadingIcon large />
                 </LoadingContainer>
