@@ -4,6 +4,7 @@ import { RootState } from 'typesafe-actions';
 import moment from 'moment';
 import { Bar } from 'react-chartjs-2';
 import { TimelineStat } from '../../types/stats';
+import { ContributeType } from '../../types/contribute';
 
 moment.locale('is');
 
@@ -33,7 +34,21 @@ export const ContinueChart: React.FunctionComponent<Props> = ({
     count,
     stats,
 }) => {
-    const data = contributeType == 'tala' ? stats.clips : stats.votes;
+    const getData = (contributeType: string): TimelineStat[] => {
+        switch (contributeType) {
+            case ContributeType.SPEAK:
+                return stats.clips;
+            case ContributeType.LISTEN:
+                return stats.votes;
+            case ContributeType.REPEAT:
+                return stats.clips;
+            default:
+                return [];
+        }
+    };
+
+    const data = getData(contributeType);
+
     const chartData = () => ({
         labels: data.map((stat: TimelineStat) => dateFormatter(stat.date)),
         datasets: [

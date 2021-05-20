@@ -7,6 +7,7 @@ import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 import ContinueButtons from './continue-buttons';
 import ContinueChart from '../../charts/continue-chart';
+import { ContributeType } from '../../../types/contribute';
 
 const FakeHUDContainer = styled.div``;
 
@@ -102,6 +103,26 @@ class ContinueModal extends React.Component<Props, State> {
         }
     };
 
+    getProgressToday = () => {
+        const {
+            contribute: { goal },
+            stats: { weekly },
+        } = this.props;
+        const contributeType = goal?.contributeType;
+
+        switch (contributeType) {
+            case ContributeType.SPEAK:
+                return weekly.clips[weekly.clips.length - 1]?.count;
+            case ContributeType.REPEAT:
+                // TODO: add specific stats for repeat
+                return weekly.clips[weekly.clips.length - 1]?.count;
+            case ContributeType.LISTEN:
+                return weekly.votes[weekly.votes.length - 1]?.count;
+            default:
+                return 0;
+        }
+    };
+
     render() {
         const {
             contribute: { goal },
@@ -111,12 +132,8 @@ class ContinueModal extends React.Component<Props, State> {
         } = this.props;
         const { shouldDraw } = this.state;
 
-        const progressToday =
-            goal?.contributeType == 'tala'
-                ? weekly.clips[weekly.clips.length - 1]?.count
-                : goal?.contributeType == 'hlusta'
-                ? weekly.votes[weekly.votes.length - 1]?.count
-                : 0;
+        const progressToday = this.getProgressToday();
+
         return (
             <ContinueModalContainer expanded={expanded}>
                 <FakeHUDContainer />
