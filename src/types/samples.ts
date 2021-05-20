@@ -26,6 +26,7 @@ export interface ClipMetadata {
     sampleRate?: number;
     duration?: number;
     size?: number;
+    isRepeated: boolean;
 }
 
 export interface WheelClip extends Clip {

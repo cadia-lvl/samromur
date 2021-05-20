@@ -49,6 +49,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const sampleRate = parseInt(headers.sample_rate as string) || undefined;
         const duration = parseFloat(headers.duration as string) || undefined;
         const size = parseFloat(headers.size as string) || undefined;
+        const isRepeated =
+            decodeURIComponent(headers.is_repeated as string) || undefined;
 
         const clip: ClipMetadata = {
             age,
@@ -61,6 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             sampleRate: sampleRate && sampleRate,
             duration: duration && duration,
             size: size && size,
+            isRepeated: isRepeated === 'true',
         };
 
         const contentType = headers['content-type'] as string;

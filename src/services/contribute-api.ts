@@ -113,11 +113,13 @@ export const fetchClipsToRepeat = async (
 export interface UploadClipRequest {
     clip: WheelClip;
     user: UserState;
+    isRepeated: boolean;
 }
 
 export const uploadClip = async (
     clip: WheelClip,
-    user: UserState
+    user: UserState,
+    isRepeated: boolean
 ): Promise<number> => {
     const endpoint = '/api/contribute/upload';
 
@@ -145,6 +147,7 @@ export const uploadClip = async (
             sample_rate: recording.sampleRate,
             duration: recording.duration,
             size: recording.blob?.size,
+            is_repeated: encodeURIComponent(isRepeated),
         },
         data: recording.blob,
     })
