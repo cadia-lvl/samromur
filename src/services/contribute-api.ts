@@ -113,6 +113,7 @@ export const fetchClipsToRepeat = async (
 export interface UploadClipRequest {
     clip: WheelClip;
     user: UserState;
+    isRepeated: boolean;
 }
 
 export const uploadClip = async (

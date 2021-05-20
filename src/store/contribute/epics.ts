@@ -16,7 +16,8 @@ export const uploadClipEpic: Epic<
             from(
                 api.contribute.uploadClip(
                     action.payload.clip,
-                    action.payload.user
+                    action.payload.user,
+                    action.payload.isRepeated
                 )
             ).pipe(
                 map(uploadClip.success),
