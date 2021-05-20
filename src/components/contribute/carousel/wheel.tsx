@@ -503,8 +503,15 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleDeleteClip = async () => {
-        // To-do: If it's a recording, remove it from database
-        await this.handleRemoveRecording();
+        // TODO: implement call to db to delete recording, or mark as bad!
+        const { clipIndex, clips } = this.state;
+        // filter out the active clip from the clips array and update state
+        const newClips = clips.filter((clip, index) => index !== clipIndex);
+        this.setState({ clips: newClips });
+
+        // Decrement progress
+        this.props.decrementProgress();
+
         await this.handleSkip();
     };
 
