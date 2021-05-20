@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from 'typesafe-actions';
+import { ContributeType } from '../../../types/contribute';
 import Modal from '../../modal/modal';
 import { Button } from '../../ui/buttons';
 
@@ -65,6 +66,36 @@ class WarningModal extends React.Component<Props> {
         super(props);
     }
 
+    getModalMessage = (
+        contributeType: string | undefined,
+        progress: any,
+        count: any
+    ): string => {
+        switch (contributeType) {
+            case ContributeType.SPEAK:
+                return `Þú hefur lokið ${progress}/${count} upptökum.`;
+            case ContributeType.LISTEN:
+                return `Þú hefur yfirfarið ${progress}/${count} upptökum.`;
+            case ContributeType.REPEAT:
+                return `Þú hefur lesið inn ${progress}/${count} upptökum.`;
+            default:
+                return `Þú ert ekki búinn, vinsamlegast haltu áfram.`;
+        }
+    };
+
+    getButtonText = (contributeType: string | undefined) => {
+        switch (contributeType) {
+            case ContributeType.SPEAK:
+                return `Halda upptökum áfram`;
+            case ContributeType.LISTEN:
+                return `Halda yfirferðinni áfram`;
+            case ContributeType.REPEAT:
+                return `Halda upptökum áfram`;
+            default:
+                return `Haltu áfram`;
+        }
+    };
+
     render() {
         const {
             contribute: { progress, goal: { count, contributeType } = {} },
@@ -77,18 +108,14 @@ class WarningModal extends React.Component<Props> {
                 >
                     <ModalTitle>Ertu viss?</ModalTitle>
                     <ModalMessage>
-                        {contributeType === 'tala'
-                            ? `Þú hefur lokið ${progress}/${count} upptökum.`
-                            : `Þú hefur yfirfarið ${progress}/${count} upptökum.`}
+                        {this.getModalMessage(contributeType, progress, count)}
                     </ModalMessage>
                     <ButtonsContainer>
                         <StyledLeaveButton onClick={this.props.onExit} large>
                             Hætta
                         </StyledLeaveButton>
                         <StyledButton onClick={this.props.onStay} large>
-                            {contributeType === 'tala'
-                                ? `Halda upptökum áfram`
-                                : `Halda yfirferðinni áfram`}
+                            {this.getButtonText(contributeType)}
                         </StyledButton>
                     </ButtonsContainer>
                 </Modal>
