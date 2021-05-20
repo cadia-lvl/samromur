@@ -18,7 +18,7 @@ exports.up = async function (db) {
     return db.runSql(`
     ALTER TABLE
       clips
-    ADD COLUMN is_repeat TINYINT(1) DEFAULT NULL
+    ADD COLUMN is_repeated TINYINT(1) DEFAULT NULL
   `);
 };
 
