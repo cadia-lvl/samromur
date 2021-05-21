@@ -153,6 +153,7 @@ class ContinueButtons extends React.Component<Props, State> {
         const {
             contribute: { expanded },
             setGaming,
+            resetContribute,
         } = this.props;
         if (!expanded) {
             return;
@@ -161,12 +162,13 @@ class ContinueButtons extends React.Component<Props, State> {
             contribute: { goal },
             router,
         } = this.props;
+        setGaming(false);
+        resetContribute();
         if (goal && goal.contributeType == 'hlusta') {
             router.push(pages.speak);
         } else {
             router.push(pages.listen);
         }
-        setGaming(false);
     };
 
     render() {
