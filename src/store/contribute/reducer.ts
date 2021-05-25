@@ -3,6 +3,7 @@ import { ContributeState } from './state';
 import * as ContributeActions from './actions';
 
 import { speakGoals } from '../../constants/packages';
+import { ContributeType } from '../../types/contribute';
 
 const initialState: ContributeState = {
     expanded: false,
@@ -53,6 +54,8 @@ export default createReducer(initialState)
         return {
             ...initialState,
             gaming: state.gaming,
+            totalSpoken: state.totalSpoken,
+            totalVerified: state.totalVerified,
         };
     })
     .handleAction(ContributeActions.setExpanded, (state, action) => {
@@ -62,14 +65,22 @@ export default createReducer(initialState)
         };
     })
     .handleAction(ContributeActions.incrementProgress, (state, action) => {
+        const addToSpoken =
+            state.goal && state.goal.contributeType !== ContributeType.LISTEN;
         return {
             ...state,
             progress: state.progress + 1,
+            totalSpoken: state.totalSpoken + (addToSpoken ? 1 : 0),
+            totalVerified: state.totalVerified + (addToSpoken ? 0 : 1),
         };
     })
     .handleAction(ContributeActions.decrementProgress, (state, action) => {
+        const removeFromSpoken =
+            state.goal && state.goal.contributeType !== ContributeType.LISTEN;
         return {
             ...state,
             progress: state.progress - 1,
+            totalSpoken: state.totalSpoken - (removeFromSpoken ? 1 : 0),
+            totalVerified: state.totalVerified - (removeFromSpoken ? 0 : 1),
         };
     });
