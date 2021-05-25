@@ -18,6 +18,8 @@ import {
 } from '../../../constants/packages';
 import { ContributeType, Goal } from '../../../types/contribute';
 import takathatt from '../../../pages/takathatt';
+import contribute from '../setup/contribute';
+import { capitalizeFirstLetter } from '../../../utilities/string-helper';
 
 const ContinueButtonsContainer = styled.div`
     width: 100%;
@@ -154,7 +156,7 @@ class ContinueButtons extends React.Component<Props, State> {
      * Switches the context (from speak to listen or vice verse.)
      * and re-routes the user to the contribution amount selection.
      */
-    handleSwitch = () => {
+    handleSwitch = async (switchTo: string) => {
         const {
             contribute: { expanded },
             setGaming,
@@ -163,17 +165,24 @@ class ContinueButtons extends React.Component<Props, State> {
         if (!expanded) {
             return;
         }
-        const {
-            contribute: { goal },
-            router,
-        } = this.props;
+        const { router } = this.props;
+        console.log(`switch to: ${switchTo}`);
+        switch (switchTo.toLowerCase()) {
+            case ContributeType.SPEAK:
+                console.log(`switching to: speak`);
+                await router.push(pages.speak);
+                break;
+            case ContributeType.LISTEN:
+                console.log(`switching to: listen`);
+                await router.push(pages.listen);
+                break;
+            case ContributeType.REPEAT:
+                console.log(`switching to: repeat`);
+                await router.push(pages.repeat);
+                break;
+        }
         setGaming(false);
         resetContribute();
-        if (goal && goal.contributeType == 'hlusta') {
-            router.push(pages.speak);
-        } else {
-            router.push(pages.listen);
-        }
     };
 
     getGoals = (): Goal[] => {
@@ -194,12 +203,29 @@ class ContinueButtons extends React.Component<Props, State> {
         }
     };
 
-    render() {
-        const { shouldContinue } = this.state;
+    getButtonsText = (): string[] => {
         const {
             contribute: { goal },
         } = this.props;
+        const tala = capitalizeFirstLetter(ContributeType.SPEAK);
+        const hlusta = capitalizeFirstLetter(ContributeType.LISTEN);
+        const herma = capitalizeFirstLetter(ContributeType.REPEAT);
+        switch (goal!.contributeType) {
+            case ContributeType.SPEAK:
+                return [hlusta, herma, `${tala} meira`];
+            case ContributeType.LISTEN:
+                return [tala, herma, `${hlusta} meira`];
+            case ContributeType.REPEAT:
+                return [tala, hlusta, `${herma} meira`];
+            default:
+                return ['', '', ''];
+        }
+    };
+
+    render() {
+        const { shouldContinue } = this.state;
         const goals = this.getGoals();
+        const buttons = this.getButtonsText();
         return (
             <ContinueButtonsContainer>
                 <MessageContainer>
@@ -213,15 +239,21 @@ class ContinueButtons extends React.Component<Props, State> {
                     <ButtonsContainer position={shouldContinue ? -1 : 0}>
                         <ButtonContainer
                             color={'blue'}
-                            onClick={this.handleSwitch}
+                            onClick={() => this.handleSwitch(buttons[0])}
                         >
-                            <>{'Taka þátt'}</>
+                            <>{buttons[0]}</>
+                        </ButtonContainer>
+                        <ButtonContainer
+                            color={'blue'}
+                            onClick={() => this.handleSwitch(buttons[1])}
+                        >
+                            <>{buttons[1]}</>
                         </ButtonContainer>
                         <ButtonContainer
                             color={'green'}
                             onClick={this.handleContinue}
                         >
-                            <>Halda áfram</>
+                            <>{buttons[2]}</>
                         </ButtonContainer>
                     </ButtonsContainer>
                     <ButtonsContainer position={shouldContinue ? 0 : 1}>
