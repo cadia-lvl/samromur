@@ -181,7 +181,13 @@ class Contribute extends React.Component<Props, State> {
     };
 
     skipTips = () => {
-        this.props.setGaming(true);
+        const {
+            contribute: { goal, gaming },
+            setGaming,
+        } = this.props;
+        if (goal && !gaming) {
+            setGaming(true);
+        }
     };
 
     onSelectBatch = (selectedBatch: string) => {
