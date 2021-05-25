@@ -11,8 +11,13 @@ import {
     setExpanded,
     setGaming,
 } from '../../../store/contribute/actions';
-import { listenGoals, speakGoals } from '../../../constants/packages';
-import { Goal } from '../../../types/contribute';
+import {
+    listenGoals,
+    speakGoals,
+    repeatGoals,
+} from '../../../constants/packages';
+import { ContributeType, Goal } from '../../../types/contribute';
+import takathatt from '../../../pages/takathatt';
 
 const ContinueButtonsContainer = styled.div`
     width: 100%;
@@ -161,12 +166,26 @@ class ContinueButtons extends React.Component<Props, State> {
             contribute: { goal },
             router,
         } = this.props;
-        if (goal && goal.contributeType == 'hlusta') {
-            router.push(pages.speak);
-        } else {
-            router.push(pages.listen);
-        }
+        router.push(pages.contribute);
         setGaming(false);
+    };
+
+    getGoals = (): Goal[] => {
+        const {
+            contribute: { goal },
+        } = this.props;
+
+        switch (goal?.contributeType) {
+            case ContributeType.SPEAK:
+                return speakGoals;
+            case ContributeType.LISTEN:
+                return listenGoals;
+            case ContributeType.REPEAT:
+                return repeatGoals;
+            default:
+                // if nothing found, assume speak goals
+                return speakGoals;
+        }
     };
 
     render() {
@@ -174,8 +193,7 @@ class ContinueButtons extends React.Component<Props, State> {
         const {
             contribute: { goal },
         } = this.props;
-        const goals =
-            goal && goal.contributeType == 'tala' ? speakGoals : listenGoals;
+        const goals = this.getGoals();
         return (
             <ContinueButtonsContainer>
                 <MessageContainer>
@@ -191,11 +209,7 @@ class ContinueButtons extends React.Component<Props, State> {
                             color={'blue'}
                             onClick={this.handleSwitch}
                         >
-                            <>
-                                {goal && goal.contributeType == 'hlusta'
-                                    ? 'Lesa inn'
-                                    : 'Yfirfara'}
-                            </>
+                            <>{'Taka þátt'}</>
                         </ButtonContainer>
                         <ButtonContainer
                             color={'green'}
