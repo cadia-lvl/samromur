@@ -166,23 +166,19 @@ class ContinueButtons extends React.Component<Props, State> {
             return;
         }
         const { router } = this.props;
-        console.log(`switch to: ${switchTo}`);
+        setGaming(false);
+        resetContribute();
         switch (switchTo.toLowerCase()) {
             case ContributeType.SPEAK:
-                console.log(`switching to: speak`);
                 await router.push(pages.speak);
                 break;
             case ContributeType.LISTEN:
-                console.log(`switching to: listen`);
                 await router.push(pages.listen);
                 break;
             case ContributeType.REPEAT:
-                console.log(`switching to: repeat`);
                 await router.push(pages.repeat);
                 break;
         }
-        setGaming(false);
-        resetContribute();
     };
 
     getGoals = (): Goal[] => {
