@@ -105,19 +105,25 @@ class ContinueModal extends React.Component<Props, State> {
 
     getProgressToday = () => {
         const {
-            contribute: { goal },
+            contribute: { goal, totalSpoken, totalVerified },
             stats: { weekly },
         } = this.props;
         const contributeType = goal?.contributeType;
 
         switch (contributeType) {
             case ContributeType.SPEAK:
-                return weekly.clips[weekly.clips.length - 1]?.count;
+                return (
+                    weekly.clips[weekly.clips.length - 1]?.count + totalSpoken
+                );
             case ContributeType.REPEAT:
                 // TODO: add specific stats for repeat
-                return weekly.clips[weekly.clips.length - 1]?.count;
+                return (
+                    weekly.clips[weekly.clips.length - 1]?.count + totalSpoken
+                );
             case ContributeType.LISTEN:
-                return weekly.votes[weekly.votes.length - 1]?.count;
+                return (
+                    weekly.votes[weekly.votes.length - 1]?.count + totalVerified
+                );
             default:
                 return 0;
         }
@@ -148,8 +154,7 @@ class ContinueModal extends React.Component<Props, State> {
                 </ChartContainer>
                 <StatsMessageContainer>
                     <StatsMessage>
-                        Árangur dagsins eru{' '}
-                        <span>{progressToday + (goal?.count || 0)}</span>{' '}
+                        Árangur dagsins eru <span>{progressToday}</span>{' '}
                         setningar.
                     </StatsMessage>
                 </StatsMessageContainer>

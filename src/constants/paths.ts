@@ -7,6 +7,7 @@ export const pages = {
     contribute: '/takathatt',
     listen: '/hlusta',
     speak: '/tala',
+    repeat: '/herma',
     dashboard: '/minar-sidur',
     login: '/innskraning',
 };
