@@ -110,8 +110,9 @@ class TextInput extends React.Component<Props, State> {
             <InputContainer active={active} className={className}>
                 <Label>{label}</Label>
                 <TextInputContainer
-                    {...(this
-                        .props as React.InputHTMLAttributes<HTMLInputElement>)}
+                    {...(this.props as React.InputHTMLAttributes<
+                        HTMLInputElement
+                    >)}
                 />
             </InputContainer>
         );

@@ -37,10 +37,9 @@ interface InstructionsProps {
     recordingError?: RecordingError;
     audioError?: AudioError;
     uploadError?: UploadError;
-
 }
 
-type  Props  = InstructionsProps & ReturnType<typeof mapStateToProps>
+type Props = InstructionsProps & ReturnType<typeof mapStateToProps>;
 
 const InstructionsFC: React.FC<Props> = ({
     activeClip,
@@ -81,7 +80,6 @@ const InstructionsFC: React.FC<Props> = ({
         }
     };
 
-
     const verificationInstructions = (): React.ReactNode => {
         return <Message>Hlustaðu á upptökuna og dæmdu hana</Message>;
     };
@@ -93,9 +91,9 @@ const InstructionsFC: React.FC<Props> = ({
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
             <Message>Smelltu á örina til að spila upptökuna</Message>
-        ) : contribute.hasPlayedRepeatClip ?(
+        ) : contribute.hasPlayedRepeatClip ? (
             <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
-        ): (
+        ) : (
             <Message>Hlustaðu á upptökuna </Message>
         );
     };
@@ -108,15 +106,13 @@ const InstructionsFC: React.FC<Props> = ({
     );
 };
 
-
-
 const mapStateToProps = (state: RootState) => {
-  const  contribute = state.contribute;
+    const contribute = state.contribute;
     //contribute: {hasPlayedRepeatClip},
-    return {contribute}
+    return { contribute };
 
-  // = State
-  //return {hasPlayedRepeatClip};
+    // = State
+    //return {hasPlayedRepeatClip};
 };
 export const Instructions = connect(mapStateToProps)(InstructionsFC);
 
