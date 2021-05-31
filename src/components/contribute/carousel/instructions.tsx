@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { RecordingError, AudioError } from '../../../types/audio';
 import { UploadError, WheelClip } from '../../../types/samples';
 import { connect } from 'react-redux';
+import { RootState } from 'typesafe-actions';
 import { setHasPlayedRepeatClip } from '../../../store/contribute/actions';
 
 const InstructionsContainer = styled.div`
