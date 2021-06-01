@@ -99,7 +99,6 @@ const InstructionsFC: React.FC<Props> = ({
         );
     };
 
-
     return (
         <InstructionsContainer>
             {isSpeak ? speakInstructions() : verificationInstructions()}
@@ -111,7 +110,5 @@ const mapStateToProps = (state: RootState) => {
     const contribute = state.contribute;
 
     return { contribute };
-
-
 };
 export const Instructions = connect(mapStateToProps)(InstructionsFC);
