@@ -99,7 +99,7 @@ const InstructionsFC: React.FC<Props> = ({
         );
     };
 
-    //console.log(contribute.hasPlayedRepeatClip);
+
     return (
         <InstructionsContainer>
             {isSpeak ? speakInstructions() : verificationInstructions()}
@@ -109,12 +109,9 @@ const InstructionsFC: React.FC<Props> = ({
 
 const mapStateToProps = (state: RootState) => {
     const contribute = state.contribute;
-    //contribute: {hasPlayedRepeatClip},
+
     return { contribute };
 
-    // = State
-    //return {hasPlayedRepeatClip};
+
 };
 export const Instructions = connect(mapStateToProps)(InstructionsFC);
-
-//i have added setHasPlayedRepeatClip to the reducer , state
