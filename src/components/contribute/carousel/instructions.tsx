@@ -2,6 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { RecordingError, AudioError } from '../../../types/audio';
 import { UploadError, WheelClip } from '../../../types/samples';
+import { connect } from 'react-redux';
+import { RootState } from 'typesafe-actions';
+import { setHasPlayedRepeatClip } from '../../../store/contribute/actions';
 
 const InstructionsContainer = styled.div`
     width: 100%;
@@ -29,7 +32,7 @@ const Error = styled(NoSelect)`
     color: ${({ theme }) => theme.colors.red};
 `;
 
-interface Props {
+interface InstructionsProps {
     activeClip?: WheelClip;
     isSpeak: boolean;
     recordingError?: RecordingError;
@@ -37,12 +40,15 @@ interface Props {
     uploadError?: UploadError;
 }
 
-export const Instructions: React.FC<Props> = ({
+type Props = InstructionsProps & ReturnType<typeof mapStateToProps>;
+
+const InstructionsFC: React.FC<Props> = ({
     activeClip,
     isSpeak,
     recordingError,
     audioError,
     uploadError,
+    contribute,
 }) => {
     const getRecordingErrorMessage = (): string => {
         switch (recordingError) {
@@ -86,8 +92,10 @@ export const Instructions: React.FC<Props> = ({
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
             <Message>Smelltu á örina til að spila upptökuna</Message>
-        ) : (
+        ) : contribute.hasPlayedRepeatClip ? (
             <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
+        ) : (
+            <Message>Hlustaðu á upptökuna </Message>
         );
     };
 
@@ -98,4 +106,9 @@ export const Instructions: React.FC<Props> = ({
     );
 };
 
-export default Instructions;
+const mapStateToProps = (state: RootState) => {
+    const contribute = state.contribute;
+
+    return { contribute };
+};
+export const Instructions = connect(mapStateToProps)(InstructionsFC);
