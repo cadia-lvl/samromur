@@ -364,6 +364,8 @@ export default class Clips {
                 FROM
                     clips
                 WHERE
+                    status not in ('pybossa', 'samromur')
+                AND
                     NOT EXISTS (
                         SELECT
                             *
