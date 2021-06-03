@@ -106,7 +106,7 @@ class Contribute extends React.Component<Props, State> {
                 client: { isSuperUser },
             },
         } = this.props;
-        if (isSuperUser) {
+        if (isSuperUser && window.location.pathname === '/hlusta') {
             const labels = await adminApi.fetchVerificationBatches();
             this.setState({
                 labels: labels.filter((label) => label !== null),
@@ -224,6 +224,11 @@ class Contribute extends React.Component<Props, State> {
                     )}
                     {!contributeType ? (
                         <TypeSelect setType={this.selectType} />
+                    ) : labels.length > 0 && !selectedBatch ? (
+                        <BatchSelect
+                            labels={labels}
+                            setLabel={this.onSelectBatch}
+                        />
                     ) : !goal ? (
                         <PackageSelect
                             contributeType={contributeType}
@@ -233,13 +238,6 @@ class Contribute extends React.Component<Props, State> {
                           contributeType === ContributeType.REPEAT) &&
                       !demographic ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
-                    ) : labels.length > 0 &&
-                      !selectedBatch &&
-                      contributeType == ContributeType.LISTEN ? (
-                        <BatchSelect
-                            labels={labels}
-                            setLabel={this.onSelectBatch}
-                        />
                     ) : !gaming ? (
                         client.skipTips ? (
                             this.skipTips()
