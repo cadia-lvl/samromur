@@ -62,10 +62,14 @@ interface Props {
 
 export const BatchSelect: React.FunctionComponent<Props> = (props) => {
     const { labels, setLabel } = props;
+    // Add samromur to labels if not existing
+    const fullLabels = labels.some((label) => label === 'samromur')
+        ? labels
+        : ['samromur', ...labels];
 
     return (
         <CardGrid>
-            {labels.map((label: string, i: number) => (
+            {fullLabels.map((label: string, i: number) => (
                 <CardContainer key={i} onClick={() => setLabel(label)}>
                     <PlayIcon height={40} width={40} fill={'gray'} />
                     <Title>
