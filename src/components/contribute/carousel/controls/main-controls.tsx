@@ -187,6 +187,30 @@ class MainControls extends React.Component<Props, State> {
 
     componentDidMount = () => {
         this.wave = this.startWaving();
+        window.addEventListener('keydown', this.handleKeyDown);
+    };
+
+    componentWillUnmount = () => {
+        window.removeEventListener('keydown', this.handleKeyDown);
+    };
+
+    handleKeyDown = (event: KeyboardEvent) => {
+        const { key } = event;
+        const { hasPlayed, isReplaying, isPlaying } = this.state;
+        console.log(key);
+        switch (key) {
+            case 'q':
+                hasPlayed && this.handleSaveVote(ClipVote.VALID);
+                break;
+            case 'e':
+                hasPlayed && this.handleSaveVote(ClipVote.INVALID);
+                break;
+            case ' ':
+                !isPlaying ? this.handlePlay() : this.handlePause();
+                break;
+            default:
+                break;
+        }
     };
 
     componentDidUpdate = (prevProps: Props) => {
@@ -336,6 +360,7 @@ class MainControls extends React.Component<Props, State> {
         const { hasPlayed } = this.state;
         const { clip, saveVote, setColor } = this.props;
         if (hasPlayed || clip?.voteId) {
+            console.log(vote);
             this.setState({ hasPlayed: false });
             setColor(WheelColor.BLUE);
             saveVote(vote);

@@ -33,6 +33,7 @@ import MainControls from './controls/main-controls';
 import BottomControls from './controls/bottom-controls';
 
 import WheelControls from './controls/wheel-controls';
+import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
 
 interface WheelContainerProps {
     expanded: boolean;
@@ -365,11 +366,16 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleKeyDown = (event: KeyboardEvent) => {
-        const { keyCode } = event;
-        if (keyCode == 37) {
-            this.onSpin(-1);
-        } else if (keyCode == 39) {
-            this.onSpin(1);
+        const { key } = event;
+        switch (key) {
+            case 'ArrowLeft':
+                this.onSpin(-1);
+                break;
+            case 'ArrowRight':
+                this.onSpin(1);
+                break;
+            default:
+                break;
         }
     };
 
@@ -390,6 +396,7 @@ class CarouselWheel extends React.Component<Props, State> {
         );
 
         this.setState({ clips: newClips });
+        console.log('update clip: ', newClips[index]);
 
         return Promise.resolve(newClips[index]);
     };
@@ -516,6 +523,7 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleSaveVote = async (vote: ClipVote): Promise<void> => {
+        console.log('wheel: ' + vote);
         this.onSpin(1);
         const { clipIndex } = this.state;
         const clip = await this.updateClip(clipIndex, { vote });
