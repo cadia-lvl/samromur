@@ -80,7 +80,6 @@ type Props = ReturnType<typeof mapStateToProps> &
 interface State {
     batchClips?: WheelClip[];
     contributeType?: ContributeType;
-    //labels: string[];
     demographic: boolean;
     tips: boolean;
     selectedBatch?: string;
