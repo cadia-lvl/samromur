@@ -16,12 +16,15 @@ import { saveVote } from '../services/contribute-api';
 import ContributePage from '../components/contribute/setup/contribute';
 import { ContributeType } from '../types/contribute';
 
+import { fetchVerificationBatches } from '../services/admin-api';
+
 const dispatchProps = {
     resetContribute,
 };
 
 interface InitialProps {
     initialClips: Clip[];
+    labels: string[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -43,6 +46,15 @@ class SpeakPage extends React.Component<Props, State> {
     static async getInitialProps(ctx: NextPageContext) {
         const { isServer, req, res, store } = ctx;
 
+        const isSuper = store.getState().user.client.isSuperUser;
+        let labels: string[] = [];
+
+        if (isSuper) {
+            labels = await fetchVerificationBatches();
+            // filter out null labels
+            labels = labels.filter((label) => label !== null);
+        }
+
         // Reset session progress
         store.dispatch(resetContribute());
 
@@ -60,16 +72,18 @@ class SpeakPage extends React.Component<Props, State> {
         return {
             namespacesRequired: ['common'],
             initialClips,
+            labels,
         };
     }
 
     render() {
-        const { initialClips } = this.props;
+        const { initialClips, labels } = this.props;
 
         return (
             <ContributePage
                 contributeType={ContributeType.LISTEN}
                 clips={initialClips}
+                labels={labels}
             />
         );
     }
