@@ -69,6 +69,7 @@ interface ContributeProps {
     groupedSentences?: AllGroupsSentences;
     contributeType?: ContributeType;
     clipsToRepeat?: WheelClip[];
+    labels?: string[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -79,7 +80,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 interface State {
     batchClips?: WheelClip[];
     contributeType?: ContributeType;
-    labels: string[];
+    //labels: string[];
     demographic: boolean;
     tips: boolean;
     selectedBatch?: string;
@@ -93,26 +94,11 @@ class Contribute extends React.Component<Props, State> {
 
         this.state = {
             contributeType: this.props.contributeType,
-            labels: [],
             demographic: false,
             tips: false,
             clipsToRepeat: this.props.clipsToRepeat,
         };
     }
-
-    componentDidMount = async () => {
-        const {
-            user: {
-                client: { isSuperUser },
-            },
-        } = this.props;
-        if (isSuperUser && window.location.pathname === '/hlusta') {
-            const labels = await adminApi.fetchVerificationBatches();
-            this.setState({
-                labels: labels.filter((label) => label !== null),
-            });
-        }
-    };
 
     getBatchClips = async (selectedBatch: string) => {
         const {
@@ -129,14 +115,10 @@ class Contribute extends React.Component<Props, State> {
     };
 
     getInstruction = (): string => {
-        const {
-            contributeType,
-            demographic,
-            labels,
-            selectedBatch,
-        } = this.state;
+        const { contributeType, demographic, selectedBatch } = this.state;
         const {
             contribute: { goal },
+            labels,
         } = this.props;
         if (!contributeType) {
             return 'Taka þátt';
@@ -152,7 +134,7 @@ class Contribute extends React.Component<Props, State> {
             } else {
                 return goal
                     ? 'Góð ráð við yfirferð'
-                    : labels.length > 0 && !selectedBatch
+                    : labels && labels.length > 0 && !selectedBatch
                     ? 'Hvaða yfirferðarflokk viltu hlusta á?'
                     : 'Veldu pakka';
             }
@@ -200,7 +182,6 @@ class Contribute extends React.Component<Props, State> {
             contributeType,
             demographic,
             tips,
-            labels,
             selectedBatch,
             batchClips,
             sentences,
@@ -211,6 +192,7 @@ class Contribute extends React.Component<Props, State> {
             clips,
             contribute: { expanded, gaming, goal },
             user: { client },
+            labels,
         } = this.props;
 
         return (
@@ -224,7 +206,7 @@ class Contribute extends React.Component<Props, State> {
                     )}
                     {!contributeType ? (
                         <TypeSelect setType={this.selectType} />
-                    ) : labels.length > 0 && !selectedBatch ? (
+                    ) : labels && labels.length > 0 && !selectedBatch ? (
                         <BatchSelect
                             labels={labels}
                             setLabel={this.onSelectBatch}
@@ -260,7 +242,6 @@ class Contribute extends React.Component<Props, State> {
                             sentences={sentences}
                             clipsToRepeat={repeatedClips}
                             contributeType={contributeType}
-                            // Add a sentencesAndclips attribute here?
                         />
                     )}
                 </ContributeContainer>
