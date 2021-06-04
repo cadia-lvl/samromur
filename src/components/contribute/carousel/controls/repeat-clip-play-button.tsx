@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { setHasPlayedRepeatClip } from '../../../../store/contribute/actions';
 import RootState from '../../../../store/root-state';
 import { ContributeState } from '../../../../store/contribute/state';
+import { KeyCommands } from '../../../../constants/keyboardCommands';
 
 interface PlayButtonProps {
     isActive?: boolean;
@@ -82,6 +83,22 @@ const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
             props.setHasPlayedRepeatClip(false);
         }
     }, [props.src]);
+
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            const { key } = e;
+
+            if (key === KeyCommands.PlayRepeatClip) {
+                handleTogglePlay();
+            }
+        };
+        document.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, []);
+
     //when clip ends, change icon of button
     audio.onended = () => {
         setIsPlaying(false);
@@ -93,6 +110,7 @@ const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
         if (!props.isActive) return;
 
         setIsPlaying(!isPlaying);
+
         if (isPlaying) {
             //deactive
             audio.pause();

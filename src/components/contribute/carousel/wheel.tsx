@@ -34,6 +34,7 @@ import BottomControls from './controls/bottom-controls';
 
 import WheelControls from './controls/wheel-controls';
 import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
+import { KeyCommands } from '../../../constants/keyboardCommands';
 
 interface WheelContainerProps {
     expanded: boolean;
@@ -367,12 +368,29 @@ class CarouselWheel extends React.Component<Props, State> {
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
+        const { isSpeak, sentences } = this.state;
         switch (key) {
-            case 'ArrowLeft':
+            case KeyCommands.SpinBackward:
                 this.onSpin(-1);
                 break;
-            case 'ArrowRight':
+            case KeyCommands.SpinForward:
                 this.onSpin(1);
+                break;
+            case KeyCommands.VoteUnsure:
+                if (!isSpeak) this.handleSaveVote(ClipVote.UNSURE);
+                break;
+            case KeyCommands.DeleteRecording:
+                if (isSpeak) this.handleDeleteClip();
+                break;
+            case KeyCommands.Rerecord:
+                if (isSpeak) this.handleRemoveRecording();
+                break;
+            case KeyCommands.Skip:
+                if (isSpeak && !sentences[this.activeIndex].hasClip)
+                    this.handleSkip();
+                break;
+            case KeyCommands.Submit:
+                this.handleExpand();
                 break;
             default:
                 break;
@@ -396,7 +414,6 @@ class CarouselWheel extends React.Component<Props, State> {
         );
 
         this.setState({ clips: newClips });
-        console.log('update clip: ', newClips[index]);
 
         return Promise.resolve(newClips[index]);
     };
@@ -523,10 +540,9 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleSaveVote = async (vote: ClipVote): Promise<void> => {
-        console.log('wheel: ' + vote);
-        this.onSpin(1);
         const { clipIndex } = this.state;
         const clip = await this.updateClip(clipIndex, { vote });
+        this.onSpin(1);
 
         const {
             user: {

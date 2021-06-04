@@ -17,6 +17,7 @@ import Wave from '../wave';
 import RepeatClipPlayButton from './repeat-clip-play-button';
 import { Glow } from './glow';
 import RootState from '../../../../store/root-state';
+import { KeyCommands } from '../../../../constants/keyboardCommands';
 
 const Audio = styled.audio`
     display: none;
@@ -196,20 +197,48 @@ class MainControls extends React.Component<Props, State> {
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
-        const { hasPlayed, isReplaying, isPlaying } = this.state;
-        console.log(key);
+        const { hasPlayed, isPlaying } = this.state;
         switch (key) {
-            case 'q':
+            case KeyCommands.VoteYes:
                 hasPlayed && this.handleSaveVote(ClipVote.VALID);
                 break;
-            case 'e':
+            case KeyCommands.VoteNo:
                 hasPlayed && this.handleSaveVote(ClipVote.INVALID);
                 break;
-            case ' ':
-                !isPlaying ? this.handlePlay() : this.handlePause();
+            case KeyCommands.TogglePlayRecord:
+                this.handleTogglePlayRecord();
                 break;
             default:
                 break;
+        }
+    };
+
+    handleTogglePlayRecord = () => {
+        const { clip, isSpeak, clipToRepeat, hasPlayedRepeatClip } = this.props;
+        const { isPlaying, isRecording } = this.state;
+        // Herma, hasPlayed
+        if (clipToRepeat && hasPlayedRepeatClip) {
+            // Herma has played
+            !isRecording
+                ? this.handleStartRecording()
+                : this.handleStopRecording();
+
+            // Else, if speak
+        } else if (isSpeak) {
+            // If no recording then toggle recording
+            if (!clip || !clip.recording) {
+                !isRecording
+                    ? this.handleStartRecording()
+                    : this.handleStopRecording();
+            }
+            // Hasrecording
+            else {
+                !isPlaying ? this.handlePlay() : this.handlePause();
+            }
+        }
+        // Hlusta
+        else if (!clipToRepeat && !isSpeak) {
+            !isPlaying ? this.handlePlay() : this.handlePause();
         }
     };
 
@@ -360,7 +389,6 @@ class MainControls extends React.Component<Props, State> {
         const { hasPlayed } = this.state;
         const { clip, saveVote, setColor } = this.props;
         if (hasPlayed || clip?.voteId) {
-            console.log(vote);
             this.setState({ hasPlayed: false });
             setColor(WheelColor.BLUE);
             saveVote(vote);
