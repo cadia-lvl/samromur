@@ -33,6 +33,8 @@ import MainControls from './controls/main-controls';
 import BottomControls from './controls/bottom-controls';
 
 import WheelControls from './controls/wheel-controls';
+import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
+import { KeyCommands } from '../../../constants/keyboardCommands';
 
 interface WheelContainerProps {
     expanded: boolean;
@@ -365,11 +367,33 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleKeyDown = (event: KeyboardEvent) => {
-        const { keyCode } = event;
-        if (keyCode == 37) {
-            this.onSpin(-1);
-        } else if (keyCode == 39) {
-            this.onSpin(1);
+        const { key } = event;
+        const { isSpeak, sentences } = this.state;
+        switch (key) {
+            case KeyCommands.SpinBackward:
+                this.onSpin(-1);
+                break;
+            case KeyCommands.SpinForward:
+                this.onSpin(1);
+                break;
+            case KeyCommands.VoteUnsure:
+                if (!isSpeak) this.handleSaveVote(ClipVote.UNSURE);
+                break;
+            case KeyCommands.DeleteRecording:
+                if (isSpeak) this.handleDeleteClip();
+                break;
+            case KeyCommands.Rerecord:
+                if (isSpeak) this.handleRemoveRecording();
+                break;
+            case KeyCommands.Skip:
+                if (isSpeak && !sentences[this.activeIndex].hasClip)
+                    this.handleSkip();
+                break;
+            case KeyCommands.Submit:
+                this.handleExpand();
+                break;
+            default:
+                break;
         }
     };
 
@@ -516,9 +540,9 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     handleSaveVote = async (vote: ClipVote): Promise<void> => {
-        this.onSpin(1);
         const { clipIndex } = this.state;
         const clip = await this.updateClip(clipIndex, { vote });
+        this.onSpin(1);
 
         const {
             user: {
