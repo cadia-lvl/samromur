@@ -48,17 +48,24 @@ export default class Sentences {
         const pool = await this.sql.createPool();
         return Promise.all(
             batch.sentences.map((sentence: string) => {
+                const items = sentence.split('\t');
+                // handle files with text, source, age
+                const text = items[0];
+                const source = items[1] ? items[1] : batch.name;
+                const age = items[2] ? items[2] : 'adult';
+                console.log(sentence);
+
                 return pool.query(
                     `
                     INSERT INTO
                         sentences
-                    (id, text, is_used, source)
+                    (id, text, is_used, source, age)
                     VALUES
-                        (?, ?, ?, ?)
+                        (?, ?, ?, ?, ?)
                         ON DUPLICATE KEY UPDATE
                     is_used = VALUES(is_used)
                 `,
-                    [hash(sentence), sentence, true, batch.name]
+                    [hash(text), text, true, source, age]
                 );
             })
         ).then(() => {
