@@ -53,7 +53,6 @@ export default class Sentences {
                 const text = items[0];
                 const source = items[1] ? items[1] : batch.name;
                 const age = items[2] ? items[2] : 'adult';
-                console.log(sentence);
 
                 return pool.query(
                     `
