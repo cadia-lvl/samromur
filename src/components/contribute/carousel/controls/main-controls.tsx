@@ -388,7 +388,11 @@ class MainControls extends React.Component<Props, State> {
     handleSaveVote = (vote: ClipVote) => {
         const { hasPlayed, isPlaying } = this.state;
         const { clip, saveVote, setColor, isSuperUser } = this.props;
-        if (hasPlayed || clip?.voteId || (isSuperUser && isPlaying)) {
+        if (
+            hasPlayed ||
+            clip?.voteId ||
+            (isSuperUser && isPlaying && vote === ClipVote.INVALID) // Early voting for bad clips
+        ) {
             this.setState({ hasPlayed: false });
             setColor(WheelColor.BLUE);
             saveVote(vote);
