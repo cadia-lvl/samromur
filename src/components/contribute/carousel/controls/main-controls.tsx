@@ -198,14 +198,18 @@ class MainControls extends React.Component<Props, State> {
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
         const { hasPlayed, isPlaying } = this.state;
+        const { isSuperUser } = this.props;
         switch (key) {
             case KeyCommands.VoteYes:
                 hasPlayed && this.handleSaveVote(ClipVote.VALID);
                 break;
             case KeyCommands.VoteNo:
-                hasPlayed && this.handleSaveVote(ClipVote.INVALID);
+                if (hasPlayed || (isSuperUser && isPlaying)) {
+                    this.handleSaveVote(ClipVote.INVALID);
+                }
                 break;
             case KeyCommands.TogglePlayRecord:
+            case KeyCommands.TogglePlayRecordSecondary:
                 this.handleTogglePlayRecord();
                 break;
             default:
@@ -527,7 +531,12 @@ const mapStateToProps = (state: RootState) => {
     const {
         contribute: { hasPlayedRepeatClip },
     } = state;
-    return { hasPlayedRepeatClip };
+    const {
+        user: {
+            client: { isSuperUser },
+        },
+    } = state;
+    return { hasPlayedRepeatClip, isSuperUser };
 };
 
 export default connect(mapStateToProps)(MainControls);
