@@ -197,16 +197,12 @@ class MainControls extends React.Component<Props, State> {
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
-        const { hasPlayed, isPlaying } = this.state;
-        const { isSuperUser } = this.props;
         switch (key) {
             case KeyCommands.VoteYes:
-                hasPlayed && this.handleSaveVote(ClipVote.VALID);
+                this.handleSaveVote(ClipVote.VALID);
                 break;
             case KeyCommands.VoteNo:
-                if (hasPlayed || (isSuperUser && isPlaying)) {
-                    this.handleSaveVote(ClipVote.INVALID);
-                }
+                this.handleSaveVote(ClipVote.INVALID);
                 break;
             case KeyCommands.TogglePlayRecord:
             case KeyCommands.TogglePlayRecordSecondary:
@@ -390,9 +386,9 @@ class MainControls extends React.Component<Props, State> {
     };
 
     handleSaveVote = (vote: ClipVote) => {
-        const { hasPlayed } = this.state;
-        const { clip, saveVote, setColor } = this.props;
-        if (hasPlayed || clip?.voteId) {
+        const { hasPlayed, isPlaying } = this.state;
+        const { clip, saveVote, setColor, isSuperUser } = this.props;
+        if (hasPlayed || clip?.voteId || (isSuperUser && isPlaying)) {
             this.setState({ hasPlayed: false });
             setColor(WheelColor.BLUE);
             saveVote(vote);
