@@ -388,10 +388,15 @@ class MainControls extends React.Component<Props, State> {
     handleSaveVote = (vote: ClipVote) => {
         const { hasPlayed, isPlaying } = this.state;
         const { clip, saveVote, setColor, isSuperUser } = this.props;
+        const duration = this.audioRef.current?.duration || Infinity;
+        const currentTime = this.audioRef.current?.currentTime || 0;
         if (
             hasPlayed ||
             clip?.voteId ||
-            (isSuperUser && isPlaying && vote === ClipVote.INVALID) // Early voting for bad clips
+            (isSuperUser &&
+                isPlaying &&
+                vote === ClipVote.INVALID &&
+                currentTime >= duration / 2) // Early voting for bad clips
         ) {
             this.setState({ hasPlayed: false });
             setColor(WheelColor.BLUE);
