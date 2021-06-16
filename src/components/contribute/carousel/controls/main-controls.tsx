@@ -197,15 +197,15 @@ class MainControls extends React.Component<Props, State> {
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
-        const { hasPlayed, isPlaying } = this.state;
         switch (key) {
             case KeyCommands.VoteYes:
-                hasPlayed && this.handleSaveVote(ClipVote.VALID);
+                this.handleSaveVote(ClipVote.VALID);
                 break;
             case KeyCommands.VoteNo:
-                hasPlayed && this.handleSaveVote(ClipVote.INVALID);
+                this.handleSaveVote(ClipVote.INVALID);
                 break;
             case KeyCommands.TogglePlayRecord:
+            case KeyCommands.TogglePlayRecordSecondary:
                 this.handleTogglePlayRecord();
                 break;
             default:
@@ -386,9 +386,18 @@ class MainControls extends React.Component<Props, State> {
     };
 
     handleSaveVote = (vote: ClipVote) => {
-        const { hasPlayed } = this.state;
-        const { clip, saveVote, setColor } = this.props;
-        if (hasPlayed || clip?.voteId) {
+        const { hasPlayed, isPlaying } = this.state;
+        const { clip, saveVote, setColor, isSuperUser } = this.props;
+        const duration = this.audioRef.current?.duration || Infinity;
+        const currentTime = this.audioRef.current?.currentTime || 0;
+        if (
+            hasPlayed ||
+            clip?.voteId ||
+            (isSuperUser &&
+                isPlaying &&
+                vote === ClipVote.INVALID &&
+                currentTime >= duration / 2) // Early voting for bad clips
+        ) {
             this.setState({ hasPlayed: false });
             setColor(WheelColor.BLUE);
             saveVote(vote);
@@ -527,7 +536,12 @@ const mapStateToProps = (state: RootState) => {
     const {
         contribute: { hasPlayedRepeatClip },
     } = state;
-    return { hasPlayedRepeatClip };
+    const {
+        user: {
+            client: { isSuperUser },
+        },
+    } = state;
+    return { hasPlayedRepeatClip, isSuperUser };
 };
 
 export default connect(mapStateToProps)(MainControls);
