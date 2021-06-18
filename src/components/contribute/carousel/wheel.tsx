@@ -368,7 +368,11 @@ class CarouselWheel extends React.Component<Props, State> {
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
-        const { isSpeak, sentences } = this.state;
+        const { isSpeak, sentences, expanded } = this.state;
+        // If in the expanded state, don't allow these keyboard commands
+        if (expanded) {
+            return;
+        }
         switch (key) {
             case KeyCommands.SpinBackward:
                 this.onSpin(-1);
