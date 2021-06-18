@@ -5,6 +5,7 @@ import { UploadError, WheelClip } from '../../../types/samples';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { setHasPlayedRepeatClip } from '../../../store/contribute/actions';
+import { ContributeType } from '../../../types/contribute';
 
 const InstructionsContainer = styled.div`
     width: 100%;
