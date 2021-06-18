@@ -197,6 +197,13 @@ class MainControls extends React.Component<Props, State> {
 
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
+        const { isDone } = this.props;
+
+        // Disable keycommands if isDone
+        if (isDone) {
+            return;
+        }
+
         switch (key) {
             case KeyCommands.VoteYes:
                 this.handleSaveVote(ClipVote.VALID);
