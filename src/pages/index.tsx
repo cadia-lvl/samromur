@@ -20,6 +20,8 @@ import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
 import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
+import cookies from 'next-cookies';
+import { fetchUser } from '../store/user/actions';
 
 const FrontPageContainer = styled.div`
     /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
@@ -227,6 +229,13 @@ class IndexPage extends React.Component<Props> {
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
+        const { store } = ctx;
+        const allCookies = cookies(ctx);
+        const { client_id } = allCookies;
+        const clientId = client_id || store.getState().user.client.id;
+
+        await makeSSRDispatch(ctx, fetchUser.request, { id: clientId });
+
         // If missing props fetch from db
         if (IndexPage.missingProps(ctx)) {
             // Total clips chart
