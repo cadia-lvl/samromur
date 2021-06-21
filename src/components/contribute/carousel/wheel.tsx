@@ -555,7 +555,7 @@ class CarouselWheel extends React.Component<Props, State> {
             vote: clip.vote as ClipVote,
             voteId: clip.voteId,
         };
-        if (!clip.voteId) {
+        if (clip.voteId === undefined) {
             this.props.incrementProgress();
         }
 
