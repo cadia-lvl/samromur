@@ -187,9 +187,10 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <h3>Spjalla við vini</h3>
                     <p>Smelltu hér til að spjalla við vini</p>
                     <p>
-                        Flæðandi tal er frábrugðið upplesnum setningum, þetta
-                        gefur gagnapakkanum okkar meiri breytileika sem getur
-                        hjálpað til við að gera betri talgreinara
+                        Samtöl eru frábrugðin upplestri á stökum setningum og
+                        því er hér viðmót sem gerir þér kleift að taka upp
+                        samtal við vin eða vandamann. Smelltu hér til þess að
+                        lesa meira.
                     </p>
                 </Title>
             </CardContainer>
