@@ -343,9 +343,11 @@ export default class Clips {
         return this.insertClip(clientId, clip, path, originalSentenceId);
     };
 
+    // Hides lobe specific batch from verification labels
     fetchVerificationLabels = async (): Promise<string[]> => {
         const [rows] = await this.sql.query(`
             SELECT DISTINCT status FROM clips
+            WHERE status not like 'lobe%' 
         `);
         const statuses = rows.map(({ status }: { status: string }) => status);
         return statuses;
