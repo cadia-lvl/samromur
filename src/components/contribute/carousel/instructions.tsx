@@ -5,6 +5,7 @@ import { UploadError, WheelClip } from '../../../types/samples';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { setHasPlayedRepeatClip } from '../../../store/contribute/actions';
+import { ContributeType } from '../../../types/contribute';
 
 const InstructionsContainer = styled.div`
     width: 100%;
@@ -86,13 +87,15 @@ const InstructionsFC: React.FC<Props> = ({
     };
 
     const speakInstructions = (): React.ReactNode => {
+        const { hasPlayedRepeatClip, goal } = contribute;
         return audioError ? (
             <Error>{getAudioErrorMessage()}</Error>
         ) : recordingError ? (
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
             <Message>Smelltu á örina til að spila upptökuna</Message>
-        ) : contribute.hasPlayedRepeatClip ? (
+        ) : hasPlayedRepeatClip ||
+          goal?.contributeType !== ContributeType.REPEAT ? (
             <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
         ) : (
             <Message>Hlustaðu á upptökuna </Message>
