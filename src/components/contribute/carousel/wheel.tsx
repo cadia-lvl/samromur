@@ -369,6 +369,13 @@ class CarouselWheel extends React.Component<Props, State> {
     handleKeyDown = (event: KeyboardEvent) => {
         const { key } = event;
         const { isSpeak, sentences } = this.state;
+        const {
+            contribute: { expanded },
+        } = this.props;
+        // If in the expanded state, don't allow these keyboard commands
+        if (expanded) {
+            return;
+        }
         switch (key) {
             case KeyCommands.SpinBackward:
                 this.onSpin(-1);
@@ -760,7 +767,9 @@ class CarouselWheel extends React.Component<Props, State> {
         const isDone = !!(
             (goal && goal.count == progress) ||
             // for when there are not enough clips to verify
-            sentenceIndex === sentences.length - 1
+            sentenceIndex === sentences.length - 1 ||
+            // submitted before goal complete
+            expanded
         );
 
         let removeCounts = 0;
