@@ -189,7 +189,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>
                         Samtöl eru frábrugðin upplestri á stökum setningum og
                         því er hér viðmót sem gerir þér kleift að taka upp
-                        samtal við vin eða vandamann. Smelltu hér til þess að
+                        samtal með vini eða vandamanni. Smelltu hér til þess að
                         lesa meira.
                     </p>
                 </Title>
