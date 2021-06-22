@@ -87,6 +87,19 @@ class MyApp extends App<Props> {
 
         Object.assign(pageProps, { namespacesRequired: ['common'] });
 
+        // If client has a client id in its cooke, has an athenticated token
+        // and it is not signed in (in the store) then sign in
+        if (hasCookie && isAuthenticated) {
+            const {
+                user: { client },
+            } = store.getState();
+            if (!client.isAuthenticated) {
+                await makeSSRDispatch(ctx, fetchUser.request, {
+                    id: client_id,
+                });
+            }
+        }
+
         return { pageProps, appProps };
     }
 
