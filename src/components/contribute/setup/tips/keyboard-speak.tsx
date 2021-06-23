@@ -1,10 +1,18 @@
 import * as React from 'react';
-import { Back, Delete, Forwards, Play, Rerecord, Skip, Submit } from './keys';
+import {
+    Back,
+    Delete,
+    Forwards,
+    PlaySpeak,
+    Rerecord,
+    Skip,
+    Submit,
+} from './keys';
 
 const SpeakKeyboard: React.FunctionComponent = () => {
     return (
         <>
-            <Play />
+            <PlaySpeak />
             <Skip />
             <Back />
             <Forwards />

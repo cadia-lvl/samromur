@@ -1,89 +1,123 @@
 import styled from 'styled-components';
 
+const Shortcut = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.25rem;
+`;
+
+const KeyContainer = styled.div`
+    width: 20%;
+`;
+
 const Key = styled.div`
-    font-size: 0.75rem;
     display: inline-block;
-    padding: 0 0.25rem;
+    padding: 0 0.5rem;
     box-shadow: 0 0 2px 1px gray;
     border-radius: 5px;
     margin: 5px;
 `;
 
-const Shortcut = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.5rem;
-`;
-
-export const Play: React.FC = () => (
+export const PlaySpeak: React.FC = () => (
     <Shortcut>
-        <Key>space</Key>
-        Taka upp/Spila
+        <KeyContainer>
+            <Key>Spacebar</Key>
+        </KeyContainer>
+        Taka upp/Spila upptöku
+    </Shortcut>
+);
+
+export const PlayListen: React.FC = () => (
+    <Shortcut>
+        <KeyContainer>
+            <Key>Spacebar</Key>
+        </KeyContainer>
+        Spila upptöku
     </Shortcut>
 );
 
 export const Skip: React.FC = () => (
     <Shortcut>
-        <Key>s</Key>
-        Sleppa
+        <KeyContainer>
+            <Key>s</Key>
+        </KeyContainer>
+        Sleppa upptöku
     </Shortcut>
 );
 export const Back: React.FC = () => (
     <Shortcut>
-        <Key>{'◄'}</Key>
-        Afturábak
+        <KeyContainer>
+            <Key>{'◄'}</Key>
+        </KeyContainer>
+        Fara til baka í fyrri setningu / upptöku
     </Shortcut>
 );
 export const Forwards: React.FC = () => (
     <Shortcut>
-        <Key>{'►'}</Key>
-        Áfram
+        <KeyContainer>
+            <Key>{'►'}</Key>
+        </KeyContainer>
+        Farðu í næstu setningu / upptöku
     </Shortcut>
 );
 export const Rerecord: React.FC = () => (
     <Shortcut>
-        <Key>x</Key>
-        Endurtaka
+        <KeyContainer>
+            <Key>x</Key>
+        </KeyContainer>
+        Endurtaka upptöku
     </Shortcut>
 );
 export const Delete: React.FC = () => (
     <Shortcut>
-        <Key>Del</Key>
-        Fjarlægja
+        <KeyContainer>
+            <Key>Del</Key>
+        </KeyContainer>
+        Fjarlægja upptöku
     </Shortcut>
 );
 export const Submit: React.FC = () => (
     <Shortcut>
-        <Key>{'Enter'}</Key>
-        Senda
+        <KeyContainer>
+            <Key>{'Enter'}</Key>
+        </KeyContainer>
+        Senda in
     </Shortcut>
 );
 
 export const VoteYes: React.FC = () => (
     <Shortcut>
-        <Key>q</Key>
-        Samþykkja
+        <KeyContainer>
+            <Key>q</Key>
+        </KeyContainer>
+        Kjósið góða upptöku
     </Shortcut>
 );
 
 export const VoteNo: React.FC = () => (
     <Shortcut>
-        <Key>e</Key>
-        Hafna
+        <KeyContainer>
+            <Key>e</Key>
+        </KeyContainer>
+        Kjóstu slæma upptöku
     </Shortcut>
 );
 
 export const VoteUnsure: React.FC = () => (
     <Shortcut>
-        <Key>r</Key>
-        Óviss
+        <KeyContainer>
+            <Key>r</Key>
+        </KeyContainer>
+        Kjóstu óvissan upptöku
     </Shortcut>
 );
 
 export const PlayRepeat: React.FC = () => (
     <Shortcut>
-        <Key>a</Key>
+        <KeyContainer>
+            <Key>a</Key>
+        </KeyContainer>
         Spila herma setningu
     </Shortcut>
 );

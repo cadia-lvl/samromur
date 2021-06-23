@@ -1,10 +1,18 @@
 import * as React from 'react';
-import { Back, Forwards, Play, Skip, Submit, VoteNo, VoteYes } from './keys';
+import {
+    Back,
+    Forwards,
+    PlayListen,
+    Skip,
+    Submit,
+    VoteNo,
+    VoteYes,
+} from './keys';
 
 const VerifyKeyboard: React.FunctionComponent = () => {
     return (
         <>
-            <Play />
+            <PlayListen />
             <VoteYes />
             <VoteNo />
             <Skip />

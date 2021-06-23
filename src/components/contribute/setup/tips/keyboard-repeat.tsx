@@ -3,7 +3,7 @@ import {
     Back,
     Delete,
     Forwards,
-    Play,
+    PlaySpeak,
     PlayRepeat,
     Rerecord,
     Skip,
@@ -13,7 +13,7 @@ import {
 const RepeatKeyboard: React.FunctionComponent = () => {
     return (
         <>
-            <Play />
+            <PlaySpeak />
             <PlayRepeat />
             <Skip />
             <Back />

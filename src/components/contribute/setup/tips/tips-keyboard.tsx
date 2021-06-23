@@ -14,9 +14,8 @@ type Props = ReturnType<typeof mapStateToProps>;
 const KeysContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    font-size: 0.75rem;
 `;
 
 const TipsKeyboardFC: React.FC<Props> = (props) => {
