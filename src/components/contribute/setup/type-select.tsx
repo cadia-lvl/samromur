@@ -4,6 +4,8 @@ import MicIcon from '../../ui/icons/mic';
 import PlayIcon from '../../ui/icons/play';
 import LoadingIcon from '../../ui/icons/loading';
 import Volume from '../../ui/icons/volume';
+import Conversation from '../../ui/icons/conversation';
+import { useRouter } from 'next/router';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -43,11 +45,13 @@ const CardContainer = styled.div<CardContainerProps>`
     ${({ disabled }) =>
         disabled &&
         `
+        display: none;
         pointer-events: none;
         opacity: 0.4;
         `}
 
     ${({ theme }) => theme.media.smallUp} {
+        display: grid;
         ${({ wide }) => wide && `grid-column: 1 / 3;`}
     }
 `;
@@ -103,6 +107,8 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
     const [selectedOption, setSelectedOption] = React.useState<Option>(
         undefined
     );
+    const router = useRouter();
+
     const { setType } = props;
 
     const onSpeakClick = () => {
@@ -118,6 +124,10 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
     const onRepeatClick = () => {
         setSelectedOption(Options.repeat);
         setType(Options.repeat);
+    };
+
+    const onConversationClick = () => {
+        document.location.href = 'https://spjall.samromur.is/';
     };
 
     return (
@@ -152,7 +162,6 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 </Title>
             </CardContainer>
             <CardContainer
-                wide
                 onClick={onRepeatClick}
                 disabled={selectedOption && selectedOption !== Options.repeat}
             >
@@ -166,6 +175,22 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>
                         Með því að lesa inn í Samróm leggur þitt af mörkum við
                         varðveislu íslenskunnar.
+                    </p>
+                </Title>
+            </CardContainer>
+            <CardContainer
+                onClick={onConversationClick}
+                disabled={selectedOption ? true : false}
+            >
+                <Conversation height={40} width={40} fill={'black'} />
+                <Title>
+                    <h3>Spjalla við vini</h3>
+                    <p>Smelltu hér til að spjalla við vini</p>
+                    <p>
+                        Samtöl eru frábrugðin upplestri á stökum setningum og
+                        því er hér viðmót sem gerir þér kleift að taka upp
+                        samtal með vini eða vandamanni. Smelltu hér til þess að
+                        lesa meira.
                     </p>
                 </Title>
             </CardContainer>
