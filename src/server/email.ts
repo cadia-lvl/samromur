@@ -58,6 +58,31 @@ export default class EmailClient {
             });
     };
 
+    sendConsentEmailSkema = async (
+        email: string,
+        kennitala: string,
+        url: string
+    ): Promise<void> => {
+        const { FROM_EMAIL, CONSENT_SKEMA_TEMPLATE_ID } = this.emailConfig;
+
+        return sgMail
+            .send({
+                to: email,
+                from: FROM_EMAIL,
+                templateId: CONSENT_SKEMA_TEMPLATE_ID,
+                dynamicTemplateData: {
+                    KENNITALA: kennitala,
+                    URL: url,
+                },
+            })
+            .then(() => {
+                return Promise.resolve();
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+    };
+
     subscribeToNewsletter = async (email: string): Promise<void> => {
         await sgClient.request({
             method: 'PUT',
