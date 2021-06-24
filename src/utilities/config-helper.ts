@@ -14,6 +14,7 @@ export type DatabaseOptions = {
 export type EmailOptions = {
     FROM_EMAIL: string;
     CONSENT_TEMPLATE_ID: string;
+    CONSENT_SKEMA_TEMPLATE_ID: string;
     SIGNUP_TEMPLATE_ID: string;
     RESET_TEMPLATE_ID: string;
     SENDGRID_KEY: string;
@@ -48,6 +49,7 @@ const defaults: Config = {
     },
     EMAIL: {
         FROM_EMAIL: '',
+        CONSENT_SKEMA_TEMPLATE_ID: '',
         CONSENT_TEMPLATE_ID: '',
         SIGNUP_TEMPLATE_ID: '',
         RESET_TEMPLATE_ID: '',
