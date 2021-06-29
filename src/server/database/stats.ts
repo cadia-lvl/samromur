@@ -21,9 +21,6 @@ export default class Clips {
         const table = ['tala', 'herma'].includes(contributeType)
             ? 'clips'
             : 'votes';
-        const isRepeat = contributeType == ContributeType.REPEAT;
-        console.log(contributeType);
-        console.log(table);
         const [rows] = await this.sql.query(
             `
                 SELECT
