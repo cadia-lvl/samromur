@@ -33,7 +33,6 @@ const Stat = styled.div`
         font-size: 1.5rem;
         font-weight: 600;
     }
-    white-space: pre-line;
 `;
 
 const SuperUserStatItem = styled(StatsItem)`
