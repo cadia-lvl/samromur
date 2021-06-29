@@ -6,6 +6,7 @@ export interface ContributeState {
     goal?: Goal;
     progress: number;
     totalSpoken: number;
+    totalRepeated: number;
     totalVerified: number;
     hasPlayedRepeatClip: boolean;
 }

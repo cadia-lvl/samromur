@@ -11,6 +11,7 @@ const initialState: StatsState = {
     weekly: {
         clips: [],
         votes: [],
+        repeatClips: [],
     },
 };
 
@@ -71,4 +72,16 @@ export default createReducer(initialState)
             ...state,
             todayClips: action.payload,
         };
-    });
+    })
+    .handleAction(
+        StatsActions.fetchWeeklyRepeatedClips.success,
+        (state, action) => {
+            return {
+                ...state,
+                weekly: {
+                    ...state.weekly,
+                    repeatClips: action.payload,
+                },
+            };
+        }
+    );

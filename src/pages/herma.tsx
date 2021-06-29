@@ -5,7 +5,7 @@ import { RootState } from 'typesafe-actions';
 import Contribute from '../components/contribute/setup/contribute';
 import { fetchClipsToRepeat } from '../services/contribute-api';
 import { resetContribute } from '../store/contribute/actions';
-import { fetchWeeklyClips } from '../store/stats/actions';
+import { fetchWeeklyRepeatedClips } from '../store/stats/actions';
 import { ContributeType } from '../types/contribute';
 import { Clip } from '../types/samples';
 import makeSSRDispatch from '../utilities/ssr-request';
@@ -28,8 +28,7 @@ class RepeatPage extends React.Component<Props> {
         store.dispatch(resetContribute());
 
         // // Fetch some stats to display at the end of the session
-        //TODO: make this work for SSR dispatch
-        makeSSRDispatch(ctx, fetchWeeklyClips.request);
+        makeSSRDispatch(ctx, fetchWeeklyRepeatedClips.request);
 
         // Fetch clips to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;

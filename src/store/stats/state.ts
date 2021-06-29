@@ -9,5 +9,6 @@ export interface StatsState {
     weekly: {
         clips: TimelineStat[];
         votes: TimelineStat[];
+        repeatClips: TimelineStat[];
     };
 }

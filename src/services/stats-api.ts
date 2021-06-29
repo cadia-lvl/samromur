@@ -22,6 +22,24 @@ export const fetchWeeklyClips = async (
         });
 };
 
+export const fetchWeeklyRepeatClips = async (
+    payload: SSRRequest
+): Promise<TimelineStat[]> => {
+    const endpoint = `/api/stats/weekly?type=herma`;
+    const url = payload.host ? payload.host + endpoint : endpoint;
+    return axios({
+        method: 'GET',
+        url,
+    })
+        .then((response: AxiosResponse) => {
+            return response.data;
+        })
+        .catch((error: AxiosError) => {
+            console.error(error);
+            return Promise.reject(error.code);
+        });
+};
+
 export const fetchWeeklyVotes = async (
     payload: SSRRequest
 ): Promise<TimelineStat[]> => {

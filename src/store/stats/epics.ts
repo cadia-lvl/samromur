@@ -22,6 +22,24 @@ export const fetchWeeklyClipsEpic: Epic<
         )
     );
 
+export const fetchWeeklyRepeatedClipsEpic: Epic<
+    RootAction,
+    RootAction,
+    RootState,
+    Services
+> = (action$, state$, { api }) =>
+    action$.pipe(
+        filter(isActionOf(statsActions.fetchWeeklyRepeatedClips.request)),
+        switchMap((action) =>
+            from(api.stats.fetchWeeklyRepeatClips(action.payload)).pipe(
+                map(statsActions.fetchWeeklyRepeatedClips.success),
+                catchError((message: string) =>
+                    of(statsActions.fetchWeeklyRepeatedClips.failure(message))
+                )
+            )
+        )
+    );
+
 export const fetchWeeklyVotesEpic: Epic<
     RootAction,
     RootAction,
