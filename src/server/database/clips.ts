@@ -364,7 +364,7 @@ export default class Clips {
                 FROM
                     clips
                 WHERE
-                    status not in ('pybossa', 'samromur', 'lobe_kids_25k')
+                    status not in ('pybossa', 'samromur', 'lobe_kids_25k', 'lobe_kids_25k_290621')
                 AND
                     NOT EXISTS (
                         SELECT
