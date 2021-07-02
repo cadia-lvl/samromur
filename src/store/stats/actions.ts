@@ -46,3 +46,8 @@ export const fetchTodayClips = createAsyncAction(
 )<SSRRequest, number, string>();
 
 //TODO: add fetchWeeklyRepeatedClips action
+export const fetchWeeklyRepeatedClips = createAsyncAction(
+    'FETCH_WEEKLY_REPEAT_CLIPS_REQUEST',
+    'FETCH_WEEKLY_REPEAT_CLIPS_SUCCESS',
+    'FETCH_WEEKLY_REPEAT_CLIPS_FAILED'
+)<SSRRequest, TimelineStat[], string>();

@@ -41,7 +41,7 @@ export const ContinueChart: React.FunctionComponent<Props> = ({
             case ContributeType.LISTEN:
                 return stats.votes;
             case ContributeType.REPEAT:
-                return stats.clips;
+                return stats.repeatClips;
             default:
                 return [];
         }

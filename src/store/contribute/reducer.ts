@@ -10,6 +10,7 @@ const initialState: ContributeState = {
     gaming: false,
     progress: 0,
     totalSpoken: 0,
+    totalRepeated: 0,
     totalVerified: 0,
     hasPlayedRepeatClip: false,
 };
@@ -56,6 +57,7 @@ export default createReducer(initialState)
             gaming: state.gaming,
             totalSpoken: state.totalSpoken,
             totalVerified: state.totalVerified,
+            totalRepeated: state.totalRepeated,
         };
     })
     .handleAction(ContributeActions.setExpanded, (state, action) => {
@@ -65,22 +67,39 @@ export default createReducer(initialState)
         };
     })
     .handleAction(ContributeActions.incrementProgress, (state, action) => {
-        const addToSpoken =
-            state.goal && state.goal.contributeType !== ContributeType.LISTEN;
+        const { isSpeak, isListen, isRepeat } = getContributeType(state);
         return {
             ...state,
             progress: state.progress + 1,
-            totalSpoken: state.totalSpoken + (addToSpoken ? 1 : 0),
-            totalVerified: state.totalVerified + (addToSpoken ? 0 : 1),
+            totalSpoken: state.totalSpoken + (isSpeak ? 1 : 0),
+            totalVerified: state.totalVerified + (isListen ? 1 : 0),
+            totalRepeated: state.totalRepeated + (isRepeat ? 1 : 0),
         };
     })
     .handleAction(ContributeActions.decrementProgress, (state, action) => {
-        const removeFromSpoken =
-            state.goal && state.goal.contributeType !== ContributeType.LISTEN;
+        const { isSpeak, isListen, isRepeat } = getContributeType(state);
         return {
             ...state,
             progress: state.progress - 1,
-            totalSpoken: state.totalSpoken - (removeFromSpoken ? 1 : 0),
-            totalVerified: state.totalVerified - (removeFromSpoken ? 0 : 1),
+            totalSpoken: state.totalSpoken - (isSpeak ? 1 : 0),
+            totalVerified: state.totalVerified - (isListen ? 1 : 0),
+            totalRepeated: state.totalRepeated - (isRepeat ? 1 : 0),
         };
     });
+
+// Helper function for the increment/decrement functions to find the contribute type
+const getContributeType = (
+    state: ContributeState
+): { isSpeak: boolean; isListen: boolean; isRepeat: boolean } => {
+    const isSpeak = !!(
+        state.goal && state.goal.contributeType == ContributeType.SPEAK
+    );
+    const isListen = !!(
+        state.goal && state.goal.contributeType == ContributeType.LISTEN
+    );
+    const isRepeat = !!(
+        state.goal && state.goal.contributeType == ContributeType.REPEAT
+    );
+
+    return { isSpeak, isListen, isRepeat };
+};

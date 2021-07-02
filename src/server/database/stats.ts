@@ -2,6 +2,7 @@ import Sql from './sql';
 import { TimelineStat } from '../../types/stats';
 import { IndividualStat, SchoolStat } from '../../types/competition';
 import lazyCache from '../lazy-cache';
+import { ContributeType } from '../../types/contribute';
 
 const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
 const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
@@ -17,11 +18,13 @@ export default class Clips {
     fetchWeeklyStats = lazyCache(async (contributeType: string): Promise<
         TimelineStat[]
     > => {
-        const table = contributeType == 'tala' ? 'clips' : 'votes';
+        const table = ['tala', 'herma'].includes(contributeType)
+            ? 'clips'
+            : 'votes';
         const [rows] = await this.sql.query(
             `
                 SELECT
-                    COUNT(${table}.id) as count,
+                    COUNT(res.id) as count,
                     DATE(cal.date) as date
                 FROM (
                     SELECT SUBDATE(NOW(), INTERVAL 6 DAY) + INTERVAL xc DAY AS date
@@ -35,9 +38,15 @@ export default class Clips {
                         ) xxc1
                     ) cal
                 LEFT JOIN
-                    ${table}
+                    (select * from ${table} 
+                    ${
+                        contributeType == 'tala'
+                            ? 'WHERE is_repeated = 0'
+                            : contributeType == 'herma' &&
+                              'WHERE is_repeated = 1'
+                    }) as res
                 ON
-                    DATE(${table}.created_at) = DATE(cal.date)
+                    DATE(res.created_at) = DATE(cal.date)
                 WHERE
                     cal.date <= NOW()
                 GROUP BY

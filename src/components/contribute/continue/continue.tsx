@@ -105,7 +105,7 @@ class ContinueModal extends React.Component<Props, State> {
 
     getProgressToday = () => {
         const {
-            contribute: { goal, totalSpoken, totalVerified },
+            contribute: { goal, totalSpoken, totalRepeated, totalVerified },
             stats: { weekly },
         } = this.props;
         const contributeType = goal?.contributeType;
@@ -116,9 +116,9 @@ class ContinueModal extends React.Component<Props, State> {
                     weekly.clips[weekly.clips.length - 1]?.count + totalSpoken
                 );
             case ContributeType.REPEAT:
-                // TODO: add specific stats for repeat
                 return (
-                    weekly.clips[weekly.clips.length - 1]?.count + totalSpoken
+                    weekly.repeatClips[weekly.repeatClips.length - 1]?.count +
+                    totalRepeated
                 );
             case ContributeType.LISTEN:
                 return (
