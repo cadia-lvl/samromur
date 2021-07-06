@@ -34,6 +34,7 @@ import {
 } from '../../../utilities/demographics-age-helper';
 import { AllGroupsSentences } from '../../../pages/tala';
 import { Demographic } from '../../../types/user';
+import { WithTranslation, withTranslation } from '../../../server/i18n';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -75,6 +76,7 @@ interface ContributeProps {
 type Props = ReturnType<typeof mapStateToProps> &
     ContributeProps &
     typeof dispatchProps &
+    WithTranslation &
     WithRouterProps;
 
 interface State {
@@ -118,9 +120,10 @@ class Contribute extends React.Component<Props, State> {
         const {
             contribute: { goal },
             labels,
+            t,
         } = this.props;
         if (!contributeType) {
-            return 'Taka þátt';
+            return t('common:take-part');
         } else {
             if (
                 contributeType == ContributeType.SPEAK ||
@@ -254,4 +257,7 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(mapStateToProps, dispatchProps)(withRouter(Contribute));
+export default connect(
+    mapStateToProps,
+    dispatchProps
+)(withRouter(withTranslation(['contribute', 'common'])(Contribute)));

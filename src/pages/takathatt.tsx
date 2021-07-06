@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { NextPageContext } from 'next';
 import { RootState } from 'typesafe-actions';
-import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 import styled from 'styled-components';
@@ -47,7 +46,6 @@ interface ContributePageProps {}
 type Props = ReturnType<typeof mapStateToProps> &
     typeof dispatchProps &
     ContributePageProps &
-    WithTranslation &
     WithRouterProps;
 
 interface State {}
@@ -89,4 +87,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(
     mapStateToProps,
     dispatchProps
-)(withTranslation('common')(withRouter(ContributePage)));
+)(withRouter(ContributePage));

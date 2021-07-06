@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { defaultIfEmpty } from 'rxjs/operators';
 import styled from 'styled-components';
+import { WithTranslation, withTranslation } from '../../../server/i18n';
 
 import * as userApi from '../../../services/user-api';
 
@@ -60,7 +62,7 @@ const Message = styled.div`
     bottom: -1rem;
 `;
 
-interface Props {}
+type Props = WithTranslation;
 
 interface State {
     done: boolean;
@@ -68,7 +70,7 @@ interface State {
     success: boolean;
 }
 
-export default class SubscribeForm extends React.Component<Props, State> {
+class SubscribeForm extends React.Component<Props, State> {
     textRef = React.createRef<HTMLInputElement>();
     constructor(props: Props) {
         super(props);
@@ -100,14 +102,15 @@ export default class SubscribeForm extends React.Component<Props, State> {
 
     render() {
         const { done, email, success } = this.state;
+        const { t } = this.props;
         return (
             <SubscribeContainer>
-                <SubscribeText>Skráning á póstlista Samróms.</SubscribeText>
+                <SubscribeText>{t('sign-up-newsletter')}</SubscribeText>
                 <InputWithButton onSubmit={this.handleSubmit}>
                     <TextInput
                         ref={this.textRef}
                         spellCheck="false"
-                        placeholder="Tölvupóstfang"
+                        placeholder={t('email')}
                         className="text-input"
                         value={email}
                         onChange={this.onChange}
@@ -118,10 +121,14 @@ export default class SubscribeForm extends React.Component<Props, State> {
                 </InputWithButton>
                 {done && (
                     <Message>
-                        {success ? 'Skráning tókst!' : 'Skráning mistókst'}
+                        {success
+                            ? t('subscribe-success')
+                            : t('subscribe-failure')}
                     </Message>
                 )}
             </SubscribeContainer>
         );
     }
 }
+
+export default withTranslation('footer')(SubscribeForm);

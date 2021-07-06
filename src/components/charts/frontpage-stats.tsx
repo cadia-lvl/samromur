@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { averageClipSeconds } from '../../constants/stats';
+import { useTranslation } from '../../server/i18n';
+import { Trans } from 'react-i18next';
 
 const CTAStats = styled.div`
     margin: 1rem 0;
@@ -48,35 +50,28 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
     clips,
 }) => {
     const hours = Math.round((averageClipSeconds * clips) / 3600);
+    const hoursFixed = parseInt(
+        hours.toFixed(0).toLocaleString('is').replace(/,/g, '.')
+    );
+    const thousandsClients = Math.ceil(clients / 1000);
+    const clipsString = parseInt(clips.toFixed(0))
+        .toLocaleString('is')
+        .replace(/,/g, '.');
+    const { t } = useTranslation(['home']);
+
     return (
         <CTAStats>
+            <p>{t('the-why')}</p>
             <p>
-                Til þess að tölvur og tæki skilji íslensku svo vel sé þá þarf
-                mikinn fjölda upptaka af íslensku tali frá allskonar fólki. Þess
-                vegna þurfum við þína aðstoð, með því að smella á „Taka þátt“ þá
-                getur þú lesið upp nokkrar setningar og lagt „þína rödd” af
-                mörkum. Við viljum sérstaklega hvetja fólk sem hefur íslensku
-                sem annað mál að taka þátt. Það er á okkar valdi að alltaf megi
-                finna svar á íslensku.
-            </p>
-            <p>
-                Samrómur hófst í október 2019 og hingað til hafa um{' '}
-                <Stat>{Math.ceil(clients / 1000)}</Stat> þúsund manns lesið
-                rúmlega{' '}
-                <Stat>
-                    {parseInt(hours.toFixed(0))
-                        .toLocaleString('is')
-                        .replace(/,/g, '.')}
-                </Stat>{' '}
-                klukkustundir eða{' '}
-                <Stat>
-                    {parseInt(clips.toFixed(0))
-                        .toLocaleString('is')
-                        .replace(/,/g, '.')}
-                </Stat>{' '}
-                setningar. Hægt er að lesa meira um verkefnið hér.{' '}
+                <Trans i18nKey="background" t={t}>
+                    Samrómur hófst í október 2019 og hingað til hafa um{' '}
+                    <Stat>{{ thousands: thousandsClients }}</Stat> þúsund manns
+                    lesið rúmlega <Stat>{{ hours: hoursFixed }}</Stat>{' '}
+                    klukkustundir eða <Stat>{{ sentences: clipsString }}</Stat>{' '}
+                    setningar. Hægt er að lesa meira um verkefnið hér.{' '}
+                </Trans>
                 <Link href="/um">
-                    <LinkText>Lesa meira hér.</LinkText>
+                    <LinkText>{t('read-more')}</LinkText>
                 </Link>
             </p>
         </CTAStats>

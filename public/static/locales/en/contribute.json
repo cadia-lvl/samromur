@@ -1,0 +1,14 @@
+{
+    "speak": "Tala",
+    "speak-action": "Click here donate your voice.",
+    "speak-info": "By reading inn Samrómur, you contribute to the preservation of the Icelandic language.",
+    "review": "Review",
+    "review-action": "Click here to review voice recordings.",
+    "review-info": "Only recordings that have been reviewed and marked as good are allowed into the database.",
+    "repeat": "Repeat",
+    "repeat-action": "Click here to listen and repeat sentences.",
+    "repeat-info": "Good for practicing icelandic and contributing at the same time.",
+    "conversation": "Talk to a friend",
+    "conversation-action": "Click here to talk with a friend.",
+    "conversation-info": "Flowing conversations gives us more varied data."
+}

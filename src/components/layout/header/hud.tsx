@@ -10,6 +10,7 @@ import WarningModal from './warning-modal';
 import { resetContribute, setGaming } from '../../../store/contribute/actions';
 
 import BackArrowIcon from '../../ui/icons/back-arrow';
+import { WithTranslation, withTranslation } from '../../../server/i18n';
 
 const HUDContainer = styled.div`
     position: absolute;
@@ -79,6 +80,7 @@ const dispatchProps = {
 type Props = ReturnType<typeof mapStateToProps> &
     typeof dispatchProps &
     HUDProps &
+    WithTranslation &
     WithRouterProps;
 
 class HeadsUpDisplay extends React.Component<Props, State> {
@@ -122,9 +124,10 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         const {
             contribute: { expanded, goal, progress },
             router: { pathname },
+            t,
         } = this.props;
         if (expanded) {
-            return path ? pages.frontPage : 'Til baka á forsíðu';
+            return path ? pages.frontPage : t('back-to-homepage');
         }
         switch (pathname) {
             case '/tala':
@@ -132,16 +135,16 @@ class HeadsUpDisplay extends React.Component<Props, State> {
                 return path
                     ? pages.contribute
                     : goal
-                    ? 'Velja fjölda'
-                    : 'Taka þátt';
+                    ? t('choose-amount')
+                    : t('common:take-part');
             case '/hlusta':
                 return path
                     ? pages.contribute
                     : goal
-                    ? 'Velja fjölda'
-                    : 'Taka þátt';
+                    ? t('choose-amount')
+                    : t('common:take-part');
             default:
-                return path ? pages.frontPage : 'Forsíða';
+                return path ? pages.frontPage : t('common:homepage');
         }
     };
 
@@ -196,4 +199,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(
     mapStateToProps,
     dispatchProps
-)(withRouter(HeadsUpDisplay));
+)(withRouter(withTranslation(['contribute', 'common'])(HeadsUpDisplay)));
