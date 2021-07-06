@@ -110,7 +110,7 @@ class SubscribeForm extends React.Component<Props, State> {
                     <TextInput
                         ref={this.textRef}
                         spellCheck="false"
-                        placeholder={t('email')}
+                        placeholder={t('common:email')}
                         className="text-input"
                         value={email}
                         onChange={this.onChange}
@@ -131,4 +131,4 @@ class SubscribeForm extends React.Component<Props, State> {
     }
 }
 
-export default withTranslation('footer')(SubscribeForm);
+export default withTranslation(['footer', 'common'])(SubscribeForm);

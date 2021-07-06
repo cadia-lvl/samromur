@@ -1,0 +1,29 @@
+{
+    "signup-title": "Sign up",
+    "login-title": "Log in",
+    "username-label": "Username (optional)",
+    "username-place-holder": "Usernames will only be used in grunnskolakeppni",
+    "password-label": "Password",
+    "password-again-label": "Password again",
+    "new-user": "Sign up",
+    "login": "Log in",
+    "have-account": "Already signed up?",
+    "forgot-password": "Forgot your password",
+    "errors" : {
+        "missing-email": "Need to enter an email",
+        "missing-password": "Need to enter a password",
+        "missing-password-again": "Need to enter your password again",
+        "invalid-email": "Invalid email",
+        "password-mismatch": "Passwords needs to match",
+        "invalid-username": "Invalid username, only letters, hyphon and underscore are allowed. At least 5 letters.",
+        "form-error": "Error in the form"
+    },
+    "auth-errors" : {
+        "user-not-found": "User was not found",
+        "wrong-password": "Incorrect password",
+        "has-account": "The email address has already signed up",
+        "email-not-confirmed": "The email address has not confirmed its account",
+        "username-in-use": "Username in use, please choose another",
+        "sign-in-failed": "Sign up failed"
+    }
+}

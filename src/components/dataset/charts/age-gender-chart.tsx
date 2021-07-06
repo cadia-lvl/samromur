@@ -1,6 +1,8 @@
+import { WithTranslation } from 'next-i18next';
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
+import { withTranslation } from '../../../server/i18n';
 import { fetchAgeGenderStats } from '../../../services/stats-api';
 
 const ChartTitle = styled.h5``;
@@ -25,7 +27,10 @@ export const options = {
         labels: {
             filter: function (item: any, chart: any) {
                 // Logic to remove a particular legend item goes here
-                return !item.text.match('Staðfest');
+                // Need to manually enter all languages here until a workaround is found
+                return (
+                    !item.text.match('Staðfest') && !item.text.match('Reviewed')
+                );
             },
         },
         onClick: (e: any) => {},
@@ -79,9 +84,11 @@ export const options = {
     responsive: true,
 };
 
-interface Props {
+interface AgeGenderChartProps {
     inputData?: any;
 }
+
+type Props = AgeGenderChartProps & WithTranslation;
 
 interface State {
     data: any;
@@ -114,6 +121,8 @@ class AgeGenderChart extends React.Component<Props, State> {
     };
 
     generateDataSet = (data: any) => {
+        const { t } = this.props;
+
         const labels: any = [];
         const karl: any[] = [];
         const karl_valid: any[] = [];
@@ -136,49 +145,49 @@ class AgeGenderChart extends React.Component<Props, State> {
             labels: labels,
             datasets: [
                 {
-                    label: 'Staðfest',
+                    label: t('reviewed'),
                     data: kona_valid,
                     backgroundColor: '#59cbb7',
                     stack: 1,
                     minBarLength: 3,
                 },
                 {
-                    label: 'Kona',
+                    label: t('women'),
                     data: kona,
                     backgroundColor: '#ff4f5e',
                     stack: 1,
                     minBarLength: 3,
                 },
                 {
-                    label: 'Staðfest',
+                    label: t('reviewed'),
                     data: karl_valid,
                     backgroundColor: '#59cbb7',
                     stack: 2,
                     minBarLength: 3,
                 },
                 {
-                    label: 'Karl',
+                    label: t('man'),
                     data: karl,
                     backgroundColor: '#629ff4',
                     stack: 2,
                     minBarLength: 3,
                 },
                 {
-                    label: 'Staðfest',
+                    label: t('reviewed'),
                     data: total_valid,
                     backgroundColor: '#59cbb7',
                     stack: 3,
                     minBarLength: 3,
                 },
                 {
-                    label: 'Samtals',
+                    label: t('total'),
                     data: total,
                     backgroundColor: '#2b376c',
                     stack: 3,
                     minBarLength: 3,
                 },
                 {
-                    label: 'Þar af staðfest',
+                    label: t('of-which-reviewed'),
                     data: [],
                     backgroundColor: '#59cbb7',
                     stack: 3,
@@ -192,13 +201,14 @@ class AgeGenderChart extends React.Component<Props, State> {
 
     render() {
         const { data } = this.state;
+        const { t } = this.props;
         return (
             <div>
-                <ChartTitle>Uppökur eftir aldri og kyni</ChartTitle>
+                <ChartTitle>{t('age-gender-chart-title')}</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );
     }
 }
 
-export default AgeGenderChart;
+export default withTranslation('database')(AgeGenderChart);

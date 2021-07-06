@@ -1,0 +1,29 @@
+{
+    "signup-title": "Nýskráning",
+    "login-title": "Innskráning",
+    "username-label": "Notendanafn (valfrjálst)",
+    "username-place-holder": "Notendanöfn birtast í einstaklings stigatöflunni",
+    "password-label": "Lykilorð",
+    "password-again-label": "Lykilorð aftur",
+    "new-user": "Nýskrá",
+    "login": "Skrá inn",
+    "have-account": "Áttu aðgang?",
+    "forgot-password": "Týnt lykilorð",
+    "errors" : {
+        "missing-email": "Tölvupóstfang vantar",
+        "missing-password": "Lykilorð vantar",
+        "missing-password-again": "Það þarf að staðfesta lykilorð",
+        "invalid-email": "Ógilt tölvupóstfang",
+        "password-mismatch": "Lykilorð verða að stemma",
+        "invalid-username": "Ógilt notendanafn, aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.",
+        "form-error": "Villa í formi"
+    },
+    "auth-errors" : {
+        "user-not-found": "Notandi finnst ekki",
+        "wrong-password": "Rangt lykilorð",
+        "has-account": "Tölvupóstfang þegar skráð",
+        "email-not-confirmed": "Tölvupóstfang hefur ekki verið staðfest",
+        "username-in-use": "Notendanafnið er tekið, vinsamlegast veldu nýtt",
+        "sign-in-failed": "Innskráning mistókst"
+    }
+}

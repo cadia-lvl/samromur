@@ -9,6 +9,8 @@ import { AuthError, AuthRequest, FormError } from '../../types/auth';
 
 import validateEmail from '../../utilities/validate-email';
 import validateUserName from '../../utilities/validate-username';
+import { WithTranslation, withTranslation } from '../../server/i18n';
+import { title } from 'process';
 
 const LoginFormContainer = styled.form`
     margin: 1rem auto;
@@ -33,11 +35,13 @@ const Title = styled.h3`
     margin-bottom: 2rem;
 `;
 
-interface Props {
+interface LoginFormProps {
     error?: AuthError;
     onSubmit: (auth: AuthRequest, isSignup: boolean) => void;
     removeError: () => void;
 }
+
+type Props = LoginFormProps & WithTranslation;
 
 interface State {
     email: string;
@@ -146,38 +150,40 @@ class LoginForm extends React.Component<Props, State> {
     };
 
     getFormErrorMessage = (error: FormError): string => {
+        const { t } = this.props;
         switch (error) {
             case FormError.MISSING_EMAIL:
-                return 'Tölvupóstfang vantar';
+                return t('errors.missing-email');
             case FormError.MISSING_PASSWORD:
-                return 'Lykilorð vantar';
+                return t('errors.missing-password');
             case FormError.MISSING_PASSWORD_AGAIN:
-                return 'Það þarf að staðfesta lykilorð';
+                return t('errors.missing-password-again');
             case FormError.INVALID_EMAIL:
-                return 'Ógilt tölvupóstfang';
+                return t('errors.invalid-email');
             case FormError.PASSWORD_MISMATCH:
-                return 'Lykilorð verða að stemma';
+                return t('errors.password-mismatch');
             case FormError.INVALID_USERNAME:
-                return 'Aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.';
+                return t('errors.invalid-username');
             default:
-                return 'Villa í formi';
+                return t('errors.form-error');
         }
     };
 
     getAuthErrorMessage = (error: AuthError): string => {
+        const { t } = this.props;
         switch (error) {
             case AuthError.USER_NOT_FOUND:
-                return 'Notandi finnst ekki';
+                return t('auth-errors.user-not-found');
             case AuthError.WRONG_PASSWORD:
-                return 'Rangt lykilorð';
+                return t('auth-errors.wrong-password');
             case AuthError.HAS_ACCOUNT:
-                return 'Tölvupóstfang þegar skráð';
+                return t('auth-errors.has-account');
             case AuthError.EMAIL_NOT_CONFIRMED:
-                return 'Tölvupóstfang hefur ekki verið staðfest';
+                return t('auth-errors.email-not-confirmed');
             case AuthError.USERNAME_USED:
-                return 'Notendanafnið er tekið, vinsamlegast veldu nýtt';
+                return t('auth-errors.username-in-use');
             default:
-                return 'Innskráning mistókst';
+                return t('auth-errors.sign-in-failed');
         }
     };
 
@@ -186,30 +192,32 @@ class LoginForm extends React.Component<Props, State> {
 
         const authError = this.props.error;
 
+        const { t } = this.props;
+
         return (
             <LoginFormContainer onSubmit={this.handleSubmit}>
-                <Title>{isSignup ? 'Nýskráning' : 'Innskráning'}</Title>
+                <Title>{isSignup ? t('signup-title') : t('login-title')}</Title>
                 <TextInput
-                    label="Tölvupóstfang"
+                    label={t('common:email')}
                     onChange={this.onEmailChange}
                     placeholder=""
                 />
                 {isSignup && (
                     <TextInput
-                        label="Notendanafn (valfrjálst)"
+                        label={t('username-label')}
                         onChange={this.onUserNameChange}
-                        placeholder="Notendanöfn birtast í einstaklings stigatöflunni"
+                        placeholder={t('username-place-holder')}
                     ></TextInput>
                 )}
                 <TextInput
-                    label="Lykilorð"
+                    label={t('password-label')}
                     onChange={this.onPasswordChange}
                     placeholder=""
                     type="password"
                 />
                 {isSignup && (
                     <TextInput
-                        label="Lykilorð aftur"
+                        label={t('password-again-label')}
                         onChange={this.onPasswordAgainChange}
                         placeholder=""
                         type="password"
@@ -223,7 +231,7 @@ class LoginForm extends React.Component<Props, State> {
                     </ErrorContainer>
                 )}
                 <Button color="green">
-                    {isSignup ? 'Nýskrá' : 'Skrá inn'}
+                    {isSignup ? t('new-user') : t('login')}
                 </Button>
                 <ForgotAndSignupContainer>
                     {isSignup ? (
@@ -232,12 +240,12 @@ class LoginForm extends React.Component<Props, State> {
                             transparent
                             onClick={this.handleSignup}
                         >
-                            Áttu aðgang?
+                            {t('have-account')}
                         </Button>
                     ) : (
                         <Link href="/tyntlykilord">
                             <Button type="button" transparent>
-                                Týnt lykilorð
+                                {t('forgot-password')}
                             </Button>
                         </Link>
                     )}
@@ -246,7 +254,7 @@ class LoginForm extends React.Component<Props, State> {
                         color={isSignup ? 'grey' : 'blue'}
                         onClick={this.handleSignup}
                     >
-                        {isSignup ? 'Innskráning' : 'Nýskrá'}
+                        {isSignup ? t('login-title') : t('signup-title')}
                     </Button>
                 </ForgotAndSignupContainer>
             </LoginFormContainer>
@@ -254,4 +262,4 @@ class LoginForm extends React.Component<Props, State> {
     }
 }
 
-export default LoginForm;
+export default withTranslation(['my-pages', 'common'])(LoginForm);
