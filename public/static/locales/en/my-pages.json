@@ -25,5 +25,24 @@
         "email-not-confirmed": "The email address has not confirmed its account",
         "username-in-use": "Username in use, please choose another",
         "sign-in-failed": "Sign up failed"
+    },
+    "side-panel": {
+        "statistics": "Statistics",
+        "settings": "Settings",
+        "administrative": "Administrative"
+    },
+    "statistics": {
+        "super-verification-title": "Super verifications",
+        "super-verification-text": "You have verified <1>{{superVotes}}</1> sentences with <4>super</4> status",
+        "read-sentences-title": "Read sentences",
+        "read-sentences-text": "<0>You have contributed <2>{{sentences}}</2> sentences.</0> <1>Of which <2>{{good}}</2> have been marked as good</1><2> and <1>{{bad}}</1> as bad</2>",
+        "verified-sentences-title": "Verified sentences",
+        "verified-sentences-text": "You have verified <2>{{sentences}}</2> sentences"
+    },
+    "settings": {
+        "change-password": "Change password",
+        "current-password": "Current password",
+        "confirm-change-password": "Confirm new password",
+        "password-change-successful": "Password successfully changed!"
     }
 }

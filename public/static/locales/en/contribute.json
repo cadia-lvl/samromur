@@ -10,5 +10,34 @@
     "repeat-info": "Good for practicing icelandic and contributing at the same time.",
     "conversation": "Talk to a friend",
     "conversation-action": "Click here to talk with a friend.",
-    "conversation-info": "Flowing conversations gives us more varied data."
+    "conversation-info": "Flowing conversations gives us more varied data.",
+    "choose-amount": "Choose amount",
+    "back-to-homepage": "Back to homepage",
+    "package-select": {
+        "speak": {
+            "how-much": "How much to do want to read?",
+            "text": "{{number}} sentences",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+        },
+        "listen": {
+            "how-much": "How much do you want to review?",
+            "text": "{{number}} recordings",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+        },
+        "repeat": {
+            "how-much": "How much do you want to repeat?",
+            "text": "{{number}} recordings",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large"
+        }
+    },
+    "tips": "Tips",
+    "tips-listen": "Tips for reviewing",
+    "select-verification-package": "Please select a verfication package",
+    "your-voice": "Your voice"
 }

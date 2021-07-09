@@ -130,15 +130,19 @@ class Contribute extends React.Component<Props, State> {
                 contributeType == ContributeType.REPEAT
             ) {
                 if (!demographic && goal) {
-                    return 'Þín rödd';
+                    return t('your-voice');
                 }
-                return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
+                return goal
+                    ? t('tips')
+                    : contributeType == ContributeType.SPEAK
+                    ? t('package-select.speak.how-much')
+                    : t('package-select.repeat.how-much');
             } else {
                 return goal
-                    ? 'Góð ráð við yfirferð'
+                    ? t('tips-listen')
                     : labels && labels.length > 0 && !selectedBatch
-                    ? 'Hvaða yfirferðarflokk viltu hlusta á?'
-                    : 'Veldu pakka';
+                    ? t('select-verification-package')
+                    : t('package-select.listen.how-much');
             }
         }
     };

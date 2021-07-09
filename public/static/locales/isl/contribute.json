@@ -12,5 +12,33 @@
     "conversation-action": "Smelltu hér til að spjalla við vini",
     "conversation-info": "Samtöl eru frábrugðin upplestri á stökum setningum og því er hér viðmót sem gerir þér kleift að taka upp samtal með vini eða vandamanni. Smelltu hér til þess að lesa meira.",
     "choose-amount": "Velja fjölda",
-    "back-to-homepage": "Til baka á forsíðu"
+    "back-to-homepage": "Til baka á forsíðu",
+        "package-select": {
+        "speak": {
+            "how-much": "Hvað viltu lesa mikið?",
+            "text": "{{number}} setningar",
+            "small": "Lítið",
+            "medium": "Miðlungs",
+            "large": "Mikið"
+        },
+        "listen": {
+            "how-much": "Veldu pakka",
+            "text": "{{number}} upptökur",
+            "small": "Lítinn",
+            "medium": "Miðstærð",
+            "large": "Stóran"
+        },
+        "repeat": {
+            "how-much": "Hvað viltu herma mikið?",
+            "text": "{{number}} upptökur",
+            "small": "Lítinn",
+            "medium": "Miðstærð",
+            "large": "Stóran"
+        }
+    },
+    "tips": "Góð ráð",
+    "tips-listen": "Góð ráð við yfirferð",
+    "select-verification-package": "Hvaða yfirferðarflokk viltu hlusta á?",
+    "your-voice": "Þín rödd"
+
 }

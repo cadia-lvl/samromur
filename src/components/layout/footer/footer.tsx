@@ -6,6 +6,7 @@ import FooterTitle from './title';
 import FooterLinks from './links';
 import SocialLinks from './social';
 import SubscribeEmailForm from './subscribe';
+import { useTranslation } from '../../../server/i18n';
 
 const FooterContainer = styled.footer`
     display: flex;
@@ -44,6 +45,7 @@ interface Props {}
 export const Footer: FunctionComponent<Props> = (props) => {
     // const router = useRouter();
     // const { pathname } = router;
+    const { i18n } = useTranslation();
     return (
         <FooterContainer>
             <FooterGrid>
@@ -51,6 +53,20 @@ export const Footer: FunctionComponent<Props> = (props) => {
                 <FooterLinks />
                 <SocialLinks />
                 <SubscribeEmailForm />
+                <button
+                    onClick={() => {
+                        i18n.changeLanguage('en');
+                    }}
+                >
+                    ENG
+                </button>
+                <button
+                    onClick={() => {
+                        i18n.changeLanguage('isl');
+                    }}
+                >
+                    ISL
+                </button>
             </FooterGrid>
         </FooterContainer>
     );

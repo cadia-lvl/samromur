@@ -7,6 +7,8 @@ import StatsItem from './stats-item';
 import MicIcon from '../ui/icons/mic';
 import PlayIcon from '../ui/icons/play';
 import ThumbUpIcon from '../ui/icons/thumb-up';
+import { useTranslation } from '../../server/i18n';
+import { Trans } from 'react-i18next';
 
 const StatsContainer = styled.div`
     display: grid;
@@ -53,43 +55,57 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
         stats: { clips, votes },
     },
 }) => {
+    const { t } = useTranslation('my-pages');
+    const superVotes = votes ? votes.super : 0;
     return (
         <StatsContainer>
             {isSuperUser && (
                 <SuperUserStatItem
                     icon={<ThumbUpIcon height={35} fill={'gray'} />}
-                    title={'Ofur yfirferð'}
+                    title={t('statistics.super-verification-title')}
                 >
                     <Stat>
-                        Þú hefur yfirfarið <span>{votes?.super}</span> setningar
-                        með <span>ofur</span> atkvæðum
+                        <Trans
+                            i18nKey="statistics.super-verification-text"
+                            t={t}
+                        >
+                            Þú hefur yfirfarið <span>{{ superVotes }}</span>{' '}
+                            setningar með
+                            <span>ofur</span> atkvæðum
+                        </Trans>
                     </Stat>
                 </SuperUserStatItem>
             )}
             <StatsItem
                 icon={<MicIcon height={40} fill={'blue'} />}
-                title={'Innlesnar setningar'}
+                title={t('statistics.read-sentences-title')}
             >
                 <Stats>
-                    <Stat>
-                        Þú hefur lesið inn <span>{clips?.count}</span>{' '}
-                        setningar.
-                    </Stat>
-                    <Stat>
-                        Þar af er búið að merkja <span>{clips?.valid}</span>{' '}
-                        góðar
-                    </Stat>
-                    <Stat>
-                        og <span>{clips?.invalid}</span> slæmar
-                    </Stat>
+                    <Trans i18nKey="statistics.read-sentences-text" t={t}>
+                        <Stat>
+                            Þú hefur lesið inn{' '}
+                            <span>{{ sentences: clips?.count }}</span>{' '}
+                            setningar.
+                        </Stat>
+                        <Stat>
+                            Þar af er búið að merkja{' '}
+                            <span>{{ good: clips?.valid }}</span> góðar
+                        </Stat>
+                        <Stat>
+                            og <span>{{ bad: clips?.invalid }}</span> slæmar
+                        </Stat>
+                    </Trans>
                 </Stats>
             </StatsItem>
             <StatsItem
                 icon={<PlayIcon height={35} fill={'green'} />}
-                title={'Yfirfarnar setningar'}
+                title={t('statistics.verified-sentences-title')}
             >
                 <Stat>
-                    Þú hefur yfirfarið <span>{votes?.count}</span> setningar
+                    <Trans i18nKey="statistics.verified-sentences-text" t={t}>
+                        Þú hefur yfirfarið{' '}
+                        <span>{{ sentences: votes?.count }}</span> setningar
+                    </Trans>
                 </Stat>
             </StatsItem>
         </StatsContainer>

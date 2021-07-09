@@ -25,5 +25,24 @@
         "email-not-confirmed": "Tölvupóstfang hefur ekki verið staðfest",
         "username-in-use": "Notendanafnið er tekið, vinsamlegast veldu nýtt",
         "sign-in-failed": "Innskráning mistókst"
+    },
+        "side-panel": {
+        "statistics": "Tölfræði",
+        "settings": "Stillingar",
+        "administrative": "Stjórnandi"
+    },
+    "statistics": {
+        "super-verification-title": "Ofur yfirferð",
+        "super-verification-text": "Þú hefur yfirfarið <1>{{superVotes}}</1> setningar með <4>ofur</4> atkvæðum",
+        "read-sentences-title": "Innlesnar setningar",
+        "read-sentences-text": "<0>Þú hefur lesið inn <2>{{sentences}}</2> setningar.</0> <1>Þar af er búið að merkja <2>{{good}}</2> góðar</1><2> og <1>{{bad}}</1> slæmar</2>",        
+        "verified-sentences-title": "Yfirfarnar setningar",
+        "verified-sentences-text": "Þú hefur yfirfarið <2>{{sentences}}</2> setningar"
+    },
+    "settings": {
+        "change-password": "Breyta lykilorði",
+        "current-password": "Núverandi lykilorð",
+        "confirm-change-password": "Staðfesta lykilorð",
+        "password-change-successful": "Breyting tókst"
     }
 }
