@@ -8,6 +8,8 @@ import { WithRouterProps } from 'next/dist/client/with-router';
 import ContinueButtons from './continue-buttons';
 import ContinueChart from '../../charts/continue-chart';
 import { ContributeType } from '../../../types/contribute';
+import { withTranslation, WithTranslation } from '../../../server/i18n';
+import { Trans } from 'react-i18next';
 
 const FakeHUDContainer = styled.div``;
 
@@ -74,6 +76,7 @@ interface ContinueModalProps {
 type Props = ReturnType<typeof mapStateToProps> &
     ContinueModalProps &
     WithRouterProps &
+    WithTranslation &
     typeof dispatchProps;
 
 interface State {
@@ -140,10 +143,12 @@ class ContinueModal extends React.Component<Props, State> {
 
         const progressToday = this.getProgressToday();
 
+        const { t } = this.props;
+
         return (
             <ContinueModalContainer expanded={expanded}>
                 <FakeHUDContainer />
-                <Title>Takk fyrir að gefa í Samróm!</Title>
+                <Title>{t('thank-you')}</Title>
                 <ChartContainer>
                     {shouldDraw && (
                         <ContinueChart
@@ -154,8 +159,10 @@ class ContinueModal extends React.Component<Props, State> {
                 </ChartContainer>
                 <StatsMessageContainer>
                     <StatsMessage>
-                        Árangur dagsins eru <span>{progressToday}</span>{' '}
-                        setningar.
+                        <Trans i18nKey="todays-contributions" t={t}>
+                            Árangur dagsins eru <span>{{ progressToday }}</span>{' '}
+                            setningar.
+                        </Trans>
                     </StatsMessage>
                 </StatsMessageContainer>
                 <ContinueButtons onContinue={onContinue} />
@@ -172,4 +179,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(
     mapStateToProps,
     dispatchProps
-)(withRouter(ContinueModal));
+)(withRouter(withTranslation('wheel')(ContinueModal)));

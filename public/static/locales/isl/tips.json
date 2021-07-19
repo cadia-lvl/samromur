@@ -1,0 +1,21 @@
+{
+    "two-meter-rule": "Tveggja metra reglan",
+    "two-meter-rule-text": "Það má ekki heyrast hátt í öðrum á meðan upptöku stendur og því þarf að halda fjarlægð frá öðrum. Oft duga tveir metrar til ef einstaklingar snúa frá hvor öðrum. Smá kliður í bakgrunni skemmir ekki fyrir en það má ekki yfirgnæfa upptökuna.",
+    "review-recordings": "Yfirfara upptökur",
+    "review-recordings-text": "Gott er að hlusta á fyrstu upptökurnar sínar til þess að passa að öll setningin heyrist og ekki séu neinir tæknilegir örðugleikar svo sem brakhljóð í upptöku.",
+    "like-reading-book": "Þetta er eins og að lesa bók",
+    "like-reading-book-text": "Þú getur ímyndað þér að þú sért að lesa bók upphátt, þó án leikrænna tilburða enda viljum við að tæki framtíðarinnar skilji okkar eðlilega talanda.",
+    "one-or-thousand": "Ein eða þúsund",
+    "one-or-thousand-text": "Þú mátt lesa eins margar setningar og þú vilt. Því fleiri setningar sem þú lest því líklegra er að tækinn skilji rödd eins og þína betur.",
+    "steady-connection": "Stöðug nettenging",
+    "steady-connection-text": "Til þess að tryggja að upptökurnar sendist inn er gott að vera með góða nettengingu.",
+    "skip-tips": "Sleppa þessum glugga næst",
+    "main-review-rule": "Meginreglan",
+    "main-review-rule-text": "Meginreglan er að það sem er lesið upp verður að stemma við textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki lesinn rétt eða bara ekki lesin yfirhöfuð, þegar slíkt gerist á að merkja upptökuna sem slæma. Hér að neðan er dæmi um góð upptöku og svo slæma upptöku þar sem setningin „Þú þarft að fara út að leita“ er lesinn.",
+    "play-good-recording": "Spila góða upptöku",
+    "play-bad-recording": "Spila slæma upptöku",
+    "sound-artifacts": "Brothljóð",
+    "sound-artifacts-text": "Það kemur fyrir að upptaka heppnist illa og innihaldi svokallað brothljóð. Þegar slíkt hljóð yfirgnæfir talið að miklu leiti á að merkja upptökuna sem slæma. Hér má heyra dæmi þar sem setning „Allir verkir eru í burt“ er lesinn.",
+    "background-noise": "Kliður/bakgrunnshljóð",
+    "background-noise-text": "Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við erum í. Því er allt í lagi að það heyrist smá kliður eða bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem les. Hér dæmi um góða og slæma upptöku þar sem setningin „Þetta er ekkert grín“ er lesinn."
+}

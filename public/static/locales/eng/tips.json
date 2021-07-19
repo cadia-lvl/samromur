@@ -1,0 +1,21 @@
+{
+    "two-meter-rule": "The two meter rule",
+    "two-meter-rule-text": "Other people must not be heard loudly in the background during the recording, so keep a distance from others. Often two meters are enough if individuals turn away from each other. A little background noise does not damage the recording, but it must not overwhelm it.",
+    "review-recordings": "Review recordings",
+    "review-recordings-text": "It is a good idea to listen to your first recordings to make sure that the whole sentence is heard and that there are no technical difficulties such as a crackling sound in the recording.",
+    "like-reading-book": "This is like reading a book",
+    "like-reading-book-text": "You can imagine that you are reading a book aloud, but without theatrics, as we want the devices of the future to understand our normal speaking tone.",
+    "one-or-thousand": "One or thousand",
+    "one-or-thousand-text": "You can read as many sentences as you want. The more sentences you read, the more likely it is that devices understand a voices similar to your own.",
+    "steady-connection": "Stable internet connection",
+    "steady-connection-text": "To make sure that the recordings are submitted, it is a good idea to ensure a good internet connection.",
+    "skip-tips": "Do not show this window again",
+    "main-review-rule": "The main rule",
+    "main-review-rule-text": "The principle rule is that what is read out loud/recorded must match the text displayed on the screen. It does happens that words are not read correctly or just not read at all, when this happens mark the recording as bad. Below is an example of a good recording and then a bad recording where the phrase „Þú þarft að fara út að leita““ is read.",
+    "play-good-recording": "Play good recording",
+    "play-bad-recording": "Play bad recording",
+    "sound-artifacts": "Sound artifact",
+    "sound-artifacts-text": "It can happens that a recording get unwanted noise or sound artifacts. When such a sound overwhelms the reading, the recording should be marked as bad. Here you can hear an example where the sentence „Allir verkir eru í burt“ is read.",
+    "background-noise": "Background noise",
+    "background-noise-text": "We want our devices to understand us in everyday situations. So it's okay to hear some sound artifacts or background noise. As long as it does not overwhelm the reader/the reading. Here is an example of a good and bad recording where the phrase „Þetta er ekkert grín“ is read."
+}
