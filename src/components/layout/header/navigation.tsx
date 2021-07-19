@@ -89,9 +89,7 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
         user: { username },
     } = props;
     const { pathname } = router;
-    const { t, i18n } = useTranslation(['links', 'common'], {
-        i18n: nextI18next.i18n,
-    });
+    const { t } = useTranslation(['links', 'common']);
 
     return (
         <NavigationContainer {...props}>
@@ -128,20 +126,6 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                 {user.isAuthenticated && (
                     <NavButton onClick={authApi.logout}>Útskrá</NavButton>
                 )}
-                <button
-                    onClick={() => {
-                        i18n.changeLanguage('en');
-                    }}
-                >
-                    ENG
-                </button>
-                <button
-                    onClick={() => {
-                        i18n.changeLanguage('isl');
-                    }}
-                >
-                    ISL
-                </button>
             </NavigationLinks>
         </NavigationContainer>
     );

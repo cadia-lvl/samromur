@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Navigation from './navigation';
 import MenuIcon from '../../ui/icons/menu';
 import { UserClient } from '../../../types/user';
+import LanguageSelector from './language-selector';
 
 const HeaderContainer = styled.div`
     position: fixed;
@@ -94,6 +95,7 @@ class HeaderComponent extends React.Component<Props, State> {
                         <Link href="/">
                             <a>Samrómur</a>
                         </Link>
+                        <LanguageSelector />
                     </Heading>
                     <Navigation user={user} />
                     <HamburgerMenuButton onClick={toggleMenu}>
