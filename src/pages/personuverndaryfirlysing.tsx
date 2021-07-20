@@ -1,35 +1,30 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { withTranslation, WithTranslation } from '../server/i18n';
+import { useTranslation } from '../server/i18n';
 
 import Layout from '../components/layout/layout';
 import MarkdownArticle from '../components/text/md-article';
+import privacyENG from '../../public/static/locales/eng/privacy-policy.md';
+import privacyISL from '../../public/static/locales/isl/privacy-policy.md';
+import { useEffect } from 'react';
 
 const PrivacyPolicyContainer = styled.div``;
 
-type Props = WithTranslation;
+const PrivacyPolicy: React.FunctionComponent = () => {
+    const { i18n } = useTranslation();
+    const [policy, setPolicy] = React.useState('');
 
-class PrivacyPolicy extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+    useEffect(() => {
+        i18n.language === 'isl' ? setPolicy(privacyISL) : setPolicy(privacyENG);
+    });
 
-    static getInitialProps = async () => {
-        return {
-            namespacesRequired: ['documents'],
-        };
-    };
+    return (
+        <Layout>
+            <PrivacyPolicyContainer>
+                <MarkdownArticle text={policy} />
+            </PrivacyPolicyContainer>
+        </Layout>
+    );
+};
 
-    render() {
-        const policy = this.props.t('privacy-policy');
-        return (
-            <Layout>
-                <PrivacyPolicyContainer>
-                    <MarkdownArticle text={policy} />
-                </PrivacyPolicyContainer>
-            </Layout>
-        );
-    }
-}
-
-export default withTranslation('documents')(PrivacyPolicy);
+export default PrivacyPolicy;
