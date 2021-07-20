@@ -211,12 +211,8 @@ class DashboardSettings extends React.Component<Props, State> {
     }
 }
 
-const TranslatedDashboardSettings = withTranslation('my-pages')(
-    DashboardSettings
-);
-
-export default React.forwardRef(
-    (props: Props, ref: React.Ref<HTMLDivElement>) => (
-        <TranslatedDashboardSettings {...props} ref={ref as any} />
-    )
+export default withTranslation('my-pages')(
+    React.forwardRef((props: Props, ref: React.Ref<HTMLDivElement>) => (
+        <DashboardSettings {...props} ref={ref as any} />
+    ))
 );
