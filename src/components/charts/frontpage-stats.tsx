@@ -50,9 +50,9 @@ export const FrontPageStats: React.FunctionComponent<Props> = ({
     clips,
 }) => {
     const hours = Math.round((averageClipSeconds * clips) / 3600);
-    const hoursFixed = parseInt(
-        hours.toFixed(0).toLocaleString('is').replace(/,/g, '.')
-    );
+    const hoursFixed = parseInt(hours.toFixed(0))
+        .toLocaleString('is')
+        .replace(/,/g, '.');
     const thousandsClients = Math.ceil(clients / 1000);
     const clipsString = parseInt(clips.toFixed(0))
         .toLocaleString('is')
