@@ -11,7 +11,7 @@ import ThumbUpIcon from '../ui/icons/thumb-up';
 const StatsContainer = styled.div`
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(auto-fill, minmax(10rem, auto));
+    grid-auto-rows: min-content;
     gap: 2rem;
     padding: 2rem;
 
