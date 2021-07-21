@@ -211,4 +211,4 @@ class AgeGenderChart extends React.Component<Props, State> {
     }
 }
 
-export default withTranslation('database')(AgeGenderChart);
+export default withTranslation('the-database')(AgeGenderChart);

@@ -63,7 +63,7 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
 }) => {
     const clipsHours = Math.round((averageClipSeconds * clips) / 3600);
     const validatedHours = Math.round((averageClipSeconds * validated) / 3600);
-    const { t } = useTranslation('database');
+    const { t } = useTranslation('the-database');
     return (
         <AboutDatasetContainer>
             <StatsContainer>

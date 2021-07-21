@@ -1,0 +1,23 @@
+{
+    "verified-hours": "Staðfestar klukkustundir",
+    "recorded-hours": "Uppteknar klukkustundir",
+    "hrs": "{{number}} klst",
+    "number-of-voices": "Fjöldi radda",
+    "database": {
+        "title": "Gagnasafnið Samrómur", 
+        "beginning": "Samrómur er opið og aðgengilegt gagnasafn radda sem öllum er frjálst að nýta við þróun hugbúnaðar á íslensku.", 
+        "middle": "Gagnasafnið samanstendur af setningum og hljóðbrotum af upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í gagnasafninu inniheldur WAV-hljóðbrot og samsvarandi textaskrá.", 
+        "end": "Gagnasafnið verður gefið út á <2>Clarin</2>. Skráðu þig á póstlistann hér fyrir neðan til þess að fá tilkynningu þegar gagnasafnið verður gert aðgengilegt."
+    },
+    "age-gender-chart-title": "Uppökur eftir aldri og kyni",
+    "age-mother-tounge-chart-title": "Uppökur eftir aldri og móðurmáli",
+    "reviewed": "Staðfest",
+    "women": "Kona",
+    "man": "Karl",
+    "total": "Samtals",
+    "of-which-reviewed": "Þar af staðfest",
+    "adults-icelandic": "Fullorðnir, íslenska móðurmál",
+    "adults-l2":"Fullorðnir, annað móðurmál",
+    "kids-icelandic": "Börn og unglingar",
+    "kids-l2": "Börn og unglingar, annað móðurmál"
+}

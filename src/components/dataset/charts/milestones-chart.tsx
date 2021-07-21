@@ -124,4 +124,4 @@ class MilestoneChart extends React.Component<Props, State> {
     }
 }
 
-export default withTranslation('database')(MilestoneChart);
+export default withTranslation('the-database')(MilestoneChart);
