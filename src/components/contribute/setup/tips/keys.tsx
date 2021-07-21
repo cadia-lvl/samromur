@@ -82,7 +82,7 @@ export const Submit: React.FC = () => (
         <KeyContainer>
             <Key>{'Enter'}</Key>
         </KeyContainer>
-        Senda in
+        Senda inn
     </Shortcut>
 );
 
@@ -91,7 +91,7 @@ export const VoteYes: React.FC = () => (
         <KeyContainer>
             <Key>q</Key>
         </KeyContainer>
-        Kjósið góða upptöku
+        Dæma upptöku góða
     </Shortcut>
 );
 
@@ -100,7 +100,7 @@ export const VoteNo: React.FC = () => (
         <KeyContainer>
             <Key>e</Key>
         </KeyContainer>
-        Kjóstu slæma upptöku
+        Dæma upptöku slæma
     </Shortcut>
 );
 
@@ -109,7 +109,7 @@ export const VoteUnsure: React.FC = () => (
         <KeyContainer>
             <Key>r</Key>
         </KeyContainer>
-        Kjóstu óvissan upptöku
+        Merkja upptöku sem óljósa
     </Shortcut>
 );
 
@@ -118,6 +118,6 @@ export const PlayRepeat: React.FC = () => (
         <KeyContainer>
             <Key>a</Key>
         </KeyContainer>
-        Spila herma setningu
+        Spila hermda setningu
     </Shortcut>
 );
