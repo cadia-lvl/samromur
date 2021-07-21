@@ -7,7 +7,7 @@
     "review-info": "Only recordings that have been reviewed and marked as good are allowed into the database.",
     "repeat": "Repeat",
     "repeat-action": "Click here to listen and repeat sentences.",
-    "repeat-info": "Good for practicing icelandic and contributing at the same time.",
+    "repeat-info": "Good for practicing Icelandic and contributing at the same time.",
     "conversation": "Talk to a friend",
     "conversation-action": "Click here to talk with a friend.",
     "conversation-info": "Flowing conversations gives us more varied data.",
@@ -38,6 +38,6 @@
     },
     "tips": "Tips",
     "tips-listen": "Tips for reviewing",
-    "select-verification-package": "Please select a verfication package",
+    "select-verification-package": "Please select a verification package",
     "your-voice": "Your voice"
 }
