@@ -6,6 +6,7 @@ import LoadingIcon from '../../ui/icons/loading';
 import Volume from '../../ui/icons/volume';
 import Conversation from '../../ui/icons/conversation';
 import { useRouter } from 'next/router';
+import { useTranslation } from '../../../server/i18n';
 
 const CardGrid = styled.div`
     min-width: 80%;
@@ -108,6 +109,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
         undefined
     );
     const router = useRouter();
+    const { t } = useTranslation('contribute');
 
     const { setType } = props;
 
@@ -138,12 +140,9 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
             >
                 <MicIcon height={50} width={50} fill={'blue'} />
                 <Title>
-                    <h3>Tala</h3>
-                    <p>Smelltu hér til þess að lesa inn.</p>
-                    <p>
-                        Með því að lesa inn í Samróm leggur þitt af mörkum við
-                        varðveislu íslenskunnar.
-                    </p>
+                    <h3>{t('speak')}</h3>
+                    <p>{t('speak-action')}</p>
+                    <p>{t('speak-info')}</p>
                 </Title>
             </CardContainer>
 
@@ -153,12 +152,9 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
             >
                 <PlayIcon height={40} width={40} fill={'red'} />
                 <Title>
-                    <h3>Hlusta</h3>
-                    <p>Smelltu hér til að yfirfara raddupptökur</p>
-                    <p>
-                        Einungis upptökur sem eru yfirfarnar og merktar sem
-                        góðar mega fara inn í gagnasafnið.
-                    </p>
+                    <h3>{t('review')}</h3>
+                    <p>{t('review-action')}</p>
+                    <p>{t('review-info')}</p>
                 </Title>
             </CardContainer>
             <CardContainer
@@ -167,15 +163,9 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
             >
                 <Volume height={40} width={40} fill={'green'} />
                 <Title>
-                    <h3>Herma eftir setningu</h3>
-                    <p>
-                        Hér getur þú gefið til söfnunarinnar með því að herma
-                        eftir lesinni setningu.{' '}
-                    </p>
-                    <p>
-                        Með því að lesa inn í Samróm leggur þitt af mörkum við
-                        varðveislu íslenskunnar.
-                    </p>
+                    <h3>{t('repeat')}</h3>
+                    <p>{t('repeat-action')}</p>
+                    <p>{t('repeat-info')}</p>
                 </Title>
             </CardContainer>
             <CardContainer
@@ -184,14 +174,9 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
             >
                 <Conversation height={40} width={40} fill={'black'} />
                 <Title>
-                    <h3>Spjalla við vini</h3>
-                    <p>Smelltu hér til að spjalla við vini</p>
-                    <p>
-                        Samtöl eru frábrugðin upplestri á stökum setningum og
-                        því er hér viðmót sem gerir þér kleift að taka upp
-                        samtal með vini eða vandamanni. Smelltu hér til þess að
-                        lesa meira.
-                    </p>
+                    <h3>{t('conversation')}</h3>
+                    <p>{t('conversation-action')}</p>
+                    <p>{t('conversation-info')}</p>
                 </Title>
             </CardContainer>
             {selectedOption && (

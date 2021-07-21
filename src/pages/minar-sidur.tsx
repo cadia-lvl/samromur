@@ -91,7 +91,7 @@ class DashboardPage extends React.Component<Props, State> {
     };
 
     render() {
-        const { user } = this.props;
+        const { user, t } = this.props;
         const { selected } = this.state;
         const hasUserName = !!user.client.username;
         return (
@@ -127,4 +127,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(
     mapStateToProps,
     dispatchProps
-)(withTranslation('common')(withRouter(DashboardPage)));
+)(withTranslation(['my-pages', 'common'])(withRouter(DashboardPage)));

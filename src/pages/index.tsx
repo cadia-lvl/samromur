@@ -260,7 +260,8 @@ class IndexPage extends React.Component<Props> {
     };
 
     render() {
-        const introduction = this.props.t('introduction-markdown');
+        const { t, i18n } = this.props;
+        // const introduction = this.props.t('introduction-markdown');
         const { router, stats } = this.props;
         return (
             <Layout>
@@ -272,14 +273,14 @@ class IndexPage extends React.Component<Props> {
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>Þín rödd skiptir máli!</CTATitle>
+                                    <CTATitle>{t('call-to-action')}</CTATitle>
                                     <CTAButton
                                         onClick={() =>
                                             router.push(pages.contribute)
                                         }
                                         color={'validGreen'}
                                     >
-                                        Taka þátt
+                                        {t('common:take-part')}
                                     </CTAButton>
                                 </TitleContainer>
                             </RobotAndTitle>
@@ -297,9 +298,7 @@ class IndexPage extends React.Component<Props> {
                         <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
-                                    <ChartTitle>
-                                        Lesnar setningar síðastliðinn mánuð
-                                    </ChartTitle>
+                                    <ChartTitle>{t('chart-title')}</ChartTitle>
                                     {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */}
                                 </ChartLegend>
                                 <ChartContainer>
@@ -327,4 +326,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(
     mapStateToProps,
     dispatchProps
-)(withTranslation('common')(withRouter(IndexPage)));
+)(withTranslation(['home', 'common'])(withRouter(IndexPage)));

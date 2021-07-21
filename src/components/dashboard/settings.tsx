@@ -6,6 +6,7 @@ import * as authApi from '../../services/auth-api';
 
 import TextInput from '../ui/input/text';
 import EditUserNameForm from './edit-username-form';
+import { withTranslation, WithTranslation } from '../../server/i18n';
 
 const DashboardSettingsContainer = styled.div`
     display: flex;
@@ -58,7 +59,7 @@ export const Title = styled.h3`
     margin-bottom: 2rem;
 `;
 
-interface Props {
+interface DashboardSettingsProps {
     className?: string;
     ref?: React.Ref<HTMLDivElement>;
     hasUserName: boolean;
@@ -73,6 +74,8 @@ interface State {
     success: boolean;
     userName: string;
 }
+
+type Props = DashboardSettingsProps & WithTranslation;
 
 class DashboardSettings extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -166,26 +169,26 @@ class DashboardSettings extends React.Component<Props, State> {
 
     render() {
         const { done, formError, success } = this.state;
-        const { hasUserName } = this.props;
+        const { hasUserName, t } = this.props;
         return (
             <DashboardSettingsContainer>
                 {!hasUserName && <EditUserNameForm />}
                 <EditPasswordContainer onSubmit={this.handleSubmit}>
-                    <Title>Breyta lykilorði</Title>
+                    <Title>{t('settings.change-password')}</Title>
                     <TextInput
-                        label="Núverandi lykilorð"
+                        label={t('settings.current-password')}
                         onChange={this.onOldPasswordChange}
                         placeholder=""
                         type="password"
                     />
                     <TextInput
-                        label="Lykilorð"
+                        label={t('password-label')}
                         onChange={this.onPasswordChange}
                         placeholder=""
                         type="password"
                     />
                     <TextInput
-                        label="Lykilorð aftur"
+                        label={t('password-again-label')}
                         onChange={this.onPasswordAgainChange}
                         placeholder=""
                         type="password"
@@ -194,11 +197,13 @@ class DashboardSettings extends React.Component<Props, State> {
                         <ErrorContainer>
                             {formError
                                 ? this.getFormErrorMessage(formError)
-                                : 'Rangt lykilorð'}
+                                : t('errors.wrong-password')}
                         </ErrorContainer>
                     )}
                     <Button success={success}>
-                        {success ? 'Breyting tókst' : 'Staðfesta lykilorð'}
+                        {success
+                            ? t('settings.password-change-successful')
+                            : t('settings.confirm-change-password')}
                     </Button>
                 </EditPasswordContainer>
             </DashboardSettingsContainer>
@@ -206,8 +211,12 @@ class DashboardSettings extends React.Component<Props, State> {
     }
 }
 
+const TranslatedDashboardSettings = withTranslation('my-pages')(
+    DashboardSettings
+);
+
 export default React.forwardRef(
     (props: Props, ref: React.Ref<HTMLDivElement>) => (
-        <DashboardSettings {...props} ref={ref as any} />
+        <TranslatedDashboardSettings {...props} ref={ref as any} />
     )
 );

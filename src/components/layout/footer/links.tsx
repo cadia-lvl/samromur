@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { useTranslation } from '../../../server/i18n';
 
 const Links = styled.div`
     display: grid;
@@ -17,19 +18,20 @@ const Links = styled.div`
 interface Props {}
 
 export const FooterLinks: React.FunctionComponent<Props> = (props) => {
+    const { t } = useTranslation(['footer']);
     return (
         <Links>
             <Link href="/personuverndaryfirlysing">
-                <a>Persónuvernd</a>
+                <a>{t('privacy-policy')}</a>
             </Link>
             <Link href="/vafrakokustefna">
-                <a>Vafrakökur</a>
+                <a>{t('cookies')}</a>
             </Link>
             <Link href="/skilmalar">
-                <a>Skilmálar</a>
+                <a>{t('terms')}</a>
             </Link>
             <a rel="noopener" href="mailto:samromur@ru.is">
-                Hafa samband
+                {t('contact')}
             </a>
         </Links>
     );

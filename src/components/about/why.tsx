@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from '../../server/i18n';
 
 const WhyContainer = styled.div`
     display: grid;
@@ -46,40 +47,22 @@ const StyledLink = styled.a`
 interface Props {}
 
 export const Why: React.FunctionComponent<Props> = (props) => {
+    const { t } = useTranslation('about');
     return (
         <WhyContainer>
             <WhyInformation>
-                <WhyTitle>Af hverju?</WhyTitle>
+                <WhyTitle>{t('why.title')}</WhyTitle>
+                <WhyParagraph>{t('why.beginning')}</WhyParagraph>
+                <WhyParagraph>{t('why.middle')}</WhyParagraph>
                 <WhyParagraph>
-                    Á síðstu árum hefur verið bylting í raddtækni og því hvernig
-                    við notum röddina til þess að stjórna tækninni. Íslenskan á
-                    undir högg að sækja vegna þeirra öru tæknibreytinga en mörg
-                    okkar eiga nú þegar samskipti við tölvur og ýmis tæki á
-                    erlendu máli. Fólk mun nota röddina í auknum mæli til að
-                    stýra hvers kyns tækjum og tólum en vandinn er sá að tækin
-                    skilja ekki íslensku.
-                </WhyParagraph>
-                <WhyParagraph>
-                    Þess vegna er mikilvægt að missa ekki af lestinni og nú er
-                    hafin vinna við stórt samstarfsverkefni til þess að gera
-                    íslensku gjaldgenga í tölvum og tækjum. Að því koma
-                    íslenskir háskólar, stofnanir, fyrirtæki og félagasamtök,
-                    sem munu á næstu árum þróa nauðsynlega innviði fyrir
-                    hugbúnað sem skilur og talar íslensku. Samrómur verður hluti
-                    af þessu verkefni, opið gagnasafn raddsýna fyrir íslensku
-                    sem hver sem getur notað til þess að þróa sínar
-                    máltæknilausnir. Með þessu tryggjum við öryggi íslenskunnar
-                    á stafrænum tímum.
-                </WhyParagraph>
-                <WhyParagraph>
-                    Lesa má meira um máltækni áætlun íslands{' '}
+                    {t('why.end')}
                     <StyledLink
                         target={'blank'}
                         href={
                             'https://www.stjornarradid.is/lisalib/getfile.aspx?itemid=56f6368e-54f0-11e7-941a-005056bc530c'
                         }
                     >
-                        hér
+                        {t('why.here')}
                     </StyledLink>
                     .
                 </WhyParagraph>

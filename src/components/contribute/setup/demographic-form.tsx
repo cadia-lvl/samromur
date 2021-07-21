@@ -34,6 +34,7 @@ import * as authApi from '../../../services/auth-api';
 import { pages } from '../../../constants/paths';
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
 import moment from 'moment';
+import { WithTranslation, withTranslation } from '../../../server/i18n';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -199,6 +200,7 @@ interface State {
 
 type Props = ReturnType<typeof mapStateToProps> &
     DemographicFormProps &
+    WithTranslation &
     typeof dispatchProps;
 
 class DemographicForm extends React.Component<Props, State> {
@@ -479,4 +481,7 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(mapStateToProps, dispatchProps)(DemographicForm);
+export default connect(
+    mapStateToProps,
+    dispatchProps
+)(withTranslation('demographics')(DemographicForm));

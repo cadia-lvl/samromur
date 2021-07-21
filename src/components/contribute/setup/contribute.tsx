@@ -34,6 +34,7 @@ import {
 } from '../../../utilities/demographics-age-helper';
 import { AllGroupsSentences } from '../../../pages/tala';
 import { Demographic } from '../../../types/user';
+import { WithTranslation, withTranslation } from '../../../server/i18n';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -75,6 +76,7 @@ interface ContributeProps {
 type Props = ReturnType<typeof mapStateToProps> &
     ContributeProps &
     typeof dispatchProps &
+    WithTranslation &
     WithRouterProps;
 
 interface State {
@@ -118,24 +120,29 @@ class Contribute extends React.Component<Props, State> {
         const {
             contribute: { goal },
             labels,
+            t,
         } = this.props;
         if (!contributeType) {
-            return 'Taka þátt';
+            return t('common:take-part');
         } else {
             if (
                 contributeType == ContributeType.SPEAK ||
                 contributeType == ContributeType.REPEAT
             ) {
                 if (!demographic && goal) {
-                    return 'Þín rödd';
+                    return t('your-voice');
                 }
-                return goal ? 'Góð ráð' : 'Hvað viltu lesa mikið?';
+                return goal
+                    ? t('tips')
+                    : contributeType == ContributeType.SPEAK
+                    ? t('package-select.speak.how-much')
+                    : t('package-select.repeat.how-much');
             } else {
                 return goal
-                    ? 'Góð ráð við yfirferð'
+                    ? t('tips-listen')
                     : labels && labels.length > 0 && !selectedBatch
-                    ? 'Hvaða yfirferðarflokk viltu hlusta á?'
-                    : 'Veldu pakka';
+                    ? t('select-verification-package')
+                    : t('package-select.listen.how-much');
             }
         }
     };
@@ -254,4 +261,7 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(mapStateToProps, dispatchProps)(withRouter(Contribute));
+export default connect(
+    mapStateToProps,
+    dispatchProps
+)(withRouter(withTranslation(['contribute', 'common'])(Contribute)));
