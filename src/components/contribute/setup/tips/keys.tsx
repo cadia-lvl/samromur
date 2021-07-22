@@ -58,7 +58,7 @@ export const Forwards: React.FC = () => (
         <KeyContainer>
             <Key>{'►'}</Key>
         </KeyContainer>
-        Farðu í næstu setningu / upptöku
+        Fara í næstu setningu / upptöku
     </Shortcut>
 );
 export const Rerecord: React.FC = () => (
