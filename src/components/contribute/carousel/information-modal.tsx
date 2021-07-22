@@ -4,6 +4,10 @@ import Modal from '../../modal/modal';
 import { Button } from '../../ui/buttons';
 import { TipsSpeak } from '../setup/tips/tips-speak';
 import { TipsVerify } from '../setup/tips/tips-verify';
+import { TipsKeyboard } from '../setup/tips/tips-keyboard';
+import { connect } from 'react-redux';
+import { RootState } from 'typesafe-actions';
+import { ContributeType } from '../../../types/contribute';
 
 // Styles
 const ModalContainer = styled.div``;
@@ -38,13 +42,26 @@ interface InformationModalProps {
     onRequestClose: () => void;
 }
 
-export class InformationModal extends React.Component<InformationModalProps> {
-    constructor(props: InformationModalProps) {
+type Props = InformationModalProps & ReturnType<typeof mapStateToProps>;
+
+class Information extends React.Component<Props> {
+    constructor(props: Props) {
         super(props);
     }
 
+    getModalMessage = (contributeType: string | undefined) => {
+        switch (contributeType) {
+            case ContributeType.SPEAK:
+                return <TipsSpeak />;
+            case ContributeType.LISTEN:
+                return <TipsVerify />;
+            case ContributeType.REPEAT:
+                return <TipsSpeak />;
+        }
+    };
+
     render() {
-        const { isSpeak } = this.props;
+        const { contributeType } = this.props;
         return (
             <ModalContainer>
                 <Modal
@@ -53,7 +70,8 @@ export class InformationModal extends React.Component<InformationModalProps> {
                 >
                     <ModalTitle>Góð ráð</ModalTitle>
                     <ModalMessage>
-                        {isSpeak ? <TipsSpeak /> : <TipsVerify />}
+                        {this.getModalMessage(contributeType)}
+                        <TipsKeyboard />
                     </ModalMessage>
                     <StyledButton onClick={this.props.onRequestClose}>
                         Loka
@@ -63,3 +81,13 @@ export class InformationModal extends React.Component<InformationModalProps> {
         );
     }
 }
+
+const mapStateToProps = (state: RootState) => {
+    const {
+        contribute: { goal },
+    } = state;
+    const { contributeType } = { ...goal };
+    return { contributeType };
+};
+
+export const InformationModal = connect(mapStateToProps)(Information);
