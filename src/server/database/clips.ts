@@ -377,6 +377,8 @@ export default class Clips {
                             client_id = ?)
                     AND
                         is_valid is null
+                    AND
+                        empty = 0
                     GROUP BY
                         status
                 ) AS res
