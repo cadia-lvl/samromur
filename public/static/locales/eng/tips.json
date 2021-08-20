@@ -11,11 +11,11 @@
     "steady-connection-text": "To make sure that the recordings are submitted, it is a good idea to ensure a good internet connection.",
     "skip-tips": "Do not show this window again",
     "main-review-rule": "The main rule",
-    "main-review-rule-text": "The principle rule is that what is read out loud/recorded must match the text displayed on the screen. It does happens that words are not read correctly or just not read at all, when this happens mark the recording as bad. Below is an example of a good recording and then a bad recording where the phrase „Þú þarft að fara út að leita““ is read.",
+    "main-review-rule-text": "The principle rule is that what is read out loud/recorded must match the text displayed on the screen. It does happens that words are not read correctly or just not read at all, when this happens mark the recording as bad. Below is an example of a good recording and then a bad recording where the phrase „Þú þarft að fara út að leita“ is read.",
     "play-good-recording": "Play good recording",
     "play-bad-recording": "Play bad recording",
     "sound-artifacts": "Sound artifact",
-    "sound-artifacts-text": "It can happens that a recording get unwanted noise or sound artifacts. When such a sound overwhelms the reading, the recording should be marked as bad. Here you can hear an example where the sentence „Allir verkir eru í burt“ is read.",
+    "sound-artifacts-text": "It can happen that a recording get unwanted noise or sound artifacts. When such a sound overwhelms the reading, the recording should be marked as bad. Here you can hear an example where the sentence „Allir verkir eru í burt“ is read.",
     "background-noise": "Background noise",
     "background-noise-text": "We want our devices to understand us in everyday situations. So it's okay to hear some sound artifacts or background noise. As long as it does not overwhelm the reader/the reading. Here is an example of a good and bad recording where the phrase „Þetta er ekkert grín“ is read."
 }
