@@ -5,22 +5,9 @@ import moment from 'moment';
 import { Bar } from 'react-chartjs-2';
 import { TimelineStat } from '../../types/stats';
 import { ContributeType } from '../../types/contribute';
+import { useTranslation } from '../../server/i18n';
 
 moment.locale('is');
-
-const dateFormatter = (item: any) => {
-    const today = moment().diff(item, 'days');
-    if (today == 0) {
-        return 'í dag';
-    } else if (today == 5 || today == 3) {
-        return '';
-    } else {
-        if (today == 6) {
-            return 'fyrir viku';
-        }
-        return '';
-    }
-};
 
 interface ContinueChartProps {
     contributeType: string;
@@ -34,6 +21,8 @@ export const ContinueChart: React.FunctionComponent<Props> = ({
     count,
     stats,
 }) => {
+    const { t } = useTranslation('charts');
+
     const getData = (contributeType: string): TimelineStat[] => {
         switch (contributeType) {
             case ContributeType.SPEAK:
@@ -44,6 +33,20 @@ export const ContinueChart: React.FunctionComponent<Props> = ({
                 return stats.repeatClips;
             default:
                 return [];
+        }
+    };
+
+    const dateFormatter = (item: any) => {
+        const today = moment().diff(item, 'days');
+        if (today == 0) {
+            return t('today');
+        } else if (today == 5 || today == 3) {
+            return '';
+        } else {
+            if (today == 6) {
+                return t('week-ago');
+            }
+            return '';
         }
     };
 

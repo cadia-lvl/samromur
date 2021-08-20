@@ -42,8 +42,9 @@ export default class Clips {
                     ${
                         contributeType == 'tala'
                             ? 'WHERE is_repeated = 0'
-                            : contributeType == 'herma' &&
-                              'WHERE is_repeated = 1'
+                            : contributeType == 'herma'
+                            ? 'WHERE is_repeated = 1'
+                            : ''
                     }) as res
                 ON
                     DATE(res.created_at) = DATE(cal.date)

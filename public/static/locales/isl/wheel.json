@@ -1,0 +1,27 @@
+{
+    "errors": {
+        "recording-too-long": "Upptakan var of löng, reyndu aftur",
+        "recording-too-short": "Upptakan var of stutt, reyndu aftur",
+        "recording-too-quiet": "Upptakan var of lágvær, reyndu aftur",
+        "mic-not-allowed": "Þú þarft að leyfa aðgang að hlóðnemanum",
+        "mic-not-found": "Hljóðnemi fannst ekki",
+        "not-supported": "Því miður er ekki stuðningur við þennan vafra að svo stöddu."
+    },
+    "instructions": {
+        "click-arrow-to-play": "Smelltu á örina til að spila upptökuna",
+        "click-mic-and-read": "Smelltu á hljóðnemann og lestu setninguna upp",
+        "listen-to-recording": "Hlustaðu á upptökuna ",
+        "listen-and-judge": "Hlustaðu á upptökuna og dæmdu hana"
+    },
+    "skip": "Sleppa",
+    "skip-sentence": "Sleppa setningu",
+    "delete": "Fjarlægja?",
+    "re-record": "Endurtaka?",
+    "unsure": "Ég er óviss",
+    "submit": "Senda",
+    "thank-you": "Takk fyrir að gefa í Samróm!",
+    "todays-contributions": "Árangur dagsins eru <1>{{ progressToday }}</1> setningar.",
+    "want-to-continue": "Hversu lengi viltu halda áfram?",
+    "how-long-to-continue": "Viltu halda áfram?",
+    "contribute-more": "{{contribute}} meira"
+}

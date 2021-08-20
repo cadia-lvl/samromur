@@ -20,6 +20,7 @@ import { ContributeType, Goal } from '../../../types/contribute';
 import takathatt from '../../../pages/takathatt';
 import contribute from '../setup/contribute';
 import { capitalizeFirstLetter } from '../../../utilities/string-helper';
+import { withTranslation, WithTranslation } from '../../../server/i18n';
 
 const ContinueButtonsContainer = styled.div`
     width: 100%;
@@ -106,6 +107,7 @@ interface ContinueButtonsProps {
 type Props = ReturnType<typeof mapStateToProps> &
     ContinueButtonsProps &
     WithRouterProps &
+    WithTranslation &
     typeof dispatchProps;
 
 interface State {
@@ -202,17 +204,31 @@ class ContinueButtons extends React.Component<Props, State> {
     getButtonsText = (): string[] => {
         const {
             contribute: { goal },
+            t,
         } = this.props;
-        const tala = capitalizeFirstLetter(ContributeType.SPEAK);
-        const hlusta = capitalizeFirstLetter(ContributeType.LISTEN);
-        const herma = capitalizeFirstLetter(ContributeType.REPEAT);
+        const tala = t('contribute:speak');
+        const hlusta = t('contribute:review');
+        const herma = t('contribute:repeat');
+
         switch (goal!.contributeType) {
             case ContributeType.SPEAK:
-                return [hlusta, herma, `${tala} meira`];
+                return [
+                    hlusta,
+                    herma,
+                    t('contribute-more', { contribute: tala }),
+                ];
             case ContributeType.LISTEN:
-                return [tala, herma, `${hlusta} meira`];
+                return [
+                    tala,
+                    herma,
+                    t('contribute-more', { contribute: hlusta }),
+                ];
             case ContributeType.REPEAT:
-                return [tala, hlusta, `${herma} meira`];
+                return [
+                    tala,
+                    hlusta,
+                    t('contribute-more', { contribute: herma }),
+                ];
             default:
                 return ['', '', ''];
         }
@@ -222,13 +238,14 @@ class ContinueButtons extends React.Component<Props, State> {
         const { shouldContinue } = this.state;
         const goals = this.getGoals();
         const buttons = this.getButtonsText();
+        const { t } = this.props;
         return (
             <ContinueButtonsContainer>
                 <MessageContainer>
                     <span>
                         {shouldContinue
-                            ? 'Hversu lengi viltu halda áfram'
-                            : 'Viltu halda áfram?'}
+                            ? t('how-long-to-continue')
+                            : t('want-to-continue')}
                     </span>
                 </MessageContainer>
                 <SlidingButtons>
@@ -257,22 +274,34 @@ class ContinueButtons extends React.Component<Props, State> {
                             color={'blue'}
                             onClick={() => this.handleGoal(goals[0])}
                         >
-                            <>{goals[0].name}</>
-                            <span>{goals[0].text}</span>
+                            <>{t(`contribute:${goals[0].name}`)}</>
+                            <span>
+                                {t(`contribute:${goals[0].text}`, {
+                                    number: goals[0].count,
+                                })}
+                            </span>
                         </ButtonContainer>
                         <ButtonContainer
                             color={'blue'}
                             onClick={() => this.handleGoal(goals[1])}
                         >
-                            <>{goals[1].name}</>
-                            <span>{goals[1].text}</span>
+                            <>{t(`contribute:${goals[1].name}`)}</>
+                            <span>
+                                {t(`contribute:${goals[1].text}`, {
+                                    number: goals[1].count,
+                                })}
+                            </span>
                         </ButtonContainer>
                         <ButtonContainer
                             color={'green'}
                             onClick={() => this.handleGoal(goals[2])}
                         >
-                            <>{goals[2].name}</>
-                            <span>{goals[2].text}</span>
+                            <>{t(`contribute:${goals[2].name}`)}</>
+                            <span>
+                                {t(`contribute:${goals[2].text}`, {
+                                    number: goals[2].count,
+                                })}
+                            </span>
                         </ButtonContainer>
                     </ButtonsContainer>
                 </SlidingButtons>
@@ -288,4 +317,4 @@ const mapStateToProps = (state: RootState) => ({
 export default connect(
     mapStateToProps,
     dispatchProps
-)(withRouter(ContinueButtons));
+)(withRouter(withTranslation(['wheel', 'contribute'])(ContinueButtons)));
