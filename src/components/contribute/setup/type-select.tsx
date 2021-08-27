@@ -25,7 +25,7 @@ interface CardContainerProps {
     disabled?: boolean;
 }
 
-const CardContainer = styled.div<CardContainerProps>`
+const CardContainer = styled.button<CardContainerProps>`
     display: grid;
     grid-template-columns: 2.5rem auto;
     gap: 1.5rem;
