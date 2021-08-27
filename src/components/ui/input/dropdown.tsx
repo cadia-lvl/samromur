@@ -17,7 +17,6 @@ const DropdownButtonContainer = styled.div<DropdownProps>`
     & :active,
     :focus {
         outline: none;
-        border-color: red;
     }
 `;
 
