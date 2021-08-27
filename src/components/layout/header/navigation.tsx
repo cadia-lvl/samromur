@@ -15,9 +15,8 @@ interface NavLinkProps {
 const NavLink = styled.a<NavLinkProps>`
     cursor: pointer;
     color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
-    &: hover {
-        color: ${({ theme, isActive }) =>
-            isActive && theme.colors.red} !important;
+    &:hover {
+        color: ${({ theme }) => theme.colors.darkerBlue} !important;
     }
 `;
 
@@ -94,25 +93,25 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
     return (
         <NavigationContainer {...props}>
             <NavigationLinks {...props}>
-                <Link href="/">
+                <Link href="/" passHref>
                     <NavLink isActive={pathname == '/'}>Forsíða</NavLink>
                 </Link>
-                <Link href="/takathatt">
+                <Link href="/takathatt" passHref>
                     <NavLink isActive={pathname == '/takathatt'}>
                         Taka þátt
                     </NavLink>
                 </Link>
-                <Link href="/grunnskolakeppni">
+                <Link href="/grunnskolakeppni" passHref>
                     <NavLink isActive={pathname == '/grunnskolakeppni'}>
                         Grunnskólakeppni
                     </NavLink>
                 </Link>
-                <Link href="/gagnasafn">
+                <Link href="/gagnasafn" passHref>
                     <NavLink isActive={pathname == '/gagnasafn'}>
                         Gagnasafnið
                     </NavLink>
                 </Link>
-                <Link href="/um">
+                <Link href="/um" passHref>
                     <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
                 </Link>
                 <NavLink
