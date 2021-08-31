@@ -18,8 +18,8 @@ exports.up = async function (db) {
     return db.runSql(`
     ALTER TABLE
       clips
-    ADD COLUMN machine_verified BOOLEAN DEFAULT FALSE NOT NULL,,
-    ADD COLUMN marosijo_score FLOAT DEFAULT NULL,
+    ADD COLUMN machine_verified BOOLEAN DEFAULT FALSE NOT NULL,
+    ADD COLUMN marosijo_score FLOAT DEFAULT NULL
   `);
 };
 
