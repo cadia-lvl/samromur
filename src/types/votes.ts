@@ -1,4 +1,3 @@
-import { bool } from 'aws-sdk/clients/signer';
 import { ClipVote } from './samples';
 
 export interface Vote {
