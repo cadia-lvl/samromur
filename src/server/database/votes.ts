@@ -62,14 +62,18 @@ export default class Votes {
         const status = isSuper
             ? this.clipVoteToStatus(vote)
             : await this.fetchStatus(clipId);
+        const machine_verified = await this.isMachineVerified(clipId);
         return this.sql.query(
             `
                 UPDATE
                     clips
                 SET
-                    is_valid = ?
+                    is_valid = ?,
+                    machine_verified = ?
                 WHERE
-                    id = ?;
+                    id = ?
+                AND
+                    is_valid is null;
             `,
             [
                 status == ClipStatus.UNFINISHED
@@ -77,6 +81,7 @@ export default class Votes {
                     : status == ClipStatus.VALID
                     ? 1
                     : 0,
+                machine_verified,
                 clipId,
             ]
         );
@@ -131,7 +136,7 @@ export default class Votes {
                     const saveVoteResult = await this.saveVote(
                         marosijo_client_id,
                         vote.clipId,
-                        false,
+                        vote.isSuper,
                         vote.vote
                     );
                     return Promise.resolve(saveVoteResult);
@@ -188,5 +193,22 @@ export default class Votes {
         } catch (error) {
             return Promise.reject(error);
         }
+    };
+
+    isMachineVerified = async (clipId: number): Promise<boolean> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT 
+                    count(*) as count
+                FROM 
+                    votes 
+                WHERE
+                    client_id = ?
+                AND
+                    clip_id = ?
+            `,
+            [this.MAROSIJO_CLIENT_ID, clipId]
+        );
+        return row['count'] > 0;
     };
 }

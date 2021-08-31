@@ -64,7 +64,8 @@ const InformationText = styled.div`
 
 enum UploadErrors {
     VOTE_NOT_BOOLEAN = 1,
-    ROW_TOO_LONG,
+    SUPER_VOTE_NOT_BOOLEAN,
+    NOT_THREE_COLUMNS,
     CLIPID_NOT_NUMBER,
     NO_BATCH,
     NO_BATCH_ID,
@@ -117,13 +118,13 @@ export const UploadVotes: React.FunctionComponent = () => {
     const convertFileToVotesArray = (voteBatch: VoteBatchFile): Array<Vote> => {
         const votesArray: Array<string> = voteBatch.text.split('\n');
         const votes: Array<Vote> = votesArray.map((item) => {
+            const values = item.split(',');
             const clipVote =
-                parseInt(item.split(',')[1]) == 1
-                    ? ClipVote.VALID
-                    : ClipVote.INVALID;
+                parseInt(values[1]) == 1 ? ClipVote.VALID : ClipVote.INVALID;
             const vote: Vote = {
-                clipId: parseInt(item.split(',')[0]),
+                clipId: parseInt(values[0]),
                 vote: clipVote,
+                isSuper: parseInt(values[2]) == 1,
             };
             return vote;
         });
@@ -145,8 +146,8 @@ export const UploadVotes: React.FunctionComponent = () => {
         for (let line of fileLines) {
             // Check correct length of each line
             const items = line.split(',');
-            if (items.length !== 2) {
-                setError(UploadErrors.ROW_TOO_LONG);
+            if (items.length !== 3) {
+                setError(UploadErrors.NOT_THREE_COLUMNS);
                 return (result = false);
             }
 
@@ -161,6 +162,12 @@ export const UploadVotes: React.FunctionComponent = () => {
                 setError(UploadErrors.VOTE_NOT_BOOLEAN);
                 return (result = false);
             }
+
+            // Check that the super vote is 0 or 1
+            if (![0, 1].includes(Number(items[2]))) {
+                setError(UploadErrors.SUPER_VOTE_NOT_BOOLEAN);
+                return (result = false);
+            }
         }
         return result;
     };
@@ -171,10 +178,12 @@ export const UploadVotes: React.FunctionComponent = () => {
                 return 'A clipid is not a number.';
             case UploadErrors.NO_BATCH:
                 return 'No file found.';
-            case UploadErrors.ROW_TOO_LONG:
-                return 'A row has more than 2 columns.';
+            case UploadErrors.NOT_THREE_COLUMNS:
+                return 'A row does not have 3 columns.';
             case UploadErrors.VOTE_NOT_BOOLEAN:
                 return 'A vote has another value than 0 or 1.';
+            case UploadErrors.SUPER_VOTE_NOT_BOOLEAN:
+                return 'A super vote has another value than 0 or 1';
             case UploadErrors.NO_BATCH_ID:
                 return 'No batch id returned from the server.';
             default:
@@ -214,7 +223,7 @@ export const UploadVotes: React.FunctionComponent = () => {
                     {!voteBatch ? (
                         <InformationText>
                             Upload votes in a comma separated text file with
-                            clipid, vote.
+                            clipid, vote, is_super.
                         </InformationText>
                     ) : (
                         <Button onClick={onSubmit}>Senda in</Button>

@@ -1,8 +1,10 @@
+import { bool } from 'aws-sdk/clients/signer';
 import { ClipVote } from './samples';
 
 export interface Vote {
     clipId: number;
     vote: ClipVote;
+    isSuper: boolean;
 }
 
 export interface VoteBatch {
