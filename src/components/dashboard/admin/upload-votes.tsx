@@ -118,7 +118,7 @@ export const UploadVotes: React.FunctionComponent = () => {
     const convertFileToVotesArray = (voteBatch: VoteBatchFile): Array<Vote> => {
         const votesArray: Array<string> = voteBatch.text.split('\n');
         const votes: Array<Vote> = votesArray.map((item) => {
-            const values = item.split(',');
+            const values = item.split('\t');
             const clipVote =
                 parseInt(values[1]) == 1 ? ClipVote.VALID : ClipVote.INVALID;
             const vote: Vote = {
@@ -145,7 +145,7 @@ export const UploadVotes: React.FunctionComponent = () => {
 
         for (let line of fileLines) {
             // Check correct length of each line
-            const items = line.split(',');
+            const items = line.split('\t');
             if (items.length !== 3) {
                 setError(UploadErrors.NOT_THREE_COLUMNS);
                 return (result = false);
@@ -222,8 +222,9 @@ export const UploadVotes: React.FunctionComponent = () => {
                 <Message>
                     {!voteBatch ? (
                         <InformationText>
-                            Upload votes in a comma separated text file with
-                            clipid, vote, is_super.
+                            Upload votes in a tab separated file with clipid
+                            <kbd>tab</kbd>
+                            vote<kbd>tab</kbd>is_super.
                         </InformationText>
                     ) : (
                         <Button onClick={onSubmit}>Senda in</Button>
