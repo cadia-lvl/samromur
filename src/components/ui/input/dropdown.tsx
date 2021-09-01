@@ -30,7 +30,7 @@ const DropdownSelect = styled.select`
     -moz-appearance: none;
     & :active,
     :focus {
-        outline: none;
+        outline: 3px solid;
     }
     padding: 1rem;
     cursor: pointer;

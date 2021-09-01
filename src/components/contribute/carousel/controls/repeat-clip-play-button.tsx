@@ -121,7 +121,12 @@ const RepeatClipPlayButton: React.FunctionComponent<Props> = (props) => {
 
     return (
         //show stop button while playing repeated clip and stop button when playing clip
-        <PlayButton onClick={handleTogglePlay} isActive={props.isActive}>
+        <PlayButton
+            onClick={handleTogglePlay}
+            isActive={props.isActive}
+            title={'Hlustaðu á upptökuna (A)'}
+            tabIndex={0}
+        >
             <RelativePlayIconContainer>
                 {isPlaying ? (
                     <PauseIcon height={35} width={35} fill={'green'} />

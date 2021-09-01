@@ -18,7 +18,11 @@ const CheckboxContainer = styled.div<CheckProps>`
     border: 2px solid
         ${({ active, theme }) => (active ? 'black' : theme.colors.borderGray)};
 
-    & :hover {
+    &:hover {
+        border: 2px solid black;
+    }
+
+    &:focus-within {
         border: 2px solid black;
     }
 `;

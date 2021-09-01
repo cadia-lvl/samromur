@@ -15,9 +15,13 @@ import validateEmail from '../../../utilities/validate-email';
 
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
 
-const ConsentFormContainer = styled.div`
+interface ConsentFormContainerProps {
+    active: boolean;
+}
+
+const ConsentFormContainer = styled.div<ConsentFormContainerProps>`
     width: 100%;
-    display: grid;
+    display: ${({ active }) => (active ? 'grid' : 'none')};
     gap: 1rem;
     grid-template-columns: 1fr 1fr;
     ${({ theme }) => theme.media.small} {
@@ -230,8 +234,9 @@ class ConsentForm extends React.Component<Props, State> {
         const submittable = !emailPrompt
             ? kennitala.length == 10
             : validateEmail(email);
+        const { visible } = this.props;
         return (
-            <ConsentFormContainer>
+            <ConsentFormContainer active={visible}>
                 <Instructions>
                     {emailSent ? (
                         <React.Fragment>

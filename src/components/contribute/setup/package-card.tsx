@@ -2,9 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Goal } from '../../../types/contribute';
 
-const CardContainer = styled.div`
+const CardContainer = styled.button`
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: relative;
     padding: 1rem;
     background-color: white;
