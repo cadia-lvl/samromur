@@ -9,6 +9,14 @@ import Database, {
 
 const db: Database = getDatabaseInstance();
 
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '30mb',
+        },
+    },
+};
+
 /**
  * Saves the votes batch to a temprorary file and returns the id of the file
  */
