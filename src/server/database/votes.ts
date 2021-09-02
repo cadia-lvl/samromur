@@ -232,7 +232,7 @@ export default class Votes {
                     INSERT INTO
                         user_clients (client_id, email, username)
                     VALUES
-                        (?,?,?)
+                        (?,"marosijo_has_no@email.com","marosijo_robot")
                 `,
                 [id]
             );
