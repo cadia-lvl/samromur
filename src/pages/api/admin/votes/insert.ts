@@ -40,6 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 );
 
                 result.add(batchRes);
+                res.writeProcessing(); // let client know that it is processing
             }
 
             // Remove the temp file
