@@ -160,8 +160,10 @@ export default class Votes {
                 );
             });
 
-            // Add votes to votes table
-            const res = await this.sql.query(`
+            // Safeguard against empty arrays
+            if (values.length > 0) {
+                // Add votes to votes table
+                const res = await this.sql.query(`
                     INSERT INTO
                         votes (id, clip_id, client_id, is_valid, is_super, is_unsure)
                     VALUES
@@ -169,10 +171,10 @@ export default class Votes {
                     ON DUPLICATE KEY UPDATE
                         is_valid = VALUES(is_valid),
                         is_unsure = VALUES(is_unsure)
-
                         `);
-            output.duplicateVotes = this.getDuplicates(res[0]);
-            output.votesAdded = this.getNewRows(res[0]);
+                output.duplicateVotes = this.getDuplicates(res[0]);
+                output.votesAdded = this.getNewRows(res[0]);
+            }
 
             // Update clips with super votes
             const supers = toAdd.filter((vote) => vote.isSuper);
@@ -347,6 +349,9 @@ export default class Votes {
     updateFromBatchIfNeeded = async (votes: Vote[]): Promise<number> => {
         const ids = votes.map((vote) => vote.clipId);
 
+        // Safeguard against empty arrays
+        if (ids.length == 0) return 0;
+
         const [rows] = await this.sql.query(
             `
             SELECT
@@ -395,7 +400,16 @@ export default class Votes {
      * @returns the number of duplicated values
      */
     private getDuplicates = (r: ResultSetHeader) => {
-        return parseInt(r.info.split(/\s+/)[3]);
+        let duplicates = parseInt(r.info.split(/\s+/)[3]);
+
+        // If no information is available and
+        // no insert id but one row affected, then it is a duplicate
+        if (!duplicates) {
+            r.affectedRows == 1 && !r.insertId
+                ? (duplicates = 1)
+                : (duplicates = 0);
+        }
+        return duplicates ? duplicates : 0;
     };
 
     /**
