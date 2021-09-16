@@ -116,6 +116,11 @@ module.exports = withPWA({
             },
         });
 
+        config.module.rules.unshift({
+            test: /\.md$/,
+            use: 'raw-loader',
+        });
+
         config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
 
         return config;
