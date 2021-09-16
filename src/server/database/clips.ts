@@ -70,7 +70,7 @@ export default class Clips {
             );
 
             // If enough clips were found return them
-            if (clips_needing_votes.length == 20) {
+            if (clips_needing_votes.length == count) {
                 return clips_needing_votes;
             }
         }
