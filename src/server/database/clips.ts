@@ -62,13 +62,15 @@ export default class Clips {
         count: number,
         status: string
     ): Promise<TableClip[]> => {
+        // If status is samromur or empty, search for clips that already has votes first
         if (status == '' || status == 'samromur') {
             const clips_needing_votes = await this.findClipsNeedingVotes(
                 clientId,
                 count
             );
 
-            if (clips_needing_votes.length > 20) {
+            // If enough clips were found return them
+            if (clips_needing_votes.length == 20) {
                 return clips_needing_votes;
             }
         }
