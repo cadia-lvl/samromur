@@ -94,8 +94,9 @@ const InstructionsFC: React.FC<Props> = ({
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
             <Message>Smelltu á örina til að spila upptökuna</Message>
-        ) : hasPlayedRepeatClip ||
-          goal?.contributeType !== ContributeType.REPEAT ? (
+        ) : hasPlayedRepeatClip ? (
+            <Message>Smelltu á hljóðnemann og endertakdu setninguna</Message>
+        ) : goal?.contributeType !== ContributeType.REPEAT ? (
             <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
         ) : (
             <Message>Hlustaðu á upptökuna </Message>
