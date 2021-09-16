@@ -1,6 +1,6 @@
 # Reykjavík University's privacy statement
 
-NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@hr.is.
+NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
 
 Með persónuverndaryfirlýsingu þessari er greint frá því hvernig Háskólinn í Reykjavík ehf., kt. 510105-4190, Menntavegur 1, 102 Reykjavík (hér eftir „HR", „stofnunin" eða „við" ), stendur að vinnslu, s.s. söfnun, skráningu, vistun og miðlun persónugreinanlegra upplýsinga um einstaklinga (hér eftir einnig „ þú") í tengslum við verkefnið Samrómur.
 

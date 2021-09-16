@@ -1,6 +1,6 @@
 # Cookies
 
-NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@hr.is.
+NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
 
 Þessi vefsíða notar vafrakökur (e. cookies) til að bæta upplifun þína á vefsíðunni.
 

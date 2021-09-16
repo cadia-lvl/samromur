@@ -44,6 +44,6 @@ Ef upp kemst um brot þátttakenda á þessum skilmálum áskilur HR sér rétt 
 
 ## Annað
 
-Hægt er að hafa samband við okkur í gegnum netfangið samromur@hr.is. Skilmálar vegna þátttöku í gerð gagnasafnsins Samróms eru endurskoðaðir reglulega og kunna því að taka breytingum.
+Hægt er að hafa samband við okkur í gegnum netfangið samromur@ru.is. Skilmálar vegna þátttöku í gerð gagnasafnsins Samróms eru endurskoðaðir reglulega og kunna því að taka breytingum.
 
 Skilmálar þessir voru síðast uppfærðir 22. júní 2021

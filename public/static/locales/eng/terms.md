@@ -1,6 +1,6 @@
 # Terms and conditions
 
-NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@hr.is.
+NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
 
 Á vefsvæðinu [samrómur.is](https://www.samromur.is) getur þú tekið þátt í gerð gagnasafnsins Samrómur. Í þátttöku þinni felst að þú skilar inn eigin raddupptöku og eftir atvikum, lýðfræðilegum upplýsingum, yfirferðum og endurgjöf sem mun nýtast við gerð opins radd gagnasafn.
 
