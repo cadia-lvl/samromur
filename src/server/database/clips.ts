@@ -62,6 +62,19 @@ export default class Clips {
         count: number,
         status: string
     ): Promise<TableClip[]> => {
+        // If status is samromur or empty, search for clips that already has votes first
+        if (status == '' || status == 'samromur') {
+            const clips_needing_votes = await this.findClipsNeedingVotes(
+                clientId,
+                count
+            );
+
+            // If enough clips were found return them
+            if (clips_needing_votes.length == count) {
+                return clips_needing_votes;
+            }
+        }
+
         const [clips] = await this.sql.query(
             `
                 SELECT * FROM (
@@ -94,6 +107,54 @@ export default class Clips {
                 this.SHUFFLE_SIZE,
                 count,
             ]
+        );
+        return clips as TableClip[];
+    };
+
+    findClipsNeedingVotes = async (
+        clientId: string,
+        count: number
+    ): Promise<TableClip[]> => {
+        const [clips] = await this.sql.query(
+            `
+            SELECT
+                *
+            FROM (
+                SELECT
+                    *
+                FROM
+                    (SELECT
+                        clips.id as id, 
+                        clips.original_sentence_id as original_sentence_id,
+                        clips.path as path, 
+                        clips.sentence as sentence,
+                        clips.client_id as client_id,
+                        clips.status as status,
+                        clips.empty as empty
+                    FROM
+                        clips JOIN votes
+                        ON clips.id = votes.clip_id
+                    WHERE 
+                        clips.is_valid IS null
+                    AND 
+                        votes.is_valid IS NOT null) as v
+                WHERE
+                    NOT EXISTS 
+                        (
+                            SELECT * FROM votes WHERE votes.clip_id = id AND client_id = ?
+                        )
+                AND
+                    client_id <> ?
+                AND
+                    status = 'samromur'
+                AND
+                    empty = 0
+                LIMIT ?) as b
+            ORDER BY
+                RAND()
+            LIMIT ?
+            `,
+            [clientId, clientId, this.SHUFFLE_SIZE, count]
         );
         return clips as TableClip[];
     };
