@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 import TextInput from '../ui/input/text';
+import MarkedText from '../ui/input/markable-text-input';
 import { Button } from '../ui/buttons';
 
 import { AuthError, AuthRequest, FormError } from '../../types/auth';
@@ -158,7 +159,7 @@ class LoginForm extends React.Component<Props, State> {
             case FormError.PASSWORD_MISMATCH:
                 return 'Lykilorð verða að stemma';
             case FormError.INVALID_USERNAME:
-                return 'Aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.';
+                return 'Notendanafn: Aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.';
             default:
                 return 'Villa í formi';
         }
@@ -189,30 +190,37 @@ class LoginForm extends React.Component<Props, State> {
         return (
             <LoginFormContainer onSubmit={this.handleSubmit}>
                 <Title>{isSignup ? 'Nýskráning' : 'Innskráning'}</Title>
-                <TextInput
+                <MarkedText
                     label="Tölvupóstfang"
                     onChange={this.onEmailChange}
                     placeholder=""
+                    error={
+                        formError == FormError.INVALID_EMAIL ||
+                        authError == AuthError.HAS_ACCOUNT
+                    }
                 />
                 {isSignup && (
-                    <TextInput
+                    <MarkedText
                         label="Notendanafn (valfrjálst)"
                         onChange={this.onUserNameChange}
                         placeholder="Notendanöfn birtast í einstaklings stigatöflunni"
-                    ></TextInput>
+                        error={formError == FormError.INVALID_USERNAME}
+                    ></MarkedText>
                 )}
-                <TextInput
+                <MarkedText
                     label="Lykilorð"
                     onChange={this.onPasswordChange}
                     placeholder=""
                     type="password"
+                    error={formError == FormError.MISSING_PASSWORD}
                 />
                 {isSignup && (
-                    <TextInput
+                    <MarkedText
                         label="Lykilorð aftur"
                         onChange={this.onPasswordAgainChange}
                         placeholder=""
                         type="password"
+                        error={formError == FormError.MISSING_PASSWORD_AGAIN}
                     />
                 )}
                 {(formError || authError) && (
