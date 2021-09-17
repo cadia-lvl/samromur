@@ -95,7 +95,7 @@ const InstructionsFC: React.FC<Props> = ({
         ) : activeClip ? (
             <Message>Smelltu á örina til að spila upptökuna</Message>
         ) : hasPlayedRepeatClip ? (
-            <Message>Smelltu á hljóðnemann og endurtakdu setninguna</Message>
+            <Message>Smelltu á hljóðnemann og endurtaktu setninguna</Message>
         ) : goal?.contributeType !== ContributeType.REPEAT ? (
             <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
         ) : (
