@@ -94,16 +94,20 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                 <span>
                     Gagnasafnið samanstendur af setningum og hljóðbrotum af
                     upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í
-                    gagnasafninu inniheldur WAV-hljóðbrot og samsvarandi
+                    gagnasafninu inniheldur FLAC-hljóðbrot og samsvarandi
                     textaskrá.
                 </span>
                 <span>
-                    Gagnasafnið verður gefið út á{' '}
-                    <StyledLink target={'blank'} href={'https://clarin.is/ '}>
-                        Clarin
+                    Fyrsta gagnasafnið með 100.000 setningum hefur verið gefið
+                    út á{' '}
+                    <StyledLink
+                        target={'blank'}
+                        href={'https://www.openslr.org/112/'}
+                    >
+                        OpenSLR
                     </StyledLink>
                     . Skráðu þig á póstlistann hér fyrir neðan til þess að fá
-                    tilkynningu þegar gagnasafnið verður gert aðgengilegt.
+                    tilkynningu þegar fleiri gagnasöfn verða gerð aðgengileg.
                 </span>
             </AboutContainer>
         </AboutDatasetContainer>
