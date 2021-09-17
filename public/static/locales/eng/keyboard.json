@@ -1,0 +1,14 @@
+{
+    "play-speak": "Record / Play",
+    "play-listen": "Play / Pause",
+    "play-repeat": "Play clip to repeat",
+    "skip": "Skip recording",
+    "back": "Go to previous recording / sentence",
+    "forward": "Go to the next recording / sentence",
+    "re-record":"Record again",
+    "delete": "Delete recording",
+    "submit": "Submit",
+    "vote-yes": "Upvote recording",
+    "vote-no": "Downvote recording",
+    "vote-unsure": "Vote unsure"
+}
