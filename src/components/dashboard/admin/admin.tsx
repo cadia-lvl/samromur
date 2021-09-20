@@ -69,7 +69,7 @@ class DashboardAdmin extends React.Component<Props, State> {
                         uploadType={UploadType.REPEAT_SENTENCES}
                     />
                 </UploadItem>
-                <UploadItem title={'Clip votes'}>
+                <UploadItem title={'Marosijo Clip votes'}>
                     <UploadVotes />
                 </UploadItem>
                 <Item title={'Búa til ofurnotanda'}>

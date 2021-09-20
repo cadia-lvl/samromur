@@ -6,6 +6,7 @@ import {
 import Database, {
     getDatabaseInstance,
 } from '../../../../server/database/database';
+import { BatchUploadResults } from '../../../../server/database/votes';
 
 const db: Database = getDatabaseInstance();
 
@@ -29,16 +30,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // Set chunksize
             const chunkSize = 500;
 
+            const result = new BatchUploadResults();
+
             // Loop through votes and add chunks from votes to the db
             for (let i = 0; i < votes.length; i += chunkSize) {
                 // add chunk to db
-                await db.votes.addVoteBatch(votes.slice(i, i + chunkSize));
+                const batchRes = await db.votes.addVoteBatch(
+                    votes.slice(i, i + chunkSize)
+                );
+
+                result.add(batchRes);
+                res.writeProcessing(); // let client know that it is processing
             }
 
             // Remove the temp file
             await removeTempBatch(id);
 
-            return res.status(200).json('success');
+            return res.status(200).json(result);
         } catch (error) {
             return res.status(500).json(`Error: ${error.code}`);
         }

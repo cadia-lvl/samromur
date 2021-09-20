@@ -35,7 +35,7 @@ export default class FileBrowser extends React.Component<Props, State> {
             message: '',
         };
         this.clickInput = React.createRef<HTMLInputElement>();
-        this.allowed = ['.txt'];
+        this.allowed = ['.txt', '.tsv'];
     }
 
     isAllowed = (filename: string): boolean => {
@@ -72,7 +72,7 @@ export default class FileBrowser extends React.Component<Props, State> {
         } else {
             console.error('Filetype not allowed');
             this.setState({
-                message: 'Leyfðar skráarendingar eru: .txt',
+                message: 'Leyfðar skráarendingar eru: .txt, .tsv',
             });
         }
     };
@@ -92,7 +92,7 @@ export default class FileBrowser extends React.Component<Props, State> {
                     type="file"
                     ref={this.clickInput}
                     onChange={this.handleChange}
-                    accept=".txt"
+                    accept=".txt,.tsv"
                 />
                 {children}
             </ClickableDiv>

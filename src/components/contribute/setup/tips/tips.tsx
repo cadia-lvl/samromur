@@ -19,12 +19,12 @@ const TipsContainer = styled.div`
     }
 `;
 
-const SkipButton = styled.div`
+const SkipButton = styled.button`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    border: none;
     font-weight: 600;
     font-size: 1.1rem;
     border-radius: 0.1rem;

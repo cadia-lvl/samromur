@@ -75,14 +75,14 @@ interface SubmitButtonProps {
     disabled: boolean;
 }
 
-const SubmitButton = styled.div<SubmitButtonProps>`
+const SubmitButton = styled.button<SubmitButtonProps>`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     font-weight: 600;
     font-size: 1.1rem;
+    border: none;
     border-radius: 0.1rem;
     padding: 1rem 2rem;
     background-color: ${({ disabled, theme }) =>
@@ -424,6 +424,7 @@ class DemographicForm extends React.Component<Props, State> {
                 <ConsentAndSwitchUserContainer
                     active={hasConsent}
                     isCompetition={this.isCompetition()}
+                    tabIndex={hasConsent ? 0 : -1}
                 >
                     <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
                     <SwitchUser onClick={this.switchUser}>

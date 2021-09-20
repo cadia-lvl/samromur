@@ -165,8 +165,9 @@ interface ButtonProps {
     color: string;
 }
 
-const CTAButton = styled.div<ButtonProps>`
+const CTAButton = styled.button<ButtonProps>`
     flex: 1;
+    border: none;
     display: flex;
     flex-direction: column;
     justify-content: center;

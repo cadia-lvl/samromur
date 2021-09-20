@@ -10,6 +10,7 @@
     "instructions": {
         "click-arrow-to-play": "Click the arrow to play the recording",
         "click-mic-and-read": "Click on the microphone and read the sentence aloud",
+        "click-mic-and-repeat": "Click on the microphone and repeat the sentence",
         "listen-to-recording": "Listen to the recording",
         "listen-and-judge": "Listen to the recording and review it"
     },

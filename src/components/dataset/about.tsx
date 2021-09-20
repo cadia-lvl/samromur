@@ -94,7 +94,8 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                 <span>{t('database.middle')}</span>
                 <span>
                     <Trans i18nKey={'database.end'} t={t}>
-                        Gagnasafnið verður gefið út á{' '}
+                        Fyrsta gagnasafnið með 100.000 setningum hefur verið
+                        gefið út á{' '}
                         <StyledLink
                             target={'blank'}
                             href={'https://clarin.is/ '}
@@ -102,8 +103,8 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                             Clarin
                         </StyledLink>
                         . Skráðu þig á póstlistann hér fyrir neðan til þess að
-                        fá tilkynningu þegar gagnasafnið verður gert
-                        aðgengilegt.
+                        fá tilkynningu þegar fleiri gagnasöfn verða gerð
+                        aðgengileg.
                     </Trans>
                 </span>
             </AboutContainer>

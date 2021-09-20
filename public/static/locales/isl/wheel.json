@@ -10,6 +10,7 @@
     "instructions": {
         "click-arrow-to-play": "Smelltu á örina til að spila upptökuna",
         "click-mic-and-read": "Smelltu á hljóðnemann og lestu setninguna upp",
+        "click-mic-and-repeat": "Smelltu á hljóðnemann og endurtaktu setninguna",
         "listen-to-recording": "Hlustaðu á upptökuna ",
         "listen-and-judge": "Hlustaðu á upptökuna og dæmdu hana"
     },

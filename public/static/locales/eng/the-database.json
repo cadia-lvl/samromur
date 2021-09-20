@@ -4,20 +4,20 @@
     "hrs": "{{number}} hours",
     "number-of-voices": "Number of voices",
     "database": {
-        "title": "The Samrómur database", 
-        "beginning": "Samrómur is an open and accessible database of voices that everyone is free to use when developing software in Icelandic.", 
-        "middle": "The database consists of sentences and audio clips from the reading of those sentences as well as metadata. Each entry in the database contains WAV audio clips and the corresponding text file.", 
-        "end": "The database will be published on <2>Clarin</2>. Subscribe to the newsletter below to be notified when the database becomes accessible."
+        "title": "The Samrómur database",
+        "beginning": "Samrómur is an open and accessible database of voices that everyone is free to use when developing software in Icelandic.",
+        "middle": "The database consists of sentences and audio clips from the reading of those sentences as well as metadata. Each entry in the database contains FLAC audio clips and the corresponding text file.",
+        "end": "The first release of 100,000 utterances has been released on <2>OpenSLR</2>. Subscribe to the newsletter below to be notified when further datasets becomes accessible."
     },
     "age-gender-chart-title": "Recordings per age group and gender",
-    "age-mother-tounge-chart-title": "Recordings per age group and native tounge",
+    "age-mother-tounge-chart-title": "Recordings per age group and native tongue",
     "reviewed": "Reviewed",
     "women": "Women",
     "man": "Man",
     "total": "Total",
     "of-which-reviewed": "Of which is reviewed",
     "adults-icelandic": "Adults, native icelanders",
-    "adults-l2":"Adults, other languagues",
+    "adults-l2": "Adults, other languages",
     "kids-icelandic": "Kids and teenagers",
     "kids-l2": "Kids and teenagers, other languages"
 }

@@ -97,8 +97,9 @@ const InstructionsFC: React.FC<Props> = ({
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
             <Message>{t('instructions.click-arrow-to-play')}</Message>
-        ) : hasPlayedRepeatClip ||
-          goal?.contributeType !== ContributeType.REPEAT ? (
+        ) : hasPlayedRepeatClip ? (
+            <Message>{t('instructions.click-mic-and-repeat')}</Message>
+        ) : goal?.contributeType !== ContributeType.REPEAT ? (
             <Message>{t('instructions.click-mic-and-read')}</Message>
         ) : (
             <Message>{t('instructions.listen-to-recording')}</Message>

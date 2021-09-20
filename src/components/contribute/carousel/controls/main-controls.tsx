@@ -504,6 +504,12 @@ class MainControls extends React.Component<Props, State> {
                                     ? this.handleStopRecording
                                     : this.handleStartRecording
                             }
+                            tabIndex={0}
+                            title={
+                                !isPlaying
+                                    ? 'Smelltu á hljóðnemann og lestu setninguna upp (spacebar)'
+                                    : 'Smelltu á örina til að spila upptökuna (spacebar)'
+                            }
                         >
                             {!isRecording ? (
                                 <MicIcon
