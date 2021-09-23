@@ -1,26 +1,25 @@
-# Cookies
+# Cookie policy
 
 NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
 
-Þessi vefsíða notar vafrakökur (e. cookies) til að bæta upplifun þína á vefsíðunni.
+This website uses cookies to improve your experience on the website.
 
-## 1. Hvað er vafrakaka?
+## 1. What is a cookie?
 
-Vafrakökur (e. cookies) eru nokkurs konar fótspor sem eru dulkóðaðir textastrengi sem vefsíða geymir á tölvu notandans í formi textaskráar. Þær gerðir af kökum sem við notum eru „lotukökur“ (e. session cookies) og „viðvarandi kökur“ (e. persistent cookies). Lotukökur er tímabundnar og er sjálfkrafa eytt þegar þú yfirgefur vefsíðuna okkar. Viðvarandi kökur eru áfram í tölvunni þinni þar til þú eyðir þeim.
-Vefgeymsla vafra (e. web storage) gerir vefsvæðum kleift að geyma gögn í tölvu notanda líkt og vafrakökur nema eru einungis lesanlegar notanda megin og er stærri en vafrakaka (e. cookie). Í vefgeymslu vafrans notandans nýtir vefurinn „staðbundina geymslu“ (e. local storage) og „lotu geymslu“ (e. session storage). Gögn í lotu geymslu vafrans eru tímabundin og er sjálfkrafa eytt þegar þú yfirgefur vefsíðuna. Gögn í staðbundinni geymslu vafrans eru áfram í tölvunni þinni þar til þú eyðir þeim.
+Cookies are encrypted text strings that a website stores on the user's computer in the form of a text file. The types of cookies we use are "session cookies" and "persistent cookies". Session cookies are temporary and are automatically deleted when you leave our website. Persistent cookies remain on your computer until you delete them.
 
-Án notkunnar á vafrakökum og vefgeymslu vafra gæti upplifun þín á síðunni versnað og vefsíðan ekki virkað eins og til var ætlast.
+Without the use of cookies and browser web storage, your experience on the site may deteriorate and the site may not function as intended.
 
-## 2. Tilgangur með notkun vafrakaka og vefgeymslu vafra.
+## 2. Purpose of using cookies and browser web storage.
 
-Vefsíðan notar vafrakökur til að mæla notkun á ýmsum undirsíðum innan vefsíðunnar, en það hjálpar okkur að meta hvað þarf að bæta, til þess notum við vafrakökur fyrir Google Analyctics (nafn: ga). Með því getum við séð notkunarmynstur á síðunni yfir heildina í stað þess að sjá notkun einstaka notanda. Við notum upplýsingarnar til að greina umferð á vefsíðunni en ekki til að skoða persónugreinanlegar upplýsingar.
+The website uses cookies to measure the use of various sub-pages within the website, but it helps us to assess what needs to be improved, for this we use cookies for Google Analytics. This allows us to see the usage patterns of the site as a whole instead of seeing the usage of individual users. We use the information to analyse website traffic and not to view personally identifiable information.
 
-Vefsíðan notar vefgeymslu vafrans til að halda um upplýsingar sem bæta afköst síðunar og notendaupplifun (nafn: user). Þetta eru upplýsingar sem notandi hefur skráð inn, samþykki, einstakt notanda númer, fjöldi raddsýna sem notandi hefur gefið og fjöldi raddsýna sem notandi hefur hlustað á. Með því að nota vefgeymslu vafrans á þennan hátt komum við í veg fyrir að notandi þurfi skrá inn sömu upplýsingarnar við hverja heimsókn, gefa sömu samþykki og til þess að lágmarka líkur á að notandi fái sama raddsýni oftar en einu sinni til hlustunar. Vefsíðan geymir einnig stillingar þínar á notkun vafrakaka og vefgeymslu vafra í vefgeymslu vafrans (nafn: cookiesAgreed).
+The website uses the web browser to maintain information that improves the performance of the site and the user experience. This is information entered by the user, consent, unique user number, number of voice samples given by the user and number of voice samples that the user has listened to. By using the browser's web archive in this way, we prevent the user from having to enter the same information upon each visit, give the same consent and to minimize the likelihood of the user listening to the same voice sample more than once. The website also stores your settings, for the use of cookies and browser web storage, in the browser web storage(name: cookiesAgreed).
 
-Við notum ekki vafrakökur til að safna upplýsingum er varða heimsóknir þínar á öðrum síðum, né að safna persónulegum upplýsingum um þig, aðrar en þær sem þú hefur skráð hjá okkur af frjálsum vilja í gegnum samskipti við okkar vefsíðu.
+We do not use cookies to collect information about your visits to other sites, nor to collect personal information about you, other than that which you have voluntarily registered with us through communication with our website.
 
-## 3. Hvernig get ég stillt notkun vefsíðunnar á vafrakökum?
+## 3. How can I set the website's use of cookies?
 
-Þegar vefsíðan* er heimsótt kemur upp gluggi sem leyfir þér að velja hvaða kökur eru leyfðar. Þeim stillingum er hægt að breyta hvenær sem er með því að smella á rauða borðann niðri í vinstra horni vefsíðunnar*.
+When visiting this website you will be presented with a banner that explains that this website uses cookies\*. By continuing to use this website you agree to use cookies.
 
-\*Á ekki við um undirsíður fyrir Skilmálar, Persónuvernd og Vafrakökur. Vefurinn notar ekki vafrakökur við heimsókn á þeim.
+\*Does not apply to subpages for Terms, Privacy and Cookies. The website does not use cookies when you visit them.
