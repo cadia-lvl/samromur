@@ -1,35 +1,36 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { withTranslation, WithTranslation } from '../server/i18n';
+import { useTranslation, WithTranslation } from '../server/i18n';
 
 import Layout from '../components/layout/layout';
 import MarkdownArticle from '../components/text/md-article';
+
+import termsENG from '../../public/static/locales/eng/terms.md';
+import termsISL from '../../public/static/locales/isl/terms.md';
+import { useEffect } from 'react';
 
 const TermsContainer = styled.div``;
 
 type Props = WithTranslation;
 
-class Terms extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+const Terms: React.FunctionComponent<Props> = () => {
+    const { i18n } = useTranslation();
+    const [termsText, setTermsText] = React.useState('');
 
-    static getInitialProps = async () => {
-        return {
-            namespacesRequired: ['documents'],
-        };
-    };
+    useEffect(() => {
+        // Update the md file depending on the language
+        i18n.language === 'isl'
+            ? setTermsText(termsISL)
+            : setTermsText(termsENG);
+    }, [i18n.language]);
 
-    render() {
-        const terms = this.props.t('terms');
-        return (
-            <Layout>
-                <TermsContainer>
-                    <MarkdownArticle text={terms} />
-                </TermsContainer>
-            </Layout>
-        );
-    }
-}
+    return (
+        <Layout>
+            <TermsContainer>
+                <MarkdownArticle text={termsText} />
+            </TermsContainer>
+        </Layout>
+    );
+};
 
-export default withTranslation('documents')(Terms);
+export default Terms;

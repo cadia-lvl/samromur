@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from '../../server/i18n';
 
 import * as authApi from '../../services/auth-api';
 
@@ -41,6 +42,7 @@ const DashboardSidePanel: React.FunctionComponent<Props> = ({
     const logout = () => {
         authApi.logout();
     };
+    const { t } = useTranslation(['my-pages', 'common']);
     return (
         <SidePanelContainer className={className}>
             <Title>Mínar síður</Title>
@@ -48,24 +50,24 @@ const DashboardSidePanel: React.FunctionComponent<Props> = ({
                 active={selected == 'tolfraedi'}
                 onClick={() => onSelect('tolfraedi')}
             >
-                Tölfræði
+                {t('side-panel.statistics')}
             </Item>
             <Item
                 active={selected == 'stillingar'}
                 onClick={() => onSelect('stillingar')}
             >
-                Stillingar
+                {t('side-panel.settings')}
             </Item>
             {isAdmin && (
                 <Item
                     active={selected == 'stjornandi'}
                     onClick={() => onSelect('stjornandi')}
                 >
-                    Stjórnandi
+                    {t('side-panel.administrative')}
                 </Item>
             )}
             <Item active={false} onClick={logout}>
-                Útskrá
+                {t('common:sign-out')}
             </Item>
         </SidePanelContainer>
     );

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
+import { Trans } from 'react-i18next';
 
 import {
     DemographicError,
@@ -34,6 +35,7 @@ import * as authApi from '../../../services/auth-api';
 import { pages } from '../../../constants/paths';
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
 import moment from 'moment';
+import { WithTranslation, withTranslation } from '../../../server/i18n';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -199,6 +201,7 @@ interface State {
 
 type Props = ReturnType<typeof mapStateToProps> &
     DemographicFormProps &
+    WithTranslation &
     typeof dispatchProps;
 
 class DemographicForm extends React.Component<Props, State> {
@@ -257,15 +260,17 @@ class DemographicForm extends React.Component<Props, State> {
     };
 
     onGenderSelect = (value: string) => {
+        const { t } = this.props;
         const gender = genders.find(
-            (val: Demographic) => val.name == value
+            (val: Demographic) => t(val.name) == value
         ) as Demographic;
         this.setState({ gender });
     };
 
     onNativeLanguageSelect = (value: string) => {
+        const { t } = this.props;
         const nativeLanguage = nativeLanguages.find(
-            (val: Demographic) => val.name == value
+            (val: Demographic) => t(val.name) == value
         ) as Demographic;
         this.setState({ nativeLanguage });
     };
@@ -388,6 +393,7 @@ class DemographicForm extends React.Component<Props, State> {
         const formIsFilled = this.formIsFilled();
         const selectedAge = this.getAgeSelected();
         const competitionText = this.getCompetitionText();
+        const { t } = this.props;
         return (
             <DemographicContainer>
                 {this.isCompetition() && (
@@ -411,7 +417,7 @@ class DemographicForm extends React.Component<Props, State> {
                 <div />
                 <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
-                    label={'Aldur'}
+                    label={t('age')}
                     onSelect={this.onAgeSelect}
                     selected={selectedAge}
                 />
@@ -420,9 +426,9 @@ class DemographicForm extends React.Component<Props, State> {
                     isCompetition={this.isCompetition()}
                     tabIndex={hasConsent ? 0 : -1}
                 >
-                    <ConsentMessage>Leyfi staðfest</ConsentMessage>
+                    <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
                     <SwitchUser onClick={this.switchUser}>
-                        Skipta um notenda
+                        {t('switch-user')}
                     </SwitchUser>
                 </ConsentAndSwitchUserContainer>
                 <ShowMoreContainer active={showConsentForm && !hasConsent}>
@@ -432,44 +438,45 @@ class DemographicForm extends React.Component<Props, State> {
                     />
                 </ShowMoreContainer>
                 <DropdownButton
-                    content={genders.map((gender: Demographic) => gender.name)}
-                    label={'Kyn'}
+                    content={genders.map((gender: Demographic) =>
+                        t(gender.name)
+                    )}
+                    label={t('gender')}
                     onSelect={this.onGenderSelect}
-                    selected={gender ? gender.name : ''}
+                    selected={gender ? t(gender.name) : ''}
                 />
                 <DropdownButton
-                    content={nativeLanguages.map(
-                        (language: Demographic) => language.name
+                    content={nativeLanguages.map((language: Demographic) =>
+                        t(language.name)
                     )}
-                    label={'Móðurmál'}
+                    label={t('native-tongue')}
                     onSelect={this.onNativeLanguageSelect}
-                    selected={nativeLanguage?.name || 'Íslenska'}
+                    selected={
+                        t(nativeLanguage?.name) || t('languages.islenska')
+                    }
                 />
-                <Information title={'Hvers vegna skiptir þetta máli?'}>
-                    <p>
-                        Ofantaldar upplýsingar eru notaðar til að meta hversu
-                        lýðfræðilega dreift gagnasafnið Samrómur er. Því
-                        dreifðara og fjölbreyttara sem það er, því betra. Sjá
-                        skilmála og persónuverndaryfirlýsingu verkefnisins hér
-                        fyrir neðan til þess að fá frekari upplýsingar.
-                    </p>
+                <Information title={t('why-this-matters')}>
+                    <p>{t('why-this-matters-text')}</p>
                 </Information>
                 <AgreeContainer>
                     <Checkbox checked={agreed} onChange={this.handleAgree} />
                     <span>
-                        Ég staðfesti að hafa kynnt mér{' '}
-                        <StyledLink href="/skilmalar">skilmála</StyledLink> og{' '}
-                        <StyledLink href="/skilmalar">
-                            persónuverndaryfirlýsingu
-                        </StyledLink>{' '}
-                        verkefnisins.
+                        <Trans i18nKey="accept-terms-conditions" t={t}>
+                            Ég staðfesti að hafa kynnt mér{' '}
+                            <StyledLink href="/skilmalar">skilmála</StyledLink>{' '}
+                            og{' '}
+                            <StyledLink href="/personuverndaryfirlysing">
+                                persónuverndaryfirlýsingu
+                            </StyledLink>{' '}
+                            verkefnisins.
+                        </Trans>
                     </span>
                 </AgreeContainer>
                 <SubmitButton
                     onClick={this.onSubmit}
                     disabled={!formIsFilled || (showConsentForm && !hasConsent)}
                 >
-                    Áfram
+                    {t('common:continue')}
                 </SubmitButton>
             </DemographicContainer>
         );
@@ -480,4 +487,7 @@ const mapStateToProps = (state: RootState) => ({
     user: state.user,
 });
 
-export default connect(mapStateToProps, dispatchProps)(DemographicForm);
+export default connect(
+    mapStateToProps,
+    dispatchProps
+)(withTranslation(['demographics', 'common'])(DemographicForm));

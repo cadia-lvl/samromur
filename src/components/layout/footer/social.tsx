@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from '../../../server/i18n';
 
 import FacebookIcon from '../../ui/icons/facebook';
 import TwitterIcon from '../../ui/icons/twitter';
@@ -31,10 +32,11 @@ interface Props {}
 export const SocialLinks: React.FunctionComponent<Props> = (props) => {
     const shareUrl = 'https://samromur.is';
     const shareText = `Ljáðu íslenskri tungu rödd þína, gefðu raddsýni á ${shareUrl}}`;
+    const { t } = useTranslation(['footer']);
 
     return (
         <Social>
-            <SocialMessage>Viltu hvetja aðra til þátttöku?</SocialMessage>
+            <SocialMessage>{t('encourage-others')}</SocialMessage>
             <Links>
                 <IconLink
                     href={

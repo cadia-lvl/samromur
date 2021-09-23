@@ -1,6 +1,8 @@
+import { TFunction } from 'next-i18next';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Goal } from '../../../types/contribute';
+import { useTranslation } from '../../../server/i18n';
+import { ContributeType, Goal } from '../../../types/contribute';
 
 const CardContainer = styled.button`
     display: flex;
@@ -35,10 +37,12 @@ export const PackageCard: React.FunctionComponent<Props> = ({
     goal,
     setGoal,
 }) => {
+    const { t } = useTranslation('contribute');
+
     return (
         <CardContainer onClick={() => setGoal(goal)}>
-            <h3>{goal.name}</h3>
-            <p>{goal.text}</p>
+            <h3>{t(goal.name)}</h3>
+            <p>{t(goal.text, { number: goal.count })}</p>
         </CardContainer>
     );
 };

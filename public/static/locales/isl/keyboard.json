@@ -1,0 +1,14 @@
+{
+    "play-speak": "Taka upp/Spila upptöku",
+    "play-listen": "Spila upptöku",
+    "play-repeat": "Spila hermda setningu",
+    "skip": "Sleppa upptöku",
+    "back": "Fara til baka í fyrri setningu / upptöku",
+    "forward": "Fara í næstu setningu / upptöku",
+    "re-record":"Endurtaka upptöku",
+    "delete": "Fjarlægja upptöku",
+    "submit": "Senda inn",
+    "vote-yes": "Dæma upptöku góða",
+    "vote-no": "Dæma upptöku slæma",
+    "vote-unsure": "Merkja upptöku sem óljósa"
+}

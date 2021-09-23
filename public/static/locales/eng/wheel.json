@@ -1,0 +1,28 @@
+{
+    "errors": {
+        "recording-too-long": "The recording was too long, please try again",
+        "recording-too-short": "The recording was too short, please try again",
+        "recording-too-quiet": "The recording was too quiet, please try again",
+        "mic-not-allowed": "You need to allow access to the microphone",
+        "mic-not-found": "No microphone found",
+        "not-supported": "This browser is sadly not supported"
+    },
+    "instructions": {
+        "click-arrow-to-play": "Click the arrow to play the recording",
+        "click-mic-and-read": "Click on the microphone and read the sentence aloud",
+        "click-mic-and-repeat": "Click on the microphone and repeat the sentence",
+        "listen-to-recording": "Listen to the recording",
+        "listen-and-judge": "Listen to the recording and review it"
+    },
+    "skip": "Skip",
+    "skip-sentence": "Skip sentence",
+    "delete": "Delete?",
+    "re-record": "Re record",
+    "unsure": "I am unsure",
+    "submit": "Submit",
+    "thank-you": "Thanks for contributing to Samrómur!",
+    "todays-contributions": "Todays contributions are <1>{{ progressToday }}</1> sentences.",
+    "want-to-continue": "Want to continue?",
+    "how-long-to-continue": "How long do you want to continue?",
+    "contribute-more": "Continue {{contribute}}ing"
+}
