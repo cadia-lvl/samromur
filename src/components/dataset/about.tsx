@@ -98,9 +98,9 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                         gefið út á{' '}
                         <StyledLink
                             target={'blank'}
-                            href={'https://clarin.is/ '}
+                            href={'https://www.openslr.org/112/'}
                         >
-                            Clarin
+                            OpenSLR
                         </StyledLink>
                         . Skráðu þig á póstlistann hér fyrir neðan til þess að
                         fá tilkynningu þegar fleiri gagnasöfn verða gerð
