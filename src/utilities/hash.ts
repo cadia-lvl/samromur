@@ -3,6 +3,7 @@ import md5 from 'js-md5';
 
 import CryptoJS from 'crypto-js';
 import bcrypt from 'bcryptjs';
+import { getConfig } from './config-helper';
 
 /**
  * NOT SAFE. Only use for fast hashing.
@@ -11,7 +12,7 @@ import bcrypt from 'bcryptjs';
  * @returns hash with the Hmac method
  */
 export const sha256hash = (str: string): string => {
-    const salt = '8hd3e8sddFSdfj';
+    const salt = getConfig().SPICES.SALT;
     return crypto.createHmac('sha256', salt).update(str).digest('hex');
 };
 
@@ -33,6 +34,6 @@ export const bHash = (str: string): string => {
  * @returns hash with the md5 method
  */
 export const md5hash = (str: string): string => {
-    const salt = 'hbads8fh49hgfls';
+    const salt = getConfig().SPICES.PEPPER;
     return md5(str + salt);
 };
