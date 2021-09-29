@@ -51,6 +51,7 @@ const Button = styled.div`
 
 interface Props {
     token: string;
+    email: string;
 }
 
 interface State {
@@ -79,11 +80,12 @@ class ResetPassword extends React.Component<Props, State> {
     handleResetPassword = async () => {
         const error = this.validatePassword();
         const { password } = this.state;
-        const { token } = this.props;
+        const { token, email } = this.props;
         if (error) {
             this.setState({ error });
         } else {
             const passwordResetSuccess = await authApi.resetPassword(
+                email,
                 token,
                 password
             );

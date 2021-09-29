@@ -18,11 +18,16 @@ const Title = styled.h3`
 const ForgotPasswordPage = () => {
     const router = useRouter();
     const token = router.query.token as string;
+    const email = router.query.email as string;
 
     return (
         <Layout>
             <ForgotPasswordPageContainer>
-                {!token ? <ForgotPassword /> : <ResetPassword token={token} />}
+                {!token ? (
+                    <ForgotPassword />
+                ) : (
+                    <ResetPassword token={token} email={email} />
+                )}
             </ForgotPasswordPageContainer>
         </Layout>
     );

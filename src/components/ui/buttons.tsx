@@ -196,7 +196,7 @@ export const Button = styled.button<DefaultButtonProps>`
   }
 
   &:disabled {
-                    pointer - events: none;
+                    pointer-events: none;
     background: lightgray;
   }
 
