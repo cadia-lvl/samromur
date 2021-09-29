@@ -3,7 +3,8 @@ import { v4 as uuid } from 'uuid';
 import Sql from './sql';
 import { AuthError } from '../../types/auth';
 import { generateGUID } from '../../utilities/id';
-import { sha512hash } from '../../utilities/hash';
+import { bHash } from '../../utilities/hash';
+import bcrypt from 'bcryptjs';
 
 import {
     SuperUserStat,
@@ -56,7 +57,7 @@ export default class UserClients {
                     password = VALUES(password),
                     has_login = VALUES(has_login)
             `,
-                [clientId, email, confirmId, sha512hash(password), true]
+                [clientId, email, confirmId, bHash(password), true]
             )
             .then(() => {
                 return Promise.resolve(confirmId);
@@ -99,14 +100,7 @@ export default class UserClients {
                     password = VALUES(password),
                     has_login = VALUES(has_login)
                 `,
-                [
-                    clientId,
-                    email,
-                    username,
-                    confirmId,
-                    sha512hash(password),
-                    true,
-                ]
+                [clientId, email, username, confirmId, bHash(password), true]
             )
             .then(() => {
                 return Promise.resolve(confirmId);
@@ -207,12 +201,18 @@ export default class UserClients {
                     user_clients
                 WHERE
                     client_id = ?
-                AND
-                    password = ?
             `,
-            [clientId, sha512hash(oldPassword)]
+            [clientId]
         );
         if (!row) {
+            return Promise.reject(AuthError.USER_NOT_FOUND);
+        }
+        const oldPasswordHash = row.password;
+        const match = !!oldPasswordHash
+            ? bcrypt.compare(oldPassword, oldPasswordHash)
+            : false;
+
+        if (!match) {
             return Promise.reject(AuthError.WRONG_PASSWORD);
         }
 
@@ -226,7 +226,7 @@ export default class UserClients {
                 WHERE
                     client_id = ?
             `,
-                [sha512hash(password), clientId]
+                [bHash(password), clientId]
             )
             .then(() => {
                 return Promise.resolve();
@@ -240,17 +240,19 @@ export default class UserClients {
         const [[row]] = await this.sql.query(
             `
                 SELECT
-                    *
+                    password, client_id, email_confirmed
                 FROM
                     user_clients
                 WHERE
                     email = ?
-                AND
-                    password = ?
             `,
-            [email, sha512hash(password)]
+            [email]
         );
-        if (!row) {
+        const passwordHash = row?.password;
+        const match = !!passwordHash
+            ? bcrypt.compareSync(password, passwordHash)
+            : false;
+        if (!match) {
             if (await this.hasAccount(email)) {
                 return Promise.reject(AuthError.WRONG_PASSWORD);
             } else {
@@ -459,11 +461,7 @@ export default class UserClients {
                 WHERE
                     email = ?
             `,
-                [
-                    sha512hash(resetPasswordToken),
-                    resetPasswordTokenExpire,
-                    email,
-                ]
+                [bHash(resetPasswordToken), resetPasswordTokenExpire, email]
             )
             .then(([{ affectedRows }]) => {
                 return !!affectedRows
@@ -481,12 +479,17 @@ export default class UserClients {
      * @param password the new password
      */
     resetPassword = async (
+        email: string,
         resetPasswordToken: string,
         password: string
     ): Promise<void> => {
         try {
-            if (await this.validateToken(resetPasswordToken)) {
-                await this.sql.query(
+            const validToken = await this.validateToken(
+                email,
+                resetPasswordToken
+            );
+            if (validToken) {
+                const result = await this.sql.query(
                     `
                     UPDATE
                         user_clients
@@ -495,14 +498,9 @@ export default class UserClients {
                         reset_password_token = ?,
                         reset_password_token_expires = ?
                     WHERE
-                        reset_password_token = ?
+                        email = ?
                 `,
-                    [
-                        sha512hash(password),
-                        null,
-                        null,
-                        sha512hash(resetPasswordToken),
-                    ]
+                    [bHash(password), null, null, email]
                 );
                 return Promise.resolve();
             }
@@ -516,7 +514,10 @@ export default class UserClients {
      * Validates that the reset password token exists in the db and has not expired
      * @param token the reset password token to search for
      */
-    private validateToken = async (token: string): Promise<boolean> => {
+    private validateToken = async (
+        email: string,
+        token: string
+    ): Promise<boolean> => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -524,16 +525,24 @@ export default class UserClients {
                 FROM
                     user_clients
                 WHERE
-                    reset_password_token = ?
+                    email = ?
             `,
-            [sha512hash(token)]
+            [email]
         );
         if (!!row) {
-            const expires = row['reset_password_token_expires'];
+            try {
+                const hash = row['reset_password_token'];
+                const expires = row['reset_password_token_expires'];
+                const expired = Date.now() > parseInt(expires);
+                const match = bcrypt.compareSync(token, hash);
 
-            // If now is before expire return true
-            if (Date.now() < parseInt(expires)) {
-                return true;
+                // If token match and not expired return true (SUCCESS)
+                if (match && !expired) {
+                    return true;
+                }
+            } catch (err) {
+                console.error(err);
+                return false;
             }
         }
         return false;
