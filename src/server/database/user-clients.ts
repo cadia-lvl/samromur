@@ -254,6 +254,9 @@ export default class UserClients {
             : false;
         if (!match) {
             if (await this.hasAccount(email)) {
+                if (passwordHash == '') {
+                    return Promise.reject(AuthError.PLEASE_RESET);
+                }
                 return Promise.reject(AuthError.WRONG_PASSWORD);
             } else {
                 return Promise.reject(AuthError.USER_NOT_FOUND);

@@ -9,7 +9,7 @@
     "login": "Log in",
     "have-account": "Already signed up?",
     "forgot-password": "Forgot your password",
-    "errors" : {
+    "errors": {
         "missing-email": "Need to enter an email",
         "missing-password": "Need to enter a password",
         "missing-password-again": "Need to enter your password again",
@@ -18,13 +18,14 @@
         "invalid-username": "Invalid username, only letters, hyphon and underscore are allowed. At least 5 letters.",
         "form-error": "Error in the form"
     },
-    "auth-errors" : {
+    "auth-errors": {
         "user-not-found": "User was not found",
         "wrong-password": "Incorrect password",
         "has-account": "The email address has already signed up",
         "email-not-confirmed": "The email address has not confirmed its account",
         "username-in-use": "Username in use, please choose another",
-        "sign-in-failed": "Sign up failed"
+        "sign-in-failed": "Sign up failed",
+        "please-reset": "For security reasons we've removed your password, please use \"Forgot your password\" to reset your password."
     },
     "side-panel": {
         "statistics": "Statistics",

@@ -189,6 +189,8 @@ class LoginForm extends React.Component<Props, State> {
                 return t('auth-errors.email-not-confirmed');
             case AuthError.USERNAME_USED:
                 return t('auth-errors.username-in-use');
+            case AuthError.PLEASE_RESET:
+                return t('auth-errors.please-reset');
             default:
                 return t('auth-errors.sign-in-failed');
         }
