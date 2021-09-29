@@ -23,5 +23,9 @@
         "CONSENT_TEMPLATE_ID": "",
         "SIGNUP_TEMPLATE_ID": "",
         "SENDGRID_KEY": ""
+    },
+    "SPICES": {
+        "SALT": "",
+        "PEPPER": ""
     }
 }
