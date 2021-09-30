@@ -4,7 +4,7 @@ NOTE: Translation efforts are in progress. Until then, please direct any questio
 
 On this website you can take part in the creation of the Samrómur database. By participating, you submit your own voice recording and, as appropriate, demographic information, reviews, and feedback that will be useful in creating an open voice database.
 
-The database will be accessible at [The Database](www.samromur.is/gangasafn). With the creation of the voice database, it will be possible to support and strengthen the development of language technology solutions for Icelandic.
+The database will be accessible at [www.samromur.is](www.samromur.is/gagnasafn). With the creation of the voice database, it will be possible to support and strengthen the development of language technology solutions for Icelandic.
 
 ## Participation in the creation of the Samrómur database
 
@@ -12,17 +12,17 @@ Everyone can participate in the creation of the Samrómur database.
 
 You can participate in three ways. Reading a sentence ("audio clip") and submitting a recording of your voice, reviewing the audio clips others have recorded or repeating a sentence read up for you. Repeating a sentence is mostly aimed towards people with reading disorders, visually impaired or children. Reviewing audio clips involves listening to audio recordings recorded by other participants and confirming that the sentence given matches the audio recording. If the audio clip does not meet the aforementioned conditions, the audio clip must be rejected. It is important not to reject audio clips based on your own taste in how to read, the voice samples should form a diverse collection of voices of all Icelanders, who have diverse accents and backgrounds.
 
-As a participant, you agree that all of your contributions (voice recordings, and, as appropriate, demographic information, reviews, and feedback) will be covered by the Creative Commons by attribution license [Commons by attribution license](https://creativecommons.org/licenses/by/4.0/).
+As a participant, you agree that all of your contributions (voice recordings, and, as appropriate, demographic information, reviews, and feedback) will be covered by the [Creative Commons by attribution license](https://creativecommons.org/licenses/by/4.0/).
 
 In order to participate, you need to enter demographic information, i.e. age range, gender and mother tongue. By entering demographic information about yourself, you confirm that it is recorded with integrity and is true. False and incorrect information can adversely affect data collection.
 
-In order for minors to participate, a guardian's permit is required. If a participant is a minor, he or she must obtain permission from the custodian to participate in the creation of the database. To do this, the participant must provide his or her ID number and the e-mail address of the custodian. The custodian then receives an email and is asked to respond to it by clicking on a link. The custodian thereby gives consent for the ID number in question for participation in Samrómur. This information will not be published with the database and will not be stored longer than necessary.
+In order for minors to participate, a guardian's permission is required. If a participant is a minor, he or she must obtain permission from the guardian to participate in the creation of the database. To do this, the participant must provide his or her ID number and the e-mail address of the guardian. The guardian then receives an email and is asked to respond to it by clicking on a link. The guardian thereby gives consent for the ID number in question to participate in Samrómur. This information will not be published with the database and will not be stored longer than necessary.
 
 Participants can choose to provide information indicating which school or company they participate for. This information is only used to keep track of group participation and competitions and may be published on the site's website. The information will not be published with the database or stored longer than necessary.
 
 ## Access to a database
 
-Samrómur will be published under an open license called [Creative Commons by attribution](<(https://creativecommons.org/licenses/by/4.0/)>). The data providers that will offer downloads of the database will be listed on [Samrómur's website](https://samromur.is/gagnasafn).
+Samrómur will be published under an open license called [Creative Commons by attribution](https://creativecommons.org/licenses/by/4.0/). The data providers that will offer downloads of the database will be listed on [Samrómur's website](https://samromur.is/gagnasafn).
 
 ## Privacy
 

@@ -17,11 +17,13 @@ Privacy protection is important to RU and we place great emphasis on respecting 
 
 # Hvaða persónuupplýsingum safnar HR um þig og hver er tilgangurinn með söfnuninni?
 
-RU emphasizes the processing of only the personal information that is necessary in accordance with the purpose behind the collection of the information. RU does not further process personal information for unrelated purposes unless an individual is notified of this and the authorization on which the processing is based. RU collects, as applicable at any given time, the following personal information:
+RU emphasizes the processing of only the personal information that is necessary in accordance with the purpose behind the collection of the information. RU does not further process personal information for unrelated purposes unless an individual is notified of this and the authorization, on which the processing is based, permits it. 
+
+RU collects, as applicable at any given time, the following personal information:
 
 -   Voice recordings
 -   Demographic information e.g. age, gender and mother tongue.
--   Contact information, if you create an account then we store your email.
+-   Contact information, e.g. email
 -   Digital cookies, e.g. online behaviour.
 -   Information related to the consent of custodians for the children participating, e.g. child's ID number and email address of the guardian.
 -   For which school you are reading for during the Samrómur reading competition.
