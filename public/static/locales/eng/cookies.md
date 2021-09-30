@@ -12,11 +12,11 @@ Without the use of cookies and browser web storage, your experience on the site 
 
 ## 2. Purpose of using cookies and browser web storage.
 
-The website uses cookies to measure the use of various sub-pages within the website, but it helps us to assess what needs to be improved, for this we use cookies for Google Analytics. This allows us to see the usage patterns of the site as a whole instead of seeing the usage of individual users. We use the information to analyse website traffic and not to view personally identifiable information.
+The website uses the cookies to maintain information that improves the performance of the site and the user experience. For this cookies are used to store a unique client id (name: client_id), this allows us to make sure that the same user never reads the same sentence more than once and that they do not review their own voice clips. The website also store the users chosen localization setting allowing users to keep the site in their selected language upon revisits.
 
-The website uses the web browser to maintain information that improves the performance of the site and the user experience. This is information entered by the user, consent, unique user number, number of voice samples given by the user and number of voice samples that the user has listened to. By using the browser's web archive in this way, we prevent the user from having to enter the same information upon each visit, give the same consent and to minimize the likelihood of the user listening to the same voice sample more than once. The website also stores your settings, for the use of cookies and browser web storage, in the browser web storage(name: cookiesAgreed).
+In the persistent web storage we store a couple of thing, this is all information that the user has entered, like the consent (name: consent), demographics (name: demographics) and if tips should be shown or not (name: skipTips). By storing these values the user experience will improve and the user does not have to repeatedly enter the same information over and over again.
 
-We do not use cookies to collect information about your visits to other sites, nor to collect personal information about you, other than that which you have voluntarily registered with us through communication with our website.
+We do not use cookies to collect information about your visits to other sites, nor to collect personal information other than that which you have voluntarily registered with us through communication with our website.
 
 ## 3. How can I set the website's use of cookies?
 
