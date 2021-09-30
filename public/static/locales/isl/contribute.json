@@ -1,0 +1,43 @@
+{
+    "speak": "Tala",
+    "speak-action": "Smelltu hér til þess að lesa inn.",
+    "speak-info": "Með því að lesa inn í Samróm leggur þitt af mörkum við varðveislu íslenskunnar.",
+    "review": "Hlusta",
+    "review-action": "Smelltu hér til að yfirfara raddupptökur.",
+    "review-info": "Einungis upptökur sem eru yfirfarnar og merktar sem góðar mega fara inn í gagnasafnið.",
+    "repeat": "Herma",
+    "repeat-action": "Hér getur þú gefið til söfnunarinnar með því að herma eftir lesinni setningu.",
+    "repeat-info": "Með því að lesa inn í Samróm leggur þitt af mörkum við varðveislu íslenskunnar.",
+    "conversation": "Spjalla við vini",
+    "conversation-action": "Smelltu hér til að spjalla við vini",
+    "conversation-info": "Samtöl eru frábrugðin upplestri á stökum setningum og því er hér viðmót sem gerir þér kleift að taka upp samtal með vini eða vandamanni. Smelltu hér til þess að lesa meira.",
+    "choose-amount": "Velja fjölda",
+    "back-to-homepage": "Til baka á forsíðu",
+    "package-select": {
+        "speak": {
+            "how-much": "Hvað viltu lesa mikið?",
+            "text": "{{number}} setningar",
+            "small": "Lítið",
+            "medium": "Miðlungs",
+            "large": "Mikið"
+        },
+        "listen": {
+            "how-much": "Veldu pakka",
+            "text": "{{number}} upptökur",
+            "small": "Lítinn",
+            "medium": "Miðstærð",
+            "large": "Stóran"
+        },
+        "repeat": {
+            "how-much": "Hvað viltu herma mikið?",
+            "text": "{{number}} upptökur",
+            "small": "Lítinn",
+            "medium": "Miðstærð",
+            "large": "Stóran"
+        }
+    },
+    "tips": "Góð ráð",
+    "tips-listen": "Góð ráð við yfirferð",
+    "select-verification-package": "Hvaða yfirferðarflokk viltu hlusta á?",
+    "your-voice": "Þín rödd"
+}

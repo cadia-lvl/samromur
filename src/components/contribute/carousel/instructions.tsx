@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import { setHasPlayedRepeatClip } from '../../../store/contribute/actions';
 import { ContributeType } from '../../../types/contribute';
+import { useTranslation } from '../../../server/i18n';
 
 const InstructionsContainer = styled.div`
     width: 100%;
@@ -51,25 +52,27 @@ const InstructionsFC: React.FC<Props> = ({
     uploadError,
     contribute,
 }) => {
+    const { t } = useTranslation('wheel');
+
     const getRecordingErrorMessage = (): string => {
         switch (recordingError) {
             case RecordingError.TOO_LONG:
-                return 'Upptakan var of löng, reyndu aftur';
+                return t('errors.recording-too-long');
             case RecordingError.TOO_SHORT:
-                return 'Upptakan var of stutt, reyndu aftur';
+                return t('errors.recording-too-short');
             default:
-                return 'Upptakan var of lágvær, reyndu aftur';
+                return t('errors.recording-too-quiet');
         }
     };
 
     const getAudioErrorMessage = (): string => {
         switch (audioError) {
             case AudioError.NOT_ALLOWED:
-                return 'Þú þarft að leyfa aðgang að hljóðnemanum.';
+                return t('errors.mic-not-allowed');
             case AudioError.NO_MIC:
-                return 'Hljóðnemi fannst ekki';
+                return t('errors.mic-not-found');
             default:
-                return 'Því miður er ekki stuðningur við þennan vafra að svo stöddu.';
+                return t('not-supported');
         }
     };
 
@@ -83,7 +86,7 @@ const InstructionsFC: React.FC<Props> = ({
     };
 
     const verificationInstructions = (): React.ReactNode => {
-        return <Message>Hlustaðu á upptökuna og dæmdu hana</Message>;
+        return <Message>{t('instructions.listen-and-judge')}</Message>;
     };
 
     const speakInstructions = (): React.ReactNode => {
@@ -93,12 +96,13 @@ const InstructionsFC: React.FC<Props> = ({
         ) : recordingError ? (
             <Error>{getRecordingErrorMessage()}</Error>
         ) : activeClip ? (
-            <Message>Smelltu á örina til að spila upptökuna</Message>
-        ) : hasPlayedRepeatClip ||
-          goal?.contributeType !== ContributeType.REPEAT ? (
-            <Message>Smelltu á hljóðnemann og lestu setninguna upp</Message>
+            <Message>{t('instructions.click-arrow-to-play')}</Message>
+        ) : hasPlayedRepeatClip ? (
+            <Message>{t('instructions.click-mic-and-repeat')}</Message>
+        ) : goal?.contributeType !== ContributeType.REPEAT ? (
+            <Message>{t('instructions.click-mic-and-read')}</Message>
         ) : (
-            <Message>Hlustaðu á upptökuna </Message>
+            <Message>{t('instructions.listen-to-recording')}</Message>
         );
     };
 

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
+import { withTranslation, WithTranslation } from '../../../server/i18n';
 import { fetchMileStoneGroups } from '../../../services/stats-api';
 import { options } from './age-gender-chart';
 
 const ChartTitle = styled.h5``;
 
-interface Props {}
-
+type Props = WithTranslation;
 interface State {
     data: any;
 }
@@ -27,19 +27,22 @@ class MilestoneChart extends React.Component<Props, State> {
     };
 
     getTextFromLabel = (label: string) => {
+        const { t } = this.props;
         switch (label) {
             case 'adult':
-                return 'Fullorðnir, íslenska móðurmál';
+                return t('adults-icelandic');
             case 'l2_adult':
-                return 'Fullorðnir, annað móðurmál';
+                return t('adults-l2');
             case 'l2_child':
-                return 'Börn og unglingar, annað móðurmál';
+                return t('kids-l2');
             default:
-                return 'Börn og unglingar';
+                return t('kids-icelandic');
         }
     };
 
     generateDataSet = (data: any) => {
+        const { t } = this.props;
+
         const labels: any = [];
         const karl: any[] = [];
         const karl_valid: any[] = [];
@@ -62,43 +65,43 @@ class MilestoneChart extends React.Component<Props, State> {
             labels: labels,
             datasets: [
                 {
-                    label: 'Staðfest',
+                    label: t('reviewed'),
                     data: kona_valid,
                     backgroundColor: '#59cbb7',
                     stack: 1,
                 },
                 {
-                    label: 'Kona',
+                    label: t('women'),
                     data: kona,
                     backgroundColor: '#ff4f5e',
                     stack: 1,
                 },
                 {
-                    label: 'Staðfest',
+                    label: t('reviewed'),
                     data: karl_valid,
                     backgroundColor: '#59cbb7',
                     stack: 2,
                 },
                 {
-                    label: 'Karl',
+                    label: t('man'),
                     data: karl,
                     backgroundColor: '#629ff4',
                     stack: 2,
                 },
                 {
-                    label: 'Staðfest',
+                    label: t('reviewed'),
                     data: total_valid,
                     backgroundColor: '#59cbb7',
                     stack: 3,
                 },
                 {
-                    label: 'Samtals',
+                    label: t('total'),
                     data: total,
                     backgroundColor: '#2b376c',
                     stack: 3,
                 },
                 {
-                    label: 'Þar af staðfest',
+                    label: t('of-which-reviewed'),
                     data: [],
                     backgroundColor: '#59cbb7',
                     stack: 3,
@@ -111,13 +114,14 @@ class MilestoneChart extends React.Component<Props, State> {
 
     render() {
         const { data } = this.state;
+        const { t } = this.props;
         return (
             <div>
-                <ChartTitle>Uppökur eftir aldri og móðurmáli</ChartTitle>
+                <ChartTitle>{t('age-mother-tounge-chart-title')}</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );
     }
 }
 
-export default MilestoneChart;
+export default withTranslation('the-database')(MilestoneChart);

@@ -6,6 +6,7 @@ import Checkbox from '../../../ui/input/checkbox';
 import { connect } from 'react-redux';
 import { setSkipTips } from '../../../../store/user/actions';
 import { ContributeType } from '../../../../types/contribute';
+import { WithTranslation, withTranslation } from '../../../../server/i18n';
 
 const TipsContainer = styled.div`
     display: flex;
@@ -78,7 +79,7 @@ interface State {
     checked: boolean;
 }
 
-type TipsProps = Props & typeof dispatchProps;
+type TipsProps = Props & typeof dispatchProps & WithTranslation;
 
 class Tips extends React.Component<TipsProps, State> {
     constructor(props: TipsProps) {
@@ -99,7 +100,7 @@ class Tips extends React.Component<TipsProps, State> {
     };
 
     render() {
-        const { contributeType } = this.props;
+        const { contributeType, t } = this.props;
         const { checked } = this.state;
         const isSpeak = contributeType != ContributeType.LISTEN;
         return (
@@ -110,12 +111,17 @@ class Tips extends React.Component<TipsProps, State> {
                         checked={checked}
                         onChange={this.handleCheckChanged}
                     />
-                    <span>Sleppa þessum glugga næst</span>
+                    <span>{t('skip-tips')}</span>
                 </SkipInFutureContainer>
-                <SkipButton onClick={this.handleContinue}>Áfram</SkipButton>
+                <SkipButton onClick={this.handleContinue}>
+                    {t('common:continue')}
+                </SkipButton>
             </TipsContainer>
         );
     }
 }
 
-export default connect(null, dispatchProps)(Tips);
+export default connect(
+    null,
+    dispatchProps
+)(withTranslation(['tips', 'common'])(Tips));

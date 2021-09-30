@@ -88,37 +88,39 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
         user: { username },
     } = props;
     const { pathname } = router;
-    const { t } = useTranslation(['links'], { i18n: nextI18next.i18n });
+    const { t } = useTranslation(['links', 'common']);
 
     return (
         <NavigationContainer {...props}>
             <NavigationLinks {...props}>
                 <Link href="/" passHref>
-                    <NavLink isActive={pathname == '/'}>Forsíða</NavLink>
+                    <NavLink isActive={pathname == '/'}>
+                        {t('common:homepage')}
+                    </NavLink>
                 </Link>
                 <Link href="/takathatt" passHref>
                     <NavLink isActive={pathname == '/takathatt'}>
-                        Taka þátt
+                        {t('common:take-part')}
                     </NavLink>
                 </Link>
                 <Link href="/grunnskolakeppni" passHref>
                     <NavLink isActive={pathname == '/grunnskolakeppni'}>
-                        Grunnskólakeppni
+                        {t('grunnskola-keppni')}
                     </NavLink>
                 </Link>
                 <Link href="/gagnasafn" passHref>
                     <NavLink isActive={pathname == '/gagnasafn'}>
-                        Gagnasafnið
+                        {t('the-database')}
                     </NavLink>
                 </Link>
                 <Link href="/um" passHref>
-                    <NavLink isActive={pathname == '/um'}>Um Samróm</NavLink>
+                    <NavLink isActive={pathname == '/um'}>{t('about')}</NavLink>
                 </Link>
                 <NavLink
                     href="/minar-sidur"
                     isActive={pathname == '/minar-sidur'}
                 >
-                    {username ? `Hæ ${username}!` : 'Mínar síður'}
+                    {username ? `Hæ ${username}!` : t('my-pages')}
                 </NavLink>
                 {user.isAuthenticated && (
                     <NavButton onClick={authApi.logout}>Útskrá</NavButton>

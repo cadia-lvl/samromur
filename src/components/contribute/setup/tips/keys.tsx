@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useTranslation } from '../../../../server/i18n';
 
 const Shortcut = styled.div`
     display: flex;
@@ -19,105 +20,66 @@ const Key = styled.div`
     margin: 5px;
 `;
 
+interface Props {
+    shortcut: string;
+    explanation: string;
+}
+
+const KeyboardShortcut: React.FunctionComponent<Props> = ({
+    shortcut,
+    explanation,
+}) => {
+    const { t } = useTranslation('keyboard');
+
+    return (
+        <Shortcut>
+            <KeyContainer>
+                <Key>{shortcut}</Key>
+            </KeyContainer>
+            {t(explanation)}
+        </Shortcut>
+    );
+};
+
 export const PlaySpeak: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>Spacebar</Key>
-        </KeyContainer>
-        Taka upp/Spila upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'Spacebar'} explanation={'play-speak'} />
 );
 
 export const PlayListen: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>Spacebar</Key>
-        </KeyContainer>
-        Spila upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'Spacebar'} explanation={'play-listen'} />
 );
 
 export const Skip: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>s</Key>
-        </KeyContainer>
-        Sleppa upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'s'} explanation={'skip'} />
 );
 export const Back: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>{'◄'}</Key>
-        </KeyContainer>
-        Fara til baka í fyrri setningu / upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'◄'} explanation={'back'} />
 );
 export const Forwards: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>{'►'}</Key>
-        </KeyContainer>
-        Fara í næstu setningu / upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'►'} explanation={'forward'} />
 );
 export const Rerecord: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>x</Key>
-        </KeyContainer>
-        Endurtaka upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'x'} explanation={'re-record'} />
 );
 export const Delete: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>Del</Key>
-        </KeyContainer>
-        Fjarlægja upptöku
-    </Shortcut>
+    <KeyboardShortcut shortcut={'Del'} explanation={'delete'} />
 );
 export const Submit: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>{'Enter'}</Key>
-        </KeyContainer>
-        Senda inn
-    </Shortcut>
+    <KeyboardShortcut shortcut={'Enter'} explanation={'submit'} />
 );
 
 export const VoteYes: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>q</Key>
-        </KeyContainer>
-        Dæma upptöku góða
-    </Shortcut>
+    <KeyboardShortcut shortcut={'q'} explanation={'vote-yes'} />
 );
 
 export const VoteNo: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>e</Key>
-        </KeyContainer>
-        Dæma upptöku slæma
-    </Shortcut>
+    <KeyboardShortcut shortcut={'e'} explanation={'vote-no'} />
 );
 
 export const VoteUnsure: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>r</Key>
-        </KeyContainer>
-        Merkja upptöku sem óljósa
-    </Shortcut>
+    <KeyboardShortcut shortcut={'r'} explanation={'vote-unsure'} />
 );
 
 export const PlayRepeat: React.FC = () => (
-    <Shortcut>
-        <KeyContainer>
-            <Key>a</Key>
-        </KeyContainer>
-        Spila hermda setningu
-    </Shortcut>
+    <KeyboardShortcut shortcut={'a'} explanation={'play-repeat'} />
 );

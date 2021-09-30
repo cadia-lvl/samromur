@@ -12,6 +12,7 @@ import InformationIcon from '../../../ui/icons/information';
 import ExpandableButton from './expandable-button';
 import { InformationModal } from '../information-modal';
 import { breakpoints, theme } from '../../../../styles/global';
+import { useTranslation } from '../../../../server/i18n';
 
 const BottomControlsContainer = styled.div`
     width: 100%;
@@ -102,13 +103,14 @@ export const BottomControls: React.FunctionComponent<Props> = ({
 }) => {
     const [showInformationModal, setShowInformationModal] = useState(false);
     const hasRecording = !!clip && !!clip.recording;
+    const { t } = useTranslation('wheel');
 
     const handleInformation = () => {
         setShowInformationModal(!showInformationModal);
     };
 
     const isSmallScreen = window.innerWidth <= parseInt(breakpoints.extraSmall);
-    const skipText = isSmallScreen ? 'Sleppa' : 'Sleppa setningu';
+    const skipText = isSmallScreen ? t('skip') : t('skip-sentence');
 
     return (
         <BottomControlsContainer>
@@ -121,7 +123,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
                             onClickHandler={
                                 hasRecording ? deleteClip : skipSentence
                             }
-                            text={!hasRecording ? skipText : 'Fjarlægja?'}
+                            text={!hasRecording ? skipText : t('delete')}
                         >
                             {!hasRecording ? (
                                 <SkipIcon fill="grey" height={30} width={30} />
@@ -136,7 +138,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
                         <ExpandableButton
                             visible={hasRecording}
                             onClickHandler={removeRecording}
-                            text={'Endurtaka?'}
+                            text={t('re-record')}
                         >
                             <RetryIcon fill="grey" height={30} width={30} />
                         </ExpandableButton>
@@ -147,7 +149,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
                         stayExpanded
                         visible={hasRecording}
                         onClickHandler={() => saveVote(ClipVote.UNSURE)}
-                        text={'Ég er óviss'}
+                        text={t('unsure')}
                     >
                         <QuestionMarkIcon
                             fill={
@@ -168,7 +170,7 @@ export const BottomControls: React.FunctionComponent<Props> = ({
             )}
             <SubmitAndInfoContainer>
                 <SubmitButton visible={progress !== 0} onClick={handleSubmit}>
-                    <span>Senda</span>
+                    <span>{t('submit')}</span>
                 </SubmitButton>
                 {!isDone && (
                     <ExpandableButton

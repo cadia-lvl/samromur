@@ -7,6 +7,8 @@ import MicIcon from '../ui/icons/mic';
 import GlobeIcon from '../ui/icons/globe';
 
 import { averageClipSeconds } from '../../constants/stats';
+import { useTranslation } from '../../server/i18n';
+import { Trans } from 'react-i18next';
 
 const AboutDatasetContainer = styled.div`
     display: grid;
@@ -61,49 +63,49 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
 }) => {
     const clipsHours = Math.round((averageClipSeconds * clips) / 3600);
     const validatedHours = Math.round((averageClipSeconds * validated) / 3600);
+    const { t } = useTranslation('the-database');
     return (
         <AboutDatasetContainer>
             <StatsContainer>
                 <CircleStat
                     color={'validGreen'}
-                    label={'Staðfestar klukkustundir'}
-                    value={`${validatedHours} klst`}
+                    label={t('verified-hours')}
+                    value={t('hrs', { number: validatedHours })}
                     icon={
                         <PlayIcon height={30} width={30} fill={'validGreen'} />
                     }
                 />
                 <CircleStat
                     color={'red'}
-                    label={'Uppteknar klukkustundir'}
-                    value={`${clipsHours} klst`}
+                    label={t('recorded-hours')}
+                    value={t('hrs', { number: clipsHours })}
                     icon={<MicIcon height={30} width={30} fill={'red'} />}
                 />
                 <CircleStat
                     color={'blue'}
-                    label={'Fjöldi radda'}
+                    label={t('number-of-voices')}
                     value={clients.toString()}
                     icon={<GlobeIcon height={30} width={30} fill={'blue'} />}
                 />
             </StatsContainer>
             <AboutContainer>
-                <h2>Gagnasafnið Samrómur</h2>
+                <h2>{t('database.title')}</h2>
+                <span>{t('database.beginning')}</span>
+                <span>{t('database.middle')}</span>
                 <span>
-                    Samrómur er opið og aðgengilegt gagnasafn radda sem öllum er
-                    frjálst að nýta við þróun hugbúnaðar á íslensku.
-                </span>
-                <span>
-                    Gagnasafnið samanstendur af setningum og hljóðbrotum af
-                    upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í
-                    gagnasafninu inniheldur WAV-hljóðbrot og samsvarandi
-                    textaskrá.
-                </span>
-                <span>
-                    Gagnasafnið verður gefið út á{' '}
-                    <StyledLink target={'blank'} href={'https://clarin.is/ '}>
-                        Clarin
-                    </StyledLink>
-                    . Skráðu þig á póstlistann hér fyrir neðan til þess að fá
-                    tilkynningu þegar gagnasafnið verður gert aðgengilegt.
+                    <Trans i18nKey={'database.end'} t={t}>
+                        Fyrsta gagnasafnið með 100.000 setningum hefur verið
+                        gefið út á{' '}
+                        <StyledLink
+                            target={'blank'}
+                            href={'https://www.openslr.org/112/'}
+                        >
+                            OpenSLR
+                        </StyledLink>
+                        . Skráðu þig á póstlistann hér fyrir neðan til þess að
+                        fá tilkynningu þegar fleiri gagnasöfn verða gerð
+                        aðgengileg.
+                    </Trans>
                 </span>
             </AboutContainer>
         </AboutDatasetContainer>

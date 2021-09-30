@@ -9,6 +9,7 @@ import CheckMarkCircle from '../../../ui/icons/check-mark-circle';
 import LineGraph from '../../../ui/icons/line-graph';
 import Tip from './tip';
 import { theme } from '../../../../styles/global';
+import { useTranslation } from '../../../../server/i18n';
 
 interface Props {}
 const AudioContainer = styled.div`
@@ -64,6 +65,7 @@ const Audio = styled.audio`
 const AudioPlayer: React.FC<AudioProps> = ({ src, color }) => {
     const audioRef = React.createRef<HTMLAudioElement>();
     const [isPlaying, setIsPlaying] = React.useState(false);
+    const { t } = useTranslation('tips');
 
     const handlePlayPause = () => {
         const audio = audioRef.current;
@@ -102,85 +104,70 @@ const AudioPlayer: React.FC<AudioProps> = ({ src, color }) => {
                 color={getColorTheme()}
             >
                 {color === undefined || color === AudioColor.green
-                    ? 'Spila góða upptöku'
-                    : 'Spila slæma upptöku'}
+                    ? t('play-good-recording')
+                    : t('play-bad-recording')}
             </AudioButton>
         </AudioContainer>
     );
 };
 
-export const TipsVerify: React.FC<Props> = () => (
-    <div>
-        <Tip
-            icon={<Balance height={40} width={40} fill={'gray'} />}
-            title={'Meginreglan'}
-        >
-            <p>
-                Meginreglan er að það sem er lesið upp verður að stemma við
-                textann sem birtist á skjánum. Það kemur fyrir að orð eru ekki
-                lesinn rétt eða bara ekki lesin yfirhöfuð, þegar slíkt gerist á
-                að merkja upptökuna sem slæma. Hér að neðan er dæmi um góð
-                upptöku og svo slæma upptöku þar sem setningin „Þú þarft að fara
-                út að leita“ er lesinn.
-            </p>
-            <ExamplesContainer>
-                <AudioPlayer
-                    src={
-                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav'
-                    }
-                />
-                <AudioPlayer
-                    src={
-                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad1.wav'
-                    }
-                    color={AudioColor.red}
-                />
-            </ExamplesContainer>
-        </Tip>
-        <Tip
-            icon={<UserSpeakBubble height={40} width={40} fill={'gray'} />}
-            title={'Brothljóð'}
-        >
-            <p>
-                Það kemur fyrir að upptaka heppnist illa og innihaldi svokallað
-                brothljóð. Þegar slíkt hljóð yfirgnæfir talið að miklu leiti á
-                að merkja upptökuna sem slæma. Hér má heyra dæmi þar sem setning
-                „Allir verkir eru í burt“ er lesinn.
-            </p>
-            <ExamplesContainer>
-                <AudioPlayer
-                    src={
-                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav'
-                    }
-                />
-            </ExamplesContainer>
-        </Tip>
-        <Tip
-            icon={<Noise height={40} width={40} fill={'gray'} />}
-            title={'Kliður/bakgrunnshljóð'}
-        >
-            <p>
-                Við viljum að tækin okkar skilji okkur í þeim aðstæðum sem við
-                erum í. Því er allt í lagi að það heyrist smá kliður eða
-                bakgrunnshljóð. Svo lengi sem það yfirgnæfir ekki þann sem les.
-                Hér dæmi um góða og slæma upptöku þar sem setningin „Þetta er
-                ekkert grín“ er lesinn.
-            </p>
-            <ExamplesContainer>
-                <AudioPlayer
-                    src={
-                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav'
-                    }
-                />
-                <AudioPlayer
-                    src={
-                        'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad3.wav'
-                    }
-                    color={AudioColor.red}
-                />
-            </ExamplesContainer>
-        </Tip>
-    </div>
-);
+export const TipsVerify: React.FC<Props> = () => {
+    const { t } = useTranslation('tips');
+    return (
+        <div>
+            <Tip
+                icon={<Balance height={40} width={40} fill={'gray'} />}
+                title={t('main-review-rule')}
+            >
+                <p>{t('main-review-rule-text')}</p>
+                <ExamplesContainer>
+                    <AudioPlayer
+                        src={
+                            'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good1.wav'
+                        }
+                    />
+                    <AudioPlayer
+                        src={
+                            'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad1.wav'
+                        }
+                        color={AudioColor.red}
+                    />
+                </ExamplesContainer>
+            </Tip>
+            <Tip
+                icon={<UserSpeakBubble height={40} width={40} fill={'gray'} />}
+                title={t('sound-artifacts')}
+            >
+                <p>{t('sound-artifacts-text')}</p>
+                <ExamplesContainer>
+                    <AudioPlayer
+                        src={
+                            'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good2.wav'
+                        }
+                    />
+                </ExamplesContainer>
+            </Tip>
+            <Tip
+                icon={<Noise height={40} width={40} fill={'gray'} />}
+                title={t('background-noise')}
+            >
+                <p>{t('background-noise-text')}</p>
+                <ExamplesContainer>
+                    <AudioPlayer
+                        src={
+                            'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Good3.wav'
+                        }
+                    />
+                    <AudioPlayer
+                        src={
+                            'https://s3.eu-west-2.amazonaws.com/static.samromur.is/good_bad/Bad3.wav'
+                        }
+                        color={AudioColor.red}
+                    />
+                </ExamplesContainer>
+            </Tip>
+        </div>
+    );
+};
 
 export default TipsVerify;

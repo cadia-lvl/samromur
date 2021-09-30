@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from '../../server/i18n';
 
 const PartnersContainer = styled.div`
     display: grid;
@@ -46,13 +47,14 @@ const RobotImage = styled.img`
 interface Props {}
 
 export const Partners: React.FunctionComponent<Props> = (props) => {
+    const { t } = useTranslation('about');
     return (
         <PartnersContainer>
             <RobotImage src={'./images/robot-footer.svg'} alt="Robot" />
             <InfoContainer>
-                <h1>Samstarfsaðilar</h1>
+                <h1>{t('partners')}</h1>
                 <span>
-                    Þeir sem standa á bak við Samróm eru{' '}
+                    {t('backers-text')}
                     <StyledLink
                         target={'blank'}
                         href={'https://www.facebook.com/almannaromur/'}
@@ -75,7 +77,7 @@ export const Partners: React.FunctionComponent<Props> = (props) => {
                     ,
                 </span>
                 <span>
-                    og{' '}
+                    {t('and')}
                     <StyledLink
                         target={'blank'}
                         href={

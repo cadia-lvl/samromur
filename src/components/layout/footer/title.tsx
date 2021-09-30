@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { useTranslation } from '../../../server/i18n';
 
 const TitleContainer = styled.div`
     display: grid;
@@ -38,13 +39,14 @@ const License = styled.div`
 interface Props {}
 
 export const FooterTitle: React.FunctionComponent<Props> = (props) => {
+    const { t } = useTranslation(['footer']);
     return (
         <TitleContainer>
             <Link href="/">
                 <Title>Samrómur</Title>
             </Link>
             <License>
-                Efni birt undir merkjum{' '}
+                {t('content-published')}
                 <a
                     target="_blank"
                     rel="noopener"
