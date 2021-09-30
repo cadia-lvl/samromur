@@ -172,42 +172,43 @@ interface DefaultButtonProps {
 }
 
 export const Button = styled.button<DefaultButtonProps>`
-            height: 2.5rem;
-  min-width: ${({ small, medium, large }) =>
-      small ? '5rem' : medium ? '7.5rem' : large ? '10rem' : '5rem'};
-  cursor: pointer;
-  align-items: center;
-  text-align: center;
-  color: ${({ color }) => (color == 'grey' ? 'grey' : 'white')};
-  font-weight: bold;
-  font-size: 1rem;
-  outline: none;
+    height: 2.5rem;
+    min-width: ${({ small, medium, large }) =>
+        small ? '5rem' : medium ? '7.5rem' : large ? '10rem' : '5rem'};
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    color: ${({ color }) => (color == 'grey' ? 'grey' : 'white')};
+    font-weight: bold;
+    font-size: 1rem;
+    outline: none;
 
-  &::-moz-focus-inner {
-                    border: 0;
-  }
+    &::-moz-focus-inner {
+        border: 0;
+    }
 
-  &:hover, &:focus {
-                    outline: none;
-  }
+    &:hover,
+    &:focus {
+        outline: none;
+    }
 
-  &:active {
-                    transform: translateY(1px);
-  }
+    &:active {
+        transform: translateY(1px);
+    }
 
-  &:disabled {
-                    pointer-events: none;
-    background: lightgray;
-  }
+    &:disabled {
+        pointer-events: none;
+        background: lightgray;
+    }
 
-  ${({ theme, color, transparent }) =>
-      !transparent
-          ? `
+    ${({ theme, color, transparent }) =>
+        !transparent
+            ? `
     border: 0px solid ${theme.colors.borderGray};
     background: ${color ? theme.colors[color] : theme.colors.blue};
     
   `
-          : `
+            : `
     background: none;
     color: black;
     border: none;
@@ -215,6 +216,4 @@ export const Button = styled.button<DefaultButtonProps>`
         background: white;
     }
   `}
-
-  
 `;
