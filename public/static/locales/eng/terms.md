@@ -18,7 +18,7 @@ In order for minors to participate, a guardian's permission is required. If a pa
 
 Participants can choose to provide information indicating which school or company they participate for. This information is only used to keep track of group participation and competitions and may be published on the site's website. The information will not be published with the database or stored longer than necessary.
 
-## Access to a database
+## Accessing the database(s)
 
 Samrómur will be published under an open license called [Creative Commons by attribution](https://creativecommons.org/licenses/by/4.0/). The data providers that will offer downloads of the database will be listed on [Samrómur's website](https://samromur.is/gagnasafn).
 
