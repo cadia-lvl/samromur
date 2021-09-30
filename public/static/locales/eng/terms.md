@@ -1,7 +1,5 @@
 # Terms for participation
 
-NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
-
 On this website you can take part in the creation of the Samrómur database. By participating, you submit your own voice recording and, as appropriate, demographic information, reviews, and feedback that will be useful in creating an open voice database.
 
 The database will be accessible at [www.samromur.is](www.samromur.is/gagnasafn). With the creation of the voice database, it will be possible to support and strengthen the development of language technology solutions for Icelandic.
@@ -48,4 +46,4 @@ If the participant’s breach of these terms is discovered, RU reserves the righ
 
 You can contact us via the email address samromur@ru.is. Terms of participation in the creation of the Samrómur database are reviewed regularly and may therefore change.
 
-These terms were last updated on Aug 29, 2021
+These terms were last updated on Sept 30, 2021
