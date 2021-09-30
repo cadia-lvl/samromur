@@ -1,4 +1,4 @@
-# Terms for participation
+# Terms and Conditions
 
 On this website you can take part in the creation of the Samrómur database. By participating, you submit your own voice recording and, as appropriate, demographic information, reviews, and feedback that will be useful in creating an open voice database.
 
