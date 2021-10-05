@@ -18,14 +18,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const age = decodeURIComponent(req.headers.age as string) || '';
         const nativeLanguage =
             decodeURIComponent(req.headers.native_language as string) || '';
-        return db.sentences
-            .fetchSentences(clientId, count, age, nativeLanguage)
-            .then((response: Array<SimpleSentence>) => {
-                res.status(200).json(response);
-            })
-            .catch((error: any) => {
-                console.error(error);
-                res.status(500).json(error);
-            });
+        const source = decodeURIComponent(req.headers.source as string) || '';
+
+        try {
+            const response: Array<SimpleSentence> = await db.sentences.fetchSentences(
+                clientId,
+                count,
+                age,
+                nativeLanguage,
+                source
+            );
+
+            return res.status(200).json(response);
+        } catch (error: any) {
+            console.error(error);
+            return res.status(500).json(error);
+        }
     }
 };
