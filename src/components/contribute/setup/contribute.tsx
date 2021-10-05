@@ -71,6 +71,7 @@ interface ContributeProps {
     contributeType?: ContributeType;
     clipsToRepeat?: WheelClip[];
     labels?: string[];
+    sentencesSource?: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -153,7 +154,10 @@ class Contribute extends React.Component<Props, State> {
     ) => {
         const { groupedSentences } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
-        const sentences = groupedSentences && groupedSentences[ageGroup];
+        const sentences = groupedSentences
+            ? groupedSentences[ageGroup]
+            : undefined;
+
         this.setState({ sentences });
         this.setState({ demographic: true });
     };
@@ -199,6 +203,7 @@ class Contribute extends React.Component<Props, State> {
             contribute: { expanded, gaming, goal },
             user: { client },
             labels,
+            sentencesSource,
         } = this.props;
 
         return (
@@ -248,6 +253,7 @@ class Contribute extends React.Component<Props, State> {
                             sentences={sentences}
                             clipsToRepeat={repeatedClips}
                             contributeType={contributeType}
+                            sentencesSource={sentencesSource}
                         />
                     )}
                 </ContributeContainer>

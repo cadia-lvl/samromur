@@ -82,6 +82,7 @@ interface CarouselWheelProps {
     clips?: WheelClip[];
     contributeType?: ContributeType;
     clipsToRepeat?: Clip[];
+    sentencesSource?: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -148,19 +149,25 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     componentDidMount = async () => {
-        const { isSpeak } = this.state;
+        const { isSpeak, sentences } = this.state;
+
         if (isSpeak) {
             // To-do: Stop microphone when idle to remove recording indicator from browser tab
             this.recorder = new Recorder();
             try {
                 this.recorder.isRecordingSupported &&
                     (await this.recorder.init());
-            } catch (error) {
+            } catch (error: any) {
                 if (error in AudioError) {
                     this.setState({ audioError: error });
                 }
             }
+
+            if (sentences.length < this.batchSize) {
+                this.refreshSentences();
+            }
         }
+
         window.addEventListener('keydown', this.handleKeyDown);
         window.addEventListener('beforeunload', this.handleOnBeforeUnload);
     };
@@ -276,6 +283,7 @@ class CarouselWheel extends React.Component<Props, State> {
                 client,
                 demographics: { age, nativeLanguage },
             },
+            sentencesSource,
         } = this.props;
 
         const fetchRequest: FetchSamplesPayload = {
@@ -283,6 +291,7 @@ class CarouselWheel extends React.Component<Props, State> {
             age: age?.id,
             nativeLanguage: nativeLanguage?.id,
             count: this.batchSize,
+            source: sentencesSource,
         };
         const freshSentences = await fetchSentences(fetchRequest);
         return freshSentences;
