@@ -1,7 +1,5 @@
 # Cookie policy
 
-NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
-
 This website uses cookies to improve your experience on the website.
 
 ## 1. What is a cookie?
