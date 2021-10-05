@@ -1,5 +1,5 @@
 import Sql from './sql';
-import { SimpleSentenceBatch } from '../../types/sentences';
+import { SimpleSentence, SimpleSentenceBatch } from '../../types/sentences';
 import { sha256hash as hash } from '../../utilities/hash';
 import {
     AgeGroups,
@@ -86,9 +86,18 @@ export default class Sentences {
         clientId: string,
         count: number,
         age: string,
-        nativeLanguage: string
+        nativeLanguage: string,
+        source?: string
     ): Promise<any> => {
         const ageGroup = getAgeGroup(age, nativeLanguage);
+        if (source) {
+            const sentencesBySource: Array<SimpleSentence> = await this.fetchSentencesFromSource(
+                clientId,
+                count,
+                source
+            );
+            return sentencesBySource;
+        }
         const [rows] = await this.sql.query(
             `
             SELECT 
@@ -119,6 +128,46 @@ export default class Sentences {
             LIMIT ?
             `,
             [ageGroup, clientId ? clientId : 'fakeid', this.SHUFFLE_SIZE, count]
+        );
+        return rows;
+    };
+
+    /**
+     * This method was implemented specifically for the captini project
+     * to get 100 sentences from a specific source, disregarding age and
+     * native language in the request
+     * @param clientId client id to filter away already uttered sentences
+     * @param count amount of sentences to get
+     * @param source source to get sentences from
+     * @returns
+     */
+    fetchSentencesFromSource = async (
+        clientId: string,
+        count: number,
+        source: string
+    ): Promise<Array<SimpleSentence>> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                id, text
+            FROM
+                sentences
+            WHERE 
+                source = ?
+            AND
+                NOT EXISTS (
+                    SELECT
+                        *
+                    FROM
+                        clips
+                    WHERE
+                        clips.original_sentence_id = sentences.id
+                    AND
+                        clips.client_id = ?
+                )
+            LIMIT ?
+            `,
+            [source, clientId ? clientId : 'fakeid', count]
         );
         return rows;
     };
