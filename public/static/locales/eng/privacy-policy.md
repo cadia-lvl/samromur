@@ -34,7 +34,7 @@ When you use the website Samromur.is, we collect information about your use, i.e
 
 # Legal basis for processing
 
-RU collects and processes personal information based on the authority in item 6. Paragraph 1 Article 9 the Privacy Act, i.e. due to the legitimate interests of RU. Depending on the circumstances, RU may also process personal information based on your consent, cf. 1. tl.1. mgr. Article 9 the Privacy Act, e.g. if you subscribe to our mailing list.
+RU collects and processes personal information based on the authority in item 6 in Paragraph 1 in Article 9 of the Privacy Act, i.e. due to the legitimate interests of RU. Depending on the circumstances, RU may also process personal information based on your consent according to item 1 in Paragraph 1 in Article 9 of the Privacy Act, e.g. if you subscribe to our mailing list.
 
 Language technology aims to develop solutions that can work with and understand languages ​​and promotes their use in human-computer communication. RU wants to promote public awareness of the Icelandic voice database Samrómur in order to support and strengthen parties working on the development of Icelandic language technology solutions.
 
