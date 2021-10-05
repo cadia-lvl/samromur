@@ -14,7 +14,7 @@ Without the use of cookies and browser web storage, your experience on the site 
 
 The website uses the cookies to maintain information that improves the performance of the site and the user experience. For this cookies are used to store a unique client id (name: client_id), this allows us to make sure that the same user never reads the same sentence more than once and that they do not review their own voice clips. The website also store the users chosen localization setting allowing users to keep the site in their selected language upon revisits.
 
-In the persistent web storage we store a couple of thing, this is all information that the user has entered, like the consent (name: consent), demographics (name: demographics) and if tips should be shown or not (name: skipTips). By storing these values the user experience will improve and the user does not have to repeatedly enter the same information over and over again.
+In the persistent web storage we store a couple of things, this is all information that the user has entered, like the consent (name: consent), demographics (name: demographics) and if tips should be shown or not (name: skipTips). By storing these values the user experience will improve and the user does not have to repeatedly enter the same information over and over again.
 
 We do not use cookies to collect information about your visits to other sites, nor to collect personal information other than that which you have voluntarily registered with us through communication with our website.
 
