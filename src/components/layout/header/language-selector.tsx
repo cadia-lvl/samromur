@@ -13,7 +13,6 @@ const DropdownContent = styled.div`
     //background: ${({ theme }) => theme.colors.offwhite};
     background: white;
     //border: 2px solid ${({ theme }) => theme.colors.gray};
-    margin-left: 0.25rem;
     box-shadow: 0 0 3px 2px rgb(0 0 0 / 8%);
 `;
 
