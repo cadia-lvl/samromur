@@ -69,7 +69,7 @@ const L2SpeakerStats: React.FunctionComponent = () => {
         <div>
             <h3>L2 Speaker Stats</h3>
             {error && <p>Failed to load data.</p>}
-            {!data && <p>Loading...</p>}
+            {!error && !data && <p>Loading...</p>}
             {data && generateChart()}
         </div>
     );

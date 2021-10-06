@@ -215,9 +215,9 @@ export const getRepeatAudioStats = async () => {
     try {
         const res: AxiosResponse = await axios.get(url);
         return res.data;
-    } catch (error: any) {
+    } catch (error) {
         console.error();
-        return Promise.reject(error.code);
+        return Promise.reject(error);
     }
 };
 
@@ -226,9 +226,9 @@ export const getH3QueriesStats = async () => {
     try {
         const res: AxiosResponse = await axios.get(url);
         return res.data;
-    } catch (error: any) {
+    } catch (error) {
         console.error();
-        return Promise.reject(error.code);
+        return Promise.reject(error);
     }
 };
 
@@ -237,8 +237,8 @@ export const getL2SpeakersStats = async () => {
     try {
         const res: AxiosResponse = await axios.get(url);
         return res.data;
-    } catch (error: any) {
+    } catch (error) {
         console.error();
-        return Promise.reject(error.code);
+        return Promise.reject(error);
     }
 };
