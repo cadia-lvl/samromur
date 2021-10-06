@@ -47,7 +47,7 @@ const StyledLink = styled.a`
 interface Props {}
 
 export const Why: React.FunctionComponent<Props> = (props) => {
-    const { t } = useTranslation('about');
+    const { t, i18n } = useTranslation('about');
     return (
         <WhyContainer>
             <WhyInformation>
@@ -59,7 +59,9 @@ export const Why: React.FunctionComponent<Props> = (props) => {
                     <StyledLink
                         target={'blank'}
                         href={
-                            'https://www.stjornarradid.is/lisalib/getfile.aspx?itemid=56f6368e-54f0-11e7-941a-005056bc530c'
+                            i18n.language == 'isl'
+                                ? 'https://www.stjornarradid.is/lisalib/getfile.aspx?itemid=56f6368e-54f0-11e7-941a-005056bc530c'
+                                : 'https://notendur.hi.is/eirikur/mlt-en.pdf'
                         }
                     >
                         {t('why.here')}

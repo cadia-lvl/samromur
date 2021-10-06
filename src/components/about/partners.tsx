@@ -72,7 +72,7 @@ export const Partners: React.FunctionComponent<Props> = (props) => {
                     </StyledLink>
                     ,{' '}
                     <StyledLink target={'blank'} href={'https://www.ru.is/'}>
-                        Háskólinn í Reykjavík
+                        {t('reykjavik-university')}
                     </StyledLink>
                     ,
                 </span>
