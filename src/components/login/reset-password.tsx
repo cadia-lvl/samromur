@@ -4,6 +4,7 @@ import TextInput from '../ui/input/text';
 import { FormError, AuthError } from '../../types/auth';
 import * as authApi from '../../services/auth-api';
 import Link from 'next/link';
+import { withTranslation, WithTranslation } from '../../server/i18n';
 
 const ForgotPasswordContainer = styled.div`
     display: flex;
@@ -49,9 +50,11 @@ const Button = styled.div`
     }
 `;
 
-interface Props {
+interface ResetPasswordProps {
     token: string;
 }
+
+type Props = ResetPasswordProps & WithTranslation;
 
 interface State {
     password: string;
@@ -127,41 +130,43 @@ class ResetPassword extends React.Component<Props, State> {
 
     getErrorMessage = (): string => {
         const { error } = this.state;
+        const { t } = this.props;
         switch (error) {
             case FormError.MISSING_PASSWORD:
-                return 'Lykilorð vantar';
+                return t('errors.missing-password');
             case FormError.MISSING_PASSWORD_AGAIN:
-                return 'Það þarf að staðfesta lykilorð';
+                return t('errors.missing-password-again');
             case FormError.PASSWORD_MISMATCH:
-                return 'Lykilorð verða að stemma';
+                return t('errors.password-mismatch');
             default:
-                return 'óþekkt villa';
+                return t('errors.unknown-error');
         }
     };
     render() {
         const { error, success } = this.state;
+        const { t } = this.props;
         return (
             <ForgotPasswordContainer>
                 {success ? (
                     <div>
-                        <Title>Lykilorð endurstillt!</Title>
+                        <Title>{t('reset-password.password-reset')}</Title>
                         <Link href="/innskraning">
                             <NavLink>
-                                Smelltu hér til að fara á innskráningarsíðuna.
+                                {t('reset-password.to-log-on-page')}
                             </NavLink>
                         </Link>
                     </div>
                 ) : (
                     <div>
-                        <Title>Endurstilla lykilorð</Title>
+                        <Title>{t('reset-password.title')}</Title>
                         <TextInput
-                            label="Lykilorð"
+                            label={t('password-label')}
                             onChange={this.onPasswordChange}
                             placeholder=""
                             type="password"
                         />
                         <TextInput
-                            label="Lykilorð aftur"
+                            label={t('password-again-label')}
                             onChange={this.onPasswordAgainChange}
                             placeholder=""
                             type="password"
@@ -172,7 +177,7 @@ class ResetPassword extends React.Component<Props, State> {
                             </ErrorContainer>
                         )}
                         <Button onClick={this.handleResetPassword}>
-                            Staðfesta
+                            {t('common:submit')}
                         </Button>
                     </div>
                 )}
@@ -181,4 +186,4 @@ class ResetPassword extends React.Component<Props, State> {
     }
 }
 
-export default ResetPassword;
+export default withTranslation(['my-pages', 'common'])(ResetPassword);

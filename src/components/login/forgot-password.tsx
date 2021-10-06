@@ -4,6 +4,7 @@ import TextInput from '../ui/input/text';
 import * as authApi from '../../services/auth-api';
 import validateEmail from '../../utilities/validate-email';
 import { FormError } from '../../types/auth';
+import { withTranslation, WithTranslation } from '../../server/i18n';
 
 const ForgotPasswordContainer = styled.div`
     display: flex;
@@ -49,7 +50,7 @@ const Button = styled.div`
     }
 `;
 
-interface Props {}
+type Props = WithTranslation;
 
 interface State {
     email: string;
@@ -89,27 +90,29 @@ class ForgotPassword extends React.Component<Props, State> {
     };
     render() {
         const { resetEmailSent, email, formError: validEmail } = this.state;
+        const { t } = this.props;
         return (
             <ForgotPasswordContainer>
-                <Title>Týnt lykilorð</Title>
+                <Title>{t('forgot-password') + '?'}</Title>
                 {!resetEmailSent ? (
                     <div>
                         <TextInput
-                            label="Tölvupóstfang"
+                            label={t('common:email')}
                             onChange={this.onEmailChange}
                             placeholder=""
                         />
                         {validEmail && (
-                            <ErrorContainer>Ógilt tölvupóstfang</ErrorContainer>
+                            <ErrorContainer>
+                                {t('errors.invalid-email')}
+                            </ErrorContainer>
                         )}
                         <Button onClick={this.handleResetPassword}>
-                            Staðfesta
+                            {t('common:submit')}
                         </Button>
                     </div>
                 ) : (
                     <Paragraph>
-                        Tölvupóstur með leiðbeiningum um hvernig á að lykilorðið
-                        þitt hefur verið sendur til {email}
+                        {t('forgot-password-page.email-sent')} {email}
                     </Paragraph>
                 )}
             </ForgotPasswordContainer>
@@ -117,4 +120,4 @@ class ForgotPassword extends React.Component<Props, State> {
     }
 }
 
-export default ForgotPassword;
+export default withTranslation(['my-pages', 'common'])(ForgotPassword);

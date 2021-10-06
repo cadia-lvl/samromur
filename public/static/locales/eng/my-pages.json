@@ -9,22 +9,31 @@
     "login": "Log in",
     "have-account": "Already signed up?",
     "forgot-password": "Forgot your password",
-    "errors" : {
+    "errors": {
         "missing-email": "Need to enter an email",
         "missing-password": "Need to enter a password",
         "missing-password-again": "Need to enter your password again",
         "invalid-email": "Invalid email",
         "password-mismatch": "Passwords needs to match",
         "invalid-username": "Invalid username, only letters, hyphon and underscore are allowed. At least 5 letters.",
-        "form-error": "Error in the form"
+        "form-error": "Error in the form",
+        "unknown-error": "Unknown error"
     },
-    "auth-errors" : {
+    "auth-errors": {
         "user-not-found": "User was not found",
         "wrong-password": "Incorrect password",
         "has-account": "The email address has already signed up",
         "email-not-confirmed": "The email address has not confirmed its account",
         "username-in-use": "Username in use, please choose another",
         "sign-in-failed": "Sign up failed"
+    },
+    "forgot-password-page": {
+        "email-sent": "An email with instructions of how to reset your password has been sent to "
+    },
+    "reset-password": {
+        "title": "Reset password",
+        "password-reset": "Password reset!",
+        "to-log-on-page": "Click here to go to the log in page."
     },
     "side-panel": {
         "statistics": "Statistics",
