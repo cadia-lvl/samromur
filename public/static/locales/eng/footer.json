@@ -5,5 +5,7 @@
     "terms": "Terms and conditions",
     "contact": "Contact us",
     "encourage-others": "Encourage others to participate",
-    "sign-up-newsletter": "Subscribe to the Samrómur newsletter"
+    "sign-up-newsletter": "Subscribe to the Samrómur newsletter",
+    "subscribe-success": "Subscribed!",
+    "subscribe-failure": "Subscription failed"
 }
