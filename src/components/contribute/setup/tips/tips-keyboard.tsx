@@ -8,6 +8,7 @@ import { RootState } from 'typesafe-actions';
 import { ContributeType } from '../../../../types/contribute';
 import VerifyKeyboard from './keyboard-verify';
 import RepeatKeyboard from './keyboard-repeat';
+import { useTranslation } from '../../../../server/i18n';
 
 type Props = ReturnType<typeof mapStateToProps>;
 
@@ -19,6 +20,7 @@ const KeysContainer = styled.div`
 `;
 
 const TipsKeyboardFC: React.FC<Props> = (props) => {
+    const { t } = useTranslation('keyboard');
     const getKeys = () => {
         const { contributeType } = props;
         switch (contributeType) {
@@ -36,7 +38,7 @@ const TipsKeyboardFC: React.FC<Props> = (props) => {
     return (
         <Tip
             icon={<KeyboardIcon height={40} width={40} fill={'gray'} />}
-            title={'Flýtilyklar'}
+            title={t('keyboard-shortcuts')}
         >
             <KeysContainer>{getKeys()}</KeysContainer>
         </Tip>
