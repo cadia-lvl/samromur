@@ -19,6 +19,10 @@ const options = {
                 ticks: {
                     beginAtZero: true,
                 },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'uttr',
+                },
             },
         ],
     },

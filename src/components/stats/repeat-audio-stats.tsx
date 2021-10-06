@@ -19,6 +19,10 @@ const options = {
                 ticks: {
                     beginAtZero: true,
                 },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'uttr',
+                },
             },
         ],
     },
@@ -34,20 +38,24 @@ const RepeatAudioStats: React.FunctionComponent = () => {
     };
 
     const generateBarChartData = (indata: RepeatAudioStats[]) => {
-        const labels: string[] = ['Total', 'Valid', 'Invalid'];
+        const labels: string[] = [
+            'Total (uttr)',
+            'Valid (uttr)',
+            'Invalid (uttr)',
+        ];
         const adults: number[] = [];
         const children: number[] = [];
 
         indata.forEach((e) => {
             if (e.agegroup == 'adults') {
                 adults.push(e.total);
-                adults.push(e.valid * 1000);
-                adults.push(e.invalid * 1000);
+                adults.push(e.valid);
+                adults.push(e.invalid);
             }
             if (e.agegroup == 'children') {
                 children.push(e.total);
-                children.push(e.valid * 1000);
-                children.push(e.invalid * 1000);
+                children.push(e.valid);
+                children.push(e.invalid);
             }
         });
 
