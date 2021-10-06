@@ -59,6 +59,16 @@ const RepeatAudioStats: React.FunctionComponent = () => {
             labels: labels,
             datasets: [
                 {
+                    label: 'Goal Adults',
+                    data: goal,
+                    stack: 1,
+                },
+                {
+                    label: 'Goal Children',
+                    data: goal,
+                    stack: 2,
+                },
+                {
                     label: 'adults',
                     data: adults,
                     backgroundColor: [
@@ -76,16 +86,6 @@ const RepeatAudioStats: React.FunctionComponent = () => {
                         theme.colors.green,
                         theme.colors.red,
                     ],
-                    stack: 2,
-                },
-                {
-                    label: 'Goal Adults',
-                    data: goal,
-                    stack: 1,
-                },
-                {
-                    label: 'Goal Children',
-                    data: goal,
                     stack: 2,
                 },
             ],

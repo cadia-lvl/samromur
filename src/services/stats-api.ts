@@ -210,7 +210,7 @@ export const fetchMileStoneGroups = async (): Promise<any> => {
         });
 };
 
-export const getRepeatAudioStats = async (fakeUrl: string) => {
+export const getRepeatAudioStats = async () => {
     const url = '/api/stats/repeat';
     try {
         const res: AxiosResponse = await axios.get(url);
@@ -221,7 +221,7 @@ export const getRepeatAudioStats = async (fakeUrl: string) => {
     }
 };
 
-export const getH3QueriesStats = async (fakeUrl: string) => {
+export const getH3QueriesStats = async () => {
     const url = '/api/stats/h3-queries';
     try {
         const res: AxiosResponse = await axios.get(url);
@@ -232,7 +232,7 @@ export const getH3QueriesStats = async (fakeUrl: string) => {
     }
 };
 
-export const getL2SpeakersStats = async (fakeUrl: string) => {
+export const getL2SpeakersStats = async () => {
     const url = '/api/stats/l2-speakers';
     try {
         const res: AxiosResponse = await axios.get(url);

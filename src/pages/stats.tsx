@@ -15,8 +15,8 @@ const Stats: React.FunctionComponent = () => {
         <Layout>
             <StatsContainer>
                 <RepeatAudioStats />
-                <L2SpeakerStats />
                 <H3QueriesStats />
+                <L2SpeakerStats />
             </StatsContainer>
         </Layout>
     );
