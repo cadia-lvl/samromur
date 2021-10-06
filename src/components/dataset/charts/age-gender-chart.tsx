@@ -114,10 +114,18 @@ class AgeGenderChart extends React.Component<Props, State> {
     // we need the 0 in the db call to get the output in the
     // right order, then we trim it here to make it look nice
     ageFormatter = (ageGroup: string) => {
-        if (ageGroup && ageGroup[0] === '0') {
-            return ageGroup.slice(1);
+        const { i18n } = this.props;
+        let output = ageGroup;
+        // Translate age
+        if (i18n.language == 'eng') {
+            output = output.replace(' ára', '');
         }
-        return ageGroup;
+
+        if (output && output[0] === '0') {
+            return output.slice(1);
+        }
+
+        return output;
     };
 
     generateDataSet = (data: any) => {
