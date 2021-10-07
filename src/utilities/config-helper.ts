@@ -24,12 +24,19 @@ export type AmazonS3 = {
     BUCKET_NAME: string;
     CONFIG: S3.Types.ClientConfiguration;
 };
+
+type Spices = {
+    SALT: string;
+    PEPPER: string;
+};
+
 export type Config = {
     VERSION?: string;
     DATABASE: DatabaseOptions;
     SERVER_PORT: number;
     S3: AmazonS3;
     EMAIL: EmailOptions;
+    SPICES: Spices;
 };
 
 const defaults: Config = {
@@ -54,6 +61,10 @@ const defaults: Config = {
         SIGNUP_TEMPLATE_ID: '',
         RESET_TEMPLATE_ID: '',
         SENDGRID_KEY: '',
+    },
+    SPICES: {
+        SALT: '',
+        PEPPER: '',
     },
 };
 
@@ -80,5 +91,15 @@ export const getConfig = (): Config => {
 export const verifyConfig = (config: Config): void => {
     if (!config.EMAIL.SENDGRID_KEY) {
         console.error('EMAIL API KEY MISSING');
+    }
+
+    if (!config.SPICES.PEPPER || config.SPICES.PEPPER == '') {
+        console.error('Please add pepper to config!');
+        throw new Error('Pepper is missing in config');
+    }
+
+    if (!config.SPICES.SALT || config.SPICES.SALT == '') {
+        console.error('Please add salt to config!');
+        throw new Error('Salt is missing in config');
     }
 };

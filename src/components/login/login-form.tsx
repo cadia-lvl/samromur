@@ -10,13 +10,19 @@ import { AuthError, AuthRequest, FormError } from '../../types/auth';
 import validateEmail from '../../utilities/validate-email';
 import validateUserName from '../../utilities/validate-username';
 import { WithTranslation, withTranslation } from '../../server/i18n';
-import { title } from 'process';
 
-const LoginFormContainer = styled.form`
+interface LoginFormContainerProps {
+    disabled: boolean;
+}
+
+const LoginFormContainer = styled.form<LoginFormContainerProps>`
     margin: 1rem auto;
     max-width: 30rem;
     display: flex;
     flex-direction: column;
+    transition: opacity 0.1s ease-in-out;
+
+    ${({ disabled }) => (disabled ? `opacity: 0.6; pointer-events: none;` : ``)}
 `;
 
 const ErrorContainer = styled.div`
@@ -39,6 +45,7 @@ interface LoginFormProps {
     error?: AuthError;
     onSubmit: (auth: AuthRequest, isSignup: boolean) => void;
     removeError: () => void;
+    loading: boolean;
 }
 
 type Props = LoginFormProps & WithTranslation;
@@ -182,6 +189,8 @@ class LoginForm extends React.Component<Props, State> {
                 return t('auth-errors.email-not-confirmed');
             case AuthError.USERNAME_USED:
                 return t('auth-errors.username-in-use');
+            case AuthError.PLEASE_RESET:
+                return t('auth-errors.please-reset');
             default:
                 return t('auth-errors.sign-in-failed');
         }
@@ -192,10 +201,10 @@ class LoginForm extends React.Component<Props, State> {
 
         const authError = this.props.error;
 
-        const { t } = this.props;
+        const { t, loading } = this.props;
 
         return (
-            <LoginFormContainer onSubmit={this.handleSubmit}>
+            <LoginFormContainer onSubmit={this.handleSubmit} disabled={loading}>
                 <Title>{isSignup ? t('signup-title') : t('login-title')}</Title>
                 <TextInput
                     label={t('common:email')}
