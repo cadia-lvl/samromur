@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import useSWR from 'swr';
-import { getRepeatAudioStats } from '../../services/stats-api';
+import { getHermaStats } from '../../services/stats-api';
 import { theme } from '../../styles/global';
 
-interface RepeatAudioStats {
+interface HermaData {
     agegroup: string;
     total: number;
     valid: number;
@@ -29,19 +29,19 @@ const options = {
     legend: { display: false },
 };
 
-const RepeatAudioStats: React.FunctionComponent = () => {
-    const { data, error } = useSWR('repeat', getRepeatAudioStats);
+const HermaStats: React.FunctionComponent = () => {
+    const { data, error } = useSWR('repeat', getHermaStats);
 
     const generateChart = () => {
         const barChartData = generateBarChartData(data);
         return <Bar data={barChartData} options={options} />;
     };
 
-    const generateBarChartData = (indata: RepeatAudioStats[]) => {
+    const generateBarChartData = (indata: HermaData[]) => {
         const labels: string[] = [
-            'Total (uttr)',
-            'Valid (uttr)',
-            'Invalid (uttr)',
+            'Total (utt)',
+            'Valid (utt)',
+            'Invalid (utt)',
         ];
         const adults: number[] = [];
         const children: number[] = [];
@@ -103,7 +103,7 @@ const RepeatAudioStats: React.FunctionComponent = () => {
 
     return (
         <div>
-            <h3>Repeat Audio Stats</h3>
+            <h3>Herma Stats</h3>
             {error && <p>Failed to load data.</p>}
             {!error && !data && <p>Loading...</p>}
             {data && generateChart()}
@@ -111,4 +111,4 @@ const RepeatAudioStats: React.FunctionComponent = () => {
     );
 };
 
-export default RepeatAudioStats;
+export default HermaStats;

@@ -210,7 +210,7 @@ export const fetchMileStoneGroups = async (): Promise<any> => {
         });
 };
 
-export const getRepeatAudioStats = async () => {
+export const getHermaStats = async () => {
     const url = '/api/stats/repeat';
     try {
         const res: AxiosResponse = await axios.get(url);

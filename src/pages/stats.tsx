@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Layout from '../components/layout/layout';
 import H3QueriesStats from '../components/stats/h3-queries-stats';
 import L2SpeakerStats from '../components/stats/l2-speaker-stats';
-import RepeatAudioStats from '../components/stats/repeat-audio-stats';
+import HermaData from '../components/stats/herma-stats';
 
 const StatsContainer = styled.div`
     margin: 2rem auto;
@@ -14,7 +14,7 @@ const Stats: React.FunctionComponent = () => {
     return (
         <Layout>
             <StatsContainer>
-                <RepeatAudioStats />
+                <HermaData />
                 <H3QueriesStats />
                 <L2SpeakerStats />
             </StatsContainer>
