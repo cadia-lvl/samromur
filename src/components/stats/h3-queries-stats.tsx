@@ -10,6 +10,12 @@ interface H3Data {
     hours: number;
 }
 
+const defaultH3Data: H3Data = {
+    is_valid: null,
+    amount: 0,
+    hours: 0,
+};
+
 const options = {
     scales: {
         yAxes: [
@@ -34,23 +40,16 @@ const H3QueriesStats: React.FunctionComponent = () => {
     };
 
     const prepareBarChart = (indata: H3Data[]) => {
-        const hours: number[] = [];
-        const labels: string[] = [];
-        indata.forEach((e) => {
-            switch (e.is_valid) {
-                case 1:
-                    labels.push('Valid (hrs)');
-                    hours.push(e.hours);
-                    break;
-                case 2:
-                    labels.push('Invalid (hrs)');
-                    hours.push(e.hours);
-                default:
-                    labels.push('Unverified (hrs)');
-                    hours.push(e.hours);
-                    break;
-            }
-        });
+        const total = indata.find((e) => e.is_valid == null) || defaultH3Data;
+        const valid = indata.find((e) => e.is_valid == 1) || defaultH3Data;
+        const invalid = indata.find((e) => e.is_valid == 0) || defaultH3Data;
+
+        const hours: number[] = [total.hours, valid.hours, invalid.hours];
+        const labels: string[] = [
+            'Total (hrs)',
+            'Valid (hrs)',
+            'Invalid (hrs)',
+        ];
         const goalData: number[] = [0, 20, 0];
         const barChartData = {
             labels: labels,
