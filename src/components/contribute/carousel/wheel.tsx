@@ -157,9 +157,10 @@ class CarouselWheel extends React.Component<Props, State> {
             try {
                 this.recorder.isRecordingSupported &&
                     (await this.recorder.init());
-            } catch (error: any) {
-                if (error in AudioError) {
-                    this.setState({ audioError: error });
+            } catch (error) {
+                const audioError = error as any;
+                if (audioError in AudioError) {
+                    this.setState({ audioError: audioError });
                 }
             }
 
@@ -604,8 +605,9 @@ class CarouselWheel extends React.Component<Props, State> {
             await this.recorder.initMicrophone();
             await this.recorder.startRecording();
         } catch (error) {
-            if (error in AudioError) {
-                this.setState({ audioError: error });
+            const audioError = error as any;
+            if (audioError in AudioError) {
+                this.setState({ audioError: audioError });
             }
             console.error(error);
             return Promise.reject(error);
