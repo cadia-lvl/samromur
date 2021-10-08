@@ -21,7 +21,7 @@ const options = {
                 },
                 scaleLabel: {
                     display: true,
-                    labelString: 'uttr',
+                    labelString: 'utt',
                 },
             },
         ],

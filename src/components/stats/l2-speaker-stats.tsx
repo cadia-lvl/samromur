@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import useSWR from 'swr';
 import { getL2SpeakersStats } from '../../services/stats-api';
-import { setGoal } from '../../store/contribute/actions';
 import { theme } from '../../styles/global';
 
 interface L2SpeakerData {
@@ -37,7 +36,7 @@ const L2SpeakerStats: React.FunctionComponent = () => {
         return <Bar data={barChartData} options={options} />;
     };
     const generateBarChartData = (indata: L2SpeakerData) => {
-        const labels = ['Total (uttr)', 'Valid (uttr)', 'Invalid (uttr)'];
+        const labels = ['Total (utt)', 'Valid (utt)', 'Invalid (utt)'];
         const barData = [indata.total, indata.valid, indata.invalid];
         const goal = [50000, 0, 0];
 
