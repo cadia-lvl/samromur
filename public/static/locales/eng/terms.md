@@ -2,7 +2,7 @@
 
 On this website you can take part in the creation of the Samrómur database. By participating, you submit your own voice recording and, as appropriate, demographic information, reviews, and feedback that will be useful in creating an open voice database.
 
-The database will be accessible at [www.samromur.is](www.samromur.is/gagnasafn). With the creation of the voice database, it will be possible to support and strengthen the development of language technology solutions for Icelandic.
+The database will be accessible at [www.samromur.is](https://samromur.is/gagnasafn). With the creation of the voice database, it will be possible to support and strengthen the development of language technology solutions for Icelandic.
 
 ## Participation in the creation of the Samrómur database
 
