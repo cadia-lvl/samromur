@@ -1,109 +1,99 @@
 # Reykjavík University's privacy statement
 
-NOTE: Translation efforts are in progress. Until then, please direct any questions to samromur@ru.is.
+This privacy statement describes how Reykjavík University ehf., Id. 510105-4190, Menntavegur 1, 102 Reykjavík (hereinafter "RU", "institution" or "we"), is responsible for the processing, such as collecting, registration, storage and dissemination of personally identifiable information about individuals (hereinafter also "you") in in connection with the project Samrómur.
+This statement deals in particular with the processing of personal data when individuals:
 
-Með persónuverndaryfirlýsingu þessari er greint frá því hvernig Háskólinn í Reykjavík ehf., kt. 510105-4190, Menntavegur 1, 102 Reykjavík (hér eftir „HR", „stofnunin" eða „við" ), stendur að vinnslu, s.s. söfnun, skráningu, vistun og miðlun persónugreinanlegra upplýsinga um einstaklinga (hér eftir einnig „ þú") í tengslum við verkefnið Samrómur.
+-   Visit the website, [Samromur.is](https://www.samromur.is).
+-   Participate in the creation of the Samrómur database.
+-   Subscribe to Samrómur's mailing list.
 
-Yfirlýsingin fjallar einkum um vinnslu persónuupplýsinga þegar einstaklingar:
+The University is committed to comply with applicable data protection legislation at all times. This Privacy Policy is based on Act no. 90/2018 on Data Protection and the Processing of Personal Data (“Data Protection Act”).
 
-• heimsækja vefinn, [samrómur.is](https://samromur.is/).
+# Privacy is important to RU
 
-• taka þátt í gerð gagnasafnsins Samrómur.
+Privacy protection is important to RU and we place great emphasis on respecting the rights of individuals and that all processing of personal information is always in accordance with current regulations at all times, as well as in accordance with best practices in the field of language technology.
 
-• skrá sig á póstlista Samróms.
+# What personal information does RU collect about you and what is the purpose of the collection?
 
-HR vinnur persónuupplýsingar í samræmi við gildandi persónuverndarlöggjöf á Íslandi á hverjum tíma. Persónuverndaryfirlýsing þessi er byggð á lögum nr. 90/2018 um persónuvernd og vinnslu persónuupplýsinga („persónuverndarlög").
+RU emphasizes the processing of only the personal information that is necessary in accordance with the purpose behind the collection of the information. RU does not further process personal information for unrelated purposes unless an individual is notified of this and the authorization, on which the processing is based, permits it.
 
-# Persónuvernd er HR mikilvæg
+RU collects, as applicable at any given time, the following personal information:
 
-Öflug persónuvernd er HR kappsmál og leggjum við mikla áherslu á að virða réttindi einstaklinga og að öll meðferð persónuupplýsinga sé ávallt í samræmi við gildandi regluverk á hverjum tíma, sem og í samræmi við bestu venjur á sviði máltækni.
+-   Voice recordings
+-   Demographic information e.g. age, gender and mother tongue.
+-   Contact information, e.g. email
+-   Digital cookies, e.g. online behaviour.
+-   Information related to the consent of the guardian for the children participating, e.g. child's ID number and email address of the guardian.
+-   For which school you are reading for during the Samrómur reading competition.
 
-# Hvaða persónuupplýsingum safnar HR um þig og hver er tilgangurinn með söfnuninni?
+RU processes personal information primarily for the purpose of:
 
-HR leggur áherslu á að vinna einungis þær persónuupplýsingar sem nauðsynlegar eru í samræmi við þann tilgang sem liggur að baki söfnun upplýsinganna. HR vinnur persónuupplýsingar ekki frekar í óskyldum tilgangi nema einstaklingi sé tilkynnt um slíkt og þá heimild sem vinnslan byggir á.
-HR safnar, eins og við á hverju sinni, einkum eftirfarandi persónuupplýsingum:
+-   creating an open Icelandic voice database to support and strengthen research and development of language technology solutions in Icelandic.
 
-• raddupptökum
+When you use the website Samromur.is, we collect information about your use, i.e. IP address, type or version of browser you use, timing and duration of the visit and which subpages you visit within Samrómur website. Here you can find more information about our use of [cookies](https://www.samromur.is/vafrakokustefna).
 
-• lýðfræðilegum upplýsingum s.s. aldur, kyn og móðurmál.
+# Legal basis for processing
 
-• samskiptaupplýsingum, s.s. tölvupósti
+RU collects and processes personal information based on the authority in item 6 in Paragraph 1 in Article 9 of the Privacy Act, i.e. due to the legitimate interests of RU. Depending on the circumstances, RU may also process personal information based on your consent according to item 1 in Paragraph 1 in Article 9 of the Privacy Act, e.g. if you subscribe to our mailing list.
 
-• stafrænum fótsporum, s.s. nethegðun
+Language technology aims to develop solutions that can work with and understand languages ​​and promotes their use in human-computer communication. RU wants to promote public awareness of the Icelandic voice database Samrómur in order to support and strengthen parties working on the development of Icelandic language technology solutions.
 
-• upplýsingar tengdar samþykkis forsjáraðila fyrir barn s.s. kennitala barns og netfang forsjáraðila
+The database is an important step in securing the future of the Icelandic language and thus our culture. It is necessary to ensure that Icelandic is on an equal footing with other languages ​​in an ever-changing and fast-paced world of technology, and that as many opportunities as possible are taken to use language technology in modern society.
 
-• undir hvaða formerkjum þú, lest s.s. nafn skóla
+To facilitate the creation of a complete voice database, participants are given the option of providing information on age, gender and mother tongue. This information improves the quality of the voice database and is part of ensuring that the database represents as many groups in society as possible.
 
-HR vinnur persónuupplýsingar einkum í þeim tilgangi að:
+RU contributes to ensuring that Icelandic is not lost by making an Icelandic voice database that is constantly evolving and accessible to everyone for an unlimited period of time. Voice recording and information will only be used to create knowledge in this important area. The project is carried out in the public interest so that the future sounds good in Icelandic.
 
-• búa til opið íslenskt raddgagnasafn til að styðja við og efla rannsóknir og þróun máltæknilausna
+# How long do we store personal information about you?
 
-Þegar þú notar vefinn [samrómur.is](https://samromur.is/) söfnum við upplýsingum um notkun þína, þ.e. IP tölu, tegund eða útgáfu vafra sem þú notar, tímasetningu og tímalengd heimsóknar og hvaða undirsíður þú heimsækir innan heimasíðu Samróms. Hér má finna nánari upplýsingar um notkun okkar á vafrakökum (e. cookies), [samrómur.is/vafrakökustefna](https://www.samromur.is/vafrakokustefna).
+RU stores personal information for the time necessary to fulfil the purpose of the processing as described in this statement.
 
-# Lagalegur grundvöllur fyrir vinnslu
+# From whom does your RU collect personal information?
 
-HR safnar og vinnur persónuupplýsingar byggt á heimild í 6. tl. 1. mgr. 9. gr. persónuverndarlaga, þ.e. vegna lögmætra hagsmuna stofnunarinnar. Eftir atvikum kann HR einnig að vinna persónuupplýsingar byggt á samþykki þínu, sbr. 1. tl.1. mgr. 9. gr. persónuverndarlaga, s.s. ef þú skráir þig á póstlista okkar.
+We only collect personal information from you.
 
-Máltækni miðar að því að þróa búnað sem getur unnið með og skilið tungumál og stuðlar að notkun þeirra í samskiptum manns og tölvu. HR vill stuðla að aðauknu almennings að íslensku raddgagnasafni til að styðja við og efla aðila sem vinna að þróun íslenskra máltæknilausna.
+# When does RU share your personal information with third parties and why?
 
-Gagnasafnið er mikilvægt skref til að tryggja framtíð íslenskunnar og þar með menningu okkar. Nauðsynlegt er að tryggja að íslenskan standi jafnfætis öðrum tungumálum í síbreytilegum og hröðum tækniheimi og nýttir séu sem flestir möguleikar á hagnýtingu máltækni í nútíma samfélagi.
+Samrómur will be released under an open license called [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ast). The data providers that will offer the download of the database will be specified on the Samrómur website. The personal information that is part of the open database is your voice recording as well as demographic information about age, gender and mother tongue, where that information is available.
 
-Til að greiða fyrir gerð fullkomins raddgagnasafns er þátttakendum valkvætt að gefa upp upplýsingar um aldur, kyn og móðurmál. Þessar upplýsingar bæta gæði raddgagnasafnsins og eru liður í því að tryggja að gagnasafnið endurspegli sem flesta hópa samfélagsins.
+Through open public access to a database with Icelandic voices, the goal is to support and strengthen parties working on the development of Icelandic language technology solutions. Third parties who download the database may process the data for other purposes. RU's privacy statement does not cover information or processing by third parties, as we have no control over or are responsible for their use, publication or other work.
 
-HR leggur sitt af mörkum til að tryggja að íslenskan glatist ekki með því að gera íslenskt raddgagnasafn sem er í stöðugri þróun aðgengilegt öllum í ótakmarkaðan tíma. Raddupptakan og upplýsingarnar verða einungis notaðar til þess að skapa þekkingu á þessu mikilvæga sviði. Verkefnið er unnið í almannaþágu svo að framtíðin hljómi vel á íslensku.
+RU may also share the open database with third parties who conduct research in the field of language technology, with the aim of strengthening research in the field.
 
-# Hversu lengi geymum við persónuupplýsingar um þig?
+# How is your personal data protected?
 
-HR geymir persónuupplýsingar í þann tíma sem nauðsynlegur er til að uppfylla tilgang vinnslunnar eins og greint er frá honum hér að ofan.
+Reykjavik University endeavours to maintain technical and procedural safeguards that are appropriate to the sensitivity of the personal data in question. Access controls to systems in which information about you is stored are an example of such safeguards. These safeguards are designed to protect your personal data from loss and unauthorized access, copying, use, modification or disclosure.
 
-# Frá hverjum safnar HR þínum persónuupplýsingum?
+# Your rights
 
-Við söfnum persónuupplýsingum aðeins frá þér.
+Subject to the conditions further covered by applicable privacy laws, you have the right to:
 
-# Hvenær miðlar HR persónuupplýsingum þínum til þriðju aðila og af hverju?
+• Receive information about what personal information RU has registered about you and its origin, as well as information about how personal information about you is processed,
 
-Samrómur verður gefið út með opnu leyfi sem kallast [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.ast). Þær veitur sem munu bjóða upp á niðurhal gagnasafnsins verða tilgreindar á vef Samróms. HR selur ekki undir neinum kringumstæðum persónuupplýsingar um þig. Þær persónuupplýsingar sem eru hluti af opna gagnasafninu eru raddupptakan þín auk lýðfræðilegra upplýsinga um aldur, kyn og móðurmál, kjósir ef að þær upplýsingar eru fyrir hendi.
+• Gain access to the personal information processed about you, or request that it be sent to third parties,
 
-Með opnu aðgengi almennings að gagnasafni með íslenskum röddum er unnið að því markmiði að styðja við og efla aðila sem vinna að þróun íslenskra máltæknilausna. Hugsanlegt er að þriðju aðilar sem sækja gagnasafnið vinni gögnin í öðrum tilgangi. Persónuverndaryfirlýsing HR nær ekki til upplýsinga eða vinnslu þriðju aðila en við höfum enga stjórn á né berum ábyrgð á notkun, birtingu eða öðrum verkum þeirra.
+• Request that your personal information is updated and corrected if necessary,
 
-Jafnframt kann HR að miðla opna gagnasafninu til þriðju aðila sem vinna rannsóknir á sviði máltækni, með það að markmiði að efla rannsóknir á sviðinu.
+• RU will delete your personal information if there is no objective or legal authority to store it
 
-# Öryggi persónuupplýsinga og tilkynning um öryggisbrot
+• Revoke your consent to the processing of personal data, if processing is based on such consent
 
-Öryggi í vinnslu persónuupplýsinga er HR mikilvægt og höfum við gripið til viðeigandi tæknilegra og skipulagslegra öryggisráðstafana til að tryggja vernd persónuupplýsinga þinna. Þessum ráðstöfunum er ætlað að vernda persónuupplýsingar gegn því að þær glatist eða breytist fyrir slysni og gegn óleyfilegum aðgangi, afritun, notkun eða miðlun þeirra. Komi upp öryggisbrot er varðar þínar persónuupplýsingar munum við bregðast við í samræmi við persónuverndarlög.
+• File a complaint if you wish to restrict or prevent the processing of your personal information
 
-# Réttindi þín
+• Receive information on whether automatic decision-making takes place, on what grounds such decision-making is based and a review of automatic decision-making
 
-Með fyrirvara um þau skilyrði sem nánar er fjallað um í gildandi löggjöf um persónuvernd, þá átt þú rétt á að
+If you want to exercise your rights, you can send a written inquiry to samromur@ru.is. We will confirm receipt of the request and generally respond to requests within one month of receipt. If it is not possible to respond within a month, we will notify you of a delay in processing within a month. No fee is charged when individuals exercise their rights in accordance with the above.
 
-• fá upplýsingar um hvaða persónuupplýsingar stofnunin hefur skráð um þig og uppruna þeirra, sem og upplýsingar um hvernig unnið er með persónuupplýsingar um þig,
+You also have the right to lodge a complaint with the Data Protection Authority if you see reason to do so. Information about privacy can be found on their website, [personuvernd.is](https://www.personuvernd.is/).
 
-• fá aðgang að þeim persónuupplýsingum sem eru unnar um þig, eða óska eftir að þær séu sendar til þriðja aðila,
+# Further information
 
-• persónuupplýsingar þínar séu uppfærðar og leiðréttar ef tilefni er til,
+If you would like more information on matters relating to your personal information, please contact RU's Language and Voice lab.
 
-• HR eyði persónuupplýsingum þínum ef ekki er málefnaleg eða lagaleg heimild til að varðveita þær
+Reykjavík University ehf. Menntavegur 1, 102 Reykjavík. Phone: 599 6200, samromur@ru.is.
 
-• afturkalla samþykki þitt til vinnslu persónuupplýsinga, ef vinnsla byggir á slíku samþykki
+# Review of RU's privacy statement
 
-• koma á framfæri andmælum ef þú vilt takmarka eða koma í veg fyrir að persónuupplýsingar þínar séu unnar
+RU's privacy statement is reviewed regularly and updated if necessary. All changes that may be made take effect after the updated version has been published on the [Samrómur website](https://samromur.is/).
 
-• fá upplýsingar um það hvort fram fari sjálfvirk ákvarðanataka, á hvaða rökum slík ákvarðanataka er byggð og endurskoðun á sjálfvirkri ákvarðanatöku
-
-Viljir þú nýta rétt þinn getur þú sent skriflega fyrirspurn á samromur@hr.is. Við munum staðfesta móttöku á beiðninni og að jafnaði bregðast við beiðnum innan mánaðar frá móttöku. Verði ekki unnt að bregðast við innan mánaðar munum við tilkynna þér um töf á afgreiðslu innan mánaðar. Ekki er innheimt gjald þegar einstaklingar nýta rétt sinn í samræmi við ofangreint.
-
-Þú hefur einnig rétt til að leggja fram kvörtun hjá Persónuvernd sjáir þú ástæðu til þess. Upplýsingar um persónuvernd má finna á heimasíðu þeirra, [personuvernd.is](https://www.personuvernd.is/).
-
-# Frekari upplýsingar
-
-Ef þú vilt fá frekari upplýsingar um málefni sem snúa að þínum persónuupplýsingum þá bendum við þér á að hafa samband við Mál- og raddtæknistofu HR.
-
-Háskólinn í Reykjavík ehf. Menntavegur 1, 102 Reykjavík, sími: 599 6200, samromur@ru.is.
-
-# Yfirferð og endurskoðun persónuverndaryfirlýsingar HR
-
-Persónuverndaryfirlýsing HR er endurskoðuð reglulega og uppfærð ef tilefni er til.
-Allar breytingar sem kunna að verða gerðar taka gildi eftir að uppfærð útgáfa hefur verið birt á heimasíðu [Samróms](https://samromur.is/).
-
-Þessi persónuverndaryfirlýsing var uppfærð þann 27.04.2021."
+This privacy statement was updated on Oct 8, 2021
