@@ -24,7 +24,7 @@ Samrómur verður gefið út með opnu leyfi sem kallast [Creative Commons by at
 
 ## Persónuvernd
 
-Ef þú lætur í té framlag í formi raddsýnis og eftir atvikum lýðfræðilegar upplýsingar kunna upplýsingarnar í einhverjum tilvikum að vera persónugreinanlegar. Í [persónuverndaryfirlýsingu Háskólans í Reykjavík](https://samromur.is/is/personuverndaryfirlysing) (HR) kemur fram hvernig HR nýtir persónugreinanlegar upplýsingar.
+Ef þú lætur í té framlag í formi raddsýnis og eftir atvikum lýðfræðilegar upplýsingar kunna upplýsingarnar í einhverjum tilvikum að vera persónugreinanlegar. Í [persónuverndaryfirlýsingu Háskólans í Reykjavík](https://samromur.is/personuverndaryfirlysing) (HR) kemur fram hvernig HR nýtir persónugreinanlegar upplýsingar.
 
 ## Samskipti
 
