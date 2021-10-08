@@ -12,6 +12,7 @@ export enum AuthError {
     EMAIL_NOT_CONFIRMED = 'EMAIL_NOT_CONFIRMED',
     EMAIL_NOT_SENT = 'EMAIL_NOT_SENT',
     FAILED = 'FAILED',
+    PLEASE_RESET = 'PLEASE_RESET',
 }
 
 export enum FormError {

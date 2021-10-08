@@ -19,10 +19,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             if (data) {
                 const auth = data.split(' ')[1];
                 const decoded = Buffer.from(auth, 'base64').toString('utf8');
-                const [resetPasswordToken, password] = decoded.split(':');
+                const [email, resetPasswordToken, password] = decoded.split(
+                    ':'
+                );
 
                 return db.userClients
-                    .resetPassword(resetPasswordToken, password)
+                    .resetPassword(email, resetPasswordToken, password)
                     .then(() => {
                         return res.status(200).end();
                     })

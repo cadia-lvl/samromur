@@ -9,7 +9,7 @@
     "login": "Skrá inn",
     "have-account": "Áttu aðgang?",
     "forgot-password": "Týnt lykilorð",
-    "errors" : {
+    "errors": {
         "missing-email": "Tölvupóstfang vantar",
         "missing-password": "Lykilorð vantar",
         "missing-password-again": "Það þarf að staðfesta lykilorð",
@@ -18,15 +18,16 @@
         "invalid-username": "Ógilt notendanafn, aðeins bókstafir, bandstrik og undirstrik eru leyfileg. Lágmark 5 stafir.",
         "form-error": "Villa í formi"
     },
-    "auth-errors" : {
+    "auth-errors": {
         "user-not-found": "Notandi finnst ekki",
         "wrong-password": "Rangt lykilorð",
         "has-account": "Tölvupóstfang þegar skráð",
         "email-not-confirmed": "Tölvupóstfang hefur ekki verið staðfest",
         "username-in-use": "Notendanafnið er tekið, vinsamlegast veldu nýtt",
-        "sign-in-failed": "Innskráning mistókst"
+        "sign-in-failed": "Innskráning mistókst",
+        "please-reset": "Af öryggisástæðum höfum við fjarlægt aðgangsorðið þitt, vinsamlegast notaðu \"Týnt lykilorð\" til að endurstilla lykilorðið."
     },
-        "side-panel": {
+    "side-panel": {
         "statistics": "Tölfræði",
         "settings": "Stillingar",
         "administrative": "Stjórnandi"
@@ -35,7 +36,7 @@
         "super-verification-title": "Ofur yfirferð",
         "super-verification-text": "Þú hefur yfirfarið <1>{{superVotes}}</1> setningar með <4>ofur</4> atkvæðum",
         "read-sentences-title": "Innlesnar setningar",
-        "read-sentences-text": "<0>Þú hefur lesið inn <2>{{sentences}}</2> setningar.</0> <1>Þar af er búið að merkja <2>{{good}}</2> góðar</1><2> og <1>{{bad}}</1> slæmar</2>",        
+        "read-sentences-text": "<0>Þú hefur lesið inn <2>{{sentences}}</2> setningar.</0> <1>Þar af er búið að merkja <2>{{good}}</2> góðar</1><2> og <1>{{bad}}</1> slæmar</2>",
         "verified-sentences-title": "Yfirfarnar setningar",
         "verified-sentences-text": "Þú hefur yfirfarið <2>{{sentences}}</2> setningar"
     },

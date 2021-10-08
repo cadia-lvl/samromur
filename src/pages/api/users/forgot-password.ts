@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 return db.userClients
                     .createResetPasswordToken(email)
                     .then(async (token: string) => {
-                        const url = `${host}/tyntlykilord?token=${token}`;
+                        const url = `${host}/tyntlykilord?token=${token}&email=${email}`;
                         return emailClient
                             .sendResetPasswordEmail(email, url)
                             .then(() => {

@@ -109,11 +109,14 @@ export const createResetToken = async (email: string): Promise<void> => {
  * @param password the new password
  */
 export const resetPassword = async (
+    email: string,
     token: string,
     password: string
 ): Promise<boolean> => {
     const url = `api/users/reset-password`;
-    const auth = Buffer.from(`${token}:${password}`, 'utf8').toString('base64');
+    const auth = Buffer.from(`${email}:${token}:${password}`, 'utf8').toString(
+        'base64'
+    );
 
     return axios({
         method: 'POST',
