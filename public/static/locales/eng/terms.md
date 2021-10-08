@@ -46,4 +46,4 @@ If the participant’s breach of these terms is discovered, RU reserves the righ
 
 You can contact us via the email address samromur@ru.is. Terms of participation in the creation of the Samrómur database are reviewed regularly and may therefore change.
 
-These terms were last updated on Sept 30, 2021
+These terms were last updated on Oct 8, 2021

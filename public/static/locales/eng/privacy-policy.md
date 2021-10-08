@@ -23,7 +23,7 @@ RU collects, as applicable at any given time, the following personal information
 -   Demographic information e.g. age, gender and mother tongue.
 -   Contact information, e.g. email
 -   Digital cookies, e.g. online behaviour.
--   Information related to the consent of guardian for the children participating, e.g. child's ID number and email address of the guardian.
+-   Information related to the consent of the guardian for the children participating, e.g. child's ID number and email address of the guardian.
 -   For which school you are reading for during the Samrómur reading competition.
 
 RU processes personal information primarily for the purpose of:
@@ -96,4 +96,4 @@ Reykjavík University ehf. Menntavegur 1, 102 Reykjavík. Phone: 599 6200, samro
 
 RU's privacy statement is reviewed regularly and updated if necessary. All changes that may be made take effect after the updated version has been published on the [Samrómur website](https://samromur.is/).
 
-This privacy statement was updated on Sept 30, 2021
+This privacy statement was updated on Oct 8, 2021
