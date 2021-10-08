@@ -390,4 +390,66 @@ export default class Clips {
         );
         return rows;
     }, cacheTimeMSLong);
+
+    fetchRepeatStats = async () => {
+        const [rows] = await this.sql.query(`
+        SELECT 
+            agegroup,
+            COUNT(*) as total,
+            COUNT(CASE
+                WHEN is_valid = 1 THEN 'valid'
+                ELSE NULL
+            END) AS valid,
+            COUNT(CASE
+                WHEN is_valid = 0 THEN 'invalid'
+                ELSE NULL
+            END) AS invalid
+        FROM
+            (SELECT 
+                *,
+                    CASE
+                        WHEN clips.age IN (1 , 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 'ungur_unglingur') THEN 'children'
+                        WHEN clips.age IN ('unglingur' , 'tvitugt', 'thritugt', 'fertugt', 'fimmtugt', 'sextugt', 'sjotugt', 'attraett', 'niraett') THEN 'adults'
+                        ELSE NULL
+                    END agegroup
+            FROM
+                clips
+            WHERE
+                is_repeated = 1) AS agegroups
+        GROUP BY agegroup
+        `);
+        return rows;
+    };
+
+    fetchL2SpeakerStats = async () => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT 
+                    COUNT(*) AS total,
+                    SUM(is_valid = 1) AS valid,
+                    SUM(is_valid = 0) AS invalid
+                FROM
+                    clips
+                WHERE
+                    native_language != 'islenska'
+                        AND native_language != 'null'
+            `
+        );
+        return row;
+    };
+
+    fetchH3QueriesStats = async () => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                is_valid, COUNT(*) AS amount, SUM(duration) / 3600 AS hours
+            FROM
+                clips
+            WHERE
+                status = 'h3_queries'
+            GROUP BY is_valid        
+            `
+        );
+        return rows;
+    };
 }

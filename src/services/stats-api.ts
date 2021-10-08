@@ -209,3 +209,36 @@ export const fetchMileStoneGroups = async (): Promise<any> => {
             return Promise.reject(error.code);
         });
 };
+
+export const getHermaStats = async () => {
+    const url = '/api/stats/repeat';
+    try {
+        const res: AxiosResponse = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.error();
+        return Promise.reject(error);
+    }
+};
+
+export const getH3QueriesStats = async () => {
+    const url = '/api/stats/h3-queries';
+    try {
+        const res: AxiosResponse = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.error();
+        return Promise.reject(error);
+    }
+};
+
+export const getL2SpeakersStats = async () => {
+    const url = '/api/stats/l2-speakers';
+    try {
+        const res: AxiosResponse = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.error();
+        return Promise.reject(error);
+    }
+};
