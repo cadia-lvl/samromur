@@ -22,7 +22,11 @@ const CaptiniHeader = styled.h1`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 1rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 1;
 `;
 
 const dispatchProps = {
@@ -82,7 +86,7 @@ class CaptiniPage extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <CaptiniHeader>Captini</CaptiniHeader>
+                <CaptiniHeader>CAPTinI</CaptiniHeader>
                 <ContributePage
                     sentencesSource="captini"
                     contributeType={ContributeType.SPEAK}
