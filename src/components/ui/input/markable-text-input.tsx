@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { theme } from '../../../styles/global';
 import TextInput from './text';
 
 interface ErrorWrapperProps {
@@ -10,13 +11,13 @@ interface ErrorWrapperProps {
 const MarkableWrapper = styled.div<ErrorWrapperProps>`
     ${({ error }) =>
         error
-            ? 'color: red; \
+            ? `color: ${theme.colors.red}; \
         font-weight: 600; \
         input { \
-            color: red; \
+            color: ${theme.colors.red}; \
             font-weight: 600; \
         }         \
-        font-weight: 600;'
+        font-weight: 600;`
             : ''}
 `;
 
