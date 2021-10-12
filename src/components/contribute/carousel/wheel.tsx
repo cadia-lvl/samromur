@@ -273,8 +273,15 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     refreshSentences = async () => {
+        const { sentences } = this.state;
         const freshSentences = await this.fetchNewSentences();
-        const newSentences = this.state.sentences.concat(freshSentences);
+
+        const sentencesToAdd = freshSentences.filter(
+            (sentence) =>
+                !sentences.some((existing) => existing.text == sentence.text)
+        );
+
+        const newSentences = sentences.concat(sentencesToAdd);
         this.setState({ sentences: newSentences });
     };
 
