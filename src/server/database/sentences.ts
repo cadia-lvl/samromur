@@ -155,6 +155,8 @@ export default class Sentences {
             WHERE 
                 source = ?
             AND
+                is_used = 1
+            AND
                 NOT EXISTS (
                     SELECT
                         *
