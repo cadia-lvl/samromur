@@ -273,6 +273,10 @@ class CarouselWheel extends React.Component<Props, State> {
     };
 
     refreshSentences = async () => {
+        const {
+            setGoal,
+            contribute: { goal },
+        } = this.props;
         const { sentences } = this.state;
         const freshSentences = await this.fetchNewSentences();
 
@@ -282,6 +286,12 @@ class CarouselWheel extends React.Component<Props, State> {
         );
 
         const newSentences = sentences.concat(sentencesToAdd);
+
+        if (freshSentences.length < this.batchSize) {
+            if (goal) {
+                setGoal({ ...goal, count: newSentences.length });
+            }
+        }
         this.setState({ sentences: newSentences });
     };
 
