@@ -156,9 +156,20 @@ export default class Sentences {
                 source = ?
             AND
                 is_used = 1
+            AND
+                NOT EXISTS (
+                    SELECT
+                        *
+                    FROM
+                        clips
+                    WHERE
+                        clips.original_sentence_id = sentences.id
+                    AND
+                        clips.client_id = ?
+                )
             LIMIT ?
             `,
-            [source, count]
+            [source, clientId ? clientId : 'fakeid', count]
         );
         return rows;
     };
