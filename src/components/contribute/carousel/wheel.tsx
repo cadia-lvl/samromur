@@ -134,6 +134,10 @@ class CarouselWheel extends React.Component<Props, State> {
         };
 
         this.activeIndex = 0;
+
+        if (window.location.pathname == '/captini') {
+            this.batchSize = 100;
+        }
     }
 
     setColor = (color: WheelColor) => {
