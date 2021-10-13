@@ -108,6 +108,7 @@ class CarouselWheel extends React.Component<Props, State> {
     private recorder?: Recorder;
     private activeIndex: number;
     private batchSize = 20;
+    private captini: boolean = false;
     constructor(props: Props) {
         super(props);
 
@@ -136,6 +137,7 @@ class CarouselWheel extends React.Component<Props, State> {
         this.activeIndex = 0;
 
         if (window.location.pathname == '/captini') {
+            this.captini = true;
             this.batchSize = 100;
         }
     }
@@ -281,7 +283,7 @@ class CarouselWheel extends React.Component<Props, State> {
             setGoal,
             contribute: { goal },
         } = this.props;
-        const { sentences } = this.state;
+        const { sentences, clips } = this.state;
         const freshSentences = await this.fetchNewSentences();
 
         const sentencesToAdd = freshSentences.filter(
@@ -296,6 +298,15 @@ class CarouselWheel extends React.Component<Props, State> {
                 setGoal({ ...goal, count: newSentences.length });
             }
         }
+
+        if (this.captini && clips.length == 0) {
+            const emptyClips = new Array<WheelClip>();
+            newSentences.forEach((sentence) =>
+                emptyClips.push({ sentence: sentence })
+            );
+            this.setState({ clips: emptyClips });
+        }
+
         this.setState({ sentences: newSentences });
     };
 
@@ -519,8 +530,10 @@ class CarouselWheel extends React.Component<Props, State> {
         }
 
         if (offset > 0 && !justRecorded) {
-            if (clipIndex + offset - 1 > clips.length - 1) {
-                return;
+            if (!this.captini) {
+                if (clipIndex + offset - 1 > clips.length - 1) {
+                    return;
+                }
             }
         }
 
@@ -644,6 +657,9 @@ class CarouselWheel extends React.Component<Props, State> {
 
         if (!!clips[clipIndex]) {
             await this.updateClip(clipIndex, { recording });
+            if (this.captini) {
+                await this.updateSentence(this.activeIndex, { hasClip: true });
+            }
             return;
         }
 
