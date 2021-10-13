@@ -95,7 +95,7 @@ const InstructionsFC: React.FC<Props> = ({
             <Error>{getAudioErrorMessage()}</Error>
         ) : recordingError ? (
             <Error>{getRecordingErrorMessage()}</Error>
-        ) : activeClip ? (
+        ) : activeClip && activeClip.recording ? (
             <Message>{t('instructions.click-arrow-to-play')}</Message>
         ) : hasPlayedRepeatClip ? (
             <Message>{t('instructions.click-mic-and-repeat')}</Message>
