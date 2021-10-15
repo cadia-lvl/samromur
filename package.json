@@ -85,6 +85,7 @@
     "@types/react": "^16.14.4",
     "@types/react-bootstrap": "^1.0.1",
     "@types/react-bootstrap-table-next": "^4.0.16",
+    "@types/react-bootstrap-table2-paginator": "^2.1.2",
     "@types/react-modal": "^3.12.0",
     "@types/react-redux": "^7.1.16",
     "@types/redux": "^3.6.0",
