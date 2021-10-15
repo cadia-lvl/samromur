@@ -36,6 +36,8 @@ import { pages } from '../../../constants/paths';
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
 import moment from 'moment';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
+import { Institution } from '../../../types/institution';
+import { getCompanies } from '../../../services/competition-api';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -195,8 +197,9 @@ interface State {
     nativeLanguage: Demographic;
     showConsentForm: boolean;
     showSchoolSelection: boolean;
-    school: Partial<School>;
+    institution: Demographic;
     kennitala: string;
+    institutions: Institution[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -213,18 +216,22 @@ class DemographicForm extends React.Component<Props, State> {
             showConsentForm: false,
             showSchoolSelection: false,
             kennitala: '',
+            institutions: [],
             ...this.props.user.demographics,
         };
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         // Set school to empty values if
         // not competition and there is a value
-        const now = this.props.user.demographics;
-        if (!this.isCompetition()) {
-            if (now.school?.code != '') {
-                this.setState({ school: { code: '', name: '' } });
-            }
+        // const now = this.props.user.demographics;
+        if (this.isCompetition()) {
+            // if (now.school?.code != '') {
+            //     this.setState({ school: { code: '', name: '' } });
+            // }
+            const institutions = await getCompanies();
+            console.log(institutions);
+            this.setState({ institutions });
         }
     };
 
@@ -275,15 +282,25 @@ class DemographicForm extends React.Component<Props, State> {
         this.setState({ nativeLanguage });
     };
 
-    onSchoolSelect = (value: string) => {
-        const school = schools.find(
-            (val: School) => val.name == value
-        ) as School;
-        const schoolDemo: Partial<School> = {
-            code: school ? school.code : '',
-            name: school ? school.name : '',
-        };
-        this.setState({ school: schoolDemo });
+    // onSchoolSelect = (value: string) => {
+    //     const school = schools.find(
+    //         (val: School) => val.name == value
+    //     ) as School;
+    //     const schoolDemo: Partial<School> = {
+    //         code: school ? school.code : '',
+    //         name: school ? school.name : '',
+    //     };
+    //     this.setState({ school: schoolDemo });
+    // };
+
+    onInstitutionSelect = (value: string) => {
+        const { institutions } = this.state;
+        console.log(value);
+        const i = institutions.find((e) => e.name == value);
+
+        if (i) {
+            this.setState({ institution: { id: i.id, name: i.name } });
+        }
     };
 
     formIsFilled = (): boolean => {
@@ -321,7 +338,7 @@ class DemographicForm extends React.Component<Props, State> {
             hasConsent,
             nativeLanguage,
             showConsentForm,
-            school,
+            institution,
         } = this.state;
         if (!agreed || (showConsentForm && !hasConsent)) {
             return;
@@ -340,7 +357,7 @@ class DemographicForm extends React.Component<Props, State> {
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
-            school,
+            institution,
         });
         this.props.setTermsConsent(true);
         this.props.onSubmit(demoAge, language);
@@ -362,23 +379,25 @@ class DemographicForm extends React.Component<Props, State> {
         return found ? found.name : ages[0].name;
     };
 
+    // TODO: switch this text out
     getCompetitionText = (): string => {
-        const startDate = moment('2021-01-18 15:00:00', moment.ISO_8601);
-        const endDate = moment('2021-01-26 00:00:00', moment.ISO_8601);
-        const now = moment();
-        if (now.isBetween(startDate, endDate, 'seconds')) {
-            return 'Lestrarkeppni grunnsskóla er farin af stað!';
-        } else if (now.isAfter(endDate, 'seconds')) {
-            return 'Lestrarkeppni grunnsskóla er búin.';
-        } else if (now.isBefore(startDate, 'seconds')) {
-            return 'Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!';
-        }
-        return '';
+        // const startDate = moment('2021-01-18 15:00:00', moment.ISO_8601);
+        // const endDate = moment('2021-01-26 00:00:00', moment.ISO_8601);
+        // const now = moment();
+        // if (now.isBetween(startDate, endDate, 'seconds')) {
+        //     return 'Lestrarkeppni grunnsskóla er farin af stað!';
+        // } else if (now.isAfter(endDate, 'seconds')) {
+        //     return 'Lestrarkeppni grunnsskóla er búin.';
+        // } else if (now.isBefore(startDate, 'seconds')) {
+        //     return 'Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!';
+        // }
+        // return '';
+        return 'TEMPTEXT: REDDUM MALINU';
     };
 
     // TODO: add logic here for next competition
     isCompetition = (): boolean => {
-        return false;
+        return true;
     };
 
     render() {
@@ -388,7 +407,8 @@ class DemographicForm extends React.Component<Props, State> {
             hasConsent,
             nativeLanguage,
             showConsentForm,
-            school,
+            institution,
+            institutions,
         } = this.state;
         const formIsFilled = this.formIsFilled();
         const selectedAge = this.getAgeSelected();
@@ -398,15 +418,19 @@ class DemographicForm extends React.Component<Props, State> {
             <DemographicContainer>
                 {this.isCompetition() && (
                     <DropdownButton
-                        content={schools
+                        content={institutions
                             .sort((a, b) =>
                                 a.name.localeCompare(b.name, 'is-IS')
                             )
-                            .map((school: School) => school.name)}
-                        label={'Skóli'}
-                        onSelect={this.onSchoolSelect}
+                            .map((element: Institution) => element.name)}
+                        label={'Fyrirtaki'}
+                        onSelect={this.onInstitutionSelect}
                         selected={
-                            school ? (school.name ? school.name : '') : ''
+                            institution
+                                ? institution.name
+                                    ? institution.name
+                                    : ''
+                                : ''
                         }
                     />
                 )}
