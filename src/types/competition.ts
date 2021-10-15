@@ -24,5 +24,13 @@ const DefaultIndividualStat: IndividualStat = {
     username: '',
 };
 
+export interface ScoreboardData {
+    rank: number;
+    name: string;
+    size: string;
+    users: number;
+    count: number;
+}
+
 export const DefaultSchoolStats: SchoolStat[] = [DefaultSchoolStat];
 export const DefaultIndividualStats: IndividualStat[] = [DefaultIndividualStat];

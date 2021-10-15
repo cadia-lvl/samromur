@@ -7,6 +7,7 @@ import Stats from './stats';
 import Sentences from './sentences';
 import UserClients from './user-clients';
 import Votes from './votes';
+import Competition from './competition';
 
 export default class Database {
     private sql: Sql;
@@ -19,6 +20,7 @@ export default class Database {
     stats: Stats;
     userClients: UserClients;
     votes: Votes;
+    competition: Competition;
 
     constructor() {
         this.sql = getSQLInstance();
@@ -30,6 +32,7 @@ export default class Database {
         this.stats = new Stats(this.sql);
         this.userClients = new UserClients(this.sql);
         this.votes = new Votes(this.sql);
+        this.competition = new Competition(this.sql);
     }
 
     // Ensure the database is set up properly

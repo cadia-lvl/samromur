@@ -1,6 +1,10 @@
 import Sql from './sql';
 import { TimelineStat } from '../../types/stats';
-import { IndividualStat, SchoolStat } from '../../types/competition';
+import {
+    IndividualStat,
+    SchoolStat,
+    ScoreboardData,
+} from '../../types/competition';
 import lazyCache from '../lazy-cache';
 import { ContributeType } from '../../types/contribute';
 
@@ -452,4 +456,33 @@ export default class Clips {
         );
         return rows;
     };
+
+    fetchScoreboard = lazyCache(async (): Promise<ScoreboardData[]> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                institutions.name,
+                institutions.size,
+                COUNT(DISTINCT (client_id)) AS users,
+                COUNT(*) AS count
+            FROM
+                institutions
+                    JOIN
+                clips ON clips.institution = institutions.id
+            WHERE
+                clips.created_at > '2021-10-10'
+                    AND institutions.is_used = 1
+            GROUP BY institutions.name
+            ORDER BY count DESC
+        `
+        );
+        // Add rank
+        const data = rows as ScoreboardData[];
+
+        data.forEach((e, i) => {
+            data[i].rank = i + 1;
+        });
+
+        return data;
+    }, cacheTimeMSLeaderBoard);
 }

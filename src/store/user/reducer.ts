@@ -23,9 +23,9 @@ const defaultDemoGraphics = {
         id: '',
         name: '',
     },
-    school: {
+    institution: {
+        id: '',
         name: '',
-        code: '',
     },
 };
 
