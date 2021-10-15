@@ -130,7 +130,7 @@ class Contribute extends React.Component<Props, State> {
                 contributeType == ContributeType.SPEAK ||
                 contributeType == ContributeType.REPEAT
             ) {
-                if (!demographic && goal) {
+                if (!demographic) {
                     return t('your-voice');
                 }
                 return goal
@@ -160,6 +160,9 @@ class Contribute extends React.Component<Props, State> {
 
         this.setState({ sentences });
         this.setState({ demographic: true });
+        if (ageGroup != AgeGroups.ADULTS) {
+            this.setState({ contributeType: ContributeType.REPEAT });
+        }
     };
 
     setGoal = (goal: Goal) => {
@@ -222,15 +225,15 @@ class Contribute extends React.Component<Props, State> {
                             labels={labels}
                             setLabel={this.onSelectBatch}
                         />
+                    ) : (contributeType === ContributeType.SPEAK ||
+                          contributeType === ContributeType.REPEAT) &&
+                      !demographic ? (
+                        <DemographicForm onSubmit={this.onDemographicsSubmit} />
                     ) : !goal ? (
                         <PackageSelect
                             contributeType={contributeType}
                             setGoal={this.setGoal}
                         />
-                    ) : (contributeType === ContributeType.SPEAK ||
-                          contributeType === ContributeType.REPEAT) &&
-                      !demographic ? (
-                        <DemographicForm onSubmit={this.onDemographicsSubmit} />
                     ) : !gaming ? (
                         client.skipTips ? (
                             this.skipTips()
