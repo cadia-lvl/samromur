@@ -11,18 +11,18 @@ import LanguageSelector from './language-selector';
 
 const HeaderContainer = styled.div`
     position: fixed;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.329);
     z-index: ${({ theme }) => theme.z.top};
     top: 0;
     left: 0;
     right: 0;
     height: ${({ theme }) => theme.layout.headerHeight};
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
-    ${({ theme }) => theme.media.small} {
+    /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.08); */
+    /* -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.14); */
+    /* ${({ theme }) => theme.media.small} {
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
         -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
-    }
+    } */
 
     ${({ theme }) => theme.media.smallUp} {
         position: relative;
@@ -93,9 +93,9 @@ class HeaderComponent extends React.Component<Props, State> {
                 <Header>
                     <Heading>
                         <Link href="/">
-                            <a>Samrómur</a>
+                            <a>Reddu malinu</a>
                         </Link>
-                        <LanguageSelector />
+                        {/* <LanguageSelector /> */}
                     </Heading>
                     <Navigation user={user} />
                     <HamburgerMenuButton onClick={toggleMenu}>

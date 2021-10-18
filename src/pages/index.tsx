@@ -20,17 +20,22 @@ import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
 import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
+import Link from 'next/link';
 
 const FrontPageContainer = styled.div`
     /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
-    background: url(/images/wave-footer@3x.png) no-repeat bottom;
+    /* background: url(/images/wave-footer@3x.png) no-repeat bottom; */
     background-size: 100% auto;
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.blue};
     display: flex;
     flex-direction: column;
     & > * {
         margin-bottom: 1rem;
     }
+`;
+
+const Title = styled.h1`
+    color: ${({ theme }) => theme.colors.white};
 `;
 
 const FrontPageContent = styled.div`
@@ -42,6 +47,7 @@ const FrontPageContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     & > * {
         margin-bottom: 1rem;
     }
@@ -215,6 +221,43 @@ const MicButton = styled.div`
         transform: translateY(2px);
     }
 `;
+
+const SignUp = styled.div`
+    position: relative;
+    font-size: 10rem;
+    /* padding: 1rem; */
+    display: flex;
+    align-items: center;
+    height: 16rem;
+    color: ${({ theme }) => theme.colors.white};
+    transition: color 250ms ease-in-out;
+    transition: transform 0.25s cubic-bezier(0, -1.59, 1, 2.6);
+    & :hover {
+        transform: rotate(-2.5deg);
+        /* font-size: 10.1rem; */
+        cursor: pointer;
+        color: yellow;
+
+        &:before {
+            /* width: 100%; */
+            background: yellow;
+        }
+    }
+
+    & :before {
+        display: block;
+        content: '';
+        width: 0%;
+        height: 5px;
+        bottom: 5px;
+        left: 0;
+        bottom: 3rem;
+        position: absolute;
+        background: white;
+        transition: all 250ms ease-in-out;
+    }
+`;
+
 const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -268,7 +311,7 @@ class IndexPage extends React.Component<Props> {
             <Layout>
                 <FrontPageContainer>
                     <FrontPageContent>
-                        <CallToAction>
+                        {/* <CallToAction>
                             <RobotAndTitle>
                                 <MarsContainer>
                                     <Mars />
@@ -289,30 +332,34 @@ class IndexPage extends React.Component<Props> {
                                 clients={stats.totalClipsClients}
                                 clips={stats.totalClips}
                             />
-                        </CallToAction>
+                        </CallToAction> */}
                         {/*                         <MiddleContent>
                             
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
 
                         </MiddleContent> */}
 
-                        <ChartsContainer>
+                        {/* <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
-                                    <ChartTitle>{t('chart-title')}</ChartTitle>
-                                    {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */}
-                                </ChartLegend>
+                                    <ChartTitle>{t('chart-title')}</ChartTitle> */}
+                        {/* <ChartSubTitle>síðastliðinn mánuð</ChartSubTitle> */}
+                        {/* </ChartLegend>
                                 <ChartContainer>
                                     <TotalChart />
                                 </ChartContainer>
                             </HeroChart>
-                        </ChartsContainer>
-                        <BottomContent>
-                            {/*    <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
+                        </ChartsContainer> */}
+                        <Title>Reddu Málinu</Title>
+                        {/* <BottomContent> */}
+                        {/*    <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
                         <MicButton onClick={() => router.push(pages.speak)} >
                             <MicIcon fill={'green'} height={35} width={35} />
                         </MicButton> */}
-                        </BottomContent>
+                        {/* </BottomContent> */}
+                        <Link href={'/skra'} passHref>
+                            <SignUp>SKRÁ</SignUp>
+                        </Link>
                     </FrontPageContent>
                 </FrontPageContainer>
             </Layout>

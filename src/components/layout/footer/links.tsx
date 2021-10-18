@@ -4,11 +4,14 @@ import Link from 'next/link';
 import { useTranslation } from '../../../server/i18n';
 
 const Links = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
     gap: 0.5rem;
-    color: ${({ theme }) => theme.colors.warmGray};
+    color: ${({ theme }) => theme.colors.white};
+    /* margin: auto; */
+    margin-right: 1rem;
 
     & a:hover {
         color: ${({ theme }) => theme.colors.blue};
@@ -30,9 +33,9 @@ export const FooterLinks: React.FunctionComponent<Props> = (props) => {
             <Link href="/skilmalar">
                 <a>{t('terms')}</a>
             </Link>
-            <a rel="noopener" href="mailto:samromur@ru.is">
+            {/* <a rel="noopener" href="mailto:samromur@ru.is">
                 {t('contact')}
-            </a>
+            </a> */}
         </Links>
     );
 };

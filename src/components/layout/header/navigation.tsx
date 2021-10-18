@@ -15,6 +15,7 @@ interface NavLinkProps {
 const NavLink = styled.a<NavLinkProps>`
     cursor: pointer;
     color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
+    margin: 0 1rem;
     &:hover {
         color: ${({ theme }) => theme.colors.darkerBlue} !important;
     }
@@ -32,14 +33,15 @@ const NavigationContainer = styled.div<Props>`
             ? `
         position: fixed;
         top: ${theme.layout.headerHeight};
+        right: 0;
         z-index: ${theme.z.middle};
         transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         transform: ${visible ? 'translateY(0)' : 'translateY(-100vh)'};
         `
             : `
         flex: 1;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: flex-end;
+        align-items: right;
 
         ${theme.media.small} {
             display: none;
@@ -54,17 +56,17 @@ const NavigationLinks = styled.div<Props>`
     ${({ floating, theme }) =>
         floating
             ? `
-        height: 100vh;
-        width: 100vw;
-        background-color: white;
+        // background-color: white;
         * {
+            display: flex;
+            justify-content: flex-end;
             margin: 1rem 3rem;
             font-size: 1.5rem;
             border-bottom: 1px solid ${theme.colors.borderGray};
         }
     `
             : `
-        justify-content: space-around;
+        justify-content: flex-end;
         font-size: 1rem;
         padding: 0 2rem;
         align-items: center;
@@ -93,17 +95,23 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
     return (
         <NavigationContainer {...props}>
             <NavigationLinks {...props}>
-                <Link href="/" passHref>
+                {/* <Link href="/" passHref>
                     <NavLink isActive={pathname == '/'}>
                         {t('common:homepage')}
                     </NavLink>
-                </Link>
-                <Link href="/takathatt" passHref>
-                    <NavLink isActive={pathname == '/takathatt'}>
+                </Link> */}
+                <Link href="/tala" passHref>
+                    <NavLink isActive={pathname == '/tala'}>
                         {t('common:take-part')}
                     </NavLink>
                 </Link>
-                <Link href="/grunnskolakeppni" passHref>
+                <Link href="/skra" passHref>
+                    <NavLink isActive={pathname == '/skra'}>Skrá</NavLink>
+                </Link>
+                <Link href="/keppni" passHref>
+                    <NavLink isActive={pathname == '/keppni'}>Keppni</NavLink>
+                </Link>
+                {/* <Link href="/grunnskolakeppni" passHref>
                     <NavLink isActive={pathname == '/grunnskolakeppni'}>
                         {t('grunnskola-keppni')}
                     </NavLink>
@@ -112,16 +120,18 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                     <NavLink isActive={pathname == '/gagnasafn'}>
                         {t('the-database')}
                     </NavLink>
-                </Link>
+                </Link> */}
                 <Link href="/um" passHref>
-                    <NavLink isActive={pathname == '/um'}>{t('about')}</NavLink>
+                    <NavLink isActive={pathname == '/um'}>
+                        Samstarfsaðilar
+                    </NavLink>
                 </Link>
-                <NavLink
+                {/* <NavLink
                     href="/minar-sidur"
                     isActive={pathname == '/minar-sidur'}
                 >
                     {username ? `Hæ ${username}!` : t('my-pages')}
-                </NavLink>
+                </NavLink> */}
                 {user.isAuthenticated && (
                     <NavButton onClick={authApi.logout}>Útskrá</NavButton>
                 )}

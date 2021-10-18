@@ -36,7 +36,7 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
             : `
         min-height: 100vh;
         overflow-y: auto;
-        background-color: ${theme.colors.white};
+        background-color: ${theme.colors.blue};
         
         display: flex;
         flex-direction: column;
@@ -56,6 +56,7 @@ const ContentAndFooter = styled.div`
         right: 0;
         bottom: 0;
         overflow-y: scroll;
+        height: inherit;
 
         & > :nth-child(1) {
             min-height: ${({ theme }) =>

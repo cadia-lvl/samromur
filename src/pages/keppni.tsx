@@ -21,6 +21,7 @@ const CompetitionStats: React.FunctionComponent = () => {
         <Layout>
             <CompetitionPageContainer>
                 <About>
+                    <h1>Reddum málinu!</h1>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Tenetur porro dolore pariatur nihil consequuntur velit
