@@ -21,6 +21,7 @@ import takathatt from '../../../pages/takathatt';
 import contribute from '../setup/contribute';
 import { capitalizeFirstLetter } from '../../../utilities/string-helper';
 import { withTranslation, WithTranslation } from '../../../server/i18n';
+import { setShowDemographics } from '../../../store/ui/actions';
 
 const ContinueButtonsContainer = styled.div`
     width: 100%;
@@ -183,6 +184,15 @@ class ContinueButtons extends React.Component<Props, State> {
         }
     };
 
+    handleScoreboard = async () => {
+        const { router } = this.props;
+        setGaming(false);
+        resetContribute();
+        setShowDemographics(true);
+
+        await router.push(pages.scoreboard);
+    };
+
     getGoals = (): Goal[] => {
         const {
             contribute: { goal },
@@ -250,26 +260,26 @@ class ContinueButtons extends React.Component<Props, State> {
                 </MessageContainer>
                 <SlidingButtons>
                     <ButtonsContainer position={shouldContinue ? -1 : 0}>
-                        <ButtonContainer
+                        {/* <ButtonContainer
                             color={'blue'}
                             onClick={() => this.handleSwitch(buttons[0])}
                         >
                             <>{buttons[0]}</>
-                        </ButtonContainer>
+                        </ButtonContainer> */}
                         <ButtonContainer
                             color={'blue'}
-                            onClick={() => this.handleSwitch(buttons[1])}
+                            onClick={() => this.handleScoreboard()}
                         >
-                            <>{buttons[1]}</>
+                            <>Takk fyrir mig</>
                         </ButtonContainer>
                         <ButtonContainer
                             color={'green'}
-                            onClick={this.handleContinue}
+                            onClick={() => this.handleGoal(goals[0])}
                         >
-                            <>{buttons[2]}</>
+                            <>Halda áfram með að reddum málinu!</>
                         </ButtonContainer>
                     </ButtonsContainer>
-                    <ButtonsContainer position={shouldContinue ? 0 : 1}>
+                    {/* <ButtonsContainer position={shouldContinue ? 0 : 1}>
                         <ButtonContainer
                             color={'blue'}
                             onClick={() => this.handleGoal(goals[0])}
@@ -303,7 +313,7 @@ class ContinueButtons extends React.Component<Props, State> {
                                 })}
                             </span>
                         </ButtonContainer>
-                    </ButtonsContainer>
+                    </ButtonsContainer> */}
                 </SlidingButtons>
             </ContinueButtonsContainer>
         );

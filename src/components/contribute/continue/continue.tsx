@@ -106,27 +106,44 @@ class ContinueModal extends React.Component<Props, State> {
         }
     };
 
-    getProgressToday = () => {
+    getProgressToday = (): number => {
+        const totalToday = this.getIndividualTodayCount();
+        const weeklyToday = this.getWeeklyToday();
+        return totalToday + weeklyToday;
+    };
+
+    getIndividualTodayCount = (): number => {
         const {
             contribute: { goal, totalSpoken, totalRepeated, totalVerified },
+        } = this.props;
+        const contributeType = goal?.contributeType;
+
+        switch (contributeType) {
+            case ContributeType.SPEAK:
+                return totalSpoken;
+            case ContributeType.REPEAT:
+                return totalRepeated;
+            case ContributeType.LISTEN:
+                return totalVerified;
+            default:
+                return 0;
+        }
+    };
+
+    getWeeklyToday = (): number => {
+        const {
+            contribute: { goal },
             stats: { weekly },
         } = this.props;
         const contributeType = goal?.contributeType;
 
         switch (contributeType) {
             case ContributeType.SPEAK:
-                return (
-                    weekly.clips[weekly.clips.length - 1]?.count + totalSpoken
-                );
+                return weekly.clips[weekly.clips.length - 1]?.count;
             case ContributeType.REPEAT:
-                return (
-                    weekly.repeatClips[weekly.repeatClips.length - 1]?.count +
-                    totalRepeated
-                );
+                return weekly.repeatClips[weekly.repeatClips.length - 1]?.count;
             case ContributeType.LISTEN:
-                return (
-                    weekly.votes[weekly.votes.length - 1]?.count + totalVerified
-                );
+                return weekly.votes[weekly.votes.length - 1]?.count;
             default:
                 return 0;
         }
@@ -142,6 +159,7 @@ class ContinueModal extends React.Component<Props, State> {
         const { shouldDraw } = this.state;
 
         const progressToday = this.getProgressToday();
+        const individualCount = this.getIndividualTodayCount();
 
         const { t } = this.props;
 
@@ -153,7 +171,7 @@ class ContinueModal extends React.Component<Props, State> {
                     {shouldDraw && (
                         <ContinueChart
                             contributeType={goal?.contributeType || ''}
-                            count={goal?.count || 0}
+                            count={individualCount || 0}
                         />
                     )}
                 </ChartContainer>
