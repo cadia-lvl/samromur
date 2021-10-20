@@ -11,6 +11,9 @@ import { resetContribute, setGaming } from '../../../store/contribute/actions';
 
 import BackArrowIcon from '../../ui/icons/back-arrow';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
+import { resetDemographics } from '../../../store/user/actions';
+import { setShowDemographics } from '../../../store/ui/actions';
+import { route } from 'next/dist/next-server/server/router';
 
 const HUDContainer = styled.div`
     position: absolute;
@@ -75,6 +78,7 @@ interface State {
 const dispatchProps = {
     resetContribute,
     setGaming,
+    setShowDemographics,
 };
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -95,9 +99,11 @@ class HeadsUpDisplay extends React.Component<Props, State> {
     handleBack = () => {
         const {
             contribute: { goal, progress },
-            resetContribute,
+            ui: { showDemographics },
             router,
+            resetContribute,
             setGaming,
+            setShowDemographics,
         } = this.props;
         const path = this.whereTo(true);
         if (
@@ -115,8 +121,18 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         if (path == pages.contribute && goal) {
             setGaming(false);
             resetContribute();
+            setShowDemographics(true);
         } else {
-            router.push(path);
+            if (path == pages.frontPage) {
+                router.push(pages.frontPage);
+            }
+            setGaming(false);
+            resetContribute();
+            setShowDemographics(true);
+
+            // path == pages.speak
+            //     ? router.reload()
+            //     : router.push(pages.frontPage);
         }
     };
 
@@ -124,6 +140,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         const {
             contribute: { expanded, goal, progress },
             router: { pathname },
+            ui: { showDemographics },
             t,
         } = this.props;
         if (expanded) {
@@ -132,11 +149,10 @@ class HeadsUpDisplay extends React.Component<Props, State> {
         switch (pathname) {
             case '/tala':
             case '/herma':
-                return path
-                    ? pages.contribute
-                    : goal
-                    ? t('choose-amount')
-                    : t('common:take-part');
+                if (path) {
+                    return showDemographics ? pages.frontPage : pages.speak;
+                }
+                return showDemographics ? 'Frontpage' : 'Demographics';
             case '/hlusta':
                 return path
                     ? pages.contribute
@@ -194,6 +210,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
     contribute: state.contribute,
+    ui: state.ui,
 });
 
 export default connect(

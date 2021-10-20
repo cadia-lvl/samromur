@@ -33,8 +33,14 @@ import {
     getAgeGroup,
 } from '../../../utilities/demographics-age-helper';
 import { AllGroupsSentences } from '../../../pages/tala';
-import { Demographic } from '../../../types/user';
+import { Demographic, Demographics } from '../../../types/user';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
+import {
+    listenGoals,
+    repeatGoals,
+    speakGoals,
+} from '../../../constants/packages';
+import { setShowDemographics } from '../../../store/ui/actions';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -63,6 +69,7 @@ const dispatchProps = {
     resetContribute,
     setGaming,
     setGoal,
+    setShowDemographics,
 };
 
 interface ContributeProps {
@@ -83,7 +90,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 interface State {
     batchClips?: WheelClip[];
     contributeType?: ContributeType;
-    demographic: boolean;
+    // showDemographic: boolean;
     tips: boolean;
     selectedBatch?: string;
     sentences?: WheelSentence[];
@@ -96,11 +103,37 @@ class Contribute extends React.Component<Props, State> {
 
         this.state = {
             contributeType: this.props.contributeType,
-            demographic: false,
+            // showDemographic: this.props.ui.showDemographics,
             tips: false,
             clipsToRepeat: this.props.clipsToRepeat,
         };
+        this.setSpeakGoal();
     }
+
+    // hasDemographics = (): boolean => {
+    //     const { contributeType } = this.state;
+    //     const {
+    //         user: { demographics },
+    //     } = this.props;
+    //     if (contributeType == ContributeType.REPEAT) {
+    //         const { age, gender, institution, nativeLanguage } = demographics;
+    //         const missing = !age || !gender || !institution || !nativeLanguage;
+    //         return !missing;
+    //     }
+    //     return false;
+    // };
+
+    setRepeatGoal = () => {
+        const { setGoal } = this.props;
+        const goal: Goal = { ...repeatGoals[0] };
+        setGoal(goal);
+    };
+
+    setSpeakGoal = () => {
+        const { setGoal } = this.props;
+        const goal: Goal = { ...speakGoals[0] };
+        setGoal(goal);
+    };
 
     getBatchClips = async (selectedBatch: string) => {
         const {
@@ -117,11 +150,16 @@ class Contribute extends React.Component<Props, State> {
     };
 
     getInstruction = (): string => {
-        const { contributeType, demographic, selectedBatch } = this.state;
+        const {
+            contributeType,
+            // showDemographic: demographic,
+            selectedBatch,
+        } = this.state;
         const {
             contribute: { goal },
             labels,
             t,
+            ui: { showDemographics },
         } = this.props;
         if (!contributeType) {
             return t('common:take-part');
@@ -130,7 +168,7 @@ class Contribute extends React.Component<Props, State> {
                 contributeType == ContributeType.SPEAK ||
                 contributeType == ContributeType.REPEAT
             ) {
-                if (!demographic) {
+                if (showDemographics) {
                     return t('your-voice');
                 }
                 return goal
@@ -152,17 +190,32 @@ class Contribute extends React.Component<Props, State> {
         age: Demographic,
         nativeLanguage: Demographic
     ) => {
-        const { groupedSentences } = this.props;
+        const { groupedSentences, setShowDemographics } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
         const sentences = groupedSentences
             ? groupedSentences[ageGroup]
             : undefined;
 
         this.setState({ sentences });
-        this.setState({ demographic: true });
-        if (ageGroup != AgeGroups.ADULTS) {
+        setShowDemographics(false);
+        if (ageGroup != AgeGroups.ADULTS && nativeLanguage.id == 'islenska') {
+            const { clipsToRepeat } = this.state;
+            this.setRepeatGoal();
             this.setState({ contributeType: ContributeType.REPEAT });
+            // this.selectType(ContributeType.REPEAT);
+
+            if (clipsToRepeat == undefined) {
+                const { user } = this.props;
+                const clips = await contributeApi.fetchClipsToRepeat({
+                    clientId: user.client.id,
+                    count: 20,
+                });
+                this.setState({ clipsToRepeat: clips });
+                this.setState({ sentences: undefined });
+            }
+            return;
         }
+        this.setSpeakGoal();
     };
 
     setGoal = (goal: Goal) => {
@@ -193,7 +246,7 @@ class Contribute extends React.Component<Props, State> {
     render() {
         const {
             contributeType,
-            demographic,
+            // showDemographic: demographic,
             tips,
             selectedBatch,
             batchClips,
@@ -207,6 +260,7 @@ class Contribute extends React.Component<Props, State> {
             user: { client },
             labels,
             sentencesSource,
+            ui: { showDemographics },
         } = this.props;
 
         return (
@@ -227,14 +281,14 @@ class Contribute extends React.Component<Props, State> {
                         />
                     ) : (contributeType === ContributeType.SPEAK ||
                           contributeType === ContributeType.REPEAT) &&
-                      !demographic ? (
+                      showDemographics ? (
                         <DemographicForm onSubmit={this.onDemographicsSubmit} />
-                    ) : !goal ? (
-                        <PackageSelect
-                            contributeType={contributeType}
-                            setGoal={this.setGoal}
-                        />
-                    ) : !gaming ? (
+                    ) : // ) : !goal ? (
+                    //     <PackageSelect
+                    //         contributeType={contributeType}
+                    //         setGoal={this.setGoal}
+                    //     />
+                    !gaming ? (
                         client.skipTips ? (
                             this.skipTips()
                         ) : (
@@ -268,6 +322,7 @@ class Contribute extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState) => ({
     contribute: state.contribute,
     user: state.user,
+    ui: state.ui,
 });
 
 export default connect(
