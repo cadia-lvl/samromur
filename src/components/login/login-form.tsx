@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 import TextInput from '../ui/input/text';
+import MarkedText from '../ui/input/markable-text-input';
 import { Button } from '../ui/buttons';
 
 import { AuthError, AuthRequest, FormError } from '../../types/auth';
@@ -206,30 +207,37 @@ class LoginForm extends React.Component<Props, State> {
         return (
             <LoginFormContainer onSubmit={this.handleSubmit} disabled={loading}>
                 <Title>{isSignup ? t('signup-title') : t('login-title')}</Title>
-                <TextInput
+                <MarkedText
                     label={t('common:email')}
                     onChange={this.onEmailChange}
                     placeholder=""
+                    error={
+                        formError == FormError.INVALID_EMAIL ||
+                        authError == AuthError.HAS_ACCOUNT
+                    }
                 />
                 {isSignup && (
-                    <TextInput
+                    <MarkedText
                         label={t('username-label')}
                         onChange={this.onUserNameChange}
                         placeholder={t('username-place-holder')}
-                    ></TextInput>
+                        error={formError == FormError.INVALID_USERNAME}
+                    ></MarkedText>
                 )}
-                <TextInput
+                <MarkedText
                     label={t('password-label')}
                     onChange={this.onPasswordChange}
                     placeholder=""
                     type="password"
+                    error={formError == FormError.MISSING_PASSWORD}
                 />
                 {isSignup && (
-                    <TextInput
+                    <MarkedText
                         label={t('password-again-label')}
                         onChange={this.onPasswordAgainChange}
                         placeholder=""
                         type="password"
+                        error={formError == FormError.MISSING_PASSWORD_AGAIN}
                     />
                 )}
                 {(formError || authError) && (
