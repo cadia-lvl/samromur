@@ -219,13 +219,13 @@ class ContinueButtons extends React.Component<Props, State> {
                 ];
             case ContributeType.LISTEN:
                 return [
-                    tala,
+                    // tala,
                     herma,
                     t('contribute-more', { contribute: hlusta }),
                 ];
             case ContributeType.REPEAT:
                 return [
-                    tala,
+                    // tala,
                     hlusta,
                     t('contribute-more', { contribute: herma }),
                 ];
@@ -256,17 +256,17 @@ class ContinueButtons extends React.Component<Props, State> {
                         >
                             <>{buttons[0]}</>
                         </ButtonContainer>
-                        <ButtonContainer
+                        {/* <ButtonContainer
                             color={'blue'}
                             onClick={() => this.handleSwitch(buttons[1])}
                         >
                             <>{buttons[1]}</>
-                        </ButtonContainer>
+                        </ButtonContainer> */}
                         <ButtonContainer
                             color={'green'}
                             onClick={this.handleContinue}
                         >
-                            <>{buttons[2]}</>
+                            <>{buttons[1]}</>
                         </ButtonContainer>
                     </ButtonsContainer>
                     <ButtonsContainer position={shouldContinue ? 0 : 1}>
