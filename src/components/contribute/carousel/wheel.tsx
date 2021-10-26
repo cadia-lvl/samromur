@@ -138,7 +138,7 @@ class CarouselWheel extends React.Component<Props, State> {
 
         if (window.location.pathname == '/captini') {
             this.captini = true;
-            this.batchSize = 100;
+            this.batchSize = 50;
         }
     }
 

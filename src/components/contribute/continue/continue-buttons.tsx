@@ -119,7 +119,7 @@ class ContinueButtons extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            shouldContinue: false,
+            shouldContinue: this.isCaptini(),
         };
     }
 
@@ -140,7 +140,10 @@ class ContinueButtons extends React.Component<Props, State> {
         if (!expanded) {
             return;
         }
-        this.setState({ shouldContinue: false });
+
+        if (!this.isCaptini()) {
+            this.setState({ shouldContinue: false });
+        }
 
         const {
             onContinue,
@@ -232,6 +235,11 @@ class ContinueButtons extends React.Component<Props, State> {
             default:
                 return ['', '', ''];
         }
+    };
+
+    isCaptini = (): boolean => {
+        const path = window.location.pathname;
+        return path == '/captini';
     };
 
     render() {
