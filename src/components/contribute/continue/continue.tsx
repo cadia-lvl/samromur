@@ -115,9 +115,9 @@ class ContinueModal extends React.Component<Props, State> {
 
         switch (contributeType) {
             case ContributeType.SPEAK:
-                return (
-                    weekly.clips[weekly.clips.length - 1]?.count + totalSpoken
-                );
+                const weeklyClips =
+                    weekly.clips[weekly.clips.length - 1]?.count || 0;
+                return weeklyClips + totalSpoken;
             case ContributeType.REPEAT:
                 return (
                     weekly.repeatClips[weekly.repeatClips.length - 1]?.count +
@@ -142,6 +142,7 @@ class ContinueModal extends React.Component<Props, State> {
         const { shouldDraw } = this.state;
 
         const progressToday = this.getProgressToday();
+        const isCaptini = window.location.pathname == '/captini';
 
         const { t } = this.props;
 
@@ -149,14 +150,16 @@ class ContinueModal extends React.Component<Props, State> {
             <ContinueModalContainer expanded={expanded}>
                 <FakeHUDContainer />
                 <Title>{t('thank-you')}</Title>
-                <ChartContainer>
-                    {shouldDraw && (
-                        <ContinueChart
-                            contributeType={goal?.contributeType || ''}
-                            count={goal?.count || 0}
-                        />
-                    )}
-                </ChartContainer>
+                {!isCaptini && (
+                    <ChartContainer>
+                        {shouldDraw && (
+                            <ContinueChart
+                                contributeType={goal?.contributeType || ''}
+                                count={progressToday || 0}
+                            />
+                        )}
+                    </ChartContainer>
+                )}
                 <StatsMessageContainer>
                     <StatsMessage>
                         <Trans i18nKey="todays-contributions" t={t}>

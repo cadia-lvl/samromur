@@ -64,9 +64,9 @@ class CaptiniPage extends React.Component<Props, State> {
 
         const goal: Goal = {
             contributeType: ContributeType.SPEAK,
-            name: 'Captini 100',
+            name: 'Captini 50',
             text: '',
-            count: 100,
+            count: 50,
         };
         // Set goal for captini
         store.dispatch(setGoal(goal));
