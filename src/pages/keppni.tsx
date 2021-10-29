@@ -13,6 +13,7 @@ const CompetitionPageContainer = styled.div`
     justify-content: flex-start;
     align-items: center;
     padding: 1rem;
+    margin: 0 auto;
 `;
 
 const About = styled.div`

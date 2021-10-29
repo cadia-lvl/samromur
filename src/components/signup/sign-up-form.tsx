@@ -16,9 +16,8 @@ const SignUpFormContainer = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-
-    width: 40rem;
+    /* width: 100%; */
+    /* width: 40rem; */
 `;
 
 const StyledForm = styled.form`
@@ -29,6 +28,11 @@ const StyledForm = styled.form`
     width: 40rem;
     margin: 0 5rem;
     gap: 2rem;
+
+    ${({ theme }) => theme.media.small} {
+        width: 100%;
+        /* grid-template-columns: 1fr; */
+    }
 `;
 
 const ErrorContainer = styled.div`
