@@ -50,7 +50,9 @@ const samromurColors = [
     theme.colors.blue,
 ];
 
-interface Props {}
+interface Props {
+    chartData: any;
+}
 
 interface State {
     data: any;
@@ -64,8 +66,8 @@ class CompetitionAgeChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        const genderStats = competitionAgeStats;
-        const data = this.generateDataSet(genderStats);
+        const { chartData } = this.props;
+        const data = this.generateDataSet(chartData);
         this.setState({ data });
     };
 

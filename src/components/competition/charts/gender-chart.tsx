@@ -31,7 +31,9 @@ export const options = {
     responsive: true,
 };
 
-interface Props {}
+interface Props {
+    chartData: any;
+}
 
 interface State {
     data: any;
@@ -45,8 +47,8 @@ class CompetitionGenderChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        const genderStats = competitionGenderStats;
-        const data = this.generateDataSet(genderStats);
+        const { chartData } = this.props;
+        const data = this.generateDataSet(chartData);
         this.setState({ data });
     };
 
@@ -55,7 +57,7 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         const count: any = [];
 
         data.forEach((row: any) => {
-            labels.push(row.sex);
+            labels.push(this.fixLabel(row.gender));
             count.push(row.count);
         });
 
@@ -71,6 +73,23 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         };
 
         return dataSet;
+    };
+
+    fixLabel = (label: string): string => {
+        switch (label) {
+            case 'karl':
+                return 'Karl';
+                break;
+            case 'kona':
+                return 'Kona';
+                break;
+            case 'annad':
+                return 'Annað';
+                break;
+            default:
+                return label;
+                break;
+        }
     };
 
     render() {

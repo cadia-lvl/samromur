@@ -35,7 +35,9 @@ export const options = {
     responsive: true,
 };
 
-interface Props {}
+interface Props {
+    chartData: any;
+}
 
 interface State {
     data: any;
@@ -49,8 +51,8 @@ class CompetitionTimeLineChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        const timelineStats = competitionTimeline;
-        const data = this.generateDataSet(timelineStats);
+        const { chartData } = this.props;
+        const data = this.generateDataSet(chartData);
         this.setState({ data });
     };
 
@@ -60,7 +62,7 @@ class CompetitionTimeLineChart extends React.Component<Props, State> {
 
         data.forEach((row: any) => {
             labels.push(row.date);
-            count.push(row.cnt);
+            count.push(row.count);
         });
 
         const dataSet = {
@@ -70,6 +72,7 @@ class CompetitionTimeLineChart extends React.Component<Props, State> {
                     label: 'Upptökur',
                     data: count,
                     backgroundColor: theme.colors.blue,
+                    minBarLength: 3,
                 },
             ],
         };
