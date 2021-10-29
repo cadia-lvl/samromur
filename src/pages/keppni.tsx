@@ -5,6 +5,8 @@ import Scoreboard from '../components/competition/bootstrap/scoreboard';
 import { CompetitionStats } from '../components/competition/competition-stats';
 import Layout from '../components/layout/layout';
 import { ReddumTitle } from '../components/competition/ui/reddum-title';
+import { isCompetition } from '../utilities/competition-helper';
+import CompanyList from '../components/competition/company-list';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -14,6 +16,9 @@ const CompetitionPageContainer = styled.div`
     align-items: center;
     padding: 1rem;
     margin: 0 auto;
+    width: 100%;
+    max-width: 50rem;
+    min-width: 30rem;
 `;
 
 const About = styled.div`
@@ -56,34 +61,36 @@ const Competition: React.FunctionComponent = () => {
                     <ReddumTitle />
                 </ExtraMargin>
                 <About>
+                    <p>Reddum málinu vinnustaðakeppni 8. - 16. nóvember.</p>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Tenetur porro dolore pariatur nihil consequuntur velit
-                        corrupti modi reprehenderit nam incidunt! Minus nisi
-                        molestiae consectetur quidem soluta numquam nostrum, non
-                        sequi.
+                        Allir geta tekið þátt í að „redda málinu“ en við hvetjum
+                        vinnustaði til þess að fylkja liði og skrá sig í
+                        keppnina.
                     </p>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Aliquam laudantium quis adipisci delectus, facere
-                        quod inventore iure quibusdam! Adipisci blanditiis quasi
-                        eum dolor sequi praesentium. Quod consequatur
-                        perferendis quidem non.
+                        Keppt verður í þremur flokkum, eftir stærð vinnustaða og
+                        viðurkenning verður veitt fyrir þrjú efstu sætin í
+                        hverjum flokki.
                     </p>
                 </About>
-                <SelectorContainer>
-                    <SelectableH2 onClick={() => setShowStats(false)}>
-                        Stigatafla
-                    </SelectableH2>
-                    <h2>{' / '}</h2>
-                    <SelectableH2 onClick={() => setShowStats(true)}>
-                        Línurit
-                    </SelectableH2>
-                </SelectorContainer>
-                <ScoreboardStatsContainer>
-                    {!showStats && <Scoreboard />}
-                    {showStats && <CompetitionStats />}
-                </ScoreboardStatsContainer>
+                {isCompetition() && (
+                    <>
+                        <SelectorContainer>
+                            <SelectableH2 onClick={() => setShowStats(false)}>
+                                Stigatafla
+                            </SelectableH2>
+                            <h2>{' / '}</h2>
+                            <SelectableH2 onClick={() => setShowStats(true)}>
+                                Línurit
+                            </SelectableH2>
+                        </SelectorContainer>
+                        <ScoreboardStatsContainer>
+                            {!showStats && <Scoreboard />}
+                            {showStats && <CompetitionStats />}
+                        </ScoreboardStatsContainer>
+                    </>
+                )}
+                {!isCompetition() && <CompanyList />}
             </CompetitionPageContainer>
         </Layout>
     );
