@@ -177,9 +177,10 @@ const TitleContainer = styled.div`
 
 const TextContainer = styled.div`
     color: white;
-    max-width: 100%;
     width: 30rem;
+    max-width: 100%;
     text-align: center;
+    padding: 0 1rem;
 `;
 
 const CTATitle = styled.h3`

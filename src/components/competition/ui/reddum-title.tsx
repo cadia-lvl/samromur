@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 const TitleContainer = styled.div`
     margin-bottom: 4rem;
     min-width: 20rem;
+    max-width: 35rem;
 `;
 
 const LinkButton = styled.div`
