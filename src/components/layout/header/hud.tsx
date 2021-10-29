@@ -156,7 +156,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
                 if (path) {
                     return showDemographics ? pages.frontPage : pages.speak;
                 }
-                return showDemographics ? 'Tilbaka' : 'Demographics';
+                return showDemographics ? 'Tilbaka' : 'Tilbaka';
             case '/hlusta':
                 return path
                     ? pages.contribute
