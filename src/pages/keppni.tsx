@@ -41,6 +41,11 @@ const ExtraMargin = styled.div`
     margin-top: 5rem;
 `;
 
+const ScoreboardStatsContainer = styled.div`
+    max-width: ${({ theme }) => theme.layout.desktopWidth};
+    width: 100%;
+`;
+
 const Competition: React.FunctionComponent = () => {
     const [showStats, setShowStats] = useState(false);
 
@@ -75,10 +80,10 @@ const Competition: React.FunctionComponent = () => {
                         Línurit
                     </SelectableH2>
                 </SelectorContainer>
-                <div>
+                <ScoreboardStatsContainer>
                     {!showStats && <Scoreboard />}
                     {showStats && <CompetitionStats />}
-                </div>
+                </ScoreboardStatsContainer>
             </CompetitionPageContainer>
         </Layout>
     );

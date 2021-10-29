@@ -15,11 +15,14 @@ const StatsContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
     max-width: 50rem;
+    box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
+    padding: 1rem;
 
     & div {
-        width: 50rem;
-        max-height: 50rem;
+        width: 100%;
+        min-height: 5rem;
     }
 `;
 
