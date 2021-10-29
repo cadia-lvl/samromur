@@ -39,7 +39,7 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
         min-height: 100vh;
         overflow-y: auto;
         // background-color: linear-gradient(#492cdb, #b0ffff)
-        
+
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -78,7 +78,7 @@ const ContentAndFooter = styled.div`
         bottom: 0;
         overflow-y: scroll;
         height: inherit;
-        /* 
+        /*
         & > :nth-child(1) {
             min-height: 100%;
             min-height: ${({ theme }) =>
@@ -188,17 +188,22 @@ class Layout extends React.Component<Props, State> {
                 )}
                 {!game ? (
                     <Background white={white ? white : false}>
-                        <Header
+                        {/* <Header
                             user={client}
                             toggleMenu={this.toggleMenu}
                             light={white ? white : false}
-                        />
+                        /> */}
                         <FloatingNavigation
                             user={client}
                             floating
                             visible={menuVisible}
                         />
                         <ContentAndFooter>
+                            <Header
+                                user={client}
+                                toggleMenu={this.toggleMenu}
+                                light={white ? white : false}
+                            />
                             {children}
                             <Footer />
                         </ContentAndFooter>
