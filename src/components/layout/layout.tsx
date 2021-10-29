@@ -16,11 +16,13 @@ interface LayoutContainerProps {
     game?: boolean;
 }
 
+/* z-index: 10; */
 const LayoutContainer = styled.div<LayoutContainerProps>`
     position: relative;
     width: 100vw;
     max-width: 100%;
     overflow-x: hidden;
+
     ${({ game, theme }) =>
         !game
             ? `
@@ -36,47 +38,69 @@ const LayoutContainer = styled.div<LayoutContainerProps>`
             : `
         min-height: 100vh;
         overflow-y: auto;
-        background-color: ${theme.colors.blue};
+        // background-color: linear-gradient(#492cdb, #b0ffff)
         
         display: flex;
         flex-direction: column;
         align-items: center;
-    `}
+    `};
+`;
+
+interface BackgroundProps {
+    white?: boolean;
+}
+
+const Background = styled.div<BackgroundProps>`
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(153.29deg, #492cdb 13.49%, #b0ffff 91.26%);
+
+    ${({ white }) => (white ? 'background: white;' : '')}
 `;
 
 const ContentAndFooter = styled.div`
     z-index: ${({ theme }) => theme.z.bottom};
+    display: flex;
     justify-content: space-between;
+    flex-direction: column;
     overflow-x: hidden;
 
+    /* position: absolute; */
+
     ${({ theme }) => theme.media.small} {
-        position: fixed;
-        top: ${({ theme }) => theme.layout.headerHeight};
+        position: absolute;
+        top: 0; //${({ theme }) => theme.layout.headerHeight};
         left: 0;
         right: 0;
         bottom: 0;
         overflow-y: scroll;
         height: inherit;
-
+        /* 
         & > :nth-child(1) {
+            min-height: 100%;
             min-height: ${({ theme }) =>
-                `calc(100% - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
-        }
+            `calc(100% - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
+        } */
     }
 
     ${({ theme }) => theme.media.smallUp} {
-        position: relative;
-        top: initial;
-        left: initial;
-        right: initial;
-        bottom: initial;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
 
-        & > :nth-child(1) {
+        /* & > :nth-child(1) {
             min-height: ${({ theme }) =>
-                `calc(100vh - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
-        }
+            `calc(100vh - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`};
+        } */
     }
 `;
+/* `calc(100vh - ${theme.layout.headerHeight})`}; */
+/* `calc(100vh - ${theme.layout.headerHeight} - ${theme.layout.footerHeight})`}; */
 
 const FloatingNavigation = styled(Navigation)`
     ${({ theme }) => theme.media.smallUp} {
@@ -109,6 +133,7 @@ const Notifications = styled.div`
 interface LayoutProps {
     children?: React.ReactNode;
     game?: boolean;
+    white?: boolean;
 }
 
 interface State {
@@ -150,6 +175,7 @@ class Layout extends React.Component<Props, State> {
                 client,
                 consents: { cookies },
             },
+            white,
         } = this.props;
         const { menuVisible } = this.state;
 
@@ -161,8 +187,12 @@ class Layout extends React.Component<Props, State> {
                     </Notifications>
                 )}
                 {!game ? (
-                    <React.Fragment>
-                        <Header user={client} toggleMenu={this.toggleMenu} />
+                    <Background white={white ? white : false}>
+                        <Header
+                            user={client}
+                            toggleMenu={this.toggleMenu}
+                            light={white ? white : false}
+                        />
                         <FloatingNavigation
                             user={client}
                             floating
@@ -172,7 +202,7 @@ class Layout extends React.Component<Props, State> {
                             {children}
                             <Footer />
                         </ContentAndFooter>
-                    </React.Fragment>
+                    </Background>
                 ) : (
                     <React.Fragment>
                         <HeadsUpDisplay />

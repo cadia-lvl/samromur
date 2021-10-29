@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
 import { Trans } from 'react-i18next';
+import * as colors from '../../competition/ui/colors';
 
 import {
     DemographicError,
@@ -26,7 +27,7 @@ import {
 import { schools } from '../../../constants/schools';
 
 import Info from './information';
-import DropdownButton from '../../ui/input/dropdown';
+import DropdownButton from '../../competition/ui/dropdown';
 import Checkbox from '../../ui/input/checkbox';
 import ShowMore from '../../ui/animated/show-more';
 import ConsentForm from './consent-form';
@@ -38,12 +39,14 @@ import moment from 'moment';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
 import { Institution } from '../../../types/institution';
 import { getCompanies } from '../../../services/competition-api';
+import SecondaryButton from '../../competition/ui/comp-button-secondary';
 
 const DemographicContainer = styled.div`
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     width: 40rem;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
 
     ${({ theme }) => theme.media.small} {
         width: 100%;
@@ -77,6 +80,12 @@ interface SubmitButtonProps {
     disabled: boolean;
 }
 
+const StyledSecondaryButton = styled(SecondaryButton)`
+    padding: 1rem 5rem;
+    border-radius: 0.1rem;
+    margin: auto;
+`;
+
 const SubmitButton = styled.button<SubmitButtonProps>`
     display: flex;
     flex-direction: column;
@@ -86,7 +95,7 @@ const SubmitButton = styled.button<SubmitButtonProps>`
     font-size: 1.1rem;
     border: none;
     border-radius: 0.1rem;
-    padding: 1rem 2rem;
+    padding: 1rem 5rem;
     background-color: ${({ disabled, theme }) =>
         disabled ? 'gray' : theme.colors.blue};
     color: white;
@@ -118,6 +127,8 @@ const AgreeContainer = styled.div`
     grid-template-columns: 10% auto;
     justify-items: center;
     align-items: center;
+    color: ${colors.blue3};
+
     & span {
         margin-left: 1rem;
     }
@@ -140,12 +151,17 @@ const ShowMoreContainer = styled(ShowMore)`
 `;
 
 const StyledLink = styled.a`
-    color: ${({ theme }) => theme.colors.blue};
-    :visited,
+    color: ${colors.siminn};
+
+    :visited {
+        text-decoration: none;
+        color: ${colors.siminn};
+    }
+
     :focus,
     :hover {
         text-decoration: none;
-        color: ${({ theme }) => theme.colors.blue};
+        color: ${colors.purple1};
     }
 `;
 
@@ -416,6 +432,9 @@ class DemographicForm extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <DemographicContainer>
+                {/* {this.isCompetition() && (
+                    <CompetitionText>{competitionText}</CompetitionText>
+                )} */}
                 {this.isCompetition() && (
                     <DropdownButton
                         content={institutions
@@ -434,11 +453,6 @@ class DemographicForm extends React.Component<Props, State> {
                         }
                     />
                 )}
-                {this.isCompetition() && (
-                    <CompetitionText>{competitionText}</CompetitionText>
-                )}
-                <div />
-                <div />
                 <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={t('age')}
@@ -455,12 +469,14 @@ class DemographicForm extends React.Component<Props, State> {
                         {t('switch-user')}
                     </SwitchUser>
                 </ConsentAndSwitchUserContainer>
-                <ShowMoreContainer active={showConsentForm && !hasConsent}>
-                    <ConsentForm
-                        onConsent={this.onConsent}
-                        visible={showConsentForm}
-                    />
-                </ShowMoreContainer>
+                {showConsentForm && !hasConsent && (
+                    <ShowMoreContainer active={showConsentForm && !hasConsent}>
+                        <ConsentForm
+                            onConsent={this.onConsent}
+                            visible={showConsentForm}
+                        />
+                    </ShowMoreContainer>
+                )}
                 <DropdownButton
                     content={genders.map((gender: Demographic) =>
                         t(gender.name)
@@ -479,9 +495,9 @@ class DemographicForm extends React.Component<Props, State> {
                         t(nativeLanguage?.name) || t('languages.islenska')
                     }
                 />
-                <Information title={t('why-this-matters')}>
+                {/* <Information title={t('why-this-matters')}>
                     <p>{t('why-this-matters-text')}</p>
-                </Information>
+                </Information> */}
                 <AgreeContainer>
                     <Checkbox checked={agreed} onChange={this.handleAgree} />
                     <span>
@@ -496,12 +512,12 @@ class DemographicForm extends React.Component<Props, State> {
                         </Trans>
                     </span>
                 </AgreeContainer>
-                <SubmitButton
+                <StyledSecondaryButton
                     onClick={this.onSubmit}
                     disabled={!formIsFilled || (showConsentForm && !hasConsent)}
                 >
-                    {t('common:continue')}
-                </SubmitButton>
+                    Áfram
+                </StyledSecondaryButton>
             </DemographicContainer>
         );
     }

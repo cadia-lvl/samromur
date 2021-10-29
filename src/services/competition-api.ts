@@ -1,5 +1,10 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { ScoreboardData } from '../types/competition';
+import {
+    AgeStat,
+    GenderStat,
+    ScoreboardData,
+    TimelineStat,
+} from '../types/competition';
 import { Institution } from '../types/institution';
 
 export const signUpCompany = () => {
@@ -63,6 +68,39 @@ export const getCompetitionScores = async () => {
     try {
         const response: AxiosResponse = await axios.get(url);
         return response.data as ScoreboardData[];
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getCompetitionTimeline = async () => {
+    const url = '/api/competition/get-timeline';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as TimelineStat[];
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getCompetitionGenderStats = async () => {
+    const url = '/api/competition/get-gender-stats';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as GenderStat[]; // [{gender, count}, {gender, count}, {gender, count}]
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getCompetitionAgeStats = async () => {
+    const url = '/api/competition/get-age-stats';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as AgeStat; // [{age, count}, ...]
     } catch (error) {
         return Promise.reject(error);
     }

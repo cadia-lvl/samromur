@@ -8,10 +8,14 @@ import Navigation from './navigation';
 import MenuIcon from '../../ui/icons/menu';
 import { UserClient } from '../../../types/user';
 import LanguageSelector from './language-selector';
+import Siminn from '../../ui/icons/siminn';
+import Almannaromur from '../../ui/icons/almannaromur';
+import HR from '../../ui/icons/hr';
+import Robot from '../../ui/icons/robot';
 
 const HeaderContainer = styled.div`
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.329);
+    position: absolute;
+    /* background-color: rgba(0, 0, 0, 0.329); */
     z-index: ${({ theme }) => theme.z.top};
     top: 0;
     left: 0;
@@ -35,12 +39,12 @@ const HeaderContainer = styled.div`
 
 const Header = styled.header`
     display: flex;
-    padding: 1rem 0;
+    padding: 2rem 0;
     justify-content: space-between;
     align-items: baseline;
     ${({ theme }) => theme.media.smallUp} {
         max-width: ${({ theme }) => theme.layout.headerWidth};
-        margin: 0 auto;
+        margin: 0 1rem;
     }
 `;
 
@@ -49,6 +53,15 @@ const Heading = styled.h1`
     font-family: ${(props) => props.theme.fonts.title};
     font-weight: 900;
     font-size: 1.8rem;
+`;
+
+const IconContainer = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    width: 225px;
+    ${({ theme }) => theme.media.small} {
+        /* position: absolute; */
+    }
 `;
 
 const HamburgerMenuButton = styled.div`
@@ -62,9 +75,11 @@ const HamburgerMenuButton = styled.div`
     }
 `;
 
+const colorDark = '#6498FF';
 interface HeaderProps {
     toggleMenu: () => void;
     user: UserClient;
+    light?: boolean;
 }
 
 interface State {
@@ -87,20 +102,46 @@ class HeaderComponent extends React.Component<Props, State> {
     };
 
     render() {
-        const { router, toggleMenu, user } = this.props;
+        const { router, toggleMenu, user, light } = this.props;
         return (
             <HeaderContainer>
                 <Header>
-                    <Heading>
-                        <Link href="/">
-                            <a>Reddu malinu</a>
+                    <IconContainer>
+                        <Link href="https://siminn.is" passHref>
+                            <a target="_blank">
+                                <Siminn
+                                    small
+                                    fill={light ? colorDark : 'white'}
+                                />
+                            </a>
+                        </Link>
+                        <Link href="https://hr.is">
+                            <a target="_blank">
+                                <HR small fill={light ? colorDark : 'white'} />
+                            </a>
+                        </Link>
+                        <Link href="https://almannaromur.is">
+                            <a target="_blank">
+                                <Almannaromur
+                                    small
+                                    fill={light ? colorDark : 'white'}
+                                />
+                            </a>
+                        </Link>
+                        <Link href="https://samromur.is">
+                            <a target="_blank">
+                                <Robot
+                                    small
+                                    fill={light ? colorDark : 'white'}
+                                />
+                            </a>
                         </Link>
                         {/* <LanguageSelector /> */}
-                    </Heading>
-                    <Navigation user={user} />
+                    </IconContainer>
+                    {/* <Navigation user={user} />
                     <HamburgerMenuButton onClick={toggleMenu}>
                         <MenuIcon height={24} width={24} />
-                    </HamburgerMenuButton>
+                    </HamburgerMenuButton> */}
                 </Header>
             </HeaderContainer>
         );

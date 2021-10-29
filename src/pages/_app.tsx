@@ -161,7 +161,7 @@ class MyApp extends App<Props> {
                     <ThemeProvider theme={theme}>
                         <GlobalStyle />
                         <Head>
-                            <title>Samrómur</title>
+                            <title>Reddum Málinu</title>
                             <meta
                                 name="msapplication-TileColor"
                                 content="#da532c"

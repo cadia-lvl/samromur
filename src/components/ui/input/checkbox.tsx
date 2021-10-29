@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import CheckMarkIcon from '../icons/check-mark';
+import * as colors from '../../competition/ui/colors';
 
 interface CheckProps {
     active: boolean;
@@ -16,7 +17,9 @@ const CheckboxContainer = styled.div<CheckProps>`
     padding: 0.2rem;
     cursor: pointer;
     border: 2px solid
-        ${({ active, theme }) => (active ? 'black' : theme.colors.borderGray)};
+        ${({ active, theme }) => (active ? colors.green1 : colors.green1)};
+
+    border-radius: 3px;
 
     &:hover {
         border: 2px solid black;
@@ -54,7 +57,7 @@ export const Checkbox: React.FunctionComponent<Props> = ({
     return (
         <CheckboxContainer active={checked} onClick={onChange}>
             <CheckboxInput />
-            <CheckMark active={checked} />
+            <CheckMark active={checked} fill={colors.blue3} />
         </CheckboxContainer>
     );
 };

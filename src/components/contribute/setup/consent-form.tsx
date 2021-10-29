@@ -8,8 +8,10 @@ import { Kennitala, KennitalaType } from './kennitala-validator';
 
 import ShowMore from '../../ui/animated/show-more';
 import SwipeSwap from '../../ui/animated/swipe';
-import TextInput from '../../ui/input/text-input';
+import TextInput from '../../competition/ui/text-input';
 import Information from './information';
+
+import * as colors from '../../competition/ui/colors';
 
 import validateEmail from '../../../utilities/validate-email';
 
@@ -62,7 +64,7 @@ const Instructions = styled.div`
     display: flex;
     flex-direction: column;
     grid-column: 1 / 3;
-
+    color: ${colors.blue3};
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
         max-width: 100%;
@@ -71,7 +73,7 @@ const Instructions = styled.div`
 
 const Info = styled(Information)`
     grid-column: 1 / 3;
-
+    color: ${colors.blue3};
     ${({ theme }) => theme.media.small} {
         grid-column: 1;
         max-width: 100%;

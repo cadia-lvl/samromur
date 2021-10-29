@@ -41,6 +41,9 @@ import {
     speakGoals,
 } from '../../../constants/packages';
 import { setShowDemographics } from '../../../store/ui/actions';
+import ReddumMalinuLogo from '../../ui/logos/reddum-malinu';
+import * as colors from '../../competition/ui/colors';
+import { ReddumTitle } from '../../competition/ui/reddum-title';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -267,11 +270,7 @@ class Contribute extends React.Component<Props, State> {
             <Layout game>
                 <ContributeContainer gaming={gaming} expanded={expanded}>
                     <div />
-                    {!gaming ? (
-                        <Instruction>{this.getInstruction()}</Instruction>
-                    ) : (
-                        <div />
-                    )}
+                    {!gaming ? <ReddumTitle /> : <div />}
                     {!contributeType ? (
                         <TypeSelect setType={this.selectType} />
                     ) : labels && labels.length > 0 && !selectedBatch ? (

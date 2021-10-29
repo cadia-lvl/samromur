@@ -8,13 +8,32 @@ import SocialLinks from './social';
 import SubscribeEmailForm from './subscribe';
 
 const FooterContainer = styled.footer`
+    /* position: inherit; */
+    /* bottom: 0; */
+    /* left: -5%; */
     display: flex;
     align-items: center;
-    z-index: ${({ theme }) => theme.z.top};
+    z-index: -1;
+    /* width: 110%;
+    min-height: 25%; */
     width: 100vw;
     min-height: ${({ theme }) => theme.layout.footerHeight};
     //max-height: 100%;
-    background-color: #00000049;
+    /* background: url(/images/Skraut_1.png); */
+    background: url(/images/Skraut_1.png);
+    /* background-color: red; */
+    /* background-size: cover; */
+    /* background-repeat: no-repeat; */
+
+    background-position-y: top;
+    background-position-x: center;
+    ${({ theme }) => theme.media.small} {
+        /* background-position: bottom; */
+        background-size: 100%;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+    /* background-position: top; */
     color: ${({ theme }) => theme.colors.offWhite};
 `;
 
@@ -46,12 +65,12 @@ export const Footer: FunctionComponent<Props> = (props) => {
     // const { pathname } = router;
     return (
         <FooterContainer>
-            <FooterGrid>
-                {/* <FooterTitle /> */}
-                <FooterLinks />
-                {/* <SocialLinks />
+            {/* <FooterGrid> */}
+            {/* <FooterTitle /> */}
+            {/* <FooterLinks /> */}
+            {/* <SocialLinks />
                 <SubscribeEmailForm /> */}
-            </FooterGrid>
+            {/* </FooterGrid> */}
         </FooterContainer>
     );
 };

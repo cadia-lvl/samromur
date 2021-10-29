@@ -22,13 +22,22 @@ import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
 import Link from 'next/link';
 
+import Countdown from 'react-countdown';
+import { endTime, signUpStart, startTime } from '../constants/competition';
+import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
+import PrimaryButton from '../components/competition/ui/comp-button-primary';
+
 const FrontPageContainer = styled.div`
-    /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
-    /* background: url(/images/wave-footer@3x.png) no-repeat bottom; */
-    background-size: 100% auto;
-    background-color: ${({ theme }) => theme.colors.blue};
+    /* background: url(/images/wave-footer.png) repeat-x bottom;
+    background: url(/images/wave-footer@3x.png) no-repeat bottom; */
+
+    /* background: linear-gradient(153.29deg, #492cdb 13.49%, #b0ffff 91.26%); */
+    /* background-size: 100% auto; */
+
     display: flex;
     flex-direction: column;
+    /* justify-content: flex-start; */
+
     & > * {
         margin-bottom: 1rem;
     }
@@ -47,7 +56,7 @@ const FrontPageContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     & > * {
         margin-bottom: 1rem;
     }
@@ -157,9 +166,19 @@ const TitleContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 100%;
+    width: 30rem;
+    margin-top: 5rem;
     & > * {
         margin-bottom: 1rem;
     }
+`;
+
+const TextContainer = styled.div`
+    color: white;
+    max-width: 100%;
+    width: 30rem;
+    text-align: center;
 `;
 
 const CTATitle = styled.h3`
@@ -258,6 +277,19 @@ const SignUp = styled.div`
     }
 `;
 
+const CountDownContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+`;
+
+const StyledCountDown = styled(Countdown)`
+    margin: 0 auto;
+`;
+
 const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -304,6 +336,7 @@ class IndexPage extends React.Component<Props> {
     };
 
     render() {
+        4;
         const { t, i18n } = this.props;
         // const introduction = this.props.t('introduction-markdown');
         const { router, stats } = this.props;
@@ -338,7 +371,6 @@ class IndexPage extends React.Component<Props> {
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
 
                         </MiddleContent> */}
-
                         {/* <ChartsContainer>
                             <HeroChart>
                                 <ChartLegend>
@@ -350,16 +382,47 @@ class IndexPage extends React.Component<Props> {
                                 </ChartContainer>
                             </HeroChart>
                         </ChartsContainer> */}
-                        <Title>Reddu Málinu</Title>
+                        <TitleContainer>
+                            <ReddumMalinuWhite size={'100%'} />
+                        </TitleContainer>
+                        <TextContainer>
+                            <p>Íslenskan þarf þína hjálp.</p>
+                            <p>
+                                Til þess að tæki og tölvur geti skilið íslensku
+                                þarf mikinn fjölda upptaka af íslensku tali frá
+                                allskonar fólki. Því fleiri upptökur, því betra
+                                fyrir framtíð íslenskunnar. Reddum málinu saman!
+                            </p>
+                            <p>
+                                Smelltu á taka þátt og lestu inn tíu raddsýni.
+                                Þú getur endurtekið leikinn eins oft og þú vilt
+                                og þannig safnað stigum í vinnustaðarkeppninni
+                                og hjálpað íslenskri tungu í leiðinni.
+                            </p>
+                        </TextContainer>
+                        <PrimaryButton onClick={() => router.push('/skra')}>
+                            Skrá
+                        </PrimaryButton>
+                        <PrimaryButton onClick={() => router.push('/tala')}>
+                            Taka þátt
+                        </PrimaryButton>
                         {/* <BottomContent> */}
                         {/*    <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
                         <MicButton onClick={() => router.push(pages.speak)} >
                             <MicIcon fill={'green'} height={35} width={35} />
                         </MicButton> */}
                         {/* </BottomContent> */}
-                        <Link href={'/skra'} passHref>
+                        {/* <Link href={'/skra'} passHref>
                             <SignUp>SKRÁ</SignUp>
-                        </Link>
+                        </Link> */}
+                        {/* <CountDownContainer>
+                            <span>Time until sign up</span>
+                            <StyledCountDown date={signUpStart} />
+                        </CountDownContainer>
+                        <CountDownContainer>
+                            <span>Time until competition starts</span>
+                            <StyledCountDown date={startTime} />
+                        </CountDownContainer> */}
                     </FrontPageContent>
                 </FrontPageContainer>
             </Layout>

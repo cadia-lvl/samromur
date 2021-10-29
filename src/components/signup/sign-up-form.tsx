@@ -1,8 +1,50 @@
 import { value } from 'popmotion';
 import * as React from 'react';
 import { ChangeEvent, useState } from 'react';
+import styled from 'styled-components';
 import { addCompany, companyExists } from '../../services/competition-api';
 import validateEmail from '../../utilities/validate-email';
+import * as colors from '../competition/ui/colors';
+import SecondaryButton from '../competition/ui/comp-button-secondary';
+import DropdownButton from '../competition/ui/dropdown';
+import { TextInputWithLabel } from '../ui/input/input';
+import TextInput from '../competition/ui/text-input';
+import { useRouter } from 'next/router';
+
+const SignUpFormContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    width: 40rem;
+`;
+
+const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40rem;
+    margin: 0 5rem;
+    gap: 2rem;
+`;
+
+const ErrorContainer = styled.div`
+    color: red;
+    padding: 0.5rem;
+`;
+
+const SuccessContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 30rem;
+    min-width: 20rem;
+    margin: 0 5rem;
+`;
 
 interface Size {
     size: string;
@@ -10,10 +52,9 @@ interface Size {
 }
 
 const sizes: Size[] = [
-    { size: 'tiny', text: '1-10' },
-    { size: 'small', text: '11-50' },
-    { size: 'medium', text: '51-100' },
-    { size: 'large', text: '100+' },
+    { size: 'small', text: 'færri en 70' },
+    { size: 'medium', text: '70-300' },
+    { size: 'large', text: 'meira en 300' },
 ];
 
 enum FormError {
@@ -31,6 +72,7 @@ const SignUpForm: React.FunctionComponent = () => {
     const [email, setEmail] = useState('');
     const [error, setError] = useState<FormError | undefined>(undefined);
     const [success, setSuccess] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -58,9 +100,10 @@ const SignUpForm: React.FunctionComponent = () => {
         const value = event.target.value;
         setCompany(value);
     };
-    const onSizeChanged = (event: ChangeEvent<HTMLSelectElement>) => {
-        const value = event.target.value;
-        const newSize = sizes.find((e) => e.size == value);
+
+    const onSizeChanged = (s: string) => {
+        // const value = event.target.value;
+        const newSize = sizes.find((e) => e.text == s);
         if (newSize) {
             setSize(newSize);
         }
@@ -108,52 +151,86 @@ const SignUpForm: React.FunctionComponent = () => {
         return true;
     };
 
+    const toFriendlyError = (error: FormError) => {
+        switch (error) {
+            case FormError.COMPANY_EXISTS:
+                return 'Þessi vinnustaður er búinn að skrá sig.';
+            case FormError.EMPTY_COMPANY:
+                return 'Þú þarft að bæta við vinnustað.';
+            case FormError.EMPTY_CONTACT:
+                return 'Vinsamlega sláðu inn tengilið.';
+            case FormError.INVALID_EMAIL:
+                return 'Tölvupóstfang vantar eða er ógilt.';
+            case FormError.INVALID_SIZE:
+                return 'Ógild vinnustaðastærð';
+            default:
+                return 'Óþekkt villa.';
+        }
+    };
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="company">Company</label>
-                <br />
+        <SignUpFormContainer>
+            {!success && (
+                <StyledForm onSubmit={handleSubmit}>
+                    <TextInput
+                        label={'Vinnustaður'}
+                        onChange={onCompanyChanged}
+                        placeholder={''}
+                    />
+                    {/* <br />
                 <input
                     type="text"
                     name="company"
                     onChange={onCompanyChanged}
-                ></input>
-                <br />
-                <label htmlFor="size">Size</label>
-                <br />
-                <select onChange={onSizeChanged} value={size.size}>
-                    {sizes.map((e) => {
-                        return (
-                            <option value={e.size} key={e.size}>
-                                {e.text}
-                            </option>
-                        );
-                    })}
-                </select>
-                <br />
-                <label htmlFor="contact">Contact person:</label>
+                ></input> */}
+                    {/* <br /> */}
+                    {/* <label htmlFor="size">Size</label>
+                <br /> */}
+                    <DropdownButton
+                        content={sizes.map((s: Size) => s.text)}
+                        label={'Fjöldi starfsmanna'}
+                        onSelect={onSizeChanged}
+                        selected={size.text}
+                    />
+                    {/* <br /> */}
+                    {/* <label htmlFor="contact">Contact person:</label>
                 <br />
                 <input
                     type="text"
                     name="contact"
                     onChange={onContactChanged}
                 ></input>
-                <br />
-                <label htmlFor="email">Email</label>
-                <br />
-                <input
-                    type="text"
-                    name="email"
-                    onChange={onEmailChanged}
-                ></input>
-                <br />
-                <input type="submit" value="Skrá" />
-            </form>
-            {error && <div>ERROR: {error}</div>}
-            {success && (
-                <div>Company {company} has successfully been registered.</div>
+                <br /> */}
+                    <TextInput
+                        label={'Tengiliður'}
+                        onChange={onContactChanged}
+                        placeholder={''}
+                    />
+                    <TextInput
+                        label={'Tölvupósti'}
+                        onChange={onEmailChanged}
+                        placeholder={''}
+                    />
+                    <SecondaryButton type="submit" value="Skrá">
+                        Skrá
+                    </SecondaryButton>
+                </StyledForm>
             )}
-        </div>
+            {error && (
+                <ErrorContainer>Villa: {toFriendlyError(error)}</ErrorContainer>
+            )}
+            {success && (
+                <SuccessContainer>
+                    <p>
+                        {company} hefur verið skráður til leiks. Smelltu á "taka
+                        þátt" til að byrja að keppa!
+                    </p>
+                    <SecondaryButton onClick={() => router.push('/tala')}>
+                        Taka þátt
+                    </SecondaryButton>
+                </SuccessContainer>
+            )}
+        </SignUpFormContainer>
     );
 };
 

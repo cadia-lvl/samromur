@@ -14,6 +14,8 @@ import { WithTranslation, withTranslation } from '../../../server/i18n';
 import { resetDemographics } from '../../../store/user/actions';
 import { setShowDemographics } from '../../../store/ui/actions';
 import { route } from 'next/dist/next-server/server/router';
+import { getWheelColorString } from '../../../utilities/color-utility';
+import * as colors from '../../competition/ui/colors';
 
 const HUDContainer = styled.div`
     position: absolute;
@@ -67,7 +69,9 @@ const TextBar = styled.div`
     white-space: nowrap;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+    color: ${colors.blue2};
+`;
 
 interface HUDProps {}
 
@@ -152,7 +156,7 @@ class HeadsUpDisplay extends React.Component<Props, State> {
                 if (path) {
                     return showDemographics ? pages.frontPage : pages.speak;
                 }
-                return showDemographics ? 'Frontpage' : 'Demographics';
+                return showDemographics ? 'Tilbaka' : 'Demographics';
             case '/hlusta':
                 return path
                     ? pages.contribute
