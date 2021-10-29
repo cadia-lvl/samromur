@@ -10,6 +10,7 @@ import DropdownButton from '../competition/ui/dropdown';
 import { TextInputWithLabel } from '../ui/input/input';
 import TextInput from '../competition/ui/text-input';
 import { useRouter } from 'next/router';
+import { isCompetition } from '../../utilities/competition-helper';
 
 const SignUpFormContainer = styled.div`
     display: flex;
@@ -48,6 +49,7 @@ const SuccessContainer = styled.div`
     max-width: 30rem;
     min-width: 20rem;
     margin: 0 5rem;
+    color: ${colors.blue3};
 `;
 
 interface Size {
@@ -223,7 +225,7 @@ const SignUpForm: React.FunctionComponent = () => {
             {error && (
                 <ErrorContainer>Villa: {toFriendlyError(error)}</ErrorContainer>
             )}
-            {success && (
+            {success && isCompetition() && (
                 <SuccessContainer>
                     <p>
                         {company} hefur verið skráður til leiks. Smelltu á "taka
@@ -231,6 +233,17 @@ const SignUpForm: React.FunctionComponent = () => {
                     </p>
                     <SecondaryButton onClick={() => router.push('/tala')}>
                         Taka þátt
+                    </SecondaryButton>
+                </SuccessContainer>
+            )}
+            {success && !isCompetition() && (
+                <SuccessContainer>
+                    <p>
+                        {company} hefur verið skráður til leiks. Smelltu á
+                        "Keppni" sjá núverandi skráða vinnustaði!
+                    </p>
+                    <SecondaryButton onClick={() => router.push('/keppni')}>
+                        Keppni
                     </SecondaryButton>
                 </SuccessContainer>
             )}
