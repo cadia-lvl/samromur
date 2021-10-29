@@ -1,4 +1,6 @@
 import { createGlobalStyle, css } from 'styled-components';
+import BrixSansRegularOTF from '../components/ui/fonts/BrixSansRegular.otf';
+import BrixSansRegularWOFF from '../components/ui/fonts/BrixSansRegular.woff';
 
 export interface Theme {
     fonts: {
@@ -39,7 +41,7 @@ export const breakpoints = {
 export const theme = {
     fonts: {
         title: "'Zilla Slab', Georgia, Utopia, Charter, serif",
-        transcript: "'Voces', cursive",
+        transcript: "'BrixSansRegular', cursive",
     },
     colors: {
         offwhite: '#FCFCFC',
@@ -64,7 +66,7 @@ export const theme = {
         hudHeight: '5rem',
         headerHeight: '4rem',
         headerWidth: '78rem',
-        footerHeight: '10rem',
+        footerHeight: '13rem',
         cookieModalHeight: '7rem',
         footerWidth: '78rem',
         footerWidthSmall: '50rem',
@@ -105,6 +107,14 @@ export interface ThemeWrapper {
 
 // Defining global styles which are injected in _app.tsx
 export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
+    @font-face {
+        font-family: 'BrixSans';
+        src: local('BrixSans'), url(${BrixSansRegularOTF}) format('opentype'),
+             url(${BrixSansRegularWOFF}) format('woff'),;
+
+    }
+
+
     * {
         box-sizing: border-box;
     }
@@ -112,7 +122,7 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
     html, body {
         margin: 0;
         padding: 0;
-        font-family: ${({ theme }) => theme.fonts.transcript};
+        font-family: 'BrixSans';
         font-size: 12px;
         font-smoothing: antialiased;
         -webkit-font-smoothing: antialiased;
@@ -130,7 +140,7 @@ export const GlobalStyle = createGlobalStyle<ThemeWrapper>`
         }
     }
 
-    a, a: visited, a: hover, a: focus {
+    a, a :visited, a :hover, a:focus {
         text-decoration: none;
         color: inherit;
     }

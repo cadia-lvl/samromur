@@ -7,3 +7,5 @@ declare module '*.jpeg';
 declare module '*.svg';
 declare module '*.gif';
 declare module '*.md';
+declare module '*.otf';
+declare module '*.woff';

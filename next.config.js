@@ -121,6 +121,11 @@ module.exports = withPWA({
             use: 'raw-loader',
         });
 
+        config.module.rules.unshift({
+            test: /\.(woff|woff2|eot|ttf|otf)$/,
+            use: 'file-loader',
+        });
+
         config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
 
         return config;
