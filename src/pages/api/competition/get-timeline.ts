@@ -22,7 +22,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 count: e.count,
             };
         });
-        console.log(timelineStats);
         return res.status(200).json(timelineStats);
     } catch (error) {
         console.log(error);
