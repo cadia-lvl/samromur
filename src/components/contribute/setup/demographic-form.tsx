@@ -40,6 +40,10 @@ import { WithTranslation, withTranslation } from '../../../server/i18n';
 import { Institution } from '../../../types/institution';
 import { getCompanies } from '../../../services/competition-api';
 import SecondaryButton from '../../competition/ui/comp-button-secondary';
+import {
+    isCompetition,
+    isCompetitionOver,
+} from '../../../utilities/competition-helper';
 
 const DemographicContainer = styled.div`
     display: flex;
@@ -73,7 +77,9 @@ const Information = styled(Info)`
 `;
 
 const CompetitionText = styled.div`
+    color: ${colors.blue3};
     margin: auto;
+    font-size: 1.2rem;
 `;
 
 interface SubmitButtonProps {
@@ -246,7 +252,6 @@ class DemographicForm extends React.Component<Props, State> {
             //     this.setState({ school: { code: '', name: '' } });
             // }
             const institutions = await getCompanies();
-            console.log(institutions);
             this.setState({ institutions });
         }
     };
@@ -397,18 +402,10 @@ class DemographicForm extends React.Component<Props, State> {
 
     // TODO: switch this text out
     getCompetitionText = (): string => {
-        // const startDate = moment('2021-01-18 15:00:00', moment.ISO_8601);
-        // const endDate = moment('2021-01-26 00:00:00', moment.ISO_8601);
-        // const now = moment();
-        // if (now.isBetween(startDate, endDate, 'seconds')) {
-        //     return 'Lestrarkeppni grunnsskóla er farin af stað!';
-        // } else if (now.isAfter(endDate, 'seconds')) {
-        //     return 'Lestrarkeppni grunnsskóla er búin.';
-        // } else if (now.isBefore(startDate, 'seconds')) {
-        //     return 'Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!';
-        // }
-        // return '';
-        return 'TEMPTEXT: REDDUM MALINU';
+        if (isCompetition()) {
+            return 'Sérðu ekki vinnustaðinn þinn?, skráðu þig ';
+        }
+        return '';
     };
 
     // TODO: add logic here for next competition
@@ -432,10 +429,15 @@ class DemographicForm extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <DemographicContainer>
-                {/* {this.isCompetition() && (
-                    <CompetitionText>{competitionText}</CompetitionText>
-                )} */}
-                {this.isCompetition() && (
+                {isCompetition() && (
+                    <CompetitionText>
+                        {competitionText}
+                        <StyledLink href="/skra" target={'blank'}>
+                            hér
+                        </StyledLink>
+                    </CompetitionText>
+                )}
+                {isCompetition() && (
                     <DropdownButton
                         content={institutions
                             .sort((a, b) =>
