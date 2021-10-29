@@ -71,7 +71,7 @@ const topThreeFormatter = (cell: any, row: ScoreboardData) => {
 const columns = [
     {
         dataField: 'rank',
-        text: '# Rank',
+        text: '# Staða',
         sort: true,
         // headerStyle: () => {
         //     return { width: '10%' };
@@ -82,7 +82,7 @@ const columns = [
     },
     {
         dataField: 'name',
-        text: 'Company name',
+        text: 'Vinnustaður',
         sort: true,
         headerStyle: () => {
             return { width: '50%' };
@@ -99,7 +99,7 @@ const columns = [
     },
     {
         dataField: 'users',
-        text: 'Users',
+        text: 'Notendur',
         sort: true,
         hidden: false,
         headerAlign: 'right',
@@ -107,7 +107,7 @@ const columns = [
     },
     {
         dataField: 'count',
-        text: 'Count',
+        text: 'Setningar',
         sort: true,
         align: 'right',
         headerAlign: 'right',
@@ -218,7 +218,7 @@ const dummyData: ScoreboardData[] = [
     { rank: 1, name: 'Company X', size: 'medium', count: 1, users: 100 },
 ];
 
-const sizes = ['small', 'medium', 'large', 'xlarge'];
+const sizes = ['small', 'medium', 'large'];
 
 const generateDummyData = (amount: number): ScoreboardData[] => {
     const dummyData = new Array<ScoreboardData>();
@@ -265,7 +265,7 @@ const generateDummyData = (amount: number): ScoreboardData[] => {
 //     );
 // };
 
-const data = generateDummyData(100);
+// const data = generateDummyData(100);
 
 const sizesPerPage = [10, 25, 50, 100];
 
@@ -273,6 +273,7 @@ const PagesContainer = styled.div``;
 
 const ScoreboardWithCustomPagination: React.FunctionComponent = () => {
     const [sizePerPage, setSizePerPage] = useState(10);
+    const { data, error } = useSWR('fake', getCompetitionScores);
 
     const handleNextPage = (paginationProps: any) => () => {
         const {
@@ -309,33 +310,44 @@ const ScoreboardWithCustomPagination: React.FunctionComponent = () => {
         setSizePerPage(newSizePerPage);
     };
 
+    const getOptions = () => {
+        const o = {
+            custom: true,
+            totalSize: data ? data.length : 0,
+        };
+        return o;
+    };
+
     return (
         <div>
-            <PaginationProvider pagination={paginationFactory(options)}>
-                {({ paginationProps, paginationTableProps }) => (
-                    <ScoreboardContainer>
-                        <Box>
-                            <BootStrapTable
-                                bootstrap4
-                                striped
-                                expandRow={expandRows}
-                                hover
-                                bordered={false}
-                                {...paginationTableProps}
-                                keyField="name"
-                                data={data}
-                                columns={columns}
-                                filter={filterFactory()}
-                            />
-                        </Box>
-                        <PaginationContainer>
-                            <SizePerPageContainer>
-                                {/* <SizePerPageDropdown>
+            {data && (
+                <PaginationProvider
+                    pagination={paginationFactory(getOptions())}
+                >
+                    {({ paginationProps, paginationTableProps }) => (
+                        <ScoreboardContainer>
+                            <Box>
+                                <BootStrapTable
+                                    bootstrap4
+                                    striped
+                                    expandRow={expandRows}
+                                    hover
+                                    bordered={false}
+                                    {...paginationTableProps}
+                                    keyField="name"
+                                    data={data}
+                                    columns={columns}
+                                    filter={filterFactory()}
+                                />
+                            </Box>
+                            <PaginationContainer>
+                                <SizePerPageContainer>
+                                    {/* <SizePerPageDropdown>
                                     <SizePerPageDropdownButton>
                                         Size per page:{' '}
                                         {paginationProps.sizePerPage}
                                     </SizePerPageDropdownButton> */}
-                                {/* <SizePerPageDropdownList>
+                                    {/* <SizePerPageDropdownList>
                                         <SizePerPageListItem>
                                             <SizePerPageButton
                                                 onClick={() =>
@@ -362,57 +374,58 @@ const ScoreboardWithCustomPagination: React.FunctionComponent = () => {
                                         </SizePerPageListItem>
                                     </SizePerPageDropdownList>
                                 </SizePerPageDropdown> */}
-                                <div>
-                                    Magn á síðu:{' '}
-                                    <StyledSelect
-                                        onChange={(e) =>
-                                            onSizePerPageChange(
-                                                paginationProps,
-                                                e
-                                            )
-                                        }
-                                        value={sizePerPage}
-                                    >
-                                        {sizesPerPage.map((e) => {
-                                            return (
-                                                <option value={e} key={e}>
-                                                    {e}
-                                                </option>
-                                            );
-                                        })}
-                                    </StyledSelect>
-                                </div>
-                            </SizePerPageContainer>
-                            <PageSelectorContainer>
-                                {' '}
-                                <div>
-                                    <TableButton
-                                        onClick={handlePrevPage(
-                                            paginationProps
-                                        )}
-                                    >
-                                        {'<'}
-                                    </TableButton>
-                                    <TableButton
-                                        onClick={handleNextPage(
-                                            paginationProps
-                                        )}
-                                    >
-                                        {'>'}
-                                    </TableButton>
-                                </div>
-                            </PageSelectorContainer>
-                        </PaginationContainer>
-                        {/* <div>
+                                    <div>
+                                        Magn á síðu:{' '}
+                                        <StyledSelect
+                                            onChange={(e) =>
+                                                onSizePerPageChange(
+                                                    paginationProps,
+                                                    e
+                                                )
+                                            }
+                                            value={sizePerPage}
+                                        >
+                                            {sizesPerPage.map((e) => {
+                                                return (
+                                                    <option value={e} key={e}>
+                                                        {e}
+                                                    </option>
+                                                );
+                                            })}
+                                        </StyledSelect>
+                                    </div>
+                                </SizePerPageContainer>
+                                <PageSelectorContainer>
+                                    {' '}
+                                    <div>
+                                        <TableButton
+                                            onClick={handlePrevPage(
+                                                paginationProps
+                                            )}
+                                        >
+                                            {'<'}
+                                        </TableButton>
+                                        <TableButton
+                                            onClick={handleNextPage(
+                                                paginationProps
+                                            )}
+                                        >
+                                            {'>'}
+                                        </TableButton>
+                                    </div>
+                                </PageSelectorContainer>
+                            </PaginationContainer>
+                            {/* <div>
                             <p>Current Page: {paginationProps.page}</p>
                             <p>
                                 Current SizePerPage:{' '}
                                 {paginationProps.sizePerPage}
                             </p>
                         </div> */}
-                    </ScoreboardContainer>
-                )}
-            </PaginationProvider>
+                        </ScoreboardContainer>
+                    )}
+                </PaginationProvider>
+            )}
             {/* <Code>{sourceCode}</Code> */}
         </div>
     );
