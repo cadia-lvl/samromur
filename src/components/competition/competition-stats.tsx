@@ -6,6 +6,7 @@ import {
     getCompetitionGenderStats,
     getCompetitionTimeline,
 } from '../../services/competition-api';
+import Loader from '../ui/animated/loader';
 import CompetitionAgeChart from './charts/age-chart';
 import CompetitionGenderChart from './charts/gender-chart';
 import CompetitionTimeLineChart from './charts/timeline-chart';
@@ -45,8 +46,11 @@ export const CompetitionStats = () => {
             {timelineData && (
                 <CompetitionTimeLineChart chartData={timelineData} />
             )}
+            {!timelineData && !timelineError && <Loader />}
             {ageData && <CompetitionAgeChart chartData={ageData} />}
+            {!ageData && !ageError && <Loader />}
             {genderData && <CompetitionGenderChart chartData={genderData} />}
+            {!genderData && !genderError && <Loader />}
         </StatsContainer>
     );
 };
