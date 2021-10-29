@@ -11,7 +11,8 @@ import LanguageSelector from './language-selector';
 import Siminn from '../../ui/icons/siminn';
 import Almannaromur from '../../ui/icons/almannaromur';
 import HR from '../../ui/icons/hr';
-import Robot from '../../ui/icons/robot';
+import RobotWhite from '../../ui/icons/robot-white';
+import RobotBlue from '../../ui/icons/robot-blue';
 
 const HeaderContainer = styled.div`
     position: absolute;
@@ -130,10 +131,11 @@ class HeaderComponent extends React.Component<Props, State> {
                         </Link>
                         <Link href="https://samromur.is">
                             <a target="_blank">
-                                <Robot
-                                    small
-                                    fill={light ? colorDark : 'white'}
-                                />
+                                {light ? (
+                                    <RobotBlue small />
+                                ) : (
+                                    <RobotWhite small />
+                                )}
                             </a>
                         </Link>
                         {/* <LanguageSelector /> */}
