@@ -26,6 +26,7 @@ import Countdown from 'react-countdown';
 import { endTime, signUpStart, startTime } from '../constants/competition';
 import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import PrimaryButton from '../components/competition/ui/comp-button-primary';
+import CompetitionButtons from '../components/competition/frontpage-buttons';
 
 const FrontPageContainer = styled.div`
     /* background: url(/images/wave-footer.png) repeat-x bottom;
@@ -400,12 +401,8 @@ class IndexPage extends React.Component<Props> {
                                 og hjálpað íslenskri tungu í leiðinni.
                             </p>
                         </TextContainer>
-                        <PrimaryButton onClick={() => router.push('/skra')}>
-                            Skrá
-                        </PrimaryButton>
-                        <PrimaryButton onClick={() => router.push('/tala')}>
-                            Taka þátt
-                        </PrimaryButton>
+                        <CompetitionButtons />
+
                         {/* <BottomContent> */}
                         {/*    <RobotMessage>Viltu gefa raddsýni?</RobotMessage>
                         <MicButton onClick={() => router.push(pages.speak)} >
