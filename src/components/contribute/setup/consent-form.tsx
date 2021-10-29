@@ -16,6 +16,7 @@ import * as colors from '../../competition/ui/colors';
 import validateEmail from '../../../utilities/validate-email';
 
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
+import SecondaryButton from '../../competition/ui/comp-button-secondary';
 
 interface ConsentFormContainerProps {
     active: boolean;
@@ -273,12 +274,12 @@ class ConsentForm extends React.Component<Props, State> {
                         />
                     </InputTextContainer>
                 </InputFields>
-                <SubmitButton
+                <SecondaryButton
                     onClick={this.handleSubmit}
                     disabled={!submittable}
                 >
                     {emailPrompt ? 'Senda tölvupóst' : 'Staðfesta'}
-                </SubmitButton>
+                </SecondaryButton>
                 <Info title={'Hvers vegna þarf kennitölu?'}>
                     <p>
                         Til þess að uppfylla lög um persónuvernd og vinnslu

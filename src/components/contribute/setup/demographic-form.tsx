@@ -444,7 +444,7 @@ class DemographicForm extends React.Component<Props, State> {
                                 a.name.localeCompare(b.name, 'is-IS')
                             )
                             .map((element: Institution) => element.name)}
-                        label={'Fyrirtaki'}
+                        label={'Vinnustaður'}
                         onSelect={this.onInstitutionSelect}
                         selected={
                             institution
@@ -467,9 +467,9 @@ class DemographicForm extends React.Component<Props, State> {
                     tabIndex={hasConsent ? 0 : -1}
                 >
                     <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
-                    <SwitchUser onClick={this.switchUser}>
+                    <SecondaryButton onClick={this.switchUser}>
                         {t('switch-user')}
-                    </SwitchUser>
+                    </SecondaryButton>
                 </ConsentAndSwitchUserContainer>
                 {showConsentForm && !hasConsent && (
                     <ShowMoreContainer active={showConsentForm && !hasConsent}>
