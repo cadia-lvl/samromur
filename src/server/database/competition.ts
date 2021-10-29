@@ -2,10 +2,13 @@ import { generateGUID } from '../../utilities/id';
 import Sql from './sql';
 import { Institution } from '../../types/institution';
 import { AgeStat, GenderStat, TimelineStat } from '../../types/competition';
+import moment from 'moment';
+import { startTime, endTime, lastDay } from '../../constants/competition';
 
 // TODO: competition, actual dates
-const startDate: string = '2021-10';
-const endDate: string = '2021-11';
+const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
+const dbEndDate: string = moment(endTime).format('YYYY-MM-DD');
+const dbLastDay: string = moment(lastDay).format('YYYY-MM-DD');
 
 export default class Competition {
     private sql: Sql;
@@ -114,8 +117,11 @@ export default class Competition {
                         created_at < ?
                 GROUP BY agegroup
                 `,
-                [startDate, endDate]
+                [dbStartDate, dbEndDate]
             );
+            console.log(dbStartDate);
+            console.log(dbEndDate);
+            console.log(ageStats);
             return ageStats as AgeStat[];
         } catch (error) {
             return Promise.reject(error);
@@ -135,7 +141,7 @@ export default class Competition {
                         AND created_at < ?
                 GROUP BY sex
                 `,
-                [startDate, endDate]
+                [dbStartDate, dbEndDate]
             );
 
             return genderStats as GenderStat[];
@@ -144,10 +150,6 @@ export default class Competition {
         }
     };
 
-    // TODO: competition switch this for correct dates
-    // Have some fake dates now to get some data
-    fakeStartDate = '2021-09-12';
-    fakeEndDate = '2021-09-18';
     getTimeline = async (): Promise<TimelineStat[]> => {
         try {
             const [timelineStats] = await this.sql.query(
@@ -156,7 +158,7 @@ export default class Competition {
                     DATE(cal.date) AS date, COUNT(res.id) AS count
                 FROM
                     (SELECT 
-                        SUBDATE( ? , INTERVAL 6 DAY) + INTERVAL xc DAY AS date
+                        SUBDATE( ? , INTERVAL 8 DAY) + INTERVAL xc DAY AS date
                     FROM
                         (SELECT 
                         @xi:=@xi + 1 AS xc
@@ -168,13 +170,13 @@ export default class Competition {
                     FROM
                         clips
                     WHERE
-                            created_at >= SUBDATE(?, INTERVAL 6 DAY)) AS res ON DATE(res.created_at) = DATE(cal.date)
+                            created_at >= SUBDATE(?, INTERVAL 8 DAY)) AS res ON DATE(res.created_at) = DATE(cal.date)
                 WHERE
                     cal.date <= ?
                 GROUP BY cal.date
                 ORDER BY cal.date ASC
             `,
-                [this.fakeEndDate, this.fakeStartDate, this.fakeEndDate]
+                [dbLastDay, dbStartDate, dbLastDay]
             );
             return timelineStats as TimelineStat[];
         } catch (error) {
