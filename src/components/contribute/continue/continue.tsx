@@ -182,7 +182,7 @@ class ContinueModal extends React.Component<Props, State> {
         return (
             <ContinueModalContainer expanded={expanded}>
                 <FakeHUDContainer />
-                <Title>Takk fyrir að hjálpa með Reddum málinu!</Title>
+                <Title>Takk fyrir að redda málinu!</Title>
                 <ChartContainer>
                     {shouldDraw && (
                         <ContinueChart

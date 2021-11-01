@@ -5,7 +5,7 @@ import BootStrapTable, {
     PaginationOptions,
 } from 'react-bootstrap-table-next';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import useSWR from 'swr';
 import {
     getCompetitionScores,
@@ -17,6 +17,8 @@ import paginationFactory, {
     PaginationProvider,
 } from 'react-bootstrap-table2-paginator';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import * as colors from '../ui/colors';
+import { sizeFormatter } from '../../../utilities/competition-helper';
 
 const Box = styled.div`
     box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
@@ -90,36 +92,52 @@ const Header = styled.div`
 //     );
 // };
 
+const HeaderStyle = {
+    backgroundColor: colors.siminn,
+    color: 'white',
+};
+
+// headerStyle: () => {
+//     return { width: '10%' };
+// },
 const columns = [
     {
         dataField: 'rank',
-        text: '# Staða',
+        text: '*',
         sort: true,
-        // headerStyle: () => {
-        //     return { width: '10%' };
-        // },
         headerAlign: 'left',
-        align: 'center',
+        align: 'left',
         formatter: topThreeFormatter,
-        // headerFormatter: HeaderFormatter,
+        headerStyle: () => {
+            return {
+                width: '10%',
+                ...HeaderStyle,
+            };
+        },
     },
     {
         dataField: 'name',
         text: 'Vinnustaður',
         sort: true,
         headerStyle: () => {
-            return { width: '50%' };
+            return {
+                width: '35%',
+                ...HeaderStyle,
+            };
         },
-        align: 'center',
-        headerAlign: 'center',
+        align: 'left',
+        headerAlign: 'left',
         filter: textFilter(),
+
         // headerFormatter: HeaderFormatter,
     },
     {
         dataField: 'size',
-        text: 'Company size',
+        text: 'Fjöldi starfsmanna',
         sort: true,
-        hidden: true,
+        hidden: false,
+        headerStyle: HeaderStyle,
+        formatter: sizeFormatter,
     },
     {
         dataField: 'users',
@@ -128,6 +146,7 @@ const columns = [
         hidden: false,
         headerAlign: 'right',
         align: 'right',
+        headerStyle: HeaderStyle,
     },
     {
         dataField: 'count',
@@ -135,6 +154,70 @@ const columns = [
         sort: true,
         align: 'right',
         headerAlign: 'right',
+        headerStyle: HeaderStyle,
+
+        // headerStyle: () => {
+        //     return { width: '20%' };
+        // },
+    },
+];
+
+const columnsMobile = [
+    {
+        dataField: 'rank',
+        text: '*',
+        sort: true,
+        headerAlign: 'left',
+        align: 'center',
+        formatter: topThreeFormatter,
+        headerStyle: () => {
+            return {
+                width: '10%',
+                ...HeaderStyle,
+            };
+        },
+    },
+    {
+        dataField: 'name',
+        text: 'Vinnustaður',
+        sort: true,
+        headerStyle: () => {
+            return {
+                width: '60%',
+                ...HeaderStyle,
+            };
+        },
+        align: 'left',
+        headerAlign: 'left',
+        filter: textFilter(),
+
+        // headerFormatter: HeaderFormatter,
+    },
+    {
+        dataField: 'size',
+        text: 'Fjöldi starfsmanna',
+        sort: true,
+        hidden: true,
+        headerStyle: HeaderStyle,
+        formatter: sizeFormatter,
+    },
+    {
+        dataField: 'users',
+        text: 'Notendur',
+        sort: true,
+        hidden: true,
+        headerAlign: 'right',
+        align: 'right',
+        headerStyle: HeaderStyle,
+    },
+    {
+        dataField: 'count',
+        text: 'Setningar',
+        sort: true,
+        align: 'right',
+        headerAlign: 'right',
+        headerStyle: HeaderStyle,
+
         // headerStyle: () => {
         //     return { width: '20%' };
         // },
@@ -299,6 +382,19 @@ interface Props {
     pre?: boolean;
 }
 
+const useWindowSize = () => {
+    const [size, setSize] = useState([0, 0]);
+    useEffect(() => {
+        function updateSize() {
+            setSize([window.innerWidth, window.innerHeight]);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+};
+
 const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
     props: Props
 ) => {
@@ -307,6 +403,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
         'competition-scores',
         props.pre ? getPreCompetitionScores : getCompetitionScores
     );
+    const [width, height] = useWindowSize();
 
     const handleNextPage = (paginationProps: any) => () => {
         const {
@@ -360,18 +457,35 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                     {({ paginationProps, paginationTableProps }) => (
                         <ScoreboardContainer>
                             <Box>
-                                <BootStrapTable
-                                    bootstrap4
-                                    striped
-                                    expandRow={expandRows}
-                                    hover
-                                    bordered={false}
-                                    {...paginationTableProps}
-                                    keyField="name"
-                                    data={data}
-                                    columns={columns}
-                                    filter={filterFactory()}
-                                />
+                                {width > 768 ? (
+                                    <BootStrapTable
+                                        bootstrap4
+                                        striped
+                                        expandRow={expandRows}
+                                        hover
+                                        bordered={false}
+                                        {...paginationTableProps}
+                                        keyField="name"
+                                        data={data}
+                                        columns={columns}
+                                        filter={filterFactory()}
+                                        key="desktop"
+                                    />
+                                ) : (
+                                    <BootStrapTable
+                                        bootstrap4
+                                        striped
+                                        expandRow={expandRows}
+                                        hover
+                                        bordered={false}
+                                        {...paginationTableProps}
+                                        keyField="name"
+                                        data={data}
+                                        columns={columnsMobile}
+                                        filter={filterFactory()}
+                                        key="mobile"
+                                    />
+                                )}
                             </Box>
                             <PaginationContainer>
                                 <SizePerPageContainer>

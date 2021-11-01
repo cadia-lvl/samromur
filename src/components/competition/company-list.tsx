@@ -4,24 +4,12 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import { getCompanies } from '../../services/competition-api';
 import { ScoreboardData } from '../../types/competition';
+import { sizeFormatter } from '../../utilities/competition-helper';
 
 const CompanyListContainer = styled.div`
     width: 100%;
     max-width: 30rem;
 `;
-
-const sizeFormatter = (cell: any, row: ScoreboardData) => {
-    switch (row.size) {
-        case 'small':
-            return 'Færri en 70';
-        case 'medium':
-            return '70-300';
-        case 'large':
-            return 'Meira en 300';
-        default:
-            return '';
-    }
-};
 
 const columns = [
     // {

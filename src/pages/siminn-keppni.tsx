@@ -19,7 +19,7 @@ const CompetitionPageContainer = styled.div`
     margin: 0 auto;
     width: 100%;
     max-width: 50rem;
-    min-width: 30rem;
+    /* min-width: 30rem; */
 `;
 
 const About = styled.div`
