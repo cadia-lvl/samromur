@@ -1,4 +1,9 @@
-import { endTime, startTime } from '../constants/competition';
+import {
+    endTime,
+    preEndTime,
+    preStartTime,
+    startTime,
+} from '../constants/competition';
 
 export const isCompetition = (): boolean => {
     const now = new Date();
@@ -8,4 +13,9 @@ export const isCompetition = (): boolean => {
 export const isCompetitionOver = (): boolean => {
     const now = new Date();
     return now.getTime() > endTime.getTime();
+};
+
+export const isPreCompetition = (): boolean => {
+    const now = new Date();
+    return now > preStartTime && now < preEndTime;
 };

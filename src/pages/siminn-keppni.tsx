@@ -5,7 +5,7 @@ import Scoreboard from '../components/competition/bootstrap/scoreboard';
 import { CompetitionStats } from '../components/competition/competition-stats';
 import Layout from '../components/layout/layout';
 import { ReddumTitle } from '../components/competition/ui/reddum-title';
-import { isCompetition } from '../utilities/competition-helper';
+import { isPreCompetition } from '../utilities/competition-helper';
 import CompanyList from '../components/competition/company-list';
 import * as colors from '../components/competition/ui/colors';
 
@@ -74,7 +74,7 @@ const Competition: React.FunctionComponent = () => {
                         hverjum flokki.
                     </p>
                 </About>
-                {isCompetition() && (
+                {isPreCompetition() && (
                     <>
                         <SelectorContainer>
                             <SelectableH2 onClick={() => setShowStats(false)}>
@@ -91,7 +91,7 @@ const Competition: React.FunctionComponent = () => {
                         </ScoreboardStatsContainer>
                     </>
                 )}
-                {!isCompetition() && <CompanyList />}
+                {!isPreCompetition() && <CompanyList />}
             </CompetitionPageContainer>
         </Layout>
     );
