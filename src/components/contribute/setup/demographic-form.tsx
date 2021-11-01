@@ -247,13 +247,13 @@ class DemographicForm extends React.Component<Props, State> {
         // Set school to empty values if
         // not competition and there is a value
         // const now = this.props.user.demographics;
-        if (this.isCompetition()) {
-            // if (now.school?.code != '') {
-            //     this.setState({ school: { code: '', name: '' } });
-            // }
-            const institutions = await getCompanies();
-            this.setState({ institutions });
-        }
+        // if (isCompetition()) {
+        // if (now.school?.code != '') {
+        //     this.setState({ school: { code: '', name: '' } });
+        // }
+        const institutions = await getCompanies();
+        this.setState({ institutions });
+        // }
     };
 
     componentDidUpdate = (prevProps: Props) => {
@@ -315,8 +315,12 @@ class DemographicForm extends React.Component<Props, State> {
     // };
 
     onInstitutionSelect = (value: string) => {
+        if (value == '') {
+            this.setState({ institution: { id: '', name: '' } });
+            return;
+        }
+
         const { institutions } = this.state;
-        console.log(value);
         const i = institutions.find((e) => e.name == value);
 
         if (i) {
@@ -402,16 +406,16 @@ class DemographicForm extends React.Component<Props, State> {
 
     // TODO: switch this text out
     getCompetitionText = (): string => {
-        if (isCompetition()) {
-            return 'Sérðu ekki vinnustaðinn þinn?, skráðu þig ';
-        }
-        return '';
+        // if (isCompetition()) {
+        return 'Sérðu ekki vinnustaðinn þinn? skráðu þig ';
+        // }
+        // return '';
     };
 
     // TODO: add logic here for next competition
-    isCompetition = (): boolean => {
-        return true;
-    };
+    // isCompetition = (): boolean => {
+    //     return true;
+    // };
 
     render() {
         const {
@@ -429,32 +433,30 @@ class DemographicForm extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <DemographicContainer>
-                {isCompetition() && (
-                    <CompetitionText>
-                        {competitionText}
-                        <StyledLink href="/skra" target={'blank'}>
-                            hér
-                        </StyledLink>
-                    </CompetitionText>
-                )}
-                {isCompetition() && (
-                    <DropdownButton
-                        content={institutions
-                            .sort((a, b) =>
-                                a.name.localeCompare(b.name, 'is-IS')
-                            )
-                            .map((element: Institution) => element.name)}
-                        label={'Vinnustaður'}
-                        onSelect={this.onInstitutionSelect}
-                        selected={
-                            institution
+                {/* {isCompetition() && ( */}
+                <CompetitionText>
+                    {competitionText}
+                    <StyledLink href="/skra" target={'blank'}>
+                        hér
+                    </StyledLink>
+                </CompetitionText>
+                {/* )} */}
+                {/* {isCompetition() && ( */}
+                <DropdownButton
+                    content={institutions
+                        .sort((a, b) => a.name.localeCompare(b.name, 'is-IS'))
+                        .map((element: Institution) => element.name)}
+                    label={'Vinnustaður'}
+                    onSelect={this.onInstitutionSelect}
+                    selected={
+                        institution
+                            ? institution.name
                                 ? institution.name
-                                    ? institution.name
-                                    : ''
                                 : ''
-                        }
-                    />
-                )}
+                            : ''
+                    }
+                />
+                {/* )} */}
                 <DropdownButton
                     content={ages.map((age: Demographic) => age.name)}
                     label={t('age')}
@@ -463,7 +465,7 @@ class DemographicForm extends React.Component<Props, State> {
                 />
                 <ConsentAndSwitchUserContainer
                     active={hasConsent}
-                    isCompetition={this.isCompetition()}
+                    isCompetition={isCompetition()}
                     tabIndex={hasConsent ? 0 : -1}
                 >
                     <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
