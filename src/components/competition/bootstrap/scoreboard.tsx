@@ -287,8 +287,13 @@ const SizePerPageButton = styled.div``;
 const expandRows = {
     renderer: (row: ScoreboardData) => (
         <div>
-            <p>{`${row.name} has contributed with an amazing ${row.count} utterances.`}</p>
-            <p>{`The company/team is of ${row.size} size and has so far ${row.users} individual contributors`}</p>
+            <p>{`${row.name} hefur lagt sitt af mörkum með ${row.count} setningum.`}</p>
+            <p>{`Vinnustaðurinn er með ${sizeFormatter(
+                null,
+                row
+            ).toLocaleLowerCase()} starfsmenn og hefur hingað til ${
+                row.users
+            } mismunandi notendur.`}</p>
         </div>
     ),
 };
@@ -461,7 +466,6 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                                     <BootStrapTable
                                         bootstrap4
                                         striped
-                                        expandRow={expandRows}
                                         hover
                                         bordered={false}
                                         {...paginationTableProps}
