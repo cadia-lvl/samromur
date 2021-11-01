@@ -173,6 +173,10 @@ const TitleContainer = styled.div`
     & > * {
         margin-bottom: 1rem;
     }
+
+    ${({ theme }) => theme.media.smallUp} {
+        margin-top: 0rem;
+    }
 `;
 
 const TextContainer = styled.div`
