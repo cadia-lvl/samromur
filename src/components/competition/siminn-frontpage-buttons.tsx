@@ -19,9 +19,9 @@ const SiminnCompetitionButtons: React.FC = () => {
             <PrimaryButton onClick={() => router.push('/tala')}>
                 Taka þátt
             </PrimaryButton>
-            <PrimaryButton onClick={() => router.push('/skra')}>
+            {/* <PrimaryButton onClick={() => router.push('/skra')}>
                 Skrá
-            </PrimaryButton>
+            </PrimaryButton> */}
             <PrimaryButton onClick={() => router.push('/siminn-keppni')}>
                 Stigatafla
             </PrimaryButton>
