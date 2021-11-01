@@ -166,7 +166,7 @@ const SignUpForm: React.FunctionComponent = () => {
             case FormError.EMPTY_CONTACT:
                 return 'Vinsamlega sláðu inn tengilið.';
             case FormError.INVALID_EMAIL:
-                return 'Tölvupóstfang vantar eða er ógilt.';
+                return 'Tölvupóstur vantar eða er ógilt.';
             case FormError.INVALID_SIZE:
                 return 'Ógild vinnustaðastærð';
             default:
@@ -213,7 +213,7 @@ const SignUpForm: React.FunctionComponent = () => {
                         placeholder={''}
                     />
                     <TextInput
-                        label={'Tölvupósti'}
+                        label={'Tölvupóstur'}
                         onChange={onEmailChanged}
                         placeholder={''}
                     />
@@ -228,8 +228,8 @@ const SignUpForm: React.FunctionComponent = () => {
             {success && isCompetition() && (
                 <SuccessContainer>
                     <p>
-                        {company} hefur verið skráður til leiks. Smelltu á "taka
-                        þátt" til að byrja að keppa!
+                        {company} hefur verið skráð til leiks. Smelltu á "taka
+                        þátt" til að byrja!
                     </p>
                     <SecondaryButton onClick={() => router.push('/tala')}>
                         Taka þátt
@@ -239,8 +239,9 @@ const SignUpForm: React.FunctionComponent = () => {
             {success && !isCompetition() && (
                 <SuccessContainer>
                     <p>
-                        {company} hefur verið skráður til leiks. Smelltu á
-                        "Keppni" sjá núverandi skráða vinnustaði!
+                        {company} hefur verið skráð til leiks. Smelltu á
+                        "keppni" til að sjá þá vinnustaði sem eru skráðir til
+                        leiks!
                     </p>
                     <SecondaryButton onClick={() => router.push('/keppni')}>
                         Keppni
