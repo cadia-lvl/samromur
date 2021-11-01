@@ -168,7 +168,10 @@ class MyApp extends App<Props> {
                             />
                             <meta name="theme-color" content="#ffffff" />
 
-                            <meta name="application-name" content="Samromur" />
+                            <meta
+                                name="application-name"
+                                content="Reddum málinu"
+                            />
                             <meta
                                 name="apple-mobile-web-app-capable"
                                 content="yes"
@@ -179,7 +182,7 @@ class MyApp extends App<Props> {
                             />
                             <meta
                                 name="apple-mobile-web-app-title"
-                                content="Samromur"
+                                content="Reddum málinu!"
                             />
                             <meta
                                 name="description"
@@ -216,35 +219,41 @@ class MyApp extends App<Props> {
                             <meta name="twitter:card" content="summary" />
                             <meta
                                 name="twitter:url"
-                                content="https://samromur.is"
+                                content="https://reddummalinu.is"
                             />
-                            <meta name="twitter:title" content="Samromur" />
+                            <meta
+                                name="twitter:title"
+                                content="Reddum málinu"
+                            />
                             <meta
                                 name="twitter:description"
                                 content="Raddgagnasofnun"
                             />
                             <meta
                                 name="twitter:image"
-                                content="https://samromur.is/favicon/android-chrome-192x192.png"
+                                content="https://samromur.is/favicon/rm_logo.png.png"
                             />
                             <meta
                                 name="twitter:creator"
                                 content="@OlafurHelgi"
                             />
                             <meta property="og:type" content="website" />
-                            <meta property="og:title" content="Samromur" />
+                            <meta property="og:title" content="Reddum málinu" />
                             <meta
                                 property="og:description"
                                 content="Raddgagnasofnun"
                             />
-                            <meta property="og:site_name" content="Samromur" />
+                            <meta
+                                property="og:site_name"
+                                content="Reddum málinu"
+                            />
                             <meta
                                 property="og:url"
-                                content="https://samromur.is"
+                                content="https://reddummalinu.is"
                             />
                             <meta
                                 property="og:image"
-                                content="https://samromur.is/favicon/apple-touch-icon.png"
+                                content="https://samromur.is/favicon/rm_logo.png.png"
                             />
                         </Head>
                         <Component {...pageProps} />
