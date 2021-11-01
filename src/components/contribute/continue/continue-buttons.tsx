@@ -22,6 +22,9 @@ import contribute from '../setup/contribute';
 import { capitalizeFirstLetter } from '../../../utilities/string-helper';
 import { withTranslation, WithTranslation } from '../../../server/i18n';
 import { setShowDemographics } from '../../../store/ui/actions';
+import PrimaryButton from '../../competition/ui/comp-button-primary';
+import SecondaryButton from '../../competition/ui/comp-button-secondary';
+import * as colors from '../../competition/ui/colors';
 
 const ContinueButtonsContainer = styled.div`
     width: 100%;
@@ -50,7 +53,7 @@ const ButtonsContainer = styled.div<ButtonsContainerProps>`
     justify-content: center;
     width: 100%;
     padding: 1rem;
-    & > div {
+    & > button {
         margin: 0 0.5rem;
     }
 `;
@@ -90,6 +93,42 @@ const MessageContainer = styled.div`
     justify-content: center;
     align-items: center;
 `;
+
+const StyledSecondaryButton = styled(PrimaryButton)`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    font-weight: 600;
+    font-size: 1rem;
+
+    max-width: 20rem;
+
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    /* color: ${colors.blue2}; */
+
+    /* border: 1px solid ${({ theme }) => theme.colors.gray}; */
+    box-shadow: rgb(0 0 0 / 20%) 0px 0px 3px 2px;
+
+    & span {
+        font-size: 0.8rem;
+    }
+`;
+
+const DarkerButton = styled(StyledSecondaryButton)`
+    color: white;
+    background-color: ${colors.siminn};
+
+    & :hover {
+        color: ${colors.siminn};
+        background-color: white;
+    }
+`;
+
 interface FadingMessageProps {
     visible: boolean;
 }
@@ -266,7 +305,7 @@ class ContinueButtons extends React.Component<Props, State> {
                         >
                             <>{buttons[0]}</>
                         </ButtonContainer> */}
-                        <ButtonContainer
+                        {/* <ButtonContainer
                             color={'blue'}
                             onClick={() => this.handleScoreboard()}
                         >
@@ -277,10 +316,8 @@ class ContinueButtons extends React.Component<Props, State> {
                             onClick={() => this.handleGoal(goals[0])}
                         >
                             <>Halda áfram með að reddum málinu!</>
-                        </ButtonContainer>
-                    </ButtonsContainer>
-                    {/* <ButtonsContainer position={shouldContinue ? 0 : 1}>
-                        <ButtonContainer
+                        </ButtonContainer> */}
+                        <StyledSecondaryButton
                             color={'blue'}
                             onClick={() => this.handleGoal(goals[0])}
                         >
@@ -290,8 +327,8 @@ class ContinueButtons extends React.Component<Props, State> {
                                     number: goals[0].count,
                                 })}
                             </span>
-                        </ButtonContainer>
-                        <ButtonContainer
+                        </StyledSecondaryButton>
+                        <StyledSecondaryButton
                             color={'blue'}
                             onClick={() => this.handleGoal(goals[1])}
                         >
@@ -301,8 +338,8 @@ class ContinueButtons extends React.Component<Props, State> {
                                     number: goals[1].count,
                                 })}
                             </span>
-                        </ButtonContainer>
-                        <ButtonContainer
+                        </StyledSecondaryButton>
+                        <DarkerButton
                             color={'green'}
                             onClick={() => this.handleGoal(goals[2])}
                         >
@@ -312,8 +349,11 @@ class ContinueButtons extends React.Component<Props, State> {
                                     number: goals[2].count,
                                 })}
                             </span>
-                        </ButtonContainer>
-                    </ButtonsContainer> */}
+                        </DarkerButton>
+                    </ButtonsContainer>
+                    {/* <ButtonsContainer
+                        position={shouldContinue ? 0 : 1}
+                    ></ButtonsContainer> */}
                 </SlidingButtons>
             </ContinueButtonsContainer>
         );

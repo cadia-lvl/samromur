@@ -91,20 +91,20 @@ export const ContinueChart: React.FunctionComponent<Props> = ({
                     display: false,
                 },
                 tooltips: {
-                    enabled: false,
+                    enabled: true,
                 },
                 maintainAspectRatio: false,
                 scales: {
                     xAxes: [
                         {
                             gridLines: {
-                                display: false,
+                                display: true,
                             },
                         },
                     ],
                     yAxes: [
                         {
-                            display: false,
+                            display: true,
                             ticks: {
                                 beginAtZero: true,
                             },

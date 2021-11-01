@@ -14,6 +14,8 @@ import { InformationModal } from '../information-modal';
 import { breakpoints, theme } from '../../../../styles/global';
 import { useTranslation } from '../../../../server/i18n';
 
+import * as colors from '../../../competition/ui/colors';
+
 const BottomControlsContainer = styled.div`
     width: 100%;
     display: flex;
@@ -63,9 +65,9 @@ const SubmitButton = styled.div<ButtonProps>`
     font-size: 1.1rem;
     border-radius: 2rem;
     padding: ${({ visible }) => (visible ? '0.8rem 1rem' : '0%')};
-    background-color: ${({ theme }) => theme.colors.green};
+    background-color: ${colors.siminn};
     color: white;
-    border: 2px solid ${({ theme }) => theme.colors.green};
+    border: 2px solid ${colors.siminn};
 
     transform: scale(${({ visible }) => (visible ? 1 : 0)});
 

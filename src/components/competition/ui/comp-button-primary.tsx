@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import * as colors from './colors';
 
 interface ButtonProps {
     disabled?: boolean;
@@ -7,7 +8,7 @@ interface ButtonProps {
 const PrimaryButton = styled.button<ButtonProps>`
     border: none;
     background-color: white;
-    color: #00aef3;
+    color: ${colors.siminn};
     font-weight: bold;
     /* padding: 0.25rem 1rem;
     border-radius: 3px; */
@@ -24,7 +25,7 @@ const PrimaryButton = styled.button<ButtonProps>`
             disabled
                 ? ''
                 : ` color: white;
-                    background-color: #00aef3;`}
+                    background-color: ${colors.siminn};`}
     }
 
     & :active {

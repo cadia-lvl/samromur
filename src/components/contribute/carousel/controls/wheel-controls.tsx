@@ -7,6 +7,7 @@ import { WheelColor } from '../../../../types/contribute';
 import { getWheelColorString } from '../../../../utilities/color-utility';
 import BackIcon from '../../../ui/icons/arrow-left';
 import ForwardIcon from '../../../ui/icons/arrow-right';
+import * as colors from '../../../competition/ui/colors';
 
 const WheelControlsContainer = styled.div`
     width: 100%;
@@ -72,6 +73,9 @@ const NumberContainer = styled(CircleContainer).attrs(
     border: ${({ hasRecording }) => (hasRecording ? '0px' : '0px')} solid
         ${({ theme }) => theme.colors.blackOlive};
     cursor: pointer;
+
+    ${({ active, color }) =>
+        color == 'blue' && active ? `background-color: ${colors.siminn};` : ``}
 `;
 
 const ArrowContainer = styled(CircleContainer)`

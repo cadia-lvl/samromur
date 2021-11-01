@@ -10,6 +10,7 @@ import ContinueChart from '../../charts/continue-chart';
 import { ContributeType } from '../../../types/contribute';
 import { withTranslation, WithTranslation } from '../../../server/i18n';
 import { Trans } from 'react-i18next';
+import * as colors from '../../competition/ui/colors';
 
 const FakeHUDContainer = styled.div``;
 
@@ -63,6 +64,21 @@ const StatsMessage = styled.div`
     & span {
         font-size: 1.2rem;
         font-weight: 600;
+    }
+`;
+
+const StyledLink = styled.a`
+    color: ${colors.siminn};
+
+    :visited {
+        text-decoration: none;
+        color: ${colors.siminn};
+    }
+
+    :focus,
+    :hover {
+        text-decoration: none;
+        color: ${colors.purple1};
     }
 `;
 
@@ -166,7 +182,7 @@ class ContinueModal extends React.Component<Props, State> {
         return (
             <ContinueModalContainer expanded={expanded}>
                 <FakeHUDContainer />
-                <Title>{t('thank-you')}</Title>
+                <Title>Takk fyrir að hjálpa með Reddum málinu!</Title>
                 <ChartContainer>
                     {shouldDraw && (
                         <ContinueChart
@@ -184,6 +200,13 @@ class ContinueModal extends React.Component<Props, State> {
                     </StatsMessage>
                 </StatsMessageContainer>
                 <ContinueButtons onContinue={onContinue} />
+                <StatsMessageContainer>
+                    <StatsMessage>
+                        <StyledLink href={'/keppni'}>
+                            Takk fyrir mig, taktu mig á Stigatöfluna
+                        </StyledLink>
+                    </StatsMessage>
+                </StatsMessageContainer>
             </ContinueModalContainer>
         );
     }
