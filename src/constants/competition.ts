@@ -6,6 +6,9 @@ export const startTime = new Date(2021, 10, 8, 0, 0, 0, 0);
 export const lastDay = new Date(2021, 10, 16, 0, 0, 0);
 export const endTime = new Date(2021, 10, 17, 0, 0, 0);
 export const signUpStart = new Date(2021, 10, 1, 0, 0, 0);
+export const preStartTime = new Date(2021, 10, 2, 0, 0, 0);
+export const preLastDay = new Date(2021, 10, 7, 0, 0, 0);
+export const preEndTime = new Date(2021, 10, 8, 0, 0, 0);
 
 export const defaultTimeline: TimelineStat[] = [
     { date: '2021-11-08', count: 0 },
@@ -17,6 +20,15 @@ export const defaultTimeline: TimelineStat[] = [
     { date: '2021-11-14', count: 0 },
     { date: '2021-11-15', count: 0 },
     { date: '2021-11-16', count: 0 },
+];
+
+export const preDefaultTimeline: TimelineStat[] = [
+    { date: '2021-11-02', count: 0 },
+    { date: '2021-11-03', count: 0 },
+    { date: '2021-11-04', count: 0 },
+    { date: '2021-11-05', count: 0 },
+    { date: '2021-11-06', count: 0 },
+    { date: '2021-11-07', count: 0 },
 ];
 
 export const defaultGenderStats: GenderStat[] = [
