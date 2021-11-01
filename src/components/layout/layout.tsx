@@ -193,11 +193,11 @@ class Layout extends React.Component<Props, State> {
                             toggleMenu={this.toggleMenu}
                             light={white ? white : false}
                         /> */}
-                        <FloatingNavigation
+                        {/* <FloatingNavigation
                             user={client}
                             floating
                             visible={menuVisible}
-                        />
+                        /> */}
                         <ContentAndFooter>
                             <Header
                                 user={client}
