@@ -231,7 +231,7 @@ class MyApp extends App<Props> {
                             />
                             <meta
                                 name="twitter:image"
-                                content="https://samromur.is/favicon/rm_logo.png.png"
+                                content="https://samromur.is/favicon/rm_logo.png"
                             />
                             <meta
                                 name="twitter:creator"
