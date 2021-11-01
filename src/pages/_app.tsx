@@ -253,7 +253,7 @@ class MyApp extends App<Props> {
                             />
                             <meta
                                 property="og:image"
-                                content="https://samromur.is/favicon/rm_logo.png.png"
+                                content="https://samromur.is/favicon/rm_logo.png"
                             />
                         </Head>
                         <Component {...pageProps} />
