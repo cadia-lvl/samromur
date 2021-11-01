@@ -7,10 +7,14 @@ import { withTranslation, WithTranslation } from '../server/i18n';
 import { withRouter } from 'next/router';
 import { WithRouterProps } from 'next/dist/client/with-router';
 
-import { fetchWeeklyClips } from '../store/stats/actions';
+import {
+    fetchWeeklyClips,
+    fetchWeeklyRepeatedClips,
+} from '../store/stats/actions';
 import { resetContribute } from '../store/contribute/actions';
 
 import {
+    fetchClipsToRepeat,
     fetchGroupedSentences,
     fetchSentences,
 } from '../services/contribute-api';
@@ -21,6 +25,7 @@ import makeSSRDispatch from '../utilities/ssr-request';
 import ContributePage from '../components/contribute/setup/contribute';
 import { AgeGroups, AgeLimit } from '../utilities/demographics-age-helper';
 import { ContributeType } from '../types/contribute';
+import { Clip } from '../types/samples';
 
 const dispatchProps = {
     resetContribute,
@@ -32,6 +37,7 @@ export interface AllGroupsSentences {
 
 interface InitialProps {
     initialSentences: AllGroupsSentences;
+    initialClips: Clip[];
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -61,25 +67,42 @@ class SpeakPage extends React.Component<Props, State> {
         // Reset session progress
         store.dispatch(resetContribute());
 
-        // Fetch some stats to display at the end of the session
-        makeSSRDispatch(ctx, fetchWeeklyClips.request);
+        // ---------------- UNCOMMENT THIS FOR TALA --------------- //
+        // // Fetch some stats to display at the end of the session
+        // makeSSRDispatch(ctx, fetchWeeklyClips.request);
 
-        // Fetch Adult sentences to prompt the user with
+        // // Fetch Adult sentences to prompt the user with
+        // const host = isServer && req ? 'http://' + req.headers.host : undefined;
+        // const initialSentencesGrouped = await fetchGroupedSentences({
+        //     clientId: (req?.headers.client_id as string) || '',
+        //     count: sentencesChunkSize,
+        //     host,
+        // });
+
+        // const initialSentences: AllGroupsSentences = {};
+        // initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
+        // initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
+        // initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
+
+        // return {
+        //     namespacesRequired: ['common'],
+        //     initialSentences,
+        // };
+
+        // ---------------- UNCOMMENT THIS FOR HERMA --------------- //
+        // // Fetch some stats to display at the end of the session
+        await makeSSRDispatch(ctx, fetchWeeklyRepeatedClips.request);
+
+        // Fetch clips to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialSentencesGrouped = await fetchGroupedSentences({
+        const initialClips = await fetchClipsToRepeat({
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             host,
         });
 
-        const initialSentences: AllGroupsSentences = {};
-        initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
-        initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
-        initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
-
         return {
-            namespacesRequired: ['common'],
-            initialSentences,
+            initialClips,
         };
     }
 
@@ -88,12 +111,15 @@ class SpeakPage extends React.Component<Props, State> {
     };
 
     render() {
-        const { initialSentences } = this.props;
+        // const { initialSentences } = this.props;
+        const { initialClips } = this.props;
 
         return (
             <ContributePage
-                groupedSentences={initialSentences}
-                contributeType={ContributeType.SPEAK}
+                // groupedSentences={initialSentences}
+                // contributeType={ContributeType.SPEAK}
+                clipsToRepeat={initialClips}
+                contributeType={ContributeType.REPEAT}
             />
         );
     }
@@ -102,6 +128,7 @@ class SpeakPage extends React.Component<Props, State> {
 const mapStateToProps = (state: RootState) => ({
     contribute: state.contribute,
     user: state.user,
+    stats: state.stats,
 });
 
 export default connect(

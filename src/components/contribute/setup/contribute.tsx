@@ -201,24 +201,24 @@ class Contribute extends React.Component<Props, State> {
 
         this.setState({ sentences });
         setShowDemographics(false);
-        if (ageGroup != AgeGroups.ADULTS && nativeLanguage.id == 'islenska') {
-            const { clipsToRepeat } = this.state;
-            this.setRepeatGoal();
-            this.setState({ contributeType: ContributeType.REPEAT });
-            // this.selectType(ContributeType.REPEAT);
+        // if (ageGroup != AgeGroups.ADULTS && nativeLanguage.id == 'islenska') {
+        const { clipsToRepeat } = this.state;
+        this.setRepeatGoal();
+        this.setState({ contributeType: ContributeType.REPEAT });
+        // this.selectType(ContributeType.REPEAT);
 
-            if (clipsToRepeat == undefined) {
-                const { user } = this.props;
-                const clips = await contributeApi.fetchClipsToRepeat({
-                    clientId: user.client.id,
-                    count: 20,
-                });
-                this.setState({ clipsToRepeat: clips });
-                this.setState({ sentences: undefined });
-            }
-            return;
+        if (clipsToRepeat == undefined) {
+            const { user } = this.props;
+            const clips = await contributeApi.fetchClipsToRepeat({
+                clientId: user.client.id,
+                count: 20,
+            });
+            this.setState({ clipsToRepeat: clips });
+            this.setState({ sentences: undefined });
         }
-        this.setSpeakGoal();
+        return;
+        // }
+        // this.setSpeakGoal();
     };
 
     setGoal = (goal: Goal) => {
