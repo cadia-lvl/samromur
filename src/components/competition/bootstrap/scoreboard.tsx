@@ -71,6 +71,25 @@ const topThreeFormatter = (cell: any, row: ScoreboardData) => {
     return <span>{cell}</span>;
 };
 
+const Header = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+`;
+
+// const HeaderFormatter = (column, colIndex, { sortElement, filterElement }) => {
+//     return (
+//         <Header>
+//             {column.text}
+//             {sortElement}
+//             {filterElement}
+//         </Header>
+//     );
+// };
+
 const columns = [
     {
         dataField: 'rank',
@@ -82,6 +101,7 @@ const columns = [
         headerAlign: 'left',
         align: 'center',
         formatter: topThreeFormatter,
+        // headerFormatter: HeaderFormatter,
     },
     {
         dataField: 'name',
@@ -93,6 +113,7 @@ const columns = [
         align: 'center',
         headerAlign: 'center',
         filter: textFilter(),
+        // headerFormatter: HeaderFormatter,
     },
     {
         dataField: 'size',

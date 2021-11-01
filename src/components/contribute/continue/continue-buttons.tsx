@@ -17,7 +17,6 @@ import {
     repeatGoals,
 } from '../../../constants/packages';
 import { ContributeType, Goal } from '../../../types/contribute';
-import takathatt from '../../../pages/takathatt';
 import contribute from '../setup/contribute';
 import { capitalizeFirstLetter } from '../../../utilities/string-helper';
 import { withTranslation, WithTranslation } from '../../../server/i18n';
