@@ -19,7 +19,7 @@ const PrivacyPolicy: React.FunctionComponent = () => {
     });
 
     return (
-        <Layout>
+        <Layout white>
             <PrivacyPolicyContainer>
                 <MarkdownArticle text={policy} />
             </PrivacyPolicyContainer>

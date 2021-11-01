@@ -22,7 +22,7 @@ const PrivacyPolicy: React.FunctionComponent = () => {
     }, [i18n.language]);
 
     return (
-        <Layout>
+        <Layout white>
             <CookiesContainer>
                 <MarkdownArticle text={cookies} />
             </CookiesContainer>

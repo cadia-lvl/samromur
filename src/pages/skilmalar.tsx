@@ -25,7 +25,7 @@ const Terms: React.FunctionComponent<Props> = () => {
     }, [i18n.language]);
 
     return (
-        <Layout>
+        <Layout white>
             <TermsContainer>
                 <MarkdownArticle text={termsText} />
             </TermsContainer>
