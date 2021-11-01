@@ -13,7 +13,7 @@ const CompanyListContainer = styled.div`
 const sizeFormatter = (cell: any, row: ScoreboardData) => {
     switch (row.size) {
         case 'small':
-            return 'Færri en 70ll';
+            return 'Færri en 70';
         case 'medium':
             return '70-300';
         case 'large':
