@@ -11,6 +11,7 @@ import {
     preEndTime,
     preLastDay,
 } from '../../constants/competition';
+import lazyCache from '../lazy-cache';
 
 // TODO: competition, actual dates
 const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
@@ -19,6 +20,11 @@ const dbLastDay: string = moment(lastDay).format('YYYY-MM-DD');
 const dbPreStartTime: string = moment(preStartTime).format('YYYY-MM-DD');
 const dbPreEndTime: string = moment(preEndTime).format('YYYY-MM-DD');
 const dbPreLastDay: string = moment(preLastDay).format('YYYY-MM-DD');
+
+const tenMinutes = 1000 * 60 * 10;
+const minute = 1000 * 60;
+const halfMinute = 1000 * 30;
+const tenSeconds = 1000 * 10;
 
 export default class Competition {
     private sql: Sql;
@@ -96,7 +102,9 @@ export default class Competition {
     };
 
     // TODO: add caching
-    getAgeStats = async (pre: boolean = false): Promise<AgeStat[]> => {
+    getAgeStats = lazyCache(async (pre: boolean = false): Promise<
+        AgeStat[]
+    > => {
         const start = pre ? dbPreStartTime : dbStartDate;
         const end = pre ? dbPreEndTime : dbEndDate;
         try {
@@ -136,9 +144,11 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    };
+    }, minute);
 
-    getGenderStats = async (pre: boolean = false): Promise<GenderStat[]> => {
+    getGenderStats = lazyCache(async (pre: boolean = false): Promise<
+        GenderStat[]
+    > => {
         const start = pre ? dbPreStartTime : dbStartDate;
         const end = pre ? dbPreEndTime : dbEndDate;
         try {
@@ -160,9 +170,11 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    };
+    }, tenMinutes);
 
-    getTimeline = async (pre: boolean = false): Promise<TimelineStat[]> => {
+    getTimeline = lazyCache(async (pre: boolean = false): Promise<
+        TimelineStat[]
+    > => {
         const start = pre ? dbPreStartTime : dbStartDate;
         const last = pre ? dbPreLastDay : dbLastDay;
         const interval = pre ? 5 : 8;
@@ -197,5 +209,5 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    };
+    }, halfMinute);
 }
