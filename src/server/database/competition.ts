@@ -3,12 +3,22 @@ import Sql from './sql';
 import { Institution } from '../../types/institution';
 import { AgeStat, GenderStat, TimelineStat } from '../../types/competition';
 import moment from 'moment';
-import { startTime, endTime, lastDay } from '../../constants/competition';
+import {
+    startTime,
+    endTime,
+    lastDay,
+    preStartTime,
+    preEndTime,
+    preLastDay,
+} from '../../constants/competition';
 
 // TODO: competition, actual dates
 const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
 const dbEndDate: string = moment(endTime).format('YYYY-MM-DD');
 const dbLastDay: string = moment(lastDay).format('YYYY-MM-DD');
+const dbPreStartTime: string = moment(preStartTime).format('YYYY-MM-DD');
+const dbPreEndTime: string = moment(preEndTime).format('YYYY-MM-DD');
+const dbPreLastDay: string = moment(preLastDay).format('YYYY-MM-DD');
 
 export default class Competition {
     private sql: Sql;
@@ -86,7 +96,9 @@ export default class Competition {
     };
 
     // TODO: add caching
-    getAgeStats = async (): Promise<AgeStat[]> => {
+    getAgeStats = async (pre: boolean = false): Promise<AgeStat[]> => {
+        const start = pre ? dbPreStartTime : dbStartDate;
+        const end = pre ? dbPreEndTime : dbEndDate;
         try {
             const [ageStats] = await this.sql.query(
                 `
@@ -117,18 +129,18 @@ export default class Competition {
                         created_at < ?
                 GROUP BY agegroup
                 `,
-                [dbStartDate, dbEndDate]
+                [start, end]
             );
-            console.log(dbStartDate);
-            console.log(dbEndDate);
-            console.log(ageStats);
+
             return ageStats as AgeStat[];
         } catch (error) {
             return Promise.reject(error);
         }
     };
 
-    getGenderStats = async (): Promise<GenderStat[]> => {
+    getGenderStats = async (pre: boolean = false): Promise<GenderStat[]> => {
+        const start = pre ? dbPreStartTime : dbStartDate;
+        const end = pre ? dbPreEndTime : dbEndDate;
         try {
             const [genderStats] = await this.sql.query(
                 `
@@ -141,7 +153,7 @@ export default class Competition {
                         AND created_at < ?
                 GROUP BY sex
                 `,
-                [dbStartDate, dbEndDate]
+                [start, end]
             );
 
             return genderStats as GenderStat[];
@@ -150,7 +162,10 @@ export default class Competition {
         }
     };
 
-    getTimeline = async (): Promise<TimelineStat[]> => {
+    getTimeline = async (pre: boolean = false): Promise<TimelineStat[]> => {
+        const start = pre ? dbPreStartTime : dbStartDate;
+        const last = pre ? dbPreLastDay : dbLastDay;
+        const interval = pre ? 5 : 8;
         try {
             const [timelineStats] = await this.sql.query(
                 `
@@ -158,7 +173,7 @@ export default class Competition {
                     DATE(cal.date) AS date, COUNT(res.id) AS count
                 FROM
                     (SELECT 
-                        SUBDATE( ? , INTERVAL 8 DAY) + INTERVAL xc DAY AS date
+                        SUBDATE( ? , INTERVAL ? DAY) + INTERVAL xc DAY AS date
                     FROM
                         (SELECT 
                         @xi:=@xi + 1 AS xc
@@ -170,13 +185,13 @@ export default class Competition {
                     FROM
                         clips
                     WHERE
-                            created_at >= SUBDATE(?, INTERVAL 8 DAY)) AS res ON DATE(res.created_at) = DATE(cal.date)
+                            created_at >= SUBDATE(?, INTERVAL ? DAY)) AS res ON DATE(res.created_at) = DATE(cal.date)
                 WHERE
                     cal.date <= ?
                 GROUP BY cal.date
                 ORDER BY cal.date ASC
             `,
-                [dbLastDay, dbStartDate, dbLastDay]
+                [last, interval, start, interval, last]
             );
             return timelineStats as TimelineStat[];
         } catch (error) {

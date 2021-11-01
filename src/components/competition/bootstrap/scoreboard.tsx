@@ -7,7 +7,10 @@ import BootStrapTable, {
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import styled from 'styled-components';
 import useSWR from 'swr';
-import { getCompetitionScores } from '../../../services/competition-api';
+import {
+    getCompetitionScores,
+    getPreCompetitionScores,
+} from '../../../services/competition-api';
 import { ScoreboardData } from '../../../types/competition';
 import Loader from '../../ui/animated/loader';
 import paginationFactory, {
@@ -271,9 +274,18 @@ const sizesPerPage = [10, 25, 50, 100];
 
 const PagesContainer = styled.div``;
 
-const ScoreboardWithCustomPagination: React.FunctionComponent = () => {
+interface Props {
+    pre?: boolean;
+}
+
+const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
+    props: Props
+) => {
     const [sizePerPage, setSizePerPage] = useState(10);
-    const { data, error } = useSWR('fake', getCompetitionScores);
+    const { data, error } = useSWR(
+        'competition-scores',
+        props.pre ? getPreCompetitionScores : getCompetitionScores
+    );
 
     const handleNextPage = (paginationProps: any) => () => {
         const {
@@ -429,6 +441,10 @@ const ScoreboardWithCustomPagination: React.FunctionComponent = () => {
             {/* <Code>{sourceCode}</Code> */}
         </div>
     );
+};
+
+ScoreboardWithCustomPagination.defaultProps = {
+    pre: false,
 };
 
 export default ScoreboardWithCustomPagination;

@@ -105,3 +105,47 @@ export const getCompetitionAgeStats = async () => {
         return Promise.reject(error);
     }
 };
+
+export const getPreCompetitionScores = async () => {
+    const url = '/api/competition/get-pre-scoreboard';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as ScoreboardData[];
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getPreCompetitionTimeline = async () => {
+    const url = '/api/competition/get-pre-timeline';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as TimelineStat[];
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getPreCompetitionGenderStats = async () => {
+    const url = '/api/competition/get-pre-gender-stats';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as GenderStat[]; // [{gender, count}, {gender, count}, {gender, count}]
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
+
+export const getPreCompetitionAgeStats = async () => {
+    const url = '/api/competition/get-pre-age-stats';
+
+    try {
+        const response: AxiosResponse = await axios.get(url);
+        return response.data as AgeStat; // [{age, count}, ...]
+    } catch (error) {
+        return Promise.reject(error);
+    }
+};
