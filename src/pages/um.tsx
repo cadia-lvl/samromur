@@ -18,7 +18,7 @@ const ContentContainer = styled.div`
     width: 100%;
     height: 100%;
     max-width: ${({ theme }) => theme.layout.desktopWidth};
-    margin: 0 auto;
+    margin: 1rem auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -35,13 +35,13 @@ class AboutPage extends React.Component<Props> {
 
     render() {
         return (
-            <Layout>
-                <AboutPageContainer>
-                    <ContentContainer>
-                        <Why />
-                        <Partners />
-                    </ContentContainer>
-                </AboutPageContainer>
+            <Layout white>
+                {/* <AboutPageContainer> */}
+                <ContentContainer>
+                    <Why />
+                    <Partners />
+                </ContentContainer>
+                {/* </AboutPageContainer> */}
             </Layout>
         );
     }
