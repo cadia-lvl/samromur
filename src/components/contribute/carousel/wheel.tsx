@@ -300,11 +300,11 @@ class CarouselWheel extends React.Component<Props, State> {
         }
 
         if (this.captini && clips.length == 0) {
-            const emptyClips = new Array<WheelClip>();
-            newSentences.forEach((sentence) =>
-                emptyClips.push({ sentence: sentence })
-            );
-            this.setState({ clips: emptyClips });
+            // const emptyClips = new Array<WheelClip>();
+            // newSentences.forEach((sentence) =>
+            //     emptyClips.push({ sentence: sentence })
+            // );
+            // this.setState({ clips: emptyClips });
         }
 
         this.setState({ sentences: newSentences });
@@ -530,10 +530,10 @@ class CarouselWheel extends React.Component<Props, State> {
         }
 
         if (offset > 0 && !justRecorded) {
-            if (!this.captini) {
-                if (clipIndex + offset - 1 > clips.length - 1) {
-                    return;
-                }
+            // if (!this.captini) {
+            if (clipIndex + offset - 1 > clips.length - 1) {
+                return;
+                // }
             }
         }
 
