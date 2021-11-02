@@ -132,7 +132,7 @@ const columns = [
         },
         align: 'left',
         headerAlign: 'left',
-        filter: textFilter(),
+        filter: textFilter({ placeholder: 'Finndu vinnustað...' }),
 
         // headerFormatter: HeaderFormatter,
     },
@@ -146,7 +146,7 @@ const columns = [
     },
     {
         dataField: 'users',
-        text: 'Notendur',
+        text: 'Keppendur',
         sort: true,
         hidden: false,
         headerAlign: 'right',
@@ -208,7 +208,7 @@ const columnsMobile = [
     },
     {
         dataField: 'users',
-        text: 'Notendur',
+        text: 'Keppendur',
         sort: true,
         hidden: true,
         headerAlign: 'right',
@@ -306,7 +306,7 @@ const expandRows = {
                 row
             ).toLocaleLowerCase()} starfsmenn og hefur hingað til ${
                 row.users
-            } mismunandi notendur.`}</p>
+            } mismunandi keppendur.`}</p>
         </div>
     ),
 };
