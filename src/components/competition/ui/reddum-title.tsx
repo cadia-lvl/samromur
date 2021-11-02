@@ -14,8 +14,13 @@ const LinkButton = styled.div`
     cursor: pointer;
 `;
 
-export const ReddumTitle: React.FC = () => {
+interface Props {
+    color?: string;
+}
+
+export const ReddumTitle: React.FC<Props> = (props) => {
     const router = useRouter();
+    const { color } = props;
 
     return (
         <TitleContainer>
@@ -24,7 +29,7 @@ export const ReddumTitle: React.FC = () => {
                     router.push('/');
                 }}
             >
-                <ReddumMalinuLogo fill={colors.blue2} />
+                <ReddumMalinuLogo fill={color ? color : colors.blue2} />
             </LinkButton>
         </TitleContainer>
     );

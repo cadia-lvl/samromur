@@ -23,6 +23,7 @@ const StatsContainer = styled.div`
     max-width: 50rem;
     box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
     padding: 1rem;
+    background-color: white;
 
     & div {
         width: 100%;

@@ -27,6 +27,7 @@ const Box = styled.div`
     height: auto;
     width: auto;
     margin-bottom: 1rem;
+    background-color: white;
 `;
 
 const ScoreboardContainer = styled.div`
@@ -282,6 +283,14 @@ const SizePerPageDropdownList = styled.ul`
     }
 `;
 
+interface SelectContainerProps {
+    white?: boolean;
+}
+
+const SelectContainer = styled.div<SelectContainerProps>`
+    color: ${(props) => (props.white ? 'white' : 'black')};
+`;
+
 const SizePerPageButton = styled.div``;
 
 const expandRows = {
@@ -385,14 +394,16 @@ const PagesContainer = styled.div``;
 
 interface Props {
     pre?: boolean;
+    blue?: boolean;
 }
 
+// Custom hook to detect size of the window
 const useWindowSize = () => {
     const [size, setSize] = useState([0, 0]);
     useEffect(() => {
-        function updateSize() {
+        const updateSize = () => {
             setSize([window.innerWidth, window.innerHeight]);
-        }
+        };
         window.addEventListener('resize', updateSize);
         updateSize();
         return () => window.removeEventListener('resize', updateSize);
@@ -455,7 +466,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
 
     return (
         <div>
-            {data && (
+            {data ? (
                 <PaginationProvider
                     pagination={paginationFactory(getOptions())}
                 >
@@ -464,6 +475,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                             <Box>
                                 {width > 768 ? (
                                     <BootStrapTable
+                                        wrapperClasses="boo"
                                         bootstrap4
                                         striped
                                         hover
@@ -477,6 +489,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                                     />
                                 ) : (
                                     <BootStrapTable
+                                        wrapperClasses=""
                                         bootstrap4
                                         striped
                                         expandRow={expandRows}
@@ -525,7 +538,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                                         </SizePerPageListItem>
                                     </SizePerPageDropdownList>
                                 </SizePerPageDropdown> */}
-                                    <div>
+                                    <SelectContainer white={props.blue}>
                                         Magn á síðu:{' '}
                                         <StyledSelect
                                             onChange={(e) =>
@@ -544,7 +557,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                                                 );
                                             })}
                                         </StyledSelect>
-                                    </div>
+                                    </SelectContainer>
                                 </SizePerPageContainer>
                                 <PageSelectorContainer>
                                     {' '}
@@ -576,6 +589,8 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                         </ScoreboardContainer>
                     )}
                 </PaginationProvider>
+            ) : (
+                <Loader />
             )}
             {/* <Code>{sourceCode}</Code> */}
         </div>

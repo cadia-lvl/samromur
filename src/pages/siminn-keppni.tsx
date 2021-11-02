@@ -7,7 +7,11 @@ import Layout from '../components/layout/layout';
 import { ReddumTitle } from '../components/competition/ui/reddum-title';
 import { isPreCompetition } from '../utilities/competition-helper';
 import CompanyList from '../components/competition/company-list';
+import Link from 'next/link';
 import * as colors from '../components/competition/ui/colors';
+import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
+import PrimaryButton from '../components/competition/ui/comp-button-primary';
+import { useRouter } from 'next/router';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -23,8 +27,9 @@ const CompetitionPageContainer = styled.div`
 `;
 
 const About = styled.div`
-    max-width: 40rem;
-    margin: 0 auto 2rem auto;
+    max-width: ${({ theme }) => theme.layout.desktopWidth};
+    margin: 1rem auto 2rem auto;
+    color: white;
 `;
 
 const SelectorContainer = styled.div`
@@ -37,10 +42,15 @@ const SelectorContainer = styled.div`
 
 const SelectableH2 = styled.h2`
     cursor: pointer;
+    color: white;
 
     & :hover {
         color: ${({ theme }) => theme.colors.darkerBlue};
     }
+`;
+
+const Separator = styled.h2`
+    color: white;
 `;
 
 const ExtraMargin = styled.div`
@@ -52,14 +62,30 @@ const ScoreboardStatsContainer = styled.div`
     width: 100%;
 `;
 
+const StyledLink = styled.a`
+    color: ${colors.siminn};
+
+    :visited {
+        text-decoration: none;
+        color: ${colors.siminn};
+    }
+
+    :focus,
+    :hover {
+        text-decoration: none;
+        color: ${colors.purple1};
+    }
+`;
+
 const Competition: React.FunctionComponent = () => {
     const [showStats, setShowStats] = useState(false);
+    const router = useRouter();
 
     return (
-        <Layout white>
+        <Layout>
             <CompetitionPageContainer>
                 <ExtraMargin>
-                    <ReddumTitle />
+                    <ReddumTitle color={'white'} />
                 </ExtraMargin>
                 <About>
                     <p>Reddum málinu vinnustaðakeppni 8. - 16. nóvember.</p>
@@ -73,6 +99,29 @@ const Competition: React.FunctionComponent = () => {
                         viðurkenning verður veitt fyrir þrjú efstu sætin í
                         hverjum flokki.
                     </p>
+                    {isPreCompetition() ? (
+                        <>
+                            <p>Smelltu á „Taka þátt“ til að reddu málinu!</p>
+                            <PrimaryButton onClick={() => router.push('/tala')}>
+                                Taka þátt{' '}
+                            </PrimaryButton>
+                            {/* <Link href="/tala" passHref>
+                                <StyledLink>
+                                    Smelltu á her til að reddu málinu!
+                                </StyledLink>
+                            </Link> */}
+                        </>
+                    ) : (
+                        <>
+                            <p>Smelltu á „Skrá“ til að skrá!</p>
+                            <PrimaryButton onClick={() => router.push('/skra')}>
+                                Skrá
+                            </PrimaryButton>
+                        </>
+                        // <Link href="/skra" passHref>
+                        //     <StyledLink>Smelltu hér til að skrá!</StyledLink>
+                        // </Link>
+                    )}
                 </About>
                 {isPreCompetition() && (
                     <>
@@ -80,13 +129,13 @@ const Competition: React.FunctionComponent = () => {
                             <SelectableH2 onClick={() => setShowStats(false)}>
                                 Stigatafla
                             </SelectableH2>
-                            <h2>{' / '}</h2>
+                            <Separator>{' / '}</Separator>
                             <SelectableH2 onClick={() => setShowStats(true)}>
                                 Línurit
                             </SelectableH2>
                         </SelectorContainer>
                         <ScoreboardStatsContainer>
-                            {!showStats && <Scoreboard pre />}
+                            {!showStats && <Scoreboard pre blue />}
                             {showStats && <CompetitionStats pre />}
                         </ScoreboardStatsContainer>
                     </>

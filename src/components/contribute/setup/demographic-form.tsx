@@ -4,6 +4,7 @@ import { RootState } from 'typesafe-actions';
 import styled from 'styled-components';
 import { Trans } from 'react-i18next';
 import * as colors from '../../competition/ui/colors';
+import Link from 'next/link';
 
 import {
     DemographicError,
@@ -436,9 +437,9 @@ class DemographicForm extends React.Component<Props, State> {
                 {/* {isCompetition() && ( */}
                 <CompetitionText>
                     {competitionText}
-                    <StyledLink href="/skra" target={'blank'}>
-                        hér
-                    </StyledLink>
+                    <Link href="/skra" passHref>
+                        <StyledLink>hér</StyledLink>
+                    </Link>
                 </CompetitionText>
                 {/* )} */}
                 {/* {isCompetition() && ( */}

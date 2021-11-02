@@ -9,6 +9,7 @@ import { sizeFormatter } from '../../utilities/competition-helper';
 const CompanyListContainer = styled.div`
     width: 100%;
     max-width: 30rem;
+    background-color: white;
 `;
 
 const columns = [

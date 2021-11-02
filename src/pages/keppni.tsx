@@ -7,6 +7,10 @@ import Layout from '../components/layout/layout';
 import { ReddumTitle } from '../components/competition/ui/reddum-title';
 import { isCompetition } from '../utilities/competition-helper';
 import CompanyList from '../components/competition/company-list';
+import Link from 'next/link';
+import * as colors from '../components/competition/ui/colors';
+import { useRouter } from 'next/router';
+import PrimaryButton from '../components/competition/ui/comp-button-primary';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -19,11 +23,12 @@ const CompetitionPageContainer = styled.div`
     width: 100%;
     max-width: 50rem;
     /* min-width: 30rem; */
+    color: white;
 `;
 
 const About = styled.div`
-    max-width: 40rem;
-    margin: 0 auto 2rem auto;
+    max-width: ${({ theme }) => theme.layout.desktopWidth};
+    margin: 1rem auto 2rem auto;
 `;
 
 const SelectorContainer = styled.div`
@@ -49,16 +54,33 @@ const ExtraMargin = styled.div`
 const ScoreboardStatsContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
     width: 100%;
+    color: black; ;
+`;
+
+const StyledLink = styled.a`
+    color: ${colors.siminn};
+
+    :visited {
+        text-decoration: none;
+        color: ${colors.siminn};
+    }
+
+    :focus,
+    :hover {
+        text-decoration: none;
+        color: ${colors.purple1};
+    }
 `;
 
 const Competition: React.FunctionComponent = () => {
     const [showStats, setShowStats] = useState(false);
+    const router = useRouter();
 
     return (
-        <Layout white>
+        <Layout>
             <CompetitionPageContainer>
                 <ExtraMargin>
-                    <ReddumTitle />
+                    <ReddumTitle color={'white'} />
                 </ExtraMargin>
                 <About>
                     <p>Reddum málinu vinnustaðakeppni 8. - 16. nóvember.</p>
@@ -72,6 +94,29 @@ const Competition: React.FunctionComponent = () => {
                         viðurkenning verður veitt fyrir þrjú efstu sætin í
                         hverjum flokki.
                     </p>
+                    {isCompetition() ? (
+                        // <Link href="/tala" passHref>
+                        //     <StyledLink>
+                        //         Smelltu hér til að reddu málinu!
+                        //     </StyledLink>
+                        // </Link>
+                        <>
+                            <p>Smelltu á „Taka þátt“ til að reddu málinu!</p>
+                            <PrimaryButton onClick={() => router.push('/tala')}>
+                                Taka þátt{' '}
+                            </PrimaryButton>
+                        </>
+                    ) : (
+                        <>
+                            <p>Smelltu á „Skrá“ til að skrá!</p>
+                            <PrimaryButton onClick={() => router.push('/skra')}>
+                                Skrá
+                            </PrimaryButton>
+                        </>
+                        // <Link href="/skra" passHref>
+                        //     <StyledLink>Smelltu hér til að skrá!</StyledLink>
+                        // </Link>
+                    )}
                 </About>
                 {isCompetition() && (
                     <>
@@ -85,12 +130,16 @@ const Competition: React.FunctionComponent = () => {
                             </SelectableH2>
                         </SelectorContainer>
                         <ScoreboardStatsContainer>
-                            {!showStats && <Scoreboard />}
+                            {!showStats && <Scoreboard blue />}
                             {showStats && <CompetitionStats />}
                         </ScoreboardStatsContainer>
                     </>
                 )}
-                {!isCompetition() && <CompanyList />}
+                {!isCompetition() && (
+                    <ScoreboardStatsContainer>
+                        <CompanyList />
+                    </ScoreboardStatsContainer>
+                )}
             </CompetitionPageContainer>
         </Layout>
     );
