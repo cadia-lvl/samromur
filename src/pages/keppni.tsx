@@ -29,6 +29,7 @@ const CompetitionPageContainer = styled.div`
 const About = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
     margin: 1rem auto 2rem auto;
+    text-align: center;
 `;
 
 const SelectorContainer = styled.div`
@@ -70,6 +71,11 @@ const StyledLink = styled.a`
         text-decoration: none;
         color: ${colors.purple1};
     }
+`;
+
+const CompanyListContainer = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 const Competition: React.FunctionComponent = () => {
@@ -136,9 +142,9 @@ const Competition: React.FunctionComponent = () => {
                     </>
                 )}
                 {!isCompetition() && (
-                    <ScoreboardStatsContainer>
+                    <CompanyListContainer>
                         <CompanyList />
-                    </ScoreboardStatsContainer>
+                    </CompanyListContainer>
                 )}
             </CompetitionPageContainer>
         </Layout>

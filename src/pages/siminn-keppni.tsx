@@ -30,6 +30,7 @@ const About = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
     margin: 1rem auto 2rem auto;
     color: white;
+    text-align: center;
 `;
 
 const SelectorContainer = styled.div`
