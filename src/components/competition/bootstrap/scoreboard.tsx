@@ -399,6 +399,7 @@ const PagesContainer = styled.div``;
 interface Props {
     pre?: boolean;
     blue?: boolean;
+    data?: ScoreboardData[];
 }
 
 // Custom hook to detect size of the window
@@ -419,10 +420,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
     props: Props
 ) => {
     const [sizePerPage, setSizePerPage] = useState(10);
-    const { data, error } = useSWR(
-        'competition-scores',
-        props.pre ? getPreCompetitionScores : getCompetitionScores
-    );
+    const data = props.data;
     const [width, height] = useWindowSize();
 
     const handleNextPage = (paginationProps: any) => () => {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Scoreboard from '../components/competition/bootstrap/scoreboard';
 import { CompetitionStats } from '../components/competition/competition-stats';
@@ -11,6 +11,9 @@ import Link from 'next/link';
 import * as colors from '../components/competition/ui/colors';
 import { useRouter } from 'next/router';
 import PrimaryButton from '../components/competition/ui/comp-button-primary';
+import useSWR from 'swr';
+import { getCompetitionScores } from '../services/competition-api';
+import { ScoreboardData } from '../types/competition';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -44,7 +47,7 @@ const SelectableH2 = styled.h2`
     cursor: pointer;
 
     & :hover {
-        color: ${({ theme }) => theme.colors.darkerBlue};
+        color: ${colors.siminn};
     }
 `;
 
@@ -78,9 +81,87 @@ const CompanyListContainer = styled.div`
     align-items: center;
 `;
 
+interface SelectButtonProps {
+    selected?: boolean;
+}
+
+const SelectButton = styled(PrimaryButton)<SelectButtonProps>`
+    padding: 0.5rem;
+    border-radius: 0;
+
+    ${({ selected }) =>
+        selected
+            ? `
+        background-color: ${colors.siminn}; 
+        color: white;
+        `
+            : ``}
+
+    & :active {
+        transform: none;
+    }
+`;
+
+const SelectorButtons = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    text-align: left;
+    width: inherit;
+`;
+
+enum CompanySizes {
+    all = 'all',
+    small = 'small',
+    medium = 'medium',
+    large = 'large',
+}
+
 const Competition: React.FunctionComponent = () => {
     const [showStats, setShowStats] = useState(false);
+    const [selectedSize, setSelectedSize] = useState<CompanySizes | undefined>(
+        CompanySizes.all
+    );
+    const { data, error } = useSWR('competition-scores', getCompetitionScores);
+    const [filteredData, setFilteredData] = useState<
+        ScoreboardData[] | undefined
+    >(undefined);
+
+    useEffect(() => {
+        setFilteredData(data);
+    }, [data]);
+
     const router = useRouter();
+
+    const onSelectorClick = (size: CompanySizes) => {
+        setSelectedSize(size);
+        filterData(size);
+        setShowStats(false);
+    };
+
+    const filterData = (size: CompanySizes) => {
+        if (data == undefined) {
+            return;
+        }
+        if (size == CompanySizes.all) {
+            setFilteredData(data);
+            return;
+        }
+        const filtered = data.filter((e) => e.size == size);
+        const reRanked = filtered.map((e, index) => {
+            const reRank: ScoreboardData = {
+                ...e,
+                rank: index + 1,
+            };
+            return reRank;
+        });
+        setFilteredData(reRanked);
+    };
+
+    const onShowStats = () => {
+        setSelectedSize(undefined);
+        setShowStats(true);
+    };
 
     return (
         <Layout>
@@ -127,16 +208,56 @@ const Competition: React.FunctionComponent = () => {
                 {isCompetition() && (
                     <>
                         <SelectorContainer>
-                            <SelectableH2 onClick={() => setShowStats(false)}>
+                            <SelectableH2
+                                onClick={() =>
+                                    onSelectorClick(CompanySizes.all)
+                                }
+                            >
                                 Stigatafla
                             </SelectableH2>
                             <h2>{' / '}</h2>
-                            <SelectableH2 onClick={() => setShowStats(true)}>
+                            <SelectableH2 onClick={() => onShowStats()}>
                                 Línurit
                             </SelectableH2>
                         </SelectorContainer>
+                        <SelectorButtons>
+                            <SelectButton
+                                onClick={() =>
+                                    onSelectorClick(CompanySizes.all)
+                                }
+                                selected={selectedSize == CompanySizes.all}
+                            >
+                                Allir
+                            </SelectButton>
+                            <SelectButton
+                                onClick={() =>
+                                    onSelectorClick(CompanySizes.small)
+                                }
+                                selected={selectedSize == CompanySizes.small}
+                            >
+                                Litlir
+                            </SelectButton>
+                            <SelectButton
+                                onClick={() =>
+                                    onSelectorClick(CompanySizes.medium)
+                                }
+                                selected={selectedSize == CompanySizes.medium}
+                            >
+                                Miðlungs
+                            </SelectButton>
+                            <SelectButton
+                                onClick={() =>
+                                    onSelectorClick(CompanySizes.large)
+                                }
+                                selected={selectedSize == CompanySizes.large}
+                            >
+                                Stórir
+                            </SelectButton>
+                        </SelectorButtons>
                         <ScoreboardStatsContainer>
-                            {!showStats && <Scoreboard blue />}
+                            {!showStats && (
+                                <Scoreboard blue data={filteredData} />
+                            )}
                             {showStats && <CompetitionStats />}
                         </ScoreboardStatsContainer>
                     </>

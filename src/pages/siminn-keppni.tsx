@@ -12,6 +12,8 @@ import * as colors from '../components/competition/ui/colors';
 import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import PrimaryButton from '../components/competition/ui/comp-button-primary';
 import { useRouter } from 'next/router';
+import useSWR from 'swr';
+import { getPreCompetitionScores } from '../services/competition-api';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -80,6 +82,11 @@ const StyledLink = styled.a`
 
 const Competition: React.FunctionComponent = () => {
     const [showStats, setShowStats] = useState(false);
+    const { data, error } = useSWR(
+        'competition-scores',
+        getPreCompetitionScores
+    );
+
     const router = useRouter();
 
     return (
@@ -136,7 +143,7 @@ const Competition: React.FunctionComponent = () => {
                             </SelectableH2>
                         </SelectorContainer>
                         <ScoreboardStatsContainer>
-                            {!showStats && <Scoreboard pre blue />}
+                            {!showStats && <Scoreboard pre blue data={data} />}
                             {showStats && <CompetitionStats pre />}
                         </ScoreboardStatsContainer>
                     </>
