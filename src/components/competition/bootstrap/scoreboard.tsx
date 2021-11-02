@@ -36,6 +36,10 @@ const ScoreboardContainer = styled.div`
     width: 100%;
     max-width: 50rem;
     margin: 0 auto;
+
+    & .table {
+        margin-bottom: 0rem;
+    }
 `;
 
 const StyledSelect = styled.select`
@@ -590,7 +594,9 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                     )}
                 </PaginationProvider>
             ) : (
-                <Loader />
+                <div>
+                    <Loader />
+                </div>
             )}
             {/* <Code>{sourceCode}</Code> */}
         </div>

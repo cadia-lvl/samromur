@@ -12,6 +12,8 @@ const spin = keyframes`
 `;
 
 const LoadingContainer = styled.h3`
+    display: flex;
+    justify-content: center;
     padding: 2rem;
     margin: auto;
     ${({ theme }) => theme.media.smallUp} {
