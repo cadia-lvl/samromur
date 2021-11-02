@@ -43,13 +43,19 @@ const columns = [
     },
 ];
 
+const TableContainer = styled.div`
+    & .table {
+        margin-bottom: 0rem;
+    }
+`;
+
 const CompanyList: React.FC = () => {
     const { error, data } = useSWR('companies', getCompanies);
 
     return (
         <CompanyListContainer>
             {data && (
-                <div>
+                <TableContainer>
                     <BootstrapTable
                         keyField="name"
                         data={data}
@@ -57,7 +63,7 @@ const CompanyList: React.FC = () => {
                         bootstrap4
                         striped
                     />
-                </div>
+                </TableContainer>
             )}
         </CompanyListContainer>
     );
