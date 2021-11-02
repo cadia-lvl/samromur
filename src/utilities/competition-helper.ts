@@ -24,11 +24,11 @@ export const isPreCompetition = (): boolean => {
 export const sizeFormatter = (cell: any, row: ScoreboardData) => {
     switch (row.size) {
         case 'small':
-            return 'Færri en 70';
+            return '1-70';
         case 'medium':
-            return '70-300';
+            return '71-300';
         case 'large':
-            return 'Meira en 300';
+            return '300+';
         default:
             return '';
     }

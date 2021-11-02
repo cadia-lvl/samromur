@@ -58,9 +58,9 @@ interface Size {
 }
 
 const sizes: Size[] = [
-    { size: 'small', text: 'færri en 70' },
-    { size: 'medium', text: '70-300' },
-    { size: 'large', text: 'meira en 300' },
+    { size: 'small', text: '1-70' },
+    { size: 'medium', text: '71-300' },
+    { size: 'large', text: '300+' },
 ];
 
 enum FormError {
@@ -98,8 +98,6 @@ const SignUpForm: React.FunctionComponent = () => {
             }
             setSuccess(success);
         }
-        console.log(valid);
-        console.log(company, size, contact, email);
     };
 
     const onCompanyChanged = (event: ChangeEvent<HTMLInputElement>) => {
