@@ -63,10 +63,9 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
 }) => {
     const { t } = useTranslation('my-pages');
     const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
-    console.log(data);
     const superVotes = votes ? votes.super : 0;
     const total = data ? data.total : 0;
-    const clientTotal = data ? data.client_total : 0;
+    const clientTotal = data ? (data.client_total ? data.client_total : 0) : 0;
     return (
         <StatsContainer>
             <SuperUserStatItem
