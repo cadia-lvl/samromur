@@ -36,6 +36,8 @@ import { pages } from '../../../constants/paths';
 import { ageFromKennitala } from '../../../utilities/kennitala-helper';
 import moment from 'moment';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
+import { isCaptini } from '../../../utilities/captini-helper';
+import { CaptiniSignInHello } from '../../captini/captini-sign-in-hello';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -478,6 +480,9 @@ class DemographicForm extends React.Component<Props, State> {
                 >
                     {t('common:continue')}
                 </SubmitButton>
+                {isCaptini() && (
+                    <CaptiniSignInHello switchUser={this.switchUser} />
+                )}
             </DemographicContainer>
         );
     }

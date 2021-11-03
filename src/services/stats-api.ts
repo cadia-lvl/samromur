@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { TimelineStat, TimelineSumStat } from '../types/stats';
+import { CaptiniStat, TimelineStat, TimelineSumStat } from '../types/stats';
 
 import { SSRRequest } from '../types/ssr';
 import { IndividualStat, SchoolStat } from '../types/competition';
@@ -237,6 +237,24 @@ export const getL2SpeakersStats = async () => {
     try {
         const res: AxiosResponse = await axios.get(url);
         return res.data;
+    } catch (error) {
+        console.error();
+        return Promise.reject(error);
+    }
+};
+
+export const getUserCaptiniStats = async (client_id: string) => {
+    const url = '/api/stats/user-captini';
+    try {
+        const res = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                client_id: client_id && encodeURIComponent(client_id),
+            },
+        });
+
+        return res.data as CaptiniStat;
     } catch (error) {
         console.error();
         return Promise.reject(error);
