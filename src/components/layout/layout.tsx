@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { setCookieConsent } from '../../store/user/actions';
 import CookiesModal from './cookies';
 
+import * as colors from '../competition/ui/colors';
+
 interface LayoutContainerProps {
     game?: boolean;
 }
@@ -105,7 +107,9 @@ const ContentAndFooter = styled.div`
 const FloatingNavigation = styled(Navigation)`
     ${({ theme }) => theme.media.smallUp} {
         display: none;
-    } ;
+    }
+    background-color: #6970e6;
+    box-shadow: rgb(0 0 0 / 14%) 0px 0px 10px;
 `;
 
 interface GameContentProps {
@@ -193,11 +197,11 @@ class Layout extends React.Component<Props, State> {
                             toggleMenu={this.toggleMenu}
                             light={white ? white : false}
                         /> */}
-                        {/* <FloatingNavigation
+                        <FloatingNavigation
                             user={client}
                             floating
                             visible={menuVisible}
-                        /> */}
+                        />
                         <ContentAndFooter>
                             <Header
                                 user={client}

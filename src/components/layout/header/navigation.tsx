@@ -7,19 +7,27 @@ import { useTranslation, nextI18next } from '../../../server/i18n';
 
 import * as authApi from '../../../services/auth-api';
 import { UserClient } from '../../../types/user';
+import * as colors from '../../competition/ui/colors';
+
+const colorDark = '#6498FF';
 
 interface NavLinkProps {
     isActive?: boolean;
+    light?: boolean;
 }
 
 const NavLink = styled.a<NavLinkProps>`
     cursor: pointer;
-    color: ${({ theme, isActive }) => isActive && theme.colors.red} !important;
+    color: ${({ light }) => (light ? colorDark : 'white')} !important;
     margin: 0 1rem;
     &:hover {
-        color: ${({ theme }) => theme.colors.darkerBlue} !important;
+        color: ${colors.siminn} !important;
     }
 `;
+
+NavLink.defaultProps = {
+    light: false,
+};
 
 const NavButton = styled.span`
     cursor: pointer;
@@ -32,7 +40,7 @@ const NavigationContainer = styled.div<Props>`
         floating
             ? `
         position: fixed;
-        top: ${theme.layout.headerHeight};
+        top: 5rem;
         right: 0;
         z-index: ${theme.z.middle};
         transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -56,7 +64,7 @@ const NavigationLinks = styled.div<Props>`
     ${({ floating, theme }) =>
         floating
             ? `
-        // background-color: white;
+            background-color: white;
         * {
             display: flex;
             justify-content: flex-end;
@@ -78,6 +86,7 @@ interface NavigationProps {
     floating?: boolean;
     visible?: boolean;
     user: UserClient;
+    light?: boolean;
 }
 
 type Props = NavigationProps & WithRouterProps;
@@ -88,9 +97,11 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
         router,
         user,
         user: { username },
+        light,
     } = props;
     const { pathname } = router;
     const { t } = useTranslation(['links', 'common']);
+    console.log(light);
 
     return (
         <NavigationContainer {...props}>
@@ -100,16 +111,20 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                         {t('common:homepage')}
                     </NavLink>
                 </Link> */}
-                <Link href="/tala" passHref>
+                {/* <Link href="/tala" passHref>
                     <NavLink isActive={pathname == '/tala'}>
                         {t('common:take-part')}
                     </NavLink>
-                </Link>
+                </Link> */}
                 <Link href="/skra" passHref>
-                    <NavLink isActive={pathname == '/skra'}>Skrá</NavLink>
+                    <NavLink isActive={pathname == '/skra'} light={light}>
+                        Skrá
+                    </NavLink>
                 </Link>
                 <Link href="/keppni" passHref>
-                    <NavLink isActive={pathname == '/keppni'}>Keppni</NavLink>
+                    <NavLink isActive={pathname == '/keppni'} light={light}>
+                        Stigatafla
+                    </NavLink>
                 </Link>
                 {/* <Link href="/grunnskolakeppni" passHref>
                     <NavLink isActive={pathname == '/grunnskolakeppni'}>
@@ -121,20 +136,20 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                         {t('the-database')}
                     </NavLink>
                 </Link> */}
-                <Link href="/um" passHref>
+                {/* <Link href="/um" passHref>
                     <NavLink isActive={pathname == '/um'}>
                         Samstarfsaðilar
                     </NavLink>
-                </Link>
+                </Link> */}
                 {/* <NavLink
                     href="/minar-sidur"
                     isActive={pathname == '/minar-sidur'}
                 >
                     {username ? `Hæ ${username}!` : t('my-pages')}
                 </NavLink> */}
-                {user.isAuthenticated && (
+                {/* {user.isAuthenticated && (
                     <NavButton onClick={authApi.logout}>Útskrá</NavButton>
-                )}
+                )} */}
             </NavigationLinks>
         </NavigationContainer>
     );

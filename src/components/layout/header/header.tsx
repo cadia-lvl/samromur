@@ -14,6 +14,8 @@ import HR from '../../ui/icons/hr';
 import RobotWhite from '../../ui/icons/robot-white';
 import RobotBlue from '../../ui/icons/robot-blue';
 
+const colorDark = '#6498FF';
+
 const HeaderContainer = styled.div`
     position: absolute;
     /* background-color: rgba(0, 0, 0, 0.329); */
@@ -44,7 +46,7 @@ const Header = styled.header`
     justify-content: space-between;
     align-items: baseline;
     ${({ theme }) => theme.media.smallUp} {
-        max-width: ${({ theme }) => theme.layout.headerWidth};
+        /* max-width: ${({ theme }) => theme.layout.headerWidth}; */
         margin: 0 1rem;
     }
 `;
@@ -67,7 +69,7 @@ const IconContainer = styled.div`
 
 const HamburgerMenuButton = styled.div`
     position: absolute;
-    top: 1.5rem;
+    top: 2.5rem;
     right: 1.5rem;
     cursor: pointer;
     display: none;
@@ -76,7 +78,6 @@ const HamburgerMenuButton = styled.div`
     }
 `;
 
-const colorDark = '#6498FF';
 interface HeaderProps {
     toggleMenu: () => void;
     user: UserClient;
@@ -140,10 +141,14 @@ class HeaderComponent extends React.Component<Props, State> {
                         </Link>
                         {/* <LanguageSelector /> */}
                     </IconContainer>
-                    {/* <Navigation user={user} />
+                    <Navigation user={user} light={light} />
                     <HamburgerMenuButton onClick={toggleMenu}>
-                        <MenuIcon height={24} width={24} />
-                    </HamburgerMenuButton> */}
+                        <MenuIcon
+                            height={24}
+                            width={24}
+                            fill={light ? colorDark : 'white'}
+                        />
+                    </HamburgerMenuButton>
                 </Header>
             </HeaderContainer>
         );
