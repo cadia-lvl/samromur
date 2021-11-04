@@ -1,8 +1,24 @@
 import Sql from './sql';
 import { TimelineStat } from '../../types/stats';
-import { IndividualStat, SchoolStat } from '../../types/competition';
+import {
+    IndividualStat,
+    SchoolStat,
+    ScoreboardData,
+} from '../../types/competition';
 import lazyCache from '../lazy-cache';
 import { ContributeType } from '../../types/contribute';
+import {
+    startTime,
+    endTime,
+    preStartTime,
+    preEndTime,
+} from '../../constants/competition';
+import moment from 'moment';
+
+const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
+const dbEndDate: string = moment(endTime).format('YYYY-MM-DD');
+const dbPreStartTime: string = moment(preStartTime).format('YYYY-MM-DD');
+const dbPreEndTime: string = moment(preEndTime).format('YYYY-MM-DD');
 
 const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
 const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
@@ -452,4 +468,41 @@ export default class Clips {
         );
         return rows;
     };
+
+    fetchScoreboard = lazyCache(async (pre: boolean = false): Promise<
+        ScoreboardData[]
+    > => {
+        const start = pre ? dbPreStartTime : dbStartDate;
+        const end = pre ? dbPreEndTime : dbEndDate;
+
+        const [rows] = await this.sql.query(
+            `
+        SELECT 
+            institutions.name,
+            institutions.size,
+            COUNT(DISTINCT (client_id)) AS users,
+            COUNT(*) AS count
+        FROM
+            institutions
+                JOIN
+            clips ON clips.institution = institutions.id
+        WHERE
+            clips.created_at > ?
+                AND 
+                    clips.created_at < ?
+                AND institutions.is_used = 1  
+        GROUP BY institutions.name
+        ORDER BY count DESC
+    `,
+            [start, end]
+        );
+        // Add rank
+        const data = rows as ScoreboardData[];
+
+        data.forEach((e, i) => {
+            data[i].rank = i + 1;
+        });
+
+        return data;
+    }, cacheTimeMSLeaderBoard);
 }
