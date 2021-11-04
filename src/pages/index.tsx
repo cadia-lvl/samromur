@@ -20,6 +20,9 @@ import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
 import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
+import { isCompetitionOver } from '../utilities/competition-helper';
+import { ReddumMalinuWhite } from '../components/ui/logos/reddum-malinu';
+import { theme } from '../styles/global';
 
 const FrontPageContainer = styled.div`
     /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
@@ -215,6 +218,21 @@ const MicButton = styled.div`
         transform: translateY(2px);
     }
 `;
+
+const LogoContainer = styled.div`
+    max-width: 20rem;
+`;
+
+const CTAStats = styled.div`
+    margin: 1rem 0;
+    width: 50rem;
+    max-width: 100%;
+    font-size: 1.3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+`;
+
 const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -268,28 +286,79 @@ class IndexPage extends React.Component<Props> {
             <Layout>
                 <FrontPageContainer>
                     <FrontPageContent>
-                        <CallToAction>
-                            <RobotAndTitle>
-                                <MarsContainer>
-                                    <Mars />
-                                </MarsContainer>
-                                <TitleContainer>
-                                    <CTATitle>{t('call-to-action')}</CTATitle>
-                                    <CTAButton
-                                        onClick={() =>
-                                            router.push(pages.contribute)
-                                        }
-                                        color={'validGreen'}
-                                    >
-                                        {t('common:take-part')}
-                                    </CTAButton>
-                                </TitleContainer>
-                            </RobotAndTitle>
-                            <FrontPageStats
-                                clients={stats.totalClipsClients}
-                                clips={stats.totalClips}
-                            />
-                        </CallToAction>
+                        {!isCompetitionOver() ? (
+                            <CallToAction>
+                                <RobotAndTitle>
+                                    <LogoContainer>
+                                        <ReddumMalinuWhite
+                                            fill={theme.colors.darkerBlue}
+                                        />
+                                    </LogoContainer>
+                                    <TitleContainer>
+                                        <CTATitle>
+                                            Gefum íslenskunni nokkrar mínútur og
+                                            reddum málinu.
+                                        </CTATitle>
+                                        <CTAButton
+                                            onClick={() =>
+                                                router.push(pages.contribute)
+                                            }
+                                            color={'validGreen'}
+                                        >
+                                            {t('common:take-part')}
+                                        </CTAButton>
+                                    </TitleContainer>
+                                </RobotAndTitle>
+                                <CTAStats>
+                                    <p>
+                                        Reddum málinu er vinnustaðakeppni þar
+                                        sem fyrirtæki og stofnanir keppast við
+                                        að lesa texta í gegnum tölvu eða
+                                        snjalltæki inn í gagnagrunn Samróms.
+                                    </p>
+                                    <p>
+                                        Reddum málinu hefst mánudaginn 8.
+                                        nóvember og lýkur þann 16. nóvember.
+                                        Markmið keppninnar er að safna sem
+                                        flestum raddsýnum, þ.e. lesnum
+                                        setningum, á íslensku. Keppt verður í
+                                        þremur flokkum, eftir stærð vinnustaða
+                                        og verðlaun verða veitt fyrir þrjú efstu
+                                        sætin í hverjum flokki.
+                                    </p>
+                                    <p>
+                                        Keppnin er samstarfsverkefni
+                                        Almannaróms, Háskólans í Reykjavík og
+                                        Símans
+                                    </p>
+                                </CTAStats>
+                            </CallToAction>
+                        ) : (
+                            <CallToAction>
+                                <RobotAndTitle>
+                                    <MarsContainer>
+                                        <Mars />
+                                    </MarsContainer>
+                                    <TitleContainer>
+                                        <CTATitle>
+                                            {t('call-to-action')}
+                                        </CTATitle>
+                                        <CTAButton
+                                            onClick={() =>
+                                                router.push(pages.contribute)
+                                            }
+                                            color={'validGreen'}
+                                        >
+                                            {t('common:take-part')}
+                                        </CTAButton>
+                                    </TitleContainer>
+                                </RobotAndTitle>
+                                <FrontPageStats
+                                    clients={stats.totalClipsClients}
+                                    clips={stats.totalClips}
+                                />
+                            </CallToAction>
+                        )}
                         {/*                         <MiddleContent>
                             
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
