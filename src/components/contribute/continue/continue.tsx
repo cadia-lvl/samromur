@@ -11,6 +11,7 @@ import { ContributeType } from '../../../types/contribute';
 import { withTranslation, WithTranslation } from '../../../server/i18n';
 import { Trans } from 'react-i18next';
 import * as colors from '../../competition/ui/colors';
+import Link from 'next/link';
 
 const FakeHUDContainer = styled.div``;
 
@@ -202,9 +203,11 @@ class ContinueModal extends React.Component<Props, State> {
                 <ContinueButtons onContinue={onContinue} />
                 <StatsMessageContainer>
                     <StatsMessage>
-                        <StyledLink href={'/keppni'}>
-                            Takk fyrir mig, taktu mig á Stigatöfluna
-                        </StyledLink>
+                        <Link href={'/keppni'} passHref>
+                            <StyledLink>
+                                Takk fyrir mig, taktu mig á Stigatöfluna
+                            </StyledLink>
+                        </Link>
                     </StatsMessage>
                 </StatsMessageContainer>
             </ContinueModalContainer>
