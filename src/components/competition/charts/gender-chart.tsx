@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Pie } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { competitionGenderStats } from './gender';
+import { GenderStat } from '../../../types/competition';
 
 const ChartTitle = styled.h5``;
 
@@ -21,8 +21,9 @@ export const options = {
     legend: {
         labels: {
             filter: function (item: any, chart: any) {
+                console.log(item);
                 // Logic to remove a particular legend item goes here
-                return !item.text.match('HIDELABEL');
+                return !item.text?.match('HIDELABEL');
             },
         },
         onClick: (e: any) => {},
@@ -31,7 +32,9 @@ export const options = {
     responsive: true,
 };
 
-interface Props {}
+interface Props {
+    chartData: any;
+}
 
 interface State {
     data: any;
@@ -45,8 +48,8 @@ class CompetitionGenderChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        const genderStats = competitionGenderStats;
-        const data = this.generateDataSet(genderStats);
+        const { chartData } = this.props;
+        const data = this.generateDataSet(chartData);
         this.setState({ data });
     };
 
@@ -54,8 +57,9 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         const labels: any = [];
         const count: any = [];
 
-        data.forEach((row: any) => {
-            labels.push(row.sex);
+        data.forEach((row: GenderStat) => {
+            console.log(row);
+            labels.push(this.fixLabel(row.gender));
             count.push(row.count);
         });
 
@@ -71,6 +75,19 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         };
 
         return dataSet;
+    };
+
+    fixLabel = (label: string): string => {
+        switch (label) {
+            case 'karl':
+                return 'Karl';
+            case 'kona':
+                return 'Kona';
+            case 'annad':
+                return 'Annað';
+            default:
+                return label;
+        }
     };
 
     render() {

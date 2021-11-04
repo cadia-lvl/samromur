@@ -10,6 +10,8 @@ export const pages = {
     repeat: '/herma',
     dashboard: '/minar-sidur',
     login: '/innskraning',
+    competition: '/keppni',
+    scoolCompetition: '/grunnskolakeppni',
 };
 
 export const bucketPaths = {

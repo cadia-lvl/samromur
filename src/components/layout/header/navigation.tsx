@@ -103,9 +103,14 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                         {t('common:take-part')}
                     </NavLink>
                 </Link>
-                <Link href="/grunnskolakeppni" passHref>
+                {/* <Link href="/grunnskolakeppni" passHref>
                     <NavLink isActive={pathname == '/grunnskolakeppni'}>
                         {t('grunnskola-keppni')}
+                    </NavLink>
+                </Link> */}
+                <Link href="/keppni" passHref>
+                    <NavLink isActive={pathname == '/keppni'}>
+                        Reddum Málinu!
                     </NavLink>
                 </Link>
                 <Link href="/gagnasafn" passHref>
