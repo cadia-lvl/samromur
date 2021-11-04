@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import useSWR from 'swr';
 import { getCompanies } from '../../services/competition-api';
 import { ScoreboardData } from '../../types/competition';
+import { Institution } from '../../types/institution';
 import { sizeFormatter } from '../../utilities/competition-helper';
 
 const CompanyListContainer = styled.div`
@@ -52,13 +53,20 @@ const TableContainer = styled.div`
 const CompanyList: React.FC = () => {
     const { error, data } = useSWR('companies', getCompanies);
 
+    const orderData = (dataToOrder: Institution[]): Institution[] => {
+        const ordered = dataToOrder.sort((a, b) =>
+            a.name.localeCompare(b.name, 'is-IS')
+        );
+        return ordered;
+    };
+
     return (
         <CompanyListContainer>
             {data && (
                 <TableContainer>
                     <BootstrapTable
                         keyField="name"
-                        data={data}
+                        data={orderData(data)}
                         columns={columns}
                         bootstrap4
                         striped
