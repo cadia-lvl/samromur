@@ -170,7 +170,7 @@ const Competition: React.FunctionComponent = () => {
                     <ReddumTitle color={'white'} />
                 </ExtraMargin>
                 <About>
-                    <p>Reddum málinu vinnustaðakeppni 8. - 16. nóvember.</p>
+                    <p>Reddum málinu vinnustaðakeppni 8. - 15. nóvember.</p>
                     <p>
                         Allir geta tekið þátt í að „redda málinu“ en við hvetjum
                         vinnustaði til þess að fylkja liði og skrá sig í

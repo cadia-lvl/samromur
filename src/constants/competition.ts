@@ -3,8 +3,8 @@ import { TimelineStat } from '../types/stats';
 
 //TODO: update dates
 export const startTime = new Date(2021, 10, 8, 0, 0, 0, 0);
-export const lastDay = new Date(2021, 10, 16, 0, 0, 0);
-export const endTime = new Date(2021, 10, 17, 0, 0, 0);
+export const lastDay = new Date(2021, 10, 15, 0, 0, 0);
+export const endTime = new Date(2021, 10, 16, 0, 0, 0);
 export const signUpStart = new Date(2021, 10, 1, 0, 0, 0);
 export const preStartTime = new Date(2021, 10, 2, 0, 0, 0);
 export const preLastDay = new Date(2021, 10, 7, 0, 0, 0);
