@@ -180,10 +180,20 @@ const CTAButton = styled.button<ButtonProps>`
     background-color: ${({ color, theme }) => theme.colors[color]};
     color: white;
     cursor: pointer;
-    width: 100%;
+    width: 99%;
     max-width: 30rem;
+    border: 1px solid white;
+
+    transition: color, background-color 0.15s ease-in-out;
+
     & :active {
         transform: translateY(2px);
+    }
+
+    & :hover {
+        background-color: white;
+        color: ${({ color, theme }) => theme.colors[color]};
+        border: 1px solid ${({ color, theme }) => theme.colors[color]};
     }
 `;
 
@@ -221,6 +231,13 @@ const MicButton = styled.div`
 
 const LogoContainer = styled.div`
     max-width: 20rem;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    & :hover {
+        transform: scale(1.2);
+    }
 `;
 
 const CTAStats = styled.div`
@@ -289,7 +306,11 @@ class IndexPage extends React.Component<Props> {
                         {!isCompetitionOver() ? (
                             <CallToAction>
                                 <RobotAndTitle>
-                                    <LogoContainer>
+                                    <LogoContainer
+                                        onClick={() =>
+                                            router.push(pages.competition)
+                                        }
+                                    >
                                         <ReddumMalinuWhite
                                             fill={theme.colors.darkerBlue}
                                         />
@@ -301,7 +322,7 @@ class IndexPage extends React.Component<Props> {
                                         </CTATitle>
                                         <CTAButton
                                             onClick={() =>
-                                                router.push(pages.contribute)
+                                                router.push(pages.repeat)
                                             }
                                             color={'validGreen'}
                                         >
@@ -318,7 +339,7 @@ class IndexPage extends React.Component<Props> {
                                     </p>
                                     <p>
                                         Reddum málinu hefst mánudaginn 8.
-                                        nóvember og lýkur þann 16. nóvember.
+                                        nóvember og lýkur þann 15. nóvember.
                                         Markmið keppninnar er að safna sem
                                         flestum raddsýnum, þ.e. lesnum
                                         setningum, á íslensku. Keppt verður í

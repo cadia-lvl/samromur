@@ -60,7 +60,9 @@ const SelectableH2 = styled.h2`
     }
 `;
 
-const TitleContainer = styled.div``;
+const TitleContainer = styled.div`
+    margin: 1rem 0;
+`;
 
 const ScoreboardStatsContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -157,6 +159,12 @@ const SelectorButtons = styled.div`
 
 const LogoContainer = styled.div`
     max-width: 20rem;
+
+    transition: transform 0.2s; /* Animation */
+
+    & :hover {
+        transform: scale(1.1);
+    }
 `;
 
 enum CompanySizes {
@@ -217,11 +225,17 @@ const Competition: React.FunctionComponent = () => {
             <CompetitionPageContainer>
                 <TitleContainer>
                     <LogoContainer>
-                        <ReddumMalinuWhite fill={theme.colors.darkerBlue} />
+                        <Link href={'https://reddummalinu.is'} passHref>
+                            <a target={'_blank'}>
+                                <ReddumMalinuWhite
+                                    fill={theme.colors.darkerBlue}
+                                />
+                            </a>
+                        </Link>
                     </LogoContainer>
                 </TitleContainer>
                 <About>
-                    <p>Reddum málinu vinnustaðakeppni 8. - 16. nóvember.</p>
+                    <p>Reddum málinu vinnustaðakeppni 8. - 15. nóvember.</p>
                     <p>
                         Allir geta tekið þátt í að „redda málinu“ en við hvetjum
                         vinnustaði til þess að fylkja liði og skrá sig í
@@ -242,7 +256,7 @@ const Competition: React.FunctionComponent = () => {
                             <p>Smelltu á „Taka þátt“ til að reddu málinu!</p>
                             <CTAButton
                                 color={'darkerBlue'}
-                                onClick={() => router.push('/tala')}
+                                onClick={() => router.push('/herma')}
                             >
                                 Taka þátt{' '}
                             </CTAButton>
