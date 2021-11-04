@@ -177,7 +177,7 @@ export default class Competition {
     > => {
         const start = pre ? dbPreStartTime : dbStartDate;
         const last = pre ? dbPreLastDay : dbLastDay;
-        const interval = pre ? 5 : 8;
+        const interval = pre ? 5 : 7;
         try {
             const [timelineStats] = await this.sql.query(
                 `
