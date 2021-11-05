@@ -14,14 +14,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const company = (headers.company || '') as string;
+    const kennitala = (headers?.kt || '') as string;
 
-    if (company == '') {
+    if (company == '' || kennitala == '') {
         res.status(417).send('Missing header information.');
         return;
     }
 
     try {
-        const companyExists = await db.competition.companyExists(company);
+        const companyExists = await db.competition.companyExists(
+            company,
+            kennitala
+        );
         return res.status(200).json(companyExists);
     } catch (error) {
         console.log(error);

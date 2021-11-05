@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Database, {
     getDatabaseInstance,
 } from '../../../server/database/database';
+import EmailClient, { getEmailInstance } from '../../../server/email';
 
 const db: Database = getDatabaseInstance();
+const emailClient: EmailClient = getEmailInstance();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { headers, method } = req;
@@ -22,21 +24,34 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const email = headers.email
         ? decodeURIComponent(headers.email as string)
         : '';
+    const kennitala = headers.kennitala
+        ? decodeURIComponent(headers.kennitala as string)
+        : '';
 
-    console.log(`Received: ${company}, ${size}, ${contact}, ${email}`);
+    // console.log(`Received: ${company}, ${size}, ${contact}, ${email}`);
 
-    if (!company || !size || !contact || !email) {
+    if (!company || !size || !contact || !email || !kennitala) {
         return res.status(417).send('Missing header information.');
     }
 
     try {
-        const success = await db.competition.addCompany(
+        const confirmId = await db.competition.addCompany(
             company,
             size,
             contact,
-            email
+            email,
+            kennitala
         );
-        return res.status(200).json(success);
+
+        const host = req.headers.origin;
+        const url = `${host}/api/competition/confirm-company?id=${confirmId}`;
+
+        const result = await emailClient.sendSignupInstitutionConfirmEmail(
+            email,
+            url,
+            company
+        );
+        return res.status(200).json('Success');
     } catch (error) {
         console.log(error);
         return res.status(500).json(error);

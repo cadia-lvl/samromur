@@ -11,12 +11,12 @@ export const signUpCompany = () => {
     return true;
 };
 
-export const companyExists = async (company: string) => {
+export const companyExists = async (company: string, kennitala: string) => {
     const url = '/api/competition/company-exists';
 
     try {
         const response: AxiosResponse = await axios.get(url, {
-            headers: { company: company },
+            headers: { company: company, kt: kennitala },
         });
         return response.data;
     } catch (error) {
@@ -28,7 +28,8 @@ export const addCompany = async (
     company: string,
     size: string,
     contact: string,
-    email: string
+    email: string,
+    kennitala: string
 ) => {
     const url = '/api/competition/add-company';
 
@@ -42,6 +43,7 @@ export const addCompany = async (
                     size: encodeURIComponent(size),
                     contact: encodeURIComponent(contact),
                     email: encodeURIComponent(email),
+                    kennitala: encodeURIComponent(kennitala),
                 },
             }
         );
