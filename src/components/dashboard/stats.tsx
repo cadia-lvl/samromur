@@ -6,9 +6,14 @@ import StatsItem from './stats-item';
 
 import MicIcon from '../ui/icons/mic';
 import PlayIcon from '../ui/icons/play';
+import GlobeIcon from '../ui/icons/globe';
 import ThumbUpIcon from '../ui/icons/thumb-up';
 import { useTranslation } from '../../server/i18n';
 import { Trans } from 'react-i18next';
+import { StyledLink } from '../ui/links';
+import Link from 'next/link';
+import useSWR from 'swr';
+import { getUserCaptiniStats } from '../../services/stats-api';
 
 const StatsContainer = styled.div`
     display: grid;
@@ -51,14 +56,35 @@ interface Props {
 
 export const DashboardStats: React.FunctionComponent<Props> = ({
     client: {
+        id,
         isSuperUser,
         stats: { clips, votes },
     },
 }) => {
     const { t } = useTranslation('my-pages');
+    const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
     const superVotes = votes ? votes.super : 0;
+    const total = data ? data.total : 0;
+    const clientTotal = data ? (data.client_total ? data.client_total : 0) : 0;
     return (
         <StatsContainer>
+            <SuperUserStatItem
+                icon={<GlobeIcon height={35} fill={'gray'} />}
+                title={'Captini'}
+            >
+                <Stat>
+                    <Trans i18nKey="statistics.captini-text" t={t}>
+                        Þú hefur lesið <span>{{ clientTotal }}</span> af
+                        <span> {{ total }}</span> setningum.
+                    </Trans>
+                    <br />
+                    <Link href="/captini" passHref>
+                        <StyledLink>
+                            Smelltu hér til að halda áfram með captini
+                        </StyledLink>
+                    </Link>
+                </Stat>
+            </SuperUserStatItem>
             {isSuperUser && (
                 <SuperUserStatItem
                     icon={<ThumbUpIcon height={35} fill={'gray'} />}
