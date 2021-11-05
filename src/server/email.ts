@@ -114,6 +114,23 @@ export default class EmailClient {
             },
         });
     };
+
+    sendSignupInstitutionConfirmEmail = async (
+        email: string,
+        url: string,
+        institution: string
+    ) => {
+        const { FROM_EMAIL, REDDUM_TEMPLATE_ID } = this.emailConfig;
+        return sgMail.send({
+            to: email,
+            from: FROM_EMAIL,
+            templateId: REDDUM_TEMPLATE_ID,
+            dynamicTemplateData: {
+                URL: url,
+                INSTITUTION: institution,
+            },
+        });
+    };
 }
 
 let instance: EmailClient;

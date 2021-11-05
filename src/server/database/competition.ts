@@ -12,6 +12,7 @@ import {
     preLastDay,
 } from '../../constants/competition';
 import lazyCache from '../lazy-cache';
+import { v4 as uuid } from 'uuid';
 
 // TODO: competition, actual dates
 const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
@@ -33,7 +34,7 @@ export default class Competition {
         this.sql = sql;
     }
 
-    companyExists = async (company: string) => {
+    companyExists = async (company: string, kennitala: string) => {
         const [[row]] = await this.sql.query(
             `
                 SELECT
@@ -42,9 +43,11 @@ export default class Competition {
                     institutions
                 WHERE
                     name = ?
+                OR
+                    kennitala = ?
                 LIMIT 1
             `,
-            [company]
+            [company, kennitala]
         );
 
         return !!row;
@@ -54,32 +57,57 @@ export default class Competition {
         company: string,
         size: string,
         contact: string,
-        email: string
-    ) => {
-        const exists = await this.companyExists(company);
+        email: string,
+        kennitala: string
+    ): Promise<string> => {
+        const exists = await this.companyExists(company, kennitala);
 
         if (exists) {
-            return false;
+            return Promise.reject('Already exists.');
         }
 
         const id = generateGUID();
+        const confirmId = uuid();
 
         try {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        institutions (id, name, size, contact, email)
+                        institutions (id, name, size, contact, email, kennitala, confirm_id)
                     VALUES
-                        (?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?)
                 `,
-                [id, company, size, contact, email]
+                [id, company, size, contact, email, kennitala, confirmId]
             );
-            console.log(row);
+            // console.log(row);
             const { affectedRows } = row;
-            return !!affectedRows;
+
+            if (!!affectedRows) {
+                return Promise.resolve(confirmId);
+            }
+            return Promise.reject('Failed to insert.');
         } catch (error) {
             return Promise.reject(error);
         }
+    };
+
+    confirmSignup = async (confirmId: string) => {
+        const [row] = await this.sql.query(
+            `
+            UPDATE
+                institutions
+            SET
+                email_confirmed = ?,
+                is_used = ?
+
+            WHERE
+                confirm_id = ?
+            `,
+            [true, true, confirmId]
+        );
+
+        const { affectedRows } = row;
+        return !!affectedRows;
     };
 
     getCompanies = async (): Promise<Institution[]> => {

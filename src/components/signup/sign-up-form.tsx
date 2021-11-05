@@ -11,6 +11,11 @@ import { TextInputWithLabel } from '../ui/input/input';
 import TextInput from '../competition/ui/text-input';
 import { useRouter } from 'next/router';
 import { isCompetition } from '../../utilities/competition-helper';
+import {
+    Kennitala,
+    KennitalaType,
+} from '../contribute/setup/kennitala-validator';
+import Loader from '../ui/animated/loader';
 
 const SignUpFormContainer = styled.div`
     display: flex;
@@ -45,11 +50,19 @@ const SuccessContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     max-width: 30rem;
     min-width: 20rem;
     margin: 0 5rem;
+    gap: 1rem;
     color: ${colors.blue3};
+`;
+
+const Paragraph = styled.p`
+    & span {
+        font-weight: 600;
+    }
+    margin: 0;
 `;
 
 interface Size {
@@ -69,6 +82,7 @@ enum FormError {
     EMPTY_CONTACT = 'EMPTY_CONTACT',
     EMPTY_COMPANY = 'EMPTY_COMPANY',
     INVALID_SIZE = 'INVALID_SIZE',
+    INVALID_KENNITALA = 'INVALID_KENNITALA',
 }
 
 const SignUpForm: React.FunctionComponent = () => {
@@ -76,28 +90,34 @@ const SignUpForm: React.FunctionComponent = () => {
     const [size, setSize] = useState<Size>(sizes[0]);
     const [contact, setContact] = useState('');
     const [email, setEmail] = useState('');
+    const [kennitala, setKennitala] = useState('');
     const [error, setError] = useState<FormError | undefined>(undefined);
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setError(undefined);
+        setLoading(true);
         const valid = await validateForm();
         if (valid) {
             const success = await addCompany(
                 company,
                 size.size,
                 contact,
-                email
+                email,
+                kennitala
             );
 
             if (!success) {
                 // Set some error and return
                 return;
             }
+            setLoading(false);
             setSuccess(success);
         }
+        setLoading(false);
     };
 
     const onCompanyChanged = (event: ChangeEvent<HTMLInputElement>) => {
@@ -121,16 +141,18 @@ const SignUpForm: React.FunctionComponent = () => {
         setEmail(value);
     };
 
+    const onKennitalaChanged = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        // replace all non-digits with null
+        const digits = value.replace(/\D/g, '');
+        const kt = digits.substring(0, 10);
+        setKennitala(kt);
+    };
+
     const validateForm = async () => {
         // Validate Company
         if (company == '' || company == undefined) {
             setError(FormError.EMPTY_COMPANY);
-            return false;
-        }
-        const exists = await companyExists(company);
-
-        if (exists) {
-            setError(FormError.COMPANY_EXISTS);
             return false;
         }
 
@@ -152,6 +174,21 @@ const SignUpForm: React.FunctionComponent = () => {
             return false;
         }
 
+        if (kennitala.length != 10) {
+            const valid = Kennitala.Validate(kennitala);
+            if (valid == KennitalaType.Invalid) {
+                setError(FormError.INVALID_KENNITALA);
+                return false;
+            }
+        }
+
+        const exists = await companyExists(company, kennitala);
+
+        if (exists) {
+            setError(FormError.COMPANY_EXISTS);
+            return false;
+        }
+
         return true;
     };
 
@@ -167,6 +204,8 @@ const SignUpForm: React.FunctionComponent = () => {
                 return 'Tölvupóstur vantar eða er ógilt.';
             case FormError.INVALID_SIZE:
                 return 'Ógild vinnustaðastærð';
+            case FormError.INVALID_KENNITALA:
+                return 'Innslegin kennitala er ógild.';
             default:
                 return 'Óþekkt villa.';
         }
@@ -196,6 +235,12 @@ const SignUpForm: React.FunctionComponent = () => {
                         onSelect={onSizeChanged}
                         selected={size.text}
                     />
+                    <TextInput
+                        label={'Kennitala'}
+                        onChange={onKennitalaChanged}
+                        placeholder={''}
+                        value={kennitala}
+                    />
                     {/* <br /> */}
                     {/* <label htmlFor="contact">Contact person:</label>
                 <br />
@@ -215,35 +260,49 @@ const SignUpForm: React.FunctionComponent = () => {
                         onChange={onEmailChanged}
                         placeholder={''}
                     />
-                    <SecondaryButton type="submit" value="Skrá">
-                        Skrá
-                    </SecondaryButton>
+                    {!loading ? (
+                        <SecondaryButton type="submit" value="Skrá">
+                            Skrá
+                        </SecondaryButton>
+                    ) : (
+                        <Loader />
+                    )}
                 </StyledForm>
             )}
             {error && (
                 <ErrorContainer>Villa: {toFriendlyError(error)}</ErrorContainer>
             )}
-            {success && isCompetition() && (
+            {success && (
                 <SuccessContainer>
-                    <p>
-                        {company} hefur verið skráð til leiks. Smelltu á "taka
-                        þátt" til að byrja!
-                    </p>
-                    <SecondaryButton onClick={() => router.push('/tala')}>
-                        Taka þátt
-                    </SecondaryButton>
-                </SuccessContainer>
-            )}
-            {success && !isCompetition() && (
-                <SuccessContainer>
-                    <p>
-                        {company} hefur verið skráð til leiks. Smelltu á
-                        "keppni" til að sjá þá vinnustaði sem eru skráðir til
-                        leiks!
-                    </p>
+                    <>
+                        <Paragraph>
+                            Tölvupóstur hefur verið sendur á netfangið{' '}
+                            <span>{email}</span>
+                        </Paragraph>
+                        <Paragraph>
+                            <span>
+                                Smelltu á hlekkinn í póstinum til þess að klára
+                                nýskráningu.
+                            </span>
+                        </Paragraph>
+                    </>
+                    {/* {!isCompetition() ? (
+                        <>
+                            <Paragraph>
+                                Smelltu á "keppni" til að sjá þá vinnustaði sem
+                                eru skráðir til leiks!
+                            </Paragraph>
+                        </>
+                    ) : (
+                        <>
+                            <Paragraph>
+                                Smelltu á "keppni" til að sjá stigatöfluna!
+                            </Paragraph>
+                        </>
+                    )}
                     <SecondaryButton onClick={() => router.push('/keppni')}>
                         Keppni
-                    </SecondaryButton>
+                    </SecondaryButton> */}
                 </SuccessContainer>
             )}
         </SignUpFormContainer>
