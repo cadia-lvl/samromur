@@ -85,7 +85,24 @@ class MyApp extends App<Props> {
             ? await Component.getInitialProps(ctx)
             : {};
 
-        Object.assign(pageProps, { namespacesRequired: ['common'] });
+        Object.assign(pageProps, {
+            namespacesRequired: [
+                'common',
+                'home',
+                'about',
+                'charts',
+                'contribute',
+                'demographics',
+                'documents',
+                'footer',
+                'keyboard',
+                'links',
+                'my-pages',
+                'the-database',
+                'tips',
+                'wheel',
+            ],
+        });
 
         // If client has a client id in its cooke, has an athenticated token
         // and it is not signed in (in the store) then sign in
