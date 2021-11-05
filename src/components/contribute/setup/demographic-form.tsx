@@ -43,6 +43,8 @@ import {
 } from '../../../utilities/competition-helper';
 import { Institution } from '../../../types/institution';
 import { getCompanies } from '../../../services/competition-api';
+import { isCaptini } from '../../../utilities/captini-helper';
+import { CaptiniSignInHello } from '../../captini/captini-sign-in-hello';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -535,6 +537,9 @@ class DemographicForm extends React.Component<Props, State> {
                 >
                     {t('common:continue')}
                 </SubmitButton>
+                {isCaptini() && (
+                    <CaptiniSignInHello switchUser={this.switchUser} />
+                )}
             </DemographicContainer>
         );
     }

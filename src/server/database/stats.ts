@@ -1,5 +1,5 @@
 import Sql from './sql';
-import { TimelineStat } from '../../types/stats';
+import { CaptiniStat, TimelineStat } from '../../types/stats';
 import {
     IndividualStat,
     SchoolStat,
@@ -505,4 +505,24 @@ export default class Clips {
 
         return data;
     }, cacheTimeMSLeaderBoard);
+
+    fetchCaptiniStatsForClient = async (clientId: string) => {
+        const [[row]] = await this.sql.query(
+            `
+            SELECT 
+                SUM(client_id = ?) as client_total,
+                COUNT(DISTINCT (sentences.id)) as total
+            FROM
+                sentences
+                    LEFT JOIN
+                clips ON clips.original_sentence_id = sentences.id
+            WHERE
+                sentences.is_used = 1
+                    AND sentences.source = 'captini'
+            `,
+            [clientId]
+        );
+
+        return row as CaptiniStat;
+    };
 }
