@@ -27,6 +27,7 @@ import { endTime, signUpStart, startTime } from '../constants/competition';
 import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import PrimaryButton from '../components/competition/ui/comp-button-primary';
 import CompetitionButtons from '../components/competition/frontpage-buttons';
+import { isCompetition } from '../utilities/competition-helper';
 
 const FrontPageContainer = styled.div`
     /* background: url(/images/wave-footer.png) repeat-x bottom;
@@ -181,8 +182,8 @@ const TitleContainer = styled.div`
 
 const TextContainer = styled.div`
     color: white;
-    width: 30rem;
-    max-width: 100%;
+    width: 100%;
+    max-width: 40rem;
     text-align: center;
     padding: 0 1rem;
 `;
@@ -400,11 +401,25 @@ class IndexPage extends React.Component<Props> {
                                 fyrir framtíð íslenskunnar. Reddum málinu saman!
                             </p>
                             <p>
-                                Smelltu á taka þátt og lestu inn tíu raddsýni.
-                                Þú getur endurtekið leikinn eins oft og þú vilt
-                                og þannig safnað stigum í vinnustaðarkeppninni
-                                og hjálpað íslenskri tungu í leiðinni.
+                                Reddum málinu hefst mánudaginn 8. nóvember og
+                                lýkur þann 16. nóvember með verðlaunaafhendingu.
+                                Markmið keppninnar er að safna sem flestum
+                                raddsýnum, þ.e. lesnum setningum, á íslensku.
+                                Keppt verður í þremur flokkum, eftir stærð
+                                vinnustaða og verðlaun verða veitt fyrir þrjú
+                                efstu sætin í hverjum flokki.
                             </p>
+                            {isCompetition() ? (
+                                <p>
+                                    Smelltu á taka þátt og byrjaðu að lesa. Þú
+                                    getur endurtekið leikinn eins oft og þú vilt
+                                    og þannig safnað stigum í
+                                    vinnustaðarkeppninni og hjálpað íslenskri
+                                    tungu í leiðinni.
+                                </p>
+                            ) : (
+                                <p>Smelltu á skrá til að skrá þinn vinnustað</p>
+                            )}
                         </TextContainer>
                         <CompetitionButtons />
 
