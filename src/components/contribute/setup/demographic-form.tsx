@@ -235,8 +235,12 @@ class DemographicForm extends React.Component<Props, State> {
                 this.setState({ institution: { id: '', name: '' } });
             }
         }
-        const institutions = await getCompanies();
-        this.setState({ institutions: institutions });
+
+        // Only fetch institutions during competition
+        if (isCompetition()) {
+            const institutions = await getCompanies();
+            this.setState({ institutions: institutions });
+        }
     };
 
     componentDidUpdate = (prevProps: Props) => {
@@ -427,7 +431,7 @@ class DemographicForm extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <DemographicContainer>
-                {!isCompetitionOver() && (
+                {isCompetition() && (
                     // <DropdownButton
                     //     content={schools
                     //         .sort((a, b) =>
@@ -457,7 +461,7 @@ class DemographicForm extends React.Component<Props, State> {
                         }
                     />
                 )}
-                {!isCompetitionOver() && (
+                {isCompetition() && (
                     <CompetitionText>
                         {competitionText}
                         <Link href="/skra" passHref>
