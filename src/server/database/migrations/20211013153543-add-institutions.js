@@ -23,7 +23,7 @@ exports.up = async function (db) {
                 email VARCHAR(255) NOT NULL,
                 contact VARCHAR(255) NOT NULL,
                 is_used TINYINT(1) NOT NULL DEFAULT 1,
-                created_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP;
+                created_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 UNIQUE INDEX name_UNIQUE (name ASC)
             );
