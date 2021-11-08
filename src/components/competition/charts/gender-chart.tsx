@@ -96,7 +96,7 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         const { data } = this.state;
         return (
             <div>
-                <ChartTitle>Uppökur eftir kyni</ChartTitle>
+                <ChartTitle>Upptökur eftir kyni</ChartTitle>
                 <Pie data={data} options={options} />
             </div>
         );
