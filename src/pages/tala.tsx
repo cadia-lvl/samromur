@@ -68,42 +68,43 @@ class SpeakPage extends React.Component<Props, State> {
         store.dispatch(resetContribute());
 
         // ---------------- UNCOMMENT THIS FOR TALA --------------- //
-        // // Fetch some stats to display at the end of the session
-        // makeSSRDispatch(ctx, fetchWeeklyClips.request);
+        // Fetch some stats to display at the end of the session
+        makeSSRDispatch(ctx, fetchWeeklyClips.request);
+        makeSSRDispatch(ctx, fetchWeeklyRepeatedClips.request);
 
-        // // Fetch Adult sentences to prompt the user with
-        // const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        // const initialSentencesGrouped = await fetchGroupedSentences({
-        //     clientId: (req?.headers.client_id as string) || '',
-        //     count: sentencesChunkSize,
-        //     host,
-        // });
-
-        // const initialSentences: AllGroupsSentences = {};
-        // initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
-        // initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
-        // initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
-
-        // return {
-        //     namespacesRequired: ['common'],
-        //     initialSentences,
-        // };
-
-        // ---------------- UNCOMMENT THIS FOR HERMA --------------- //
-        // // Fetch some stats to display at the end of the session
-        await makeSSRDispatch(ctx, fetchWeeklyRepeatedClips.request);
-
-        // Fetch clips to prompt the user with
+        // Fetch Adult sentences to prompt the user with
         const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialClips = await fetchClipsToRepeat({
+        const initialSentencesGrouped = await fetchGroupedSentences({
             clientId: (req?.headers.client_id as string) || '',
             count: sentencesChunkSize,
             host,
         });
 
+        const initialSentences: AllGroupsSentences = {};
+        initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
+        initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
+        initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
+
         return {
-            initialClips,
+            namespacesRequired: ['common'],
+            initialSentences,
         };
+
+        // ---------------- UNCOMMENT THIS FOR HERMA --------------- //
+        // // Fetch some stats to display at the end of the session
+        // await makeSSRDispatch(ctx, fetchWeeklyRepeatedClips.request);
+
+        // // Fetch clips to prompt the user with
+        // const host = isServer && req ? 'http://' + req.headers.host : undefined;
+        // const initialClips = await fetchClipsToRepeat({
+        //     clientId: (req?.headers.client_id as string) || '',
+        //     count: sentencesChunkSize,
+        //     host,
+        // });
+
+        // return {
+        //     initialClips,
+        // };
     }
 
     onDemographicsSubmit = () => {
@@ -111,15 +112,15 @@ class SpeakPage extends React.Component<Props, State> {
     };
 
     render() {
-        // const { initialSentences } = this.props;
-        const { initialClips } = this.props;
+        const { initialSentences } = this.props;
+        // const { initialClips } = this.props;
 
         return (
             <ContributePage
-                // groupedSentences={initialSentences}
-                // contributeType={ContributeType.SPEAK}
-                clipsToRepeat={initialClips}
-                contributeType={ContributeType.REPEAT}
+                groupedSentences={initialSentences}
+                contributeType={ContributeType.SPEAK}
+                // clipsToRepeat={initialClips}
+                // contributeType={ContributeType.REPEAT}
             />
         );
     }

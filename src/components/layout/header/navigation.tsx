@@ -101,7 +101,6 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
     } = props;
     const { pathname } = router;
     const { t } = useTranslation(['links', 'common']);
-    console.log(light);
 
     return (
         <NavigationContainer {...props}>

@@ -44,6 +44,7 @@ import { setShowDemographics } from '../../../store/ui/actions';
 import ReddumMalinuLogo from '../../ui/logos/reddum-malinu';
 import * as colors from '../../competition/ui/colors';
 import { ReddumTitle } from '../../competition/ui/reddum-title';
+import { ASSOCIATION_OF_THE_DYSLEXIC } from '../../../constants/competition';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -191,7 +192,8 @@ class Contribute extends React.Component<Props, State> {
 
     onDemographicsSubmit = async (
         age: Demographic,
-        nativeLanguage: Demographic
+        nativeLanguage: Demographic,
+        institution: string
     ) => {
         const { groupedSentences, setShowDemographics } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
@@ -199,26 +201,41 @@ class Contribute extends React.Component<Props, State> {
             ? groupedSentences[ageGroup]
             : undefined;
 
-        this.setState({ sentences });
-        setShowDemographics(false);
-        // if (ageGroup != AgeGroups.ADULTS && nativeLanguage.id == 'islenska') {
-        const { clipsToRepeat } = this.state;
-        this.setRepeatGoal();
-        this.setState({ contributeType: ContributeType.REPEAT });
-        // this.selectType(ContributeType.REPEAT);
+        if (
+            (ageGroup != AgeGroups.ADULTS && nativeLanguage.id == 'islenska') ||
+            institution == ASSOCIATION_OF_THE_DYSLEXIC
+        ) {
+            const { clipsToRepeat } = this.state;
+            this.setRepeatGoal();
+            this.setState({ contributeType: ContributeType.REPEAT });
+            // this.selectType(ContributeType.REPEAT);
 
-        if (clipsToRepeat == undefined) {
-            const { user } = this.props;
-            const clips = await contributeApi.fetchClipsToRepeat({
-                clientId: user.client.id,
-                count: 20,
-            });
-            this.setState({ clipsToRepeat: clips });
-            this.setState({ sentences: undefined });
+            if (clipsToRepeat == undefined) {
+                const { user } = this.props;
+                const clips = await contributeApi.fetchClipsToRepeat({
+                    clientId: user.client.id,
+                    count: 20,
+                });
+                this.setState({ clipsToRepeat: clips });
+
+                const sentences = clips.map((e) => {
+                    const sentence: SimpleSentence = {
+                        id: e.sentence.id,
+                        text: e.sentence.text,
+                    };
+                    return sentence;
+                });
+
+                this.setState({ sentences: sentences });
+            }
+            setShowDemographics(false);
+            return;
         }
-        return;
-        // }
-        // this.setSpeakGoal();
+        this.setState({ contributeType: ContributeType.SPEAK });
+        this.setState({ clipsToRepeat: [] });
+        this.setState({ sentences });
+        this.setSpeakGoal();
+        setShowDemographics(false);
     };
 
     setGoal = (goal: Goal) => {

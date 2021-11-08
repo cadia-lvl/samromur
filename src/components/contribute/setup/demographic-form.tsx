@@ -209,7 +209,11 @@ const dispatchProps = {
 };
 
 interface DemographicFormProps {
-    onSubmit: (age: Demographic, nativeLanguage: Demographic) => void;
+    onSubmit: (
+        age: Demographic,
+        nativeLanguage: Demographic,
+        institution: string
+    ) => void;
 }
 
 interface State {
@@ -386,7 +390,7 @@ class DemographicForm extends React.Component<Props, State> {
             institution,
         });
         this.props.setTermsConsent(true);
-        this.props.onSubmit(demoAge, language);
+        this.props.onSubmit(demoAge, language, institution.id);
     };
 
     getAgeUnder18 = (): Demographic => {

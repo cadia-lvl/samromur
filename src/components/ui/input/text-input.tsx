@@ -93,7 +93,6 @@ class TextInput extends React.Component<Props, State> {
     };
 
     onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.currentTarget.value);
         this.setState({ active: false });
     };
 
