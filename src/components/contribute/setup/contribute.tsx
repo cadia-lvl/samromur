@@ -114,6 +114,16 @@ class Contribute extends React.Component<Props, State> {
         this.setSpeakGoal();
     }
 
+    componentDidMount = async () => {
+        const { user } = this.props;
+        const sentences = await contributeApi.fetchSentences({
+            clientId: user.client.id,
+            count: 20,
+            age: 'adults',
+        });
+        this.setState({ sentences });
+    };
+
     // hasDemographics = (): boolean => {
     //     const { contributeType } = this.state;
     //     const {
@@ -195,11 +205,8 @@ class Contribute extends React.Component<Props, State> {
         nativeLanguage: Demographic,
         institution: string
     ) => {
-        const { groupedSentences, setShowDemographics } = this.props;
+        const { groupedSentences, setShowDemographics, user } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
-        const sentences = groupedSentences
-            ? groupedSentences[ageGroup]
-            : undefined;
 
         if (
             (ageGroup != AgeGroups.ADULTS && nativeLanguage.id == 'islenska') ||
@@ -231,9 +238,17 @@ class Contribute extends React.Component<Props, State> {
             setShowDemographics(false);
             return;
         }
+        if (nativeLanguage.id != 'islenska') {
+            const sentences = await fetchSentences({
+                count: 20,
+                clientId: user.client.id,
+                age: 'teens',
+            });
+            this.setState({ sentences });
+        }
+
         this.setState({ contributeType: ContributeType.SPEAK });
-        this.setState({ clipsToRepeat: [] });
-        this.setState({ sentences });
+        this.setState({ clipsToRepeat: undefined });
         this.setSpeakGoal();
         setShowDemographics(false);
     };

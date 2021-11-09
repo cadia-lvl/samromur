@@ -72,22 +72,28 @@ class SpeakPage extends React.Component<Props, State> {
         makeSSRDispatch(ctx, fetchWeeklyClips.request);
         makeSSRDispatch(ctx, fetchWeeklyRepeatedClips.request);
 
-        // Fetch Adult sentences to prompt the user with
-        const host = isServer && req ? 'http://' + req.headers.host : undefined;
-        const initialSentencesGrouped = await fetchGroupedSentences({
-            clientId: (req?.headers.client_id as string) || '',
-            count: sentencesChunkSize,
-            host,
-        });
+        //Fetch Adult sentences to prompt the user with
+        // const host = isServer && req ? 'http://' + req.headers.host : undefined;
+        // const initialSentencesGrouped = await fetchGroupedSentences({
+        //     clientId: (req?.headers.client_id as string) || '',
+        //     count: sentencesChunkSize,
+        //     host,
+        // });
 
-        const initialSentences: AllGroupsSentences = {};
-        initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
-        initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
-        initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
+        // const initialSentences: AllGroupsSentences = {};
+        // initialSentences[AgeGroups.ADULTS] = initialSentencesGrouped[0];
+        // initialSentences[AgeGroups.TEENAGERS] = initialSentencesGrouped[1];
+        // initialSentences[AgeGroups.CHILDREN] = initialSentencesGrouped[2];
+
+        // const initialSentences = await fetchSentences({
+        //     clientId: (req?.headers.client_id as string) || '',
+        //     count: 20,
+        //     host,
+        // });
 
         return {
             namespacesRequired: ['common'],
-            initialSentences,
+            // initialSentences,
         };
 
         // ---------------- UNCOMMENT THIS FOR HERMA --------------- //
@@ -112,12 +118,12 @@ class SpeakPage extends React.Component<Props, State> {
     };
 
     render() {
-        const { initialSentences } = this.props;
+        // const { initialSentences } = this.props;
         // const { initialClips } = this.props;
 
         return (
             <ContributePage
-                groupedSentences={initialSentences}
+                // groupedSentences={initialSentences}
                 contributeType={ContributeType.SPEAK}
                 // clipsToRepeat={initialClips}
                 // contributeType={ContributeType.REPEAT}

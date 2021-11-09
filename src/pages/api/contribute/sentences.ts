@@ -18,7 +18,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const age = decodeURIComponent(req.headers.age as string) || '';
         const nativeLanguage =
             decodeURIComponent(req.headers.native_language as string) || '';
-        const source = decodeURIComponent(req.headers.source as string) || '';
+        let source = decodeURIComponent(req.headers.source as string) || '';
+        if (source == 'undefined') {
+            source = '';
+        }
 
         try {
             const response: Array<SimpleSentence> = await db.sentences.fetchSentences(

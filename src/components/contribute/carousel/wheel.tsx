@@ -121,7 +121,10 @@ class CarouselWheel extends React.Component<Props, State> {
                 [],
             color: WheelColor.BLUE,
             clips: this.props.clips || [],
-            clipsToRepeat: this.props.clipsToRepeat,
+            clipsToRepeat:
+                this.props.contributeType == ContributeType.REPEAT
+                    ? this.props.clipsToRepeat
+                    : undefined,
             clipIndex: 0,
             isSpeak: this.props.contributeType !== ContributeType.LISTEN,
             sentenceIndex: 0,
