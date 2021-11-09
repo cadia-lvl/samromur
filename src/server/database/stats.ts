@@ -12,6 +12,9 @@ import {
     endTime,
     preStartTime,
     preEndTime,
+    ISLANDSBANKI,
+    ISLANDSBANKI_EXTRA_COUNT,
+    ISLANDSBANKI_EXTRA_USERS,
 } from '../../constants/competition';
 import moment from 'moment';
 
@@ -503,10 +506,18 @@ export default class Clips {
         // Add rank
         const data = rows as ScoreboardData[];
 
-        data.forEach((e, i) => {
-            data[i].rank = i + 1;
-        });
+        // Add extra votes from duplicate islandsbanki
+        const isb = data.findIndex((e) => e.name == ISLANDSBANKI);
+        if (isb >= 0) {
+            data[isb].count += ISLANDSBANKI_EXTRA_COUNT;
+            data[isb].users += ISLANDSBANKI_EXTRA_USERS;
+        }
 
-        return data;
+        const sorted = data.sort((a, b) => b.count - a.count);
+
+        sorted.forEach((e, i) => {
+            sorted[i].rank = i + 1;
+        });
+        return sorted;
     }, cacheTimeMSLeaderBoard);
 }
