@@ -7,18 +7,26 @@ import {
     isCompetition,
     isCompetitionOver,
 } from '../../utilities/competition-helper';
+import { useState } from 'react';
+import Loader from '../ui/animated/loader';
 
 // import SecondaryButton from "./ui/comp-button-primary"
 
 const CompetitionButtons: React.FC = () => {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
+
+    const onContribute = () => {
+        setLoading(true);
+        router.push('/tala');
+    };
 
     return (
         <>
-            {isCompetition() && (
-                <PrimaryButton onClick={() => router.push('/tala')}>
-                    Taka þátt
-                </PrimaryButton>
+            {isCompetition() && !loading ? (
+                <PrimaryButton onClick={onContribute}>Taka þátt</PrimaryButton>
+            ) : (
+                <Loader fill={'white'} />
             )}
             {!isCompetitionOver() && !isCompetition() && (
                 <PrimaryButton onClick={() => router.push('/skra')}>

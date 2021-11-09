@@ -24,11 +24,14 @@ const LoadingContainer = styled.h3`
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 `;
+interface Props {
+    fill?: string;
+}
 
-const Loader: React.FunctionComponent = () => {
+const Loader: React.FunctionComponent<Props> = (props: Props) => {
     return (
         <LoadingContainer>
-            <LoadingIcon large />
+            <LoadingIcon large fill={props.fill} />
         </LoadingContainer>
     );
 };
