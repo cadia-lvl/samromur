@@ -85,7 +85,7 @@ class CompetitionTimeLineChart extends React.Component<Props, State> {
         const { data } = this.state;
         return (
             <div>
-                <ChartTitle>Uppökur per dag</ChartTitle>
+                <ChartTitle>Upptökur per dag</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );

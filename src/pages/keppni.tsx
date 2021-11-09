@@ -253,7 +253,7 @@ const Competition: React.FunctionComponent = () => {
                         //     </StyledLink>
                         // </Link>
                         <>
-                            <p>Smelltu á „Taka þátt“ til að reddu málinu!</p>
+                            <p>Smelltu á „Taka þátt“ til að redda málinu!</p>
                             <CTAButton
                                 color={'darkerBlue'}
                                 onClick={() => router.push('/herma')}

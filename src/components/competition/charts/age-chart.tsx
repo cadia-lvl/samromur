@@ -100,7 +100,7 @@ class CompetitionAgeChart extends React.Component<Props, State> {
         const { data } = this.state;
         return (
             <div>
-                <ChartTitle>Uppökur eftir aldri</ChartTitle>
+                <ChartTitle>Upptökur eftir aldri</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );
