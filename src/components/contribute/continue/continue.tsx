@@ -205,7 +205,7 @@ class ContinueModal extends React.Component<Props, State> {
                     <StatsMessage>
                         <Link href={'/keppni'} passHref>
                             <StyledLink>
-                                Takk fyrir mig, taktu mig á Stigatöfluna
+                                Takk fyrir mig, sýndu mér stigatöfluna
                             </StyledLink>
                         </Link>
                     </StatsMessage>
