@@ -413,9 +413,8 @@ class IndexPage extends React.Component<Props> {
                                 <p>
                                     Smelltu á taka þátt og byrjaðu að lesa. Þú
                                     getur endurtekið leikinn eins oft og þú vilt
-                                    og þannig safnað stigum í
-                                    vinnustaðarkeppninni og hjálpað íslenskri
-                                    tungu í leiðinni.
+                                    og þannig safnað stigum fyrir þinn vinnustað
+                                    og hjálpað íslenskri tungu í leiðinni.
                                 </p>
                             ) : (
                                 <p>Smelltu á skrá til að skrá þinn vinnustað</p>
