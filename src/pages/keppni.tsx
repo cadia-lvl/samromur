@@ -14,6 +14,7 @@ import PrimaryButton from '../components/competition/ui/comp-button-primary';
 import useSWR from 'swr';
 import { getCompetitionScores } from '../services/competition-api';
 import { ScoreboardData } from '../types/competition';
+import Loader from '../components/ui/animated/loader';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -126,6 +127,7 @@ const Competition: React.FunctionComponent = () => {
     const [filteredData, setFilteredData] = useState<
         ScoreboardData[] | undefined
     >(undefined);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setFilteredData(data);
@@ -163,6 +165,11 @@ const Competition: React.FunctionComponent = () => {
         setShowStats(true);
     };
 
+    const onContributeClick = () => {
+        setLoading(true);
+        router.push('/tala');
+    };
+
     return (
         <Layout>
             <CompetitionPageContainer>
@@ -189,9 +196,13 @@ const Competition: React.FunctionComponent = () => {
                         // </Link>
                         <>
                             <p>Smelltu á „Taka þátt“ til að reddu málinu!</p>
-                            <PrimaryButton onClick={() => router.push('/tala')}>
-                                Taka þátt{' '}
-                            </PrimaryButton>
+                            {!loading ? (
+                                <PrimaryButton onClick={onContributeClick}>
+                                    Taka þátt{' '}
+                                </PrimaryButton>
+                            ) : (
+                                <Loader fill={'white'} />
+                            )}
                         </>
                     ) : (
                         <>
