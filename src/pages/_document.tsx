@@ -58,8 +58,8 @@ export default class MyDocument extends Document<any> {
 
                     <link
                         rel="apple-touch-icon"
-                        sizes="180x180"
-                        href="/favicon/apple-touch-icon.png"
+                        sizes="150x150"
+                        href="/favicon/rm_log150x150.png"
                     />
                     <link
                         rel="icon"

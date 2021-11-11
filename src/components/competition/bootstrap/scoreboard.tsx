@@ -541,7 +541,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                                     </SizePerPageDropdownList>
                                 </SizePerPageDropdown> */}
                                     <SelectContainer white={props.blue}>
-                                        Magn á síðu:{' '}
+                                        Fjöldi á síðu:{' '}
                                         <StyledSelect
                                             onChange={(e) =>
                                                 onSizePerPageChange(
