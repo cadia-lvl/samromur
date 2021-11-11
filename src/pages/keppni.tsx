@@ -257,7 +257,7 @@ const Competition: React.FunctionComponent = () => {
                             <p>Smelltu á „Taka þátt“ til að redda málinu!</p>
                             <CTAButton
                                 color={'darkerBlue'}
-                                onClick={() => router.push(pages.competition)}
+                                onClick={() => router.push(pages.speak)}
                             >
                                 Taka þátt{' '}
                             </CTAButton>

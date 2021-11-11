@@ -36,6 +36,7 @@ import { AllGroupsSentences } from '../../../pages/tala';
 import { Demographic } from '../../../types/user';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
 import { isCompetition } from '../../../utilities/competition-helper';
+import { ASSOCIATION_OF_THE_DYSLEXIC } from '../../../constants/competition';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -151,7 +152,8 @@ class Contribute extends React.Component<Props, State> {
 
     onDemographicsSubmit = async (
         age: Demographic,
-        nativeLanguage: Demographic
+        nativeLanguage: Demographic,
+        institution?: string
     ) => {
         const {
             user: {
@@ -159,10 +161,14 @@ class Contribute extends React.Component<Props, State> {
             },
         } = this.props;
         // Re-direct kids to herma during competition
+        // Re-direct association of the dyslexic to herma
         // TODO: decide if this should be always until herma collection goals are met.
         if (isCompetition()) {
             if (
-                (age.id = AgeGroups.CHILDREN || age.id == AgeGroups.TEENAGERS)
+                (age.id =
+                    AgeGroups.CHILDREN ||
+                    age.id == AgeGroups.TEENAGERS ||
+                    institution == ASSOCIATION_OF_THE_DYSLEXIC)
             ) {
                 const clips = await contributeApi.fetchClipsToRepeat({
                     count: 20,
