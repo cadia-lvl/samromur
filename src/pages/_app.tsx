@@ -216,7 +216,10 @@ class MyApp extends App<Props> {
                                 href="/favicon/favicon.ico"
                             />
 
-                            <meta name="twitter:card" content="summary" />
+                            <meta
+                                name="twitter:card"
+                                content="summary_large_image"
+                            />
                             <meta
                                 name="twitter:url"
                                 content="https://reddummalinu.is"
