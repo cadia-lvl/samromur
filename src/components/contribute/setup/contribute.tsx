@@ -160,15 +160,17 @@ class Contribute extends React.Component<Props, State> {
                 client: { id },
             },
         } = this.props;
+        const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
+
         // Re-direct kids to herma during competition
         // Re-direct association of the dyslexic to herma
         // TODO: decide if this should be always until herma collection goals are met.
         if (isCompetition()) {
             if (
-                (age.id =
-                    AgeGroups.CHILDREN ||
-                    age.id == AgeGroups.TEENAGERS ||
-                    institution == ASSOCIATION_OF_THE_DYSLEXIC)
+                ageGroup == AgeGroups.CHILDREN ||
+                (ageGroup == AgeGroups.TEENAGERS &&
+                    nativeLanguage.id == 'islenska') ||
+                institution == ASSOCIATION_OF_THE_DYSLEXIC
             ) {
                 const clips = await contributeApi.fetchClipsToRepeat({
                     count: 20,
@@ -183,7 +185,6 @@ class Contribute extends React.Component<Props, State> {
         }
 
         const { groupedSentences } = this.props;
-        const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
         const sentences = groupedSentences
             ? groupedSentences[ageGroup]
             : undefined;
