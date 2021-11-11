@@ -24,9 +24,9 @@
             "purpose": "any maskable"
         },
         {
-            "src": "/favicon/kubbur.png",
+            "src": "/favicon/kubbur.jpg",
             "sizes": "1620x1620",
-            "type": "image/png"
+            "type": "image/jpg"
         }
     ],
     "theme_color": "#FFFFFF",
