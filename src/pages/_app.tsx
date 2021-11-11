@@ -231,7 +231,7 @@ class MyApp extends App<Props> {
                             />
                             <meta
                                 name="twitter:image"
-                                content="https://reddummalinu.is/favicon/SIM_14486_RM_Kubbur.png"
+                                content="https://reddummalinu.is/favicon/kubbur.png"
                             />
                             <meta name="twitter:creator" content="@StaffanH" />
                             <meta property="og:type" content="website" />
@@ -250,7 +250,7 @@ class MyApp extends App<Props> {
                             />
                             <meta
                                 property="og:image"
-                                content="https://reddummalinu.is/favicon/SIM_14486_RM_Kubbur.png"
+                                content="https://reddummalinu.is/favicon/kubbur.png"
                             />
                         </Head>
                         <Component {...pageProps} />
