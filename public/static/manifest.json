@@ -22,6 +22,11 @@
             "sizes": "196x196",
             "type": "image/png",
             "purpose": "any maskable"
+        },
+        {
+            "src": "/favicon/kubbur.png",
+            "sizes": "1620x1620",
+            "type": "image/png"
         }
     ],
     "theme_color": "#FFFFFF",
