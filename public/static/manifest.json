@@ -28,6 +28,11 @@
             "sizes": "1620x1620",
             "type": "image/jpg"
         }
+        {
+            "src": "/favicon/kubbur1200.jpg",
+            "sizes": "1200x598",
+            "type": "image/jpg"
+        }
     ],
     "theme_color": "#FFFFFF",
     "background_color": "#FFFFFF",
