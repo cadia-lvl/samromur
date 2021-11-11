@@ -322,7 +322,7 @@ class IndexPage extends React.Component<Props> {
                                         </CTATitle>
                                         <CTAButton
                                             onClick={() =>
-                                                router.push(pages.repeat)
+                                                router.push(pages.speak)
                                             }
                                             color={'validGreen'}
                                         >

@@ -18,6 +18,7 @@ import { CompetitionStats } from '../components/competition/competition-stats';
 import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import { theme } from '../styles/global';
 import { StyledLink } from '../components/ui/links/link';
+import { pages } from '../constants/paths';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -256,7 +257,7 @@ const Competition: React.FunctionComponent = () => {
                             <p>Smelltu á „Taka þátt“ til að redda málinu!</p>
                             <CTAButton
                                 color={'darkerBlue'}
-                                onClick={() => router.push('/herma')}
+                                onClick={() => router.push(pages.competition)}
                             >
                                 Taka þátt{' '}
                             </CTAButton>

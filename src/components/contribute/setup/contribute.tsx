@@ -35,6 +35,7 @@ import {
 import { AllGroupsSentences } from '../../../pages/tala';
 import { Demographic } from '../../../types/user';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
+import { isCompetition } from '../../../utilities/competition-helper';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -152,6 +153,29 @@ class Contribute extends React.Component<Props, State> {
         age: Demographic,
         nativeLanguage: Demographic
     ) => {
+        const {
+            user: {
+                client: { id },
+            },
+        } = this.props;
+        // Re-direct kids to herma during competition
+        // TODO: decide if this should be always until herma collection goals are met.
+        if (isCompetition()) {
+            if (
+                (age.id = AgeGroups.CHILDREN || age.id == AgeGroups.TEENAGERS)
+            ) {
+                const clips = await contributeApi.fetchClipsToRepeat({
+                    count: 20,
+                    clientId: id,
+                });
+                this.setState({ contributeType: ContributeType.REPEAT });
+                this.setState({ clipsToRepeat: clips });
+                this.setState({ demographic: true });
+
+                return;
+            }
+        }
+
         const { groupedSentences } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
         const sentences = groupedSentences
