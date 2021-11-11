@@ -49,3 +49,6 @@ export const defaultAgeStats: AgeStat[] = [
     { age: '80-89 ára', count: 0 },
     { age: '90+ ára', count: 0 },
 ];
+
+export const ASSOCIATION_OF_THE_DYSLEXIC: string =
+    '0fe8273c-2492-4508-8716-f9249e891aea';
