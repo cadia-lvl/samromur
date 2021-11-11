@@ -59,7 +59,7 @@ export default class MyDocument extends Document<any> {
                     <link
                         rel="apple-touch-icon"
                         sizes="150x150"
-                        href="/favicon/rm_log150x150.png"
+                        href="/favicon/kubbur.png"
                     />
                     <link
                         rel="icon"
