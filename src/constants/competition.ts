@@ -54,5 +54,5 @@ export const ASSOCIATION_OF_THE_DYSLEXIC: string =
     '0fe8273c-2492-4508-8716-f9249e891aea';
 
 export const ISLANDSBANKI: string = 'Íslandsbanki';
-export const ISLANDSBANKI_EXTRA_COUNT = 149;
-export const ISLANDSBANKI_EXTRA_USERS = 4;
+export const ISLANDSBANKI_EXTRA_COUNT = 149 + 238;
+export const ISLANDSBANKI_EXTRA_USERS = 4 + 5;
