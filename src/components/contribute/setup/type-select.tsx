@@ -158,7 +158,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                 </Title>
             </CardContainer>
 
-            <CardContainer
+            {/* <CardContainer
                 onClick={onRepeatClick}
                 disabled={selectedOption && selectedOption !== Options.repeat}
             >
@@ -168,7 +168,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>{t('repeat-action')}</p>
                     <p>{t('repeat-info')}</p>
                 </Title>
-            </CardContainer>
+            </CardContainer> */}
             {/* <CardContainer
                 onClick={onConversationClick}
                 disabled={selectedOption ? true : false}

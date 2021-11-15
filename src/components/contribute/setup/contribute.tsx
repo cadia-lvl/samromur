@@ -61,6 +61,8 @@ const Instruction = styled.h2`
     margin-bottom: 2rem;
 `;
 
+const redirectKidsToHerma = true;
+
 const dispatchProps = {
     resetContribute,
     setGaming,
@@ -165,7 +167,7 @@ class Contribute extends React.Component<Props, State> {
         // Re-direct kids to herma during competition
         // Re-direct association of the dyslexic to herma
         // TODO: decide if this should be always until herma collection goals are met.
-        if (isCompetition()) {
+        if (redirectKidsToHerma) {
             if (
                 ageGroup == AgeGroups.CHILDREN ||
                 (ageGroup == AgeGroups.TEENAGERS &&
