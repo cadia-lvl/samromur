@@ -5,7 +5,10 @@ import Scoreboard from '../components/competition/bootstrap/scoreboard';
 import { CompetitionStats } from '../components/competition/competition-stats';
 import Layout from '../components/layout/layout';
 import { ReddumTitle } from '../components/competition/ui/reddum-title';
-import { isCompetition } from '../utilities/competition-helper';
+import {
+    isCompetition,
+    isCompetitionOver,
+} from '../utilities/competition-helper';
 import CompanyList from '../components/competition/company-list';
 import Link from 'next/link';
 import * as colors from '../components/competition/ui/colors';
@@ -15,6 +18,7 @@ import useSWR from 'swr';
 import { getCompetitionScores } from '../services/competition-api';
 import { ScoreboardData } from '../types/competition';
 import Loader from '../components/ui/animated/loader';
+import { AboutCompetition } from '../components/competition/competition-about';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -28,12 +32,6 @@ const CompetitionPageContainer = styled.div`
     max-width: 50rem;
     /* min-width: 30rem; */
     color: white;
-`;
-
-const About = styled.div`
-    max-width: ${({ theme }) => theme.layout.desktopWidth};
-    margin: 1rem auto 2rem auto;
-    text-align: center;
 `;
 
 const SelectorContainer = styled.div`
@@ -176,47 +174,8 @@ const Competition: React.FunctionComponent = () => {
                 <ExtraMargin>
                     <ReddumTitle color={'white'} />
                 </ExtraMargin>
-                <About>
-                    <p>Reddum málinu vinnustaðakeppni 8. - 15. nóvember.</p>
-                    <p>
-                        Allir geta tekið þátt í að „redda málinu“ en við hvetjum
-                        vinnustaði til þess að fylkja liði og skrá sig í
-                        keppnina.
-                    </p>
-                    <p>
-                        Keppt verður í þremur flokkum, eftir stærð vinnustaða og
-                        viðurkenning verður veitt fyrir þrjú efstu sætin í
-                        hverjum flokki.
-                    </p>
-                    {isCompetition() ? (
-                        // <Link href="/tala" passHref>
-                        //     <StyledLink>
-                        //         Smelltu hér til að reddu málinu!
-                        //     </StyledLink>
-                        // </Link>
-                        <>
-                            <p>Smelltu á „Taka þátt“ til að redda málinu!</p>
-                            {!loading ? (
-                                <PrimaryButton onClick={onContributeClick}>
-                                    Taka þátt{' '}
-                                </PrimaryButton>
-                            ) : (
-                                <Loader fill={'white'} />
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            <p>Smelltu á „Skrá“ til að skrá!</p>
-                            <PrimaryButton onClick={() => router.push('/skra')}>
-                                Skrá
-                            </PrimaryButton>
-                        </>
-                        // <Link href="/skra" passHref>
-                        //     <StyledLink>Smelltu hér til að skrá!</StyledLink>
-                        // </Link>
-                    )}
-                </About>
-                {isCompetition() && (
+                <AboutCompetition />
+                {(isCompetition() || isCompetitionOver()) && (
                     <>
                         <SelectorContainer>
                             <SelectableH2
@@ -273,7 +232,7 @@ const Competition: React.FunctionComponent = () => {
                         </ScoreboardStatsContainer>
                     </>
                 )}
-                {!isCompetition() && (
+                {!isCompetition() && !isCompetitionOver() && (
                     <CompanyListContainer>
                         <CompanyList />
                     </CompanyListContainer>

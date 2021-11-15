@@ -23,14 +23,18 @@ const CompetitionButtons: React.FC = () => {
 
     return (
         <>
-            {isCompetition() && !loading ? (
+            {isCompetition() && !loading && (
                 <PrimaryButton onClick={onContribute}>Taka þátt</PrimaryButton>
-            ) : (
-                <Loader fill={'white'} />
             )}
+            {loading && <Loader fill={'white'} />}
             {!isCompetitionOver() && !isCompetition() && (
                 <PrimaryButton onClick={() => router.push('/skra')}>
                     Skrá
+                </PrimaryButton>
+            )}
+            {isCompetitionOver() && (
+                <PrimaryButton onClick={() => router.push('/keppni')}>
+                    Stigatafla
                 </PrimaryButton>
             )}
         </>

@@ -26,6 +26,8 @@ import ContributePage from '../components/contribute/setup/contribute';
 import { AgeGroups, AgeLimit } from '../utilities/demographics-age-helper';
 import { ContributeType } from '../types/contribute';
 import { Clip } from '../types/samples';
+import { isCompetitionOver } from '../utilities/competition-helper';
+import { pages } from '../constants/paths';
 
 const dispatchProps = {
     resetContribute,
@@ -113,6 +115,13 @@ class SpeakPage extends React.Component<Props, State> {
         // };
     }
 
+    componentDidMount = () => {
+        const { router } = this.props;
+        if (isCompetitionOver()) {
+            router.replace(pages.scoreboard);
+        }
+    };
+
     onDemographicsSubmit = () => {
         this.setState({ demographic: true });
     };
@@ -121,13 +130,15 @@ class SpeakPage extends React.Component<Props, State> {
         // const { initialSentences } = this.props;
         // const { initialClips } = this.props;
 
-        return (
+        return !isCompetitionOver() ? (
             <ContributePage
                 // groupedSentences={initialSentences}
                 contributeType={ContributeType.SPEAK}
                 // clipsToRepeat={initialClips}
                 // contributeType={ContributeType.REPEAT}
             />
+        ) : (
+            <div></div>
         );
     }
 }

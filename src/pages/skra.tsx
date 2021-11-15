@@ -4,6 +4,10 @@ import SignUpForm from '../components/signup/sign-up-form';
 import styled from 'styled-components';
 import * as colors from '../components/competition/ui/colors';
 import { ReddumTitle } from '../components/competition/ui/reddum-title';
+import { isCompetitionOver } from '../utilities/competition-helper';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { pages } from '../constants/paths';
 
 const SignUpFormContainer = styled.div`
     display: flex;
@@ -19,13 +23,21 @@ const ExtraMargin = styled.div`
 `;
 
 const SignUp: React.FunctionComponent = () => {
+    const router = useRouter();
+
+    useEffect(() => {
+        if (isCompetitionOver()) {
+            router.replace(pages.scoreboard);
+        }
+    }, [isCompetitionOver()]);
+
     return (
         <Layout white={true}>
             <SignUpFormContainer>
                 <ExtraMargin>
                     <ReddumTitle />
                 </ExtraMargin>
-                <SignUpForm />
+                {!isCompetitionOver() && <SignUpForm />}
             </SignUpFormContainer>
         </Layout>
     );

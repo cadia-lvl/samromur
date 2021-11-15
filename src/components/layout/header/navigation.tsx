@@ -8,6 +8,7 @@ import { useTranslation, nextI18next } from '../../../server/i18n';
 import * as authApi from '../../../services/auth-api';
 import { UserClient } from '../../../types/user';
 import * as colors from '../../competition/ui/colors';
+import { isCompetitionOver } from '../../../utilities/competition-helper';
 
 const colorDark = '#6498FF';
 
@@ -115,11 +116,13 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                         {t('common:take-part')}
                     </NavLink>
                 </Link> */}
-                <Link href="/skra" passHref>
-                    <NavLink isActive={pathname == '/skra'} light={light}>
-                        Skrá
-                    </NavLink>
-                </Link>
+                {!isCompetitionOver() && (
+                    <Link href="/skra" passHref>
+                        <NavLink isActive={pathname == '/skra'} light={light}>
+                            Skrá
+                        </NavLink>
+                    </Link>
+                )}
                 <Link href="/keppni" passHref>
                     <NavLink isActive={pathname == '/keppni'} light={light}>
                         Stigatafla

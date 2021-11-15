@@ -117,7 +117,7 @@ class HeaderComponent extends React.Component<Props, State> {
                                 />
                             </a>
                         </Link>
-                        <Link href="https://hr.is">
+                        <Link href="https://www.ru.is/">
                             <a target="_blank">
                                 <HR small fill={light ? colorDark : 'white'} />
                             </a>

@@ -27,7 +27,11 @@ import { endTime, signUpStart, startTime } from '../constants/competition';
 import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import PrimaryButton from '../components/competition/ui/comp-button-primary';
 import CompetitionButtons from '../components/competition/frontpage-buttons';
-import { isCompetition } from '../utilities/competition-helper';
+import {
+    isCompetition,
+    isCompetitionOver,
+} from '../utilities/competition-helper';
+import * as colors from '../components/competition/ui/colors';
 
 const FrontPageContainer = styled.div`
     /* background: url(/images/wave-footer.png) repeat-x bottom;
@@ -297,6 +301,22 @@ const StyledCountDown = styled(Countdown)`
     margin: 0 auto;
 `;
 
+const StyledLink = styled.a`
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+
+    :visited {
+        text-decoration: none;
+    }
+
+    :focus,
+    :hover {
+        text-decoration: none;
+        color: ${colors.purple1};
+    }
+`;
+
 const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -310,36 +330,9 @@ class IndexPage extends React.Component<Props> {
     }
 
     static getInitialProps = async (ctx: NextPageContext) => {
-        // If missing props fetch from db
-        if (IndexPage.missingProps(ctx)) {
-            // Total clips chart
-            await makeSSRDispatch(ctx, fetchTotalClipsTimeline.request);
-
-            // Clips count chart
-            await makeSSRDispatch(ctx, fetchTotalClips.request);
-
-            // Client count chart
-            await makeSSRDispatch(ctx, fetchTotalClipsClients.request);
-        }
-
         return {
             namespacesRequired: ['common'],
         };
-    };
-
-    static missingProps = (ctx: NextPageContext): boolean => {
-        const { store } = ctx;
-        const {
-            stats: { totalClipsTimeline, totalClips, totalClipsClients },
-        } = store.getState();
-
-        // If any are missing, return false
-        return (
-            !store ||
-            totalClipsTimeline?.length === 0 ||
-            !totalClips ||
-            !totalClipsClients
-        );
     };
 
     render() {
@@ -393,31 +386,91 @@ class IndexPage extends React.Component<Props> {
                             <ReddumMalinuWhite size={'100%'} />
                         </TitleContainer>
                         <TextContainer>
-                            <p>Íslenskan þarf þína hjálp.</p>
-                            <p>
-                                Til þess að tæki og tölvur geti skilið íslensku
-                                þarf mikinn fjölda upptaka af íslensku tali frá
-                                allskonar fólki. Því fleiri upptökur, því betra
-                                fyrir framtíð íslenskunnar. Reddum málinu saman!
-                            </p>
-                            <p>
-                                Reddum málinu hefst mánudaginn 8. nóvember og
-                                lýkur þann 16. nóvember með verðlaunaafhendingu.
-                                Markmið keppninnar er að safna sem flestum
-                                raddsýnum, þ.e. lesnum setningum, á íslensku.
-                                Keppt verður í þremur flokkum, eftir stærð
-                                vinnustaða og verðlaun verða veitt fyrir þrjú
-                                efstu sætin í hverjum flokki.
-                            </p>
-                            {isCompetition() ? (
-                                <p>
-                                    Smelltu á taka þátt og byrjaðu að lesa. Þú
-                                    getur endurtekið leikinn eins oft og þú vilt
-                                    og þannig safnað stigum fyrir þinn vinnustað
-                                    og hjálpað íslenskri tungu í leiðinni.
-                                </p>
-                            ) : (
-                                <p>Smelltu á skrá til að skrá þinn vinnustað</p>
+                            {!isCompetitionOver() && (
+                                <>
+                                    <p>Íslenskan þarf þína hjálp.</p>
+                                    <p>
+                                        Til þess að tæki og tölvur geti skilið
+                                        íslensku þarf mikinn fjölda upptaka af
+                                        íslensku tali frá allskonar fólki. Því
+                                        fleiri upptökur, því betra fyrir framtíð
+                                        íslenskunnar. Reddum málinu saman!
+                                    </p>
+                                    <p>
+                                        Reddum málinu hefst mánudaginn 8.
+                                        nóvember og lýkur þann 16. nóvember með
+                                        verðlaunaafhendingu. Markmið keppninnar
+                                        er að safna sem flestum raddsýnum, þ.e.
+                                        lesnum setningum, á íslensku. Keppt
+                                        verður í þremur flokkum, eftir stærð
+                                        vinnustaða og verðlaun verða veitt fyrir
+                                        þrjú efstu sætin í hverjum flokki.
+                                    </p>
+                                    {isCompetition() ? (
+                                        <p>
+                                            Smelltu á taka þátt og byrjaðu að
+                                            lesa. Þú getur endurtekið leikinn
+                                            eins oft og þú vilt og þannig safnað
+                                            stigum fyrir þinn vinnustað og
+                                            hjálpað íslenskri tungu í leiðinni.
+                                        </p>
+                                    ) : (
+                                        <p>
+                                            Smelltu á skrá til að skrá þinn
+                                            vinnustað
+                                        </p>
+                                    )}
+                                </>
+                            )}
+                            {isCompetitionOver() && (
+                                <>
+                                    <p>Takk fyrir að Redda málinu!</p>
+                                    <p>
+                                        Vinnustaðakeppninni Reddum málinu er nú
+                                        lokið. Við þökkum frábærar viðtökur, sá
+                                        ótrúlegi fjöldi raddsýna sem að
+                                        safnaðist frá allskonar fólki mun nýtast
+                                        íslenskunni vel og hjálpa henni að vera
+                                        betur í stakk búinn til að fylgja
+                                        tækniþróun heimsins. Íslenskan þakkar
+                                        fyrir ykkar framlag.
+                                    </p>
+                                    <p>
+                                        Við hvetjum alla til að halda áfram
+                                        upplestri og leggja raddgagnasafni
+                                        Samróms liðsinni sína á{' '}
+                                        <Link
+                                            href={'https://samromur.is'}
+                                            passHref
+                                        >
+                                            <StyledLink>Samrómur</StyledLink>
+                                        </Link>
+                                    </p>
+                                    <p>
+                                        <Link
+                                            href={'https://almannaromur.is'}
+                                            passHref
+                                        >
+                                            <StyledLink>
+                                                Almannarómur
+                                            </StyledLink>
+                                        </Link>
+                                        ,{' '}
+                                        <Link
+                                            href={'https://www.ru.is/'}
+                                            passHref
+                                        >
+                                            <StyledLink>HR</StyledLink>
+                                        </Link>
+                                        {' og '}
+                                        <Link
+                                            href={'https://siminn.is'}
+                                            passHref
+                                        >
+                                            <StyledLink>Síminn</StyledLink>
+                                        </Link>
+                                    </p>
+                                </>
                             )}
                         </TextContainer>
                         <CompetitionButtons />
