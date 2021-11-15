@@ -6,6 +6,7 @@ import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import { getWheelColorString } from '../utilities/color-utility';
 import { WheelColor } from '../types/contribute';
 import { theme } from '../styles/global';
+import { isCompetitionOver } from '../utilities/competition-helper';
 // import { ReddumTitle } from '../components/competition/ui/reddum-title';
 
 const SignUpFormContainer = styled.div`
@@ -22,15 +23,27 @@ const ExtraMargin = styled.div`
     padding: 3rem;
 `;
 
+const CenterContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 const SignUp: React.FunctionComponent = () => {
     return (
         <Layout>
-            <SignUpFormContainer>
-                <ExtraMargin>
-                    <ReddumMalinuWhite fill={theme.colors.darkerBlue} />
-                </ExtraMargin>
-                <SignUpForm />
-            </SignUpFormContainer>
+            {!isCompetitionOver() ? (
+                <SignUpFormContainer>
+                    <ExtraMargin>
+                        <ReddumMalinuWhite fill={theme.colors.darkerBlue} />
+                    </ExtraMargin>
+                    <SignUpForm />
+                </SignUpFormContainer>
+            ) : (
+                <CenterContainer>
+                    Vinnustaðakeppninni Reddum málinu er nú lokið.
+                </CenterContainer>
+            )}
         </Layout>
     );
 };

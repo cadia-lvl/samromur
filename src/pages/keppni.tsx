@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import Scoreboard from '../components/competition/bootstrap/scoreboard';
 import Layout from '../components/layout/layout';
 // import { ReddumTitle } from '../components/competition/ui/reddum-title';
-import { isCompetition } from '../utilities/competition-helper';
+import {
+    isCompetition,
+    isCompetitionOver,
+} from '../utilities/competition-helper';
 import CompanyList from '../components/competition/company-list';
 import Link from 'next/link';
 // import * as colors from '../components/competition/ui/colors';
@@ -19,6 +22,8 @@ import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import { theme } from '../styles/global';
 import { StyledLink } from '../components/ui/links/link';
 import { pages } from '../constants/paths';
+import AboutCompetition from '../components/competition/about';
+import { AboutReddum } from '../components/competition/reddum-about';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -235,7 +240,7 @@ const Competition: React.FunctionComponent = () => {
                         </Link>
                     </LogoContainer>
                 </TitleContainer>
-                <About>
+                {/* <About>
                     <p>Reddum málinu vinnustaðakeppni 8. - 15. nóvember.</p>
                     <p>
                         Allir geta tekið þátt í að „redda málinu“ en við hvetjum
@@ -276,8 +281,9 @@ const Competition: React.FunctionComponent = () => {
                         //     <StyledLink>Smelltu hér til að skrá!</StyledLink>
                         // </Link>
                     )}
-                </About>
-                {isCompetition() && (
+                </About> */}
+                <AboutReddum />
+                {(isCompetition() || isCompetitionOver()) && (
                     <>
                         <SelectorContainer>
                             <SelectableH2
@@ -334,7 +340,7 @@ const Competition: React.FunctionComponent = () => {
                         </ScoreboardStatsContainer>
                     </>
                 )}
-                {!isCompetition() && (
+                {!isCompetition() && !isCompetitionOver() && (
                     <CompanyListContainer>
                         <CompanyList />
                     </CompanyListContainer>
