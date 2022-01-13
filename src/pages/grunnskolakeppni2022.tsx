@@ -47,6 +47,8 @@ const BottomContent = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
 
     margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
 `;
 
 const SelectorContainer = styled.div`
@@ -174,6 +176,12 @@ const LogoContainer = styled.div`
     }
 `;
 
+const Paragraph = styled.p`
+    & span {
+        font-weight: 600;
+    }
+`;
+
 enum CompanySizes {
     all = 'all',
     small = 'small',
@@ -232,6 +240,11 @@ const Competition: React.FunctionComponent = () => {
             <CompetitionPageContainer>
                 <Title>Hvaða skóli las mest?</Title>
                 <About>
+                    <Paragraph>
+                        Þriðja Lestrarkeppni grunnskólanna hefst þann{' '}
+                        <span>20 janúar</span> næstkomandi. Keppnin stendur yfir
+                        í viku og lýkur <span>27 janúar.</span>
+                    </Paragraph>
                     <p>
                         Sem fyrr gengur keppnin út á að lesa setningar hér inn á{' '}
                         <Link href={'/'} passHref>
@@ -259,16 +272,19 @@ const Competition: React.FunctionComponent = () => {
                         Verðlaunin verða vegleg í ár og hlökkum við til að segja
                         meira frá þeim á næstu dögum.
                     </p>
-                    <p>
-                        Í fyrstu keppni 2020 þá tóku 1430 manns þátt fyrir hönd
-                        130 skóla og lásu í kringum 144 þúsund setningar. Alls
-                        tóku um 6.000 manns þátt fyrir hönd 136 skóla og lásu
-                        rúmlega 776 þúsund setningar í annarri Lestrarkeppni
-                        grunnskóla 2021. Yfir 920.000 innlesnar setningar hafa
-                        því safnast undanfarin tvö ár og erum við því afar
+                    <Paragraph>
+                        Í fyrstu keppni 2020 þá tóku <span>1430</span> manns
+                        þátt fyrir hönd
+                        <span>130</span> skóla og lásu í kringum{' '}
+                        <span>144</span> þúsund setningar. Alls tóku um{' '}
+                        <span>6.000</span> manns þátt fyrir hönd{' '}
+                        <span>136</span> skóla og lásu rúmlega <span>776</span>{' '}
+                        þúsund setningar í annarri Lestrarkeppni grunnskóla
+                        2021. Yfir <span>920</span> þúsund innlesnar setningar
+                        hafa því safnast undanfarin tvö ár og erum við því afar
                         spennt fyrir þessari þriðju keppni og vonumst eftir
                         þátttöku sem flestra skóla.
-                    </p>
+                    </Paragraph>
                 </About>
                 {/* {(isCompetition() || isCompetitionOver()) && ( */}
                 {false && (
