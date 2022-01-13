@@ -243,7 +243,7 @@ const Competition: React.FunctionComponent = () => {
                     <Paragraph>
                         Þriðja Lestrarkeppni grunnskólanna hefst þann{' '}
                         <span>20 janúar</span> næstkomandi. Keppnin stendur yfir
-                        í viku og lýkur <span>27 janúar.</span>
+                        í viku og lýkur <span>26 janúar.</span>
                     </Paragraph>
                     <p>
                         Sem fyrr gengur keppnin út á að lesa setningar hér inn á{' '}
@@ -274,8 +274,7 @@ const Competition: React.FunctionComponent = () => {
                     </p>
                     <Paragraph>
                         Í fyrstu keppni 2020 þá tóku <span>1.430</span> manns
-                        þátt fyrir hönd
-                        <span>130</span> skóla og lásu í kringum{' '}
+                        þátt fyrir hönd <span>130</span> skóla og lásu í kringum{' '}
                         <span>144</span> þúsund setningar. Alls tóku um{' '}
                         <span>6.000</span> manns þátt fyrir hönd{' '}
                         <span>136</span> skóla og lásu rúmlega <span>776</span>{' '}
