@@ -273,7 +273,7 @@ const Competition: React.FunctionComponent = () => {
                         meira frá þeim á næstu dögum.
                     </p>
                     <Paragraph>
-                        Í fyrstu keppni 2020 þá tóku <span>1430</span> manns
+                        Í fyrstu keppni 2020 þá tóku <span>1.430</span> manns
                         þátt fyrir hönd
                         <span>130</span> skóla og lásu í kringum{' '}
                         <span>144</span> þúsund setningar. Alls tóku um{' '}
