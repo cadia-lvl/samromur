@@ -17,13 +17,14 @@ import { Button } from '../components/ui/buttons';
 import useSWR from 'swr';
 import { getCompetitionScores } from '../services/competition-api';
 import { ScoreboardData } from '../types/competition';
-import { CompetitionStats } from '../components/competition/competition-stats';
+import { CompetitionStats } from '../components/competition/reddum-stats';
 import ReddumMalinuWhite from '../components/ui/logos/reddum-malinu';
 import { theme } from '../styles/global';
 import { StyledLink } from '../components/ui/links/link';
 import { pages } from '../constants/paths';
 import AboutCompetition from '../components/competition/about';
 import { AboutReddum } from '../components/competition/reddum-about';
+import { scoreboard } from '../constants/reddumResults';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -185,7 +186,8 @@ const Competition: React.FunctionComponent = () => {
     const [selectedSize, setSelectedSize] = useState<CompanySizes | undefined>(
         CompanySizes.all
     );
-    const { data, error } = useSWR('competition-scores', getCompetitionScores);
+    // const { data, error } = useSWR('competition-scores', getCompetitionScores);
+    const data = scoreboard;
     const [filteredData, setFilteredData] = useState<
         ScoreboardData[] | undefined
     >(undefined);
