@@ -23,6 +23,7 @@ import MicIcon from '../components/ui/icons/mic';
 import { isCompetitionOver } from '../utilities/competition-helper';
 import { ReddumMalinuWhite } from '../components/ui/logos/reddum-malinu';
 import { theme } from '../styles/global';
+import Link from 'next/link';
 
 const FrontPageContainer = styled.div`
     /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
@@ -250,6 +251,18 @@ const CTAStats = styled.div`
     flex-direction: column;
 `;
 
+const LinkText = styled.span`
+    font-size: 2.5 rem;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.darkerBlue};
+    cursor: pointer;
+
+    :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blackOlive};
+    }
+`;
+
 const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -356,6 +369,15 @@ class IndexPage extends React.Component<Props> {
                             </CallToAction>
                         ) : (
                             <CallToAction>
+                                <CTAStats>
+                                    Þriðja Lestrarkeppni grunnskólanna hefst
+                                    þann 20 janúar næstkomandi. <br />
+                                    <Link href={'/grunnskolakeppni2022'}>
+                                        <LinkText>
+                                            Smelltu hérna til að lesa meira.
+                                        </LinkText>
+                                    </Link>
+                                </CTAStats>
                                 <RobotAndTitle>
                                     <MarsContainer>
                                         <Mars />
