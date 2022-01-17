@@ -1,3 +1,4 @@
+import { Institution } from '../types/institution';
 import { School } from '../types/user';
 
 export const schools: Array<School> = [
@@ -1376,5 +1377,868 @@ export const schools: Array<School> = [
         total: 230,
         division: 2,
         code: 'E11D630A',
+    },
+];
+
+export const schoolsAsInstitutions: Array<Institution> = [
+    {
+        name: 'Hörðuvallaskóli',
+        id: '9D25EEB9',
+        size: 'small',
+    },
+    {
+        name: 'Varmárskóli',
+        id: '1FE2602C',
+        size: 'small',
+    },
+    {
+        name: 'Hagaskóli',
+        id: '476A8F3A',
+        size: 'small',
+    },
+    {
+        name: 'Víðistaðaskóli',
+        id: '27FE1BA3',
+        size: 'small',
+    },
+    {
+        name: 'Hraunvallaskóli',
+        id: '74D8FA87',
+        size: 'small',
+    },
+    {
+        name: 'Garðaskóli',
+        id: '7368D40A',
+        size: 'small',
+    },
+    {
+        name: 'Árbæjarskóli',
+        id: '1BA4959D',
+        size: 'small',
+    },
+    {
+        name: 'Lágafellsskóli',
+        id: '0462D86F',
+        size: 'small',
+    },
+    {
+        name: 'Sunnulækjarskóli',
+        id: '4D4B35F4',
+        size: 'small',
+    },
+    {
+        name: 'Langholtsskóli',
+        id: 'DB973040',
+        size: 'small',
+    },
+    {
+        name: 'Vallaskóli',
+        id: '0585A121',
+        size: 'small',
+    },
+    {
+        name: 'Seljaskóli',
+        id: '0D391EAD',
+        size: 'small',
+    },
+    {
+        name: 'Álfhólsskóli',
+        id: '15F02DDC',
+        size: 'small',
+    },
+    {
+        name: 'Salaskóli',
+        id: '46F3C530',
+        size: 'small',
+    },
+    {
+        name: 'Grundaskóli',
+        id: 'C5445A25',
+        size: 'small',
+    },
+    {
+        name: 'Norðlingaskóli',
+        id: '9DE2E197',
+        size: 'small',
+    },
+    {
+        name: 'Vatnsendaskóli',
+        id: '0D356926',
+        size: 'small',
+    },
+    {
+        name: 'Kársnesskóli',
+        id: '43C6D428',
+        size: 'small',
+    },
+    {
+        name: 'Foldaskóli',
+        id: '388F6058',
+        size: 'small',
+    },
+    {
+        name: 'Réttarholtsskóli',
+        id: '471565BB',
+        size: 'small',
+    },
+    {
+        name: 'Öldutúnsskóli',
+        id: '4D58F54B',
+        size: 'small',
+    },
+    {
+        name: 'Grunnskóli Seltjarnarness',
+        id: '95AC025E',
+        size: 'small',
+    },
+    {
+        name: 'Áslandsskóli',
+        id: '51AE3FFE',
+        size: 'small',
+    },
+    {
+        name: 'Brekkuskóli',
+        id: 'E4FF59FF',
+        size: 'small',
+    },
+    {
+        name: 'Lækjarskóli',
+        id: '4F1346AC',
+        size: 'small',
+    },
+    {
+        name: 'Melaskóli',
+        id: '8C5AB86D',
+        size: 'small',
+    },
+    {
+        name: 'Ölduselsskóli',
+        id: '7927C2B4',
+        size: 'small',
+    },
+    {
+        name: 'Hofsstaðaskóli',
+        id: 'EB2E65ED',
+        size: 'small',
+    },
+    {
+        name: 'Hlíðaskóli',
+        id: 'A461A3C2',
+        size: 'small',
+    },
+    {
+        name: 'Grunnskóli Vestmannaeyja',
+        id: 'A10C530E',
+        size: 'small',
+    },
+    {
+        name: 'Grunnskóli Grindavíkur',
+        id: '184FB456',
+        size: 'small',
+    },
+    {
+        name: 'Rimaskóli',
+        id: 'AD646EA5',
+        size: 'small',
+    },
+    {
+        name: 'Sæmundarskóli',
+        id: '6188BAAF',
+        size: 'small',
+    },
+    {
+        name: 'Laugalækjarskóli',
+        id: 'D4B04985',
+        size: 'small',
+    },
+    {
+        name: 'Lindaskóli',
+        id: '7C1F5E65',
+        size: 'small',
+    },
+    {
+        name: 'Háteigsskóli',
+        id: '4E5ECCF2',
+        size: 'small',
+    },
+    {
+        name: 'Brekkubæjarskóli',
+        id: '4807BCDD',
+        size: 'small',
+    },
+    {
+        name: 'Hólabrekkuskóli',
+        id: '6DB2E3E1',
+        size: 'small',
+    },
+    {
+        name: 'Akurskóli',
+        id: 'B1F43221',
+        size: 'small',
+    },
+    {
+        name: 'Snælandsskóli',
+        id: '0D0197D0',
+        size: 'small',
+    },
+    {
+        name: 'Lundarskóli',
+        id: '17263A4F',
+        size: 'small',
+    },
+    {
+        name: 'Álftanesskóli',
+        id: '943188C6',
+        size: 'small',
+    },
+    {
+        name: 'Austurbæjarskóli',
+        id: 'C6F3563B',
+        size: 'small',
+    },
+    {
+        name: 'Holtaskóli',
+        id: 'B100FBCB',
+        size: 'small',
+    },
+    {
+        name: 'Setbergsskóli',
+        id: 'EECA93CA',
+        size: 'small',
+    },
+    {
+        name: 'Heiðarskóli (Reykjanesbæ)',
+        id: '1C2DAA67',
+        size: 'small',
+    },
+    {
+        name: 'Breiðholtsskóli',
+        id: '91286379',
+        size: 'small',
+    },
+    {
+        name: 'Flataskóli',
+        id: 'A1351DF6',
+        size: 'small',
+    },
+    {
+        name: 'Ingunnarskóli',
+        id: 'FA8C054E',
+        size: 'small',
+    },
+    {
+        name: 'Laugarnesskóli',
+        id: 'DCE30A2A',
+        size: 'small',
+    },
+    {
+        name: 'Álftamýrarskóli',
+        id: '8PI7UHFC',
+        size: 'medium',
+    },
+    {
+        name: 'Hvaleyrarskóli',
+        id: 'F4E32E4C',
+        size: 'medium',
+    },
+    {
+        name: 'Njarðvíkurskóli',
+        id: '30465ADF',
+        size: 'medium',
+    },
+    {
+        name: 'Smáraskóli',
+        id: 'B415ABEB',
+        size: 'medium',
+    },
+    {
+        name: 'Naustaskóli',
+        id: 'D9FCE8A7',
+        size: 'medium',
+    },
+    {
+        name: 'Giljaskóli',
+        id: '96A425DC',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn í Hveragerði',
+        id: '4251098D',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn á Ísafirði',
+        id: '28EA4BA4',
+        size: 'medium',
+    },
+    {
+        name: 'Myllubakkaskóli',
+        id: 'F6A37041',
+        size: 'medium',
+    },
+    {
+        name: 'Glerárskóli',
+        id: 'C1C6016C',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn Egilsstöðum og Eiðum/Egilsstaðaskóli',
+        id: 'F94F0E52',
+        size: 'medium',
+    },
+    {
+        name: 'Kópavogsskóli',
+        id: 'C16A662B',
+        size: 'medium',
+    },
+    {
+        name: 'Árskóli',
+        id: '43DBEF15',
+        size: 'medium',
+    },
+    {
+        name: 'Síðuskóli',
+        id: '403EBED1',
+        size: 'medium',
+    },
+    {
+        name: 'Vogaskóli',
+        id: '2D313C3D',
+        size: 'medium',
+    },
+    {
+        name: 'Fellaskóli (Reykjavík)',
+        id: '7116A210',
+        size: 'medium',
+    },
+    {
+        name: 'Sjálandsskóli',
+        id: 'D3C5E19F',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn í Borgarnesi',
+        id: '67D2876F',
+        size: 'medium',
+    },
+    {
+        name: 'Breiðagerðisskóli',
+        id: '7D4880B2',
+        size: 'medium',
+    },
+    {
+        name: 'Vesturbæjarskóli',
+        id: 'E27ECD54',
+        size: 'medium',
+    },
+    {
+        name: 'Háaleitisskóli (Reykjanesbæ)',
+        id: '444E6462',
+        size: 'medium',
+    },
+    {
+        name: 'Borgarhólsskóli',
+        id: '382F08E3',
+        size: 'medium',
+    },
+    {
+        name: 'Fossvogsskóli',
+        id: 'B4DB6424',
+        size: 'medium',
+    },
+    {
+        name: 'Dalskóli',
+        id: 'B4B6EB4A',
+        size: 'medium',
+    },
+    {
+        name: 'Grandaskóli',
+        id: '84B0FEB3',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn í Sandgerði',
+        id: 'F388D089',
+        size: 'medium',
+    },
+    {
+        name: 'Landakotsskóli',
+        id: '087FE70B',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Hornafjarðar',
+        id: 'C340A24F',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn í Þorlákshöfn',
+        id: '00470D78',
+        size: 'medium',
+    },
+    {
+        name: 'Gerðaskóli',
+        id: '6664874C',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Snæfellsbæjar',
+        id: 'F0B381F9',
+        size: 'medium',
+    },
+    {
+        name: 'Hvolsskóli',
+        id: 'AA24D1D3',
+        size: 'medium',
+    },
+    {
+        name: 'Nesskóli',
+        id: 'F2A9CBBF',
+        size: 'medium',
+    },
+    {
+        name: 'Dalvíkurskóli',
+        id: '8A87E1BC',
+        size: 'medium',
+    },
+    {
+        name: 'Oddeyrarskóli',
+        id: 'F3968246',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Reyðarfjarðar',
+        id: 'D905EC11',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Fjallabyggðar',
+        id: '0CAD42DA',
+        size: 'medium',
+    },
+    {
+        name: 'Skarðshlíðarskóli',
+        id: '1263E1D9',
+        size: 'medium',
+    },
+    {
+        name: 'Selásskóli',
+        id: 'EA1A50D9',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Húnaþings vestra',
+        id: '31DBE0F0',
+        size: 'medium',
+    },
+    {
+        name: 'Hvassaleitisskóli',
+        id: 'KV5EElAB',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Borgarfjarðar',
+        id: 'D69C78D2',
+        size: 'medium',
+    },
+    {
+        name: 'Stóru-Vogaskóli',
+        id: '7D94EB88',
+        size: 'medium',
+    },
+    {
+        name: 'Ártúnsskóli',
+        id: '59420852',
+        size: 'medium',
+    },
+    {
+        name: 'Hrafnagilsskóli',
+        id: '9A52D7C6',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn á Eskifirði',
+        id: 'F35CEEA9',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn í Stykkishólmi',
+        id: '7562A5D5',
+        size: 'medium',
+    },
+    {
+        name: 'Húsaskóli',
+        id: '516F5BB8',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn á Blönduósi/Blönduskóli',
+        id: '0356BB21',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskóli Bolungarvíkur',
+        id: '9C136EA4',
+        size: 'medium',
+    },
+    {
+        name: 'Barnaskólinn á Eyrarbakka og Stokkseyri',
+        id: '6369AC84',
+        size: 'medium',
+    },
+    {
+        name: 'Grunnskólinn á Hellu',
+        id: 'CAF5CC75',
+        size: 'medium',
+    },
+    {
+        name: 'Klébergsskóli',
+        id: '9195923F',
+        size: 'medium',
+    },
+    {
+        name: 'Hamraskóli',
+        id: '45242BA4',
+        size: 'medium',
+    },
+    {
+        name: 'Klettaskóli',
+        id: '8FD914A9',
+        size: 'large',
+    },
+    {
+        name: 'Flóaskóli',
+        id: '646E31D6',
+        size: 'large',
+    },
+    {
+        name: 'Varmahlíðarskóli',
+        id: '6102AB1C',
+        size: 'large',
+    },
+    {
+        name: 'Helgafellsskóli',
+        id: 'DEA82EDF',
+        size: 'large',
+    },
+    {
+        name: 'Flúðaskóli',
+        id: '97EDBCFB',
+        size: 'large',
+    },
+    {
+        name: 'Alþjóðaskólinn á Íslandi',
+        id: 'BC848F0C',
+        size: 'large',
+    },
+    {
+        name: 'Auðarskóli',
+        id: 'D4A496F2',
+        size: 'large',
+    },
+    {
+        name: 'Fellaskóli (Fellabæ)',
+        id: '8BB21679',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Fáskrúðsfjarðar',
+        id: 'B89571E0',
+        size: 'large',
+    },
+    {
+        name: 'Waldorfskólinn Sólstafir',
+        id: '5E3A3905',
+        size: 'large',
+    },
+    {
+        name: 'Höfðaskóli',
+        id: '8337F266',
+        size: 'large',
+    },
+    {
+        name: 'NÚ',
+        id: 'FCFC245A',
+        size: 'large',
+    },
+    {
+        name: 'Bláskógaskóli - Reykholti',
+        id: '3C63DFC8',
+        size: 'large',
+    },
+    {
+        name: 'Heiðarskóli (Leirársveit)',
+        id: '5BD64E04',
+        size: 'large',
+    },
+    {
+        name: 'Vopnafjarðarskóli',
+        id: '98710176',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Vesturbyggðar/Patreksskóli',
+        id: 'D4D99C8F',
+        size: 'large',
+    },
+    {
+        name: 'Laugalandsskóli í Holtum',
+        id: '57435518',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Grundarfjarðar',
+        id: '41FE7B8E',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Djúpavogs/Djúpavogsskóli',
+        id: 'F1E61943',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn austan Vatna',
+        id: '9B8573B3',
+        size: 'large',
+    },
+    {
+        name: 'Þingeyjarskóli',
+        id: 'DD8B54F9',
+        size: 'large',
+    },
+    {
+        name: 'Tjarnarskóli',
+        id: '01B214E5',
+        size: 'large',
+    },
+    {
+        name: 'Stapaskóli',
+        id: '55ECDB95',
+        size: 'large',
+    },
+    {
+        name: 'Þelamerkurskóli',
+        id: 'D4284CE5',
+        size: 'large',
+    },
+    {
+        name: 'Seyðisfjarðarskóli',
+        id: '8F66F955',
+        size: 'large',
+    },
+    {
+        name: 'Waldorfskólinn Lækjarbotnum',
+        id: 'CD21790E',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn á Þórshöfn',
+        id: 'E1F43FFB',
+        size: 'large',
+    },
+    {
+        name: 'Barnaskóli Hjallastefnunnar Reykjavík',
+        id: 'B42FC9C8',
+        size: 'large',
+    },
+    {
+        name: 'Skóli Ísaks Jónssonar',
+        id: '24B52659',
+        size: 'large',
+    },
+    {
+        name: 'Barnaskóli Hjallastefnunnar á Vífilsstöðum',
+        id: 'A89BCB33',
+        size: 'large',
+    },
+    {
+        name: 'Grenivíkurskóli',
+        id: '35256F14',
+        size: 'large',
+    },
+    {
+        name: 'Bláskógaskóli - Laugarvatni',
+        id: 'D7D12792',
+        size: 'large',
+    },
+    {
+        name: 'Suðurhlíðarskóli',
+        id: 'E0CC8C08',
+        size: 'large',
+    },
+    {
+        name: 'Valsárskóli',
+        id: '9E0CF6A9',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Mýrdalshrepps/Víkurskóli',
+        id: 'EB556DB7',
+        size: 'large',
+    },
+    {
+        name: 'Reykhólaskóli',
+        id: '0FD12DD5',
+        size: 'large',
+    },
+    {
+        name: 'Brúarásskóli',
+        id: '38CD7954',
+        size: 'large',
+    },
+    {
+        name: 'Brúarskóli',
+        id: '16C606EE',
+        size: 'large',
+    },
+    {
+        name: 'Þjórsárskóli',
+        id: 'B3919524',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn Suðureyri/Suðureyrarskóli',
+        id: '0DEB6DF1',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn á Tálknafirði',
+        id: '026B7E57',
+        size: 'large',
+    },
+    {
+        name: 'Öxarfjarðarskóli',
+        id: 'WHZU07YU',
+        size: 'large',
+    },
+    {
+        name: 'Reykjahlíðarskóli',
+        id: 'DC89CE01',
+        size: 'large',
+    },
+    {
+        name: 'Kirkjubæjarskóli',
+        id: 'ACD0E0A0',
+        size: 'large',
+    },
+    {
+        name: 'Húnavallaskóli',
+        id: '4672CFC1',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn á Hólmavík',
+        id: 'B458DF35',
+        size: 'large',
+    },
+    {
+        name: 'Kerhólsskóli',
+        id: 'A817DACC',
+        size: 'large',
+    },
+    {
+        name: 'Stórutjarnaskóli',
+        id: 'BA940585',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn Þingeyri',
+        id: 'D7057255',
+        size: 'large',
+    },
+    {
+        name: 'Krikaskóli',
+        id: '7CBDD51A',
+        size: 'large',
+    },
+    {
+        name: 'Bíldudalsskóli',
+        id: 'F0AFBF3F',
+        size: 'large',
+    },
+    {
+        name: 'Urriðaholtsskóli',
+        id: '327E5EE5',
+        size: 'large',
+    },
+    {
+        name: 'Súðavíkurskóli',
+        id: 'A36DD8D3',
+        size: 'large',
+    },
+    {
+        name: 'Breiðdals- og Stöðvarfjarðarskóli',
+        id: '5565A347',
+        size: 'large',
+    },
+    {
+        name: 'Hlíðarskóli',
+        id: 'E546A6CB',
+        size: 'large',
+    },
+    {
+        name: 'Árskógarskóli',
+        id: '9B31A7AD',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn í Hrísey/Hríseyjarskóli',
+        id: '230B6933',
+        size: 'large',
+    },
+    {
+        name: 'Arnarskóli',
+        id: 'C88B77BB',
+        size: 'large',
+    },
+    {
+        name: 'Laugargerðisskóli',
+        id: '15693E79',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Önundarfjarðar',
+        id: '33F68522',
+        size: 'large',
+    },
+    {
+        name: 'Barnaskóli Hjallastefnunnar við Hjallabraut',
+        id: '8A5C3B76',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn á Drangsnesi',
+        id: 'CC711D4F',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskóli Borgarfjarðar eystri',
+        id: '5503E871',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn á Raufarhöfn',
+        id: 'A3FBE1D6',
+        size: 'large',
+    },
+    {
+        name: 'Grunnskólinn í Hofgarði',
+        id: '15823703',
+        size: 'large',
+    },
+    {
+        name: 'Engjaskóli',
+        id: '23128346',
+        size: 'medium',
+    },
+    {
+        name: 'Borgaskóli',
+        id: 'EB3109A6',
+        size: 'small',
+    },
+    {
+        name: 'Víkurskóli',
+        id: 'E11D630A',
+        size: 'medium',
     },
 ];

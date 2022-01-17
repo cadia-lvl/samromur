@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { schoolsAsInstitutions } from '../constants/schools';
 import {
     AgeStat,
     GenderStat,
@@ -62,6 +63,17 @@ export const getCompanies = async (): Promise<Institution[]> => {
     } catch (error) {
         return Promise.reject(error);
     }
+};
+
+export const getSchools = async (): Promise<Institution[]> => {
+    // const url = '/api/competition/get-schools';
+    return schoolsAsInstitutions;
+    // try {
+    //     const response: AxiosResponse = await axios.get(url);
+    //     return response.data as Institution[];
+    // } catch (error) {
+    //     return Promise.reject(error);
+    // }
 };
 
 export const getCompetitionScores = async () => {

@@ -42,7 +42,7 @@ import {
     isCompetitionOver,
 } from '../../../utilities/competition-helper';
 import { Institution } from '../../../types/institution';
-import { getCompanies } from '../../../services/competition-api';
+import { getCompanies, getSchools } from '../../../services/competition-api';
 import { isCaptini } from '../../../utilities/captini-helper';
 import { CaptiniSignInHello } from '../../captini/captini-sign-in-hello';
 
@@ -78,6 +78,10 @@ const Information = styled(Info)`
 
 const CompetitionText = styled.div`
     margin: auto;
+    ${({ theme }) => theme.media.small} {
+        grid-column: 1;
+        grid-row: 1;
+    }
 `;
 
 interface SubmitButtonProps {
@@ -244,7 +248,7 @@ class DemographicForm extends React.Component<Props, State> {
 
         // Only fetch institutions during competition
         if (isCompetition()) {
-            const institutions = await getCompanies();
+            const institutions = await getSchools();
             this.setState({ institutions: institutions });
         }
     };
@@ -410,9 +414,13 @@ class DemographicForm extends React.Component<Props, State> {
         //     return 'Lestrarkeppni grunnskólanna hefst 18. janúar klukkan 15.00!';
         // }
         // return '';
-        if (!isCompetitionOver()) {
-            return 'Sérðu ekki vinnustaðinn þinn? skráðu þig ';
+        if (isCompetition()) {
+            return 'Lestrarkeppni grunnsskóla er farin af stað!';
         }
+
+        // if (!isCompetitionOver()) {
+        //     return 'Sérðu ekki vinnustaðinn þinn? skráðu þig ';
+        // }
         return '';
     };
 
@@ -456,7 +464,7 @@ class DemographicForm extends React.Component<Props, State> {
                                 a.name.localeCompare(b.name, 'is-IS')
                             )
                             .map((element: Institution) => element.name)}
-                        label={'Vinnustaður'}
+                        label={'Skóli'}
                         onSelect={this.onInstitutionSelect}
                         selected={
                             institution
@@ -470,9 +478,9 @@ class DemographicForm extends React.Component<Props, State> {
                 {isCompetition() && (
                     <CompetitionText>
                         {competitionText}
-                        <Link href="/skra" passHref>
+                        {/* <Link href="/skra" passHref>
                             <StyledLink>hér</StyledLink>
-                        </Link>
+                        </Link> */}
                     </CompetitionText>
                 )}
 
