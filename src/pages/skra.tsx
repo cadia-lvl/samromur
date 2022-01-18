@@ -32,7 +32,8 @@ const CenterContainer = styled.div`
 const SignUp: React.FunctionComponent = () => {
     return (
         <Layout>
-            {!isCompetitionOver() ? (
+            {/* {!isCompetitionOver() ? ( */}
+            {false ? (
                 <SignUpFormContainer>
                     <ExtraMargin>
                         <ReddumMalinuWhite fill={theme.colors.darkerBlue} />
