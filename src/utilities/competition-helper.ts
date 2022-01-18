@@ -33,3 +33,16 @@ export const sizeFormatter = (cell: any, row: ScoreboardData) => {
             return '';
     }
 };
+
+export const schoolSizeFormatter = (cell: any, row: ScoreboardData) => {
+    switch (row.size) {
+        case 'small':
+            return 'C';
+        case 'medium':
+            return 'B';
+        case 'large':
+            return 'A';
+        default:
+            return '';
+    }
+};

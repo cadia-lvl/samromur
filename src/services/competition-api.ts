@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { CompetitionTypes } from '../constants/competition';
 import { schoolsAsInstitutions } from '../constants/schools';
 import {
     AgeStat,
@@ -76,11 +77,16 @@ export const getSchools = async (): Promise<Institution[]> => {
     // }
 };
 
-export const getCompetitionScores = async () => {
+export const getCompetitionScores = async (competitionType: string) => {
     const url = '/api/competition/get-scoreboard';
-
     try {
-        const response: AxiosResponse = await axios.get(url);
+        if (!(competitionType in CompetitionTypes)) {
+            return Promise.reject('Incorrect competition type.');
+        }
+
+        const response: AxiosResponse = await axios.get(url, {
+            headers: { competition_type: competitionType },
+        });
         return response.data as ScoreboardData[];
     } catch (error) {
         return Promise.reject(error);

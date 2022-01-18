@@ -1,13 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { CompetitionTypes } from '../../../constants/competition';
+import { schoolsAsInstitutions } from '../../../constants/schools';
 import Database, {
     getDatabaseInstance,
 } from '../../../server/database/database';
 import { ScoreboardData } from '../../../types/competition';
+import { Institution } from '../../../types/institution';
 
 const db: Database = getDatabaseInstance();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { method } = req;
+    const { headers, method } = req;
 
     if (method != 'GET') {
         res.status(400).send('Invalid method.');
@@ -15,9 +18,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
+        const competitionType = headers.competition_type
+            ? (headers.competition_type as string)
+            : '';
+
+        if (!(competitionType in CompetitionTypes)) {
+            return res.status(500).json('Incorrect competition type.');
+        }
         const scores = await db.stats.fetchScoreboard();
-        const companies = await db.competition.getCompanies();
-        const sorted = companies.sort((a, b) =>
+
+        let institutions: Institution[] = [];
+
+        switch (competitionType) {
+            case CompetitionTypes.SCHOOL:
+                institutions = schoolsAsInstitutions;
+                break;
+            case CompetitionTypes.COMPANY:
+                institutions = await db.competition.getCompanies();
+            default:
+                break;
+        }
+
+        // const companies = await db.competition.getCompanies();
+        const sorted = institutions.sort((a, b) =>
             a.name.localeCompare(b.name, 'is-IS')
         );
 

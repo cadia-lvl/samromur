@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Scoreboard from '../components/competition/bootstrap/scoreboard';
+import Scoreboard from '../components/competition/bootstrap/school-scoreboard';
 import Layout from '../components/layout/layout';
 // import { ReddumTitle } from '../components/competition/ui/reddum-title';
 import {
@@ -23,6 +23,7 @@ import { StyledLink } from '../components/ui/links/link';
 import { pages } from '../constants/paths';
 import AboutCompetition from '../components/competition/about';
 import { AboutReddum } from '../components/competition/reddum-about';
+import { CompetitionTypes } from '../constants/competition';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -194,7 +195,10 @@ const Competition: React.FunctionComponent = () => {
     const [selectedSize, setSelectedSize] = useState<CompanySizes | undefined>(
         CompanySizes.all
     );
-    const { data, error } = useSWR('competition-scores', getCompetitionScores);
+    const { data, error } = useSWR(
+        CompetitionTypes.SCHOOL,
+        getCompetitionScores
+    );
     const [filteredData, setFilteredData] = useState<
         ScoreboardData[] | undefined
     >(undefined);
@@ -285,8 +289,8 @@ const Competition: React.FunctionComponent = () => {
                         þátttöku sem flestra skóla.
                     </Paragraph>
                 </About>
-                {/* {(isCompetition() || isCompetitionOver()) && ( */}
-                {false && (
+                {(isCompetition() || isCompetitionOver()) && (
+                    // {false && (
                     <>
                         <SelectorContainer>
                             <SelectableH2
@@ -312,11 +316,11 @@ const Competition: React.FunctionComponent = () => {
                             </SelectButton>
                             <SelectButton
                                 onClick={() =>
-                                    onSelectorClick(CompanySizes.small)
+                                    onSelectorClick(CompanySizes.large)
                                 }
-                                selected={selectedSize == CompanySizes.small}
+                                selected={selectedSize == CompanySizes.large}
                             >
-                                Litlir
+                                A
                             </SelectButton>
                             <SelectButton
                                 onClick={() =>
@@ -324,15 +328,15 @@ const Competition: React.FunctionComponent = () => {
                                 }
                                 selected={selectedSize == CompanySizes.medium}
                             >
-                                Miðlungs
+                                B
                             </SelectButton>
                             <SelectButton
                                 onClick={() =>
-                                    onSelectorClick(CompanySizes.large)
+                                    onSelectorClick(CompanySizes.small)
                                 }
-                                selected={selectedSize == CompanySizes.large}
+                                selected={selectedSize == CompanySizes.small}
                             >
-                                Stórir
+                                C
                             </SelectButton>
                         </SelectorButtons>
                         <ScoreboardStatsContainer>

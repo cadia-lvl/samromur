@@ -2,24 +2,26 @@ import { AgeStat, GenderStat } from '../types/competition';
 import { TimelineStat } from '../types/stats';
 
 //TODO: update dates
-export const startTime = new Date(2021, 10, 8, 0, 0, 0, 0);
-export const lastDay = new Date(2021, 10, 15, 0, 0, 0);
-export const endTime = new Date(2021, 10, 16, 0, 0, 0);
-export const signUpStart = new Date(2021, 10, 1, 0, 0, 0);
+// export const startTime = new Date(2021, 10, 8, 0, 0, 0, 0);
+// export const lastDay = new Date(2021, 10, 15, 0, 0, 0);
+// export const endTime = new Date(2021, 10, 16, 0, 0, 0);
+// export const signUpStart = new Date(2021, 10, 1, 0, 0, 0);
 export const preStartTime = new Date(2021, 10, 2, 0, 0, 0);
 export const preLastDay = new Date(2021, 10, 7, 0, 0, 0);
 export const preEndTime = new Date(2021, 10, 8, 0, 0, 0);
 
+export const startTime = new Date(2022, 0, 18, 0, 0, 0, 0);
+export const lastDay = new Date(2022, 0, 26, 0, 0, 0);
+export const endTime = new Date(2022, 0, 27, 0, 0, 0);
+
 export const defaultTimeline: TimelineStat[] = [
-    { date: '2021-11-08', count: 0 },
-    { date: '2021-11-09', count: 0 },
-    { date: '2021-11-10', count: 0 },
-    { date: '2021-11-11', count: 0 },
-    { date: '2021-11-12', count: 0 },
-    { date: '2021-11-13', count: 0 },
-    { date: '2021-11-14', count: 0 },
-    { date: '2021-11-15', count: 0 },
-    { date: '2021-11-16', count: 0 },
+    { date: '2022-01-20', count: 0 },
+    { date: '2022-01-21', count: 0 },
+    { date: '2022-01-22', count: 0 },
+    { date: '2022-01-23', count: 0 },
+    { date: '2022-01-24', count: 0 },
+    { date: '2022-01-25', count: 0 },
+    { date: '2022-01-26', count: 0 },
 ];
 
 export const preDefaultTimeline: TimelineStat[] = [
@@ -52,3 +54,8 @@ export const defaultAgeStats: AgeStat[] = [
 
 export const ASSOCIATION_OF_THE_DYSLEXIC: string =
     '0fe8273c-2492-4508-8716-f9249e891aea';
+
+export enum CompetitionTypes {
+    SCHOOL = 'SCHOOL',
+    COMPANY = 'COMPANY',
+}

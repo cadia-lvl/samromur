@@ -120,6 +120,8 @@ export default class Competition {
                         institutions
                     WHERE
                         is_used = 1
+                    AND 
+                        is_primary_school = 0
                 `
             );
 
@@ -205,7 +207,7 @@ export default class Competition {
     > => {
         const start = pre ? dbPreStartTime : dbStartDate;
         const last = pre ? dbPreLastDay : dbLastDay;
-        const interval = pre ? 5 : 7;
+        const interval = pre ? 5 : 6;
         try {
             const [timelineStats] = await this.sql.query(
                 `

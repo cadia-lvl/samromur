@@ -490,7 +490,8 @@ export default class Clips {
             clips.created_at > ?
                 AND 
                     clips.created_at < ?
-                AND institutions.is_used = 1  
+                AND institutions.is_used = 1
+                AND institutions.is_primary_school = 1
         GROUP BY institutions.name
         ORDER BY count DESC
     `,
