@@ -424,10 +424,10 @@ class DemographicForm extends React.Component<Props, State> {
         return '';
     };
 
-    // TODO: add logic here for next competition
-    isCompetition = (): boolean => {
-        return false;
-    };
+    // TODO: remove this?
+    // isCompetition = (): boolean => {
+    //     return false;
+    // };
 
     render() {
         const {
