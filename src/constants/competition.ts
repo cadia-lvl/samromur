@@ -1,7 +1,7 @@
 import { AgeStat, GenderStat } from '../types/competition';
 import { TimelineStat } from '../types/stats';
 
-//TODO: update dates
+// Dates from Reddum malinu
 // export const startTime = new Date(2021, 10, 8, 0, 0, 0, 0);
 // export const lastDay = new Date(2021, 10, 15, 0, 0, 0);
 // export const endTime = new Date(2021, 10, 16, 0, 0, 0);
@@ -10,7 +10,7 @@ export const preStartTime = new Date(2021, 10, 2, 0, 0, 0);
 export const preLastDay = new Date(2021, 10, 7, 0, 0, 0);
 export const preEndTime = new Date(2021, 10, 8, 0, 0, 0);
 
-export const startTime = new Date(2022, 0, 20, 0, 0, 0, 0);
+export const startTime = new Date(2022, 0, 20, 13, 0, 0, 0);
 export const lastDay = new Date(2022, 0, 26, 0, 0, 0);
 export const endTime = new Date(2022, 0, 27, 0, 0, 0);
 
