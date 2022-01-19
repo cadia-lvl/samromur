@@ -72,7 +72,9 @@ const TitleContainer = styled.div`
     margin: 1rem 0;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`
+    margin-bottom: 1rem;
+`;
 
 const ScoreboardStatsContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -242,52 +244,12 @@ const Competition: React.FunctionComponent = () => {
     return (
         <Layout>
             <CompetitionPageContainer>
-                <Title>Hvaða skóli les mest?</Title>
                 <About>
-                    <Paragraph>
-                        Þriðja Lestrarkeppni grunnskólanna hefst þann{' '}
-                        <span>20 janúar</span> næstkomandi. Keppnin stendur yfir
-                        í viku og lýkur <span>26 janúar.</span>
-                    </Paragraph>
-                    <p>
-                        Sem fyrr gengur keppnin út á að lesa setningar hér inn á{' '}
-                        <Link href={'/'} passHref>
-                            <StyledLink>samrómur.is</StyledLink>
-                        </Link>
-                        . Upptökurnar munu svo mynda gagnasafn sem verður notað
-                        til að þróa máltæknilausnir sem kenna tölvum og tækjum
-                        að skilja íslensku. Forseti Íslands og forsetafrú munu
-                        hefja keppnina og verðlaunaafhending að henni lokinni
-                        fer fram á Bessastöðum.
-                    </p>
-                    <p>
-                        Nemendur, foreldrar og starfsfólk skóla geta lesið inn
-                        fyrir sinn skóla. Við hvetjum alla til að taka þátt því
-                        miklu skiptir að fá framlög frá breiðum hópi og tryggja
-                        þannig að tæknin skilji raddir og framburð allra.
-                    </p>
-                    <p>
-                        Skólum er skipt í þrjá flokka líkt og í fyrra og
-                        verðlaun veitt fyrir efsta sætið í hverjum flokki. Þar
-                        að auki verða veitt þrenn verðlaun fyrir þá skóla sem
-                        skara fram úr en eru ekki í fyrsta sæti í sínum flokki.
-                    </p>
-                    <p>
-                        Verðlaunin verða vegleg í ár og hlökkum við til að segja
-                        meira frá þeim á næstu dögum.
-                    </p>
-                    <Paragraph>
-                        Í fyrstu keppni 2020 þá tóku <span>1.430</span> manns
-                        þátt fyrir hönd <span>130</span> skóla og lásu í kringum{' '}
-                        <span>144</span> þúsund setningar. Alls tóku um{' '}
-                        <span>6.000</span> manns þátt fyrir hönd{' '}
-                        <span>136</span> skóla og lásu rúmlega <span>776</span>{' '}
-                        þúsund setningar í annarri Lestrarkeppni grunnskóla
-                        2021. Yfir <span>920</span> þúsund innlesnar setningar
-                        hafa því safnast undanfarin tvö ár og erum við því afar
-                        spennt fyrir þessari þriðju keppni og vonumst eftir
-                        þátttöku sem flestra skóla.
-                    </Paragraph>
+                    {isCompetition() && <AboutDuring />}
+                    {isCompetitionOver() && <AboutAfter />}
+                    {!isCompetition() && !isCompetitionOver() && (
+                        <AboutBefore />
+                    )}
                 </About>
                 {(isCompetition() || isCompetitionOver()) && (
                     // {false && (
@@ -348,6 +310,9 @@ const Competition: React.FunctionComponent = () => {
                     </>
                 )}
                 <BottomContent>
+                    {(isCompetition() || isCompetitionOver()) && (
+                        <AboutCompetitions />
+                    )}
                     <Link href="/grunnskolakeppni" passHref>
                         <StyledLink>
                             Ertu að leita að Grunnskólakeppninni 2021?
@@ -362,6 +327,155 @@ const Competition: React.FunctionComponent = () => {
                 </BottomContent>
             </CompetitionPageContainer>
         </Layout>
+    );
+};
+
+const AboutBefore: React.FunctionComponent = () => {
+    return (
+        <>
+            <Title>Hvaða skóli les mest?</Title>
+            <Paragraph>
+                Þriðja Lestrarkeppni grunnskólanna hefst þann{' '}
+                <span>20 janúar</span> næstkomandi. Keppnin stendur yfir í viku
+                og lýkur <span>26 janúar.</span>
+            </Paragraph>
+            <p>
+                Sem fyrr gengur keppnin út á að lesa setningar hér inn á{' '}
+                <Link href={'/'} passHref>
+                    <StyledLink>samrómur.is</StyledLink>
+                </Link>
+                . Upptökurnar munu svo mynda gagnasafn sem verður notað til að
+                þróa máltæknilausnir sem kenna tölvum og tækjum að skilja
+                íslensku. Forseti Íslands og forsetafrú munu hefja keppnina og
+                verðlaunaafhending að henni lokinni fer fram á Bessastöðum.
+            </p>
+            <p>
+                Nemendur, foreldrar og starfsfólk skóla geta lesið inn fyrir
+                sinn skóla. Við hvetjum alla til að taka þátt því miklu skiptir
+                að fá framlög frá breiðum hópi og tryggja þannig að tæknin
+                skilji raddir og framburð allra.
+            </p>
+            <p>
+                Skólum er skipt í þrjá flokka líkt og í fyrra og verðlaun veitt
+                fyrir efsta sætið í hverjum flokki. Þar að auki verða veitt
+                þrenn verðlaun fyrir þá skóla sem skara fram úr en eru ekki í
+                fyrsta sæti í sínum flokki.
+            </p>
+            <p>
+                Verðlaunin verða vegleg í ár og hlökkum við til að segja meira
+                frá þeim á næstu dögum.
+            </p>
+            <Paragraph>
+                Í fyrstu keppni 2020 þá tóku <span>1.430</span> manns þátt fyrir
+                hönd <span>130</span> skóla og lásu í kringum <span>144</span>{' '}
+                þúsund setningar. Alls tóku um <span>6.000</span> manns þátt
+                fyrir hönd <span>136</span> skóla og lásu rúmlega{' '}
+                <span>776</span> þúsund setningar í annarri Lestrarkeppni
+                grunnskóla 2021. Yfir <span>920</span> þúsund innlesnar
+                setningar hafa því safnast undanfarin tvö ár og erum við því
+                afar spennt fyrir þessari þriðju keppni og vonumst eftir
+                þátttöku sem flestra skóla.
+            </Paragraph>
+        </>
+    );
+};
+
+const AboutDuring: React.FunctionComponent = () => {
+    return (
+        <>
+            <Title>Hvaða skóli les mest?</Title>
+            <p>Þriðja Lestrarkeppni grunnskólanna 20 til 26. janúar.</p>
+            <p>
+                Nemendur, foreldrar og starfsfólk skóla geta lesið inn fyrir
+                sinn skóla. Við hvetjum alla til að taka þátt því miklu skiptir
+                að fá framlög frá breiðum hópi og tryggja þannig að tæknin
+                skilji raddir og framburð allra.
+            </p>
+            <p>
+                Skólum er skipt í þrjá flokka líkt og í fyrra og verðlaun veitt
+                fyrir efsta sætið í hverjum flokki.
+            </p>
+            <Paragraph>
+                Sigurvegari hvers flokks fær vegleg verðlaun frá Elko en hver
+                sigurskóli mun fá{' '}
+                <span>Monoprice MP10 Mini þrívíddar prentara</span> og eitt sett
+                af <span>Rasberry Pi 400 tölvu</span>. Einnig verða veitt
+                verðlaun til þriggja skóla sem skara fram úr, en vinna ekki sinn
+                flokk, en hver þeirra mun fá tvö sett af{' '}
+                <span>Rasberry Pi 400 tölvum</span>.
+            </Paragraph>
+            <p>
+                Smelltu á{' '}
+                <Link href={'/takathatt'} passHref>
+                    <StyledLink>Taka þátt</StyledLink>
+                </Link>{' '}
+                til hjálpa þínum skóla að sigra!
+            </p>
+        </>
+    );
+};
+
+const AboutAfter: React.FunctionComponent = () => {
+    return (
+        <>
+            <Title>Hvaða skóli las mest?</Title>
+            <p>Þriðja Lestrarkeppni grunnskólanna 20 til 26. janúar.</p>
+            <p>
+                Nemendur, foreldrar og starfsfólk skóla geta lesið inn fyrir
+                sinn skóla. Við hvetjum alla til að taka þátt því miklu skiptir
+                að fá framlög frá breiðum hópi og tryggja þannig að tæknin
+                skilji raddir og framburð allra.
+            </p>
+            <p>
+                Skólum er skipt í þrjá flokka líkt og í fyrra og verðlaun veitt
+                fyrir efsta sætið í hverjum flokki.
+            </p>
+            <Paragraph>
+                Sigurvegari hvers flokks fær vegleg verðlaun frá Elko en hver
+                sigurskóli mun fá{' '}
+                <span>Monoprice MP10 Mini þrívíddar prentara</span> og eitt sett
+                af <span>Rasberry Pi 400 tölvu</span>. Einnig verða veitt
+                verðlaun til þriggja skóla sem skara fram úr, en vinna ekki sinn
+                flokk, en hver þeirra mun fá tvö sett af{' '}
+                <span>Rasberry Pi 400 tölvum</span>.
+            </Paragraph>
+            <p>
+                Smelltu á{' '}
+                <Link href={'/takathatt'} passHref>
+                    <StyledLink>Taka þátt</StyledLink>
+                </Link>{' '}
+                til hjálpa þínum skóla að sigra!
+            </p>
+        </>
+    );
+};
+
+const AboutCompetitions: React.FunctionComponent = () => {
+    return (
+        <>
+            <Title>Um Keppnina</Title>
+            <p>
+                Markmið þessarar keppni er að hvetja ungt fólk til þátttöku í
+                verkefninu Samrómur sem snýr að því að safna upptökum af lestri
+                sem notaðar verða til að kenna tölvum og tækjum að skilja
+                íslensku.{' '}
+                <Link href={'/um'} passHref>
+                    <StyledLink>Lesa meira hér</StyledLink>
+                </Link>
+                .
+            </p>
+            <Paragraph>
+                Í fyrstu keppni 2020 þá tóku <span>1.430</span> manns þátt fyrir
+                hönd <span>130</span> skóla og lásu í kringum <span>144</span>{' '}
+                þúsund setningar. Alls tóku um <span>6.000</span> manns þátt
+                fyrir hönd <span>136</span> skóla og lásu rúmlega{' '}
+                <span>776</span> þúsund setningar í annarri Lestrarkeppni
+                grunnskóla 2021. Yfir <span>920</span> þúsund innlesnar
+                setningar hafa því safnast undanfarin tvö ár og erum við því
+                afar spennt fyrir þessari þriðju keppni og vonumst eftir
+                þátttöku sem flestra skóla.
+            </Paragraph>
+        </>
     );
 };
 
