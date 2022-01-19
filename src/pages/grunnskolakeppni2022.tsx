@@ -242,7 +242,7 @@ const Competition: React.FunctionComponent = () => {
     return (
         <Layout>
             <CompetitionPageContainer>
-                <Title>Hvaða skóli las mest?</Title>
+                <Title>Hvaða skóli les mest?</Title>
                 <About>
                     <Paragraph>
                         Þriðja Lestrarkeppni grunnskólanna hefst þann{' '}
