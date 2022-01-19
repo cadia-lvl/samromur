@@ -76,6 +76,7 @@ interface ContributeProps {
     clipsToRepeat?: WheelClip[];
     labels?: string[];
     sentencesSource?: string;
+    demo?: boolean;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -161,13 +162,14 @@ class Contribute extends React.Component<Props, State> {
             user: {
                 client: { id },
             },
+            demo,
         } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
 
         // Re-direct kids to herma during competition
         // Re-direct association of the dyslexic to herma
         // TODO: decide if this should be always until herma collection goals are met.
-        if (redirectKidsToHerma) {
+        if (redirectKidsToHerma && !demo) {
             if (
                 ageGroup == AgeGroups.CHILDREN ||
                 (ageGroup == AgeGroups.TEENAGERS &&
