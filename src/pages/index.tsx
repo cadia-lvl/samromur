@@ -20,7 +20,10 @@ import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
 import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
-import { isCompetitionOver } from '../utilities/competition-helper';
+import {
+    isCompetition,
+    isCompetitionOver,
+} from '../utilities/competition-helper';
 import { ReddumMalinuWhite } from '../components/ui/logos/reddum-malinu';
 import { theme } from '../styles/global';
 import Link from 'next/link';
@@ -316,92 +319,55 @@ class IndexPage extends React.Component<Props> {
             <Layout>
                 <FrontPageContainer>
                     <FrontPageContent>
-                        {!isCompetitionOver() ? (
-                            <CallToAction>
-                                <RobotAndTitle>
-                                    <LogoContainer
+                        <CallToAction>
+                            {isCompetition() ? (
+                                <CTATitle>
+                                    Lestrarkeppni grunnskóla er í fullum gangi!
+                                </CTATitle>
+                            ) : (
+                                !isCompetitionOver() && (
+                                    <CTAStats>
+                                        Þriðja Lestrarkeppni grunnskólanna hefst
+                                        þann 20 janúar næstkomandi. <br />
+                                        <Link href={'/grunnskolakeppni2022'}>
+                                            <LinkText>
+                                                Smelltu hérna til að lesa meira.
+                                            </LinkText>
+                                        </Link>
+                                    </CTAStats>
+                                )
+                            )}
+                            <RobotAndTitle>
+                                <MarsContainer>
+                                    <Mars />
+                                </MarsContainer>
+                                <TitleContainer>
+                                    <CTATitle>
+                                        {isCompetition() ? (
+                                            <p>
+                                                Smelltu á Taka þátt til hjálpa
+                                                þínum skóla að sigra!
+                                            </p>
+                                        ) : (
+                                            t('call-to-action')
+                                        )}
+                                    </CTATitle>
+                                    <CTAButton
                                         onClick={() =>
-                                            router.push(pages.competition)
+                                            router.push(pages.contribute)
                                         }
+                                        color={'validGreen'}
                                     >
-                                        <ReddumMalinuWhite
-                                            fill={theme.colors.darkerBlue}
-                                        />
-                                    </LogoContainer>
-                                    <TitleContainer>
-                                        <CTATitle>
-                                            Gefum íslenskunni nokkrar mínútur og
-                                            reddum málinu.
-                                        </CTATitle>
-                                        <CTAButton
-                                            onClick={() =>
-                                                router.push(pages.speak)
-                                            }
-                                            color={'validGreen'}
-                                        >
-                                            {t('common:take-part')}
-                                        </CTAButton>
-                                    </TitleContainer>
-                                </RobotAndTitle>
-                                <CTAStats>
-                                    <p>
-                                        Reddum málinu er vinnustaðakeppni þar
-                                        sem fyrirtæki og stofnanir keppast við
-                                        að lesa texta í gegnum tölvu eða
-                                        snjalltæki inn í gagnagrunn Samróms.
-                                    </p>
-                                    <p>
-                                        Reddum málinu hefst mánudaginn 8.
-                                        nóvember og lýkur þann 15. nóvember.
-                                        Markmið keppninnar er að safna sem
-                                        flestum raddsýnum, þ.e. lesnum
-                                        setningum, á íslensku. Keppt verður í
-                                        þremur flokkum, eftir stærð vinnustaða
-                                        og verðlaun verða veitt fyrir þrjú efstu
-                                        sætin í hverjum flokki.
-                                    </p>
-                                    <p>
-                                        Keppnin er samstarfsverkefni
-                                        Almannaróms, Háskólans í Reykjavík og
-                                        Símans
-                                    </p>
-                                </CTAStats>
-                            </CallToAction>
-                        ) : (
-                            <CallToAction>
-                                <CTAStats>
-                                    Þriðja Lestrarkeppni grunnskólanna hefst
-                                    þann 20 janúar næstkomandi. <br />
-                                    <Link href={'/grunnskolakeppni2022'}>
-                                        <LinkText>
-                                            Smelltu hérna til að lesa meira.
-                                        </LinkText>
-                                    </Link>
-                                </CTAStats>
-                                <RobotAndTitle>
-                                    <MarsContainer>
-                                        <Mars />
-                                    </MarsContainer>
-                                    <TitleContainer>
-                                        <CTATitle>
-                                            {t('call-to-action')}
-                                        </CTATitle>
-                                        <CTAButton
-                                            onClick={() =>
-                                                router.push(pages.contribute)
-                                            }
-                                            color={'validGreen'}
-                                        >
-                                            {t('common:take-part')}
-                                        </CTAButton>
-                                    </TitleContainer>
-                                </RobotAndTitle>
-                                <FrontPageStats
-                                    clients={stats.totalClipsClients}
-                                    clips={stats.totalClips}
-                                />
-                            </CallToAction>
-                        )}
+                                        {t('common:take-part')}
+                                    </CTAButton>
+                                </TitleContainer>
+                            </RobotAndTitle>
+                            <FrontPageStats
+                                clients={stats.totalClipsClients}
+                                clips={stats.totalClips}
+                            />
+                        </CallToAction>
+
                         {/*                         <MiddleContent>
                             
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
