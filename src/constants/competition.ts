@@ -41,7 +41,9 @@ export const defaultGenderStats: GenderStat[] = [
 
 export const defaultAgeStats: AgeStat[] = [
     { age: '0-9 ára', count: 0 },
-    { age: '10-19 ára', count: 0 },
+    { age: '10-12 ára', count: 0 },
+    { age: '13-17 ára', count: 0 },
+    { age: '18-19 ára', count: 0 },
     { age: '20-29 ára', count: 0 },
     { age: '30-39 ára', count: 0 },
     { age: '40-49 ára', count: 0 },

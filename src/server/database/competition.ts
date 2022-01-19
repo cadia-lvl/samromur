@@ -132,7 +132,7 @@ export default class Competition {
     };
 
     // TODO: add caching
-    getAgeStats = lazyCache(async (pre: boolean = false): Promise<
+    getAgeStatsAdults = lazyCache(async (pre: boolean = false): Promise<
         AgeStat[]
     > => {
         const start = pre ? dbPreStartTime : dbStartDate;
@@ -148,6 +148,52 @@ export default class Competition {
                             CASE
                                     WHEN clips.age IN (1,2,3,4,5,6, 7, 8, 9) THEN '0-9 ára'
                                     WHEN clips.age IN (10, 11, 12,13,14,15,16,17, 'ungur_unglingur', 'unglingur') THEN '10-19 ára'
+                                    WHEN clips.age = 'tvitugt' THEN '20-29 ára'
+                                    WHEN clips.age = 'thritugt' THEN '30-39 ára'
+                                    WHEN clips.age = 'fertugt' THEN '40-49 ára'
+                                    WHEN clips.age = 'fimmtugt' THEN '50-59 ára '
+                                    WHEN clips.age = 'sextugt' THEN '60-69 ára'
+                                    WHEN clips.age = 'sjotugt' THEN '70-79 ára'
+                                    WHEN clips.age = 'attraett' THEN '80-89 ára'
+                                    WHEN clips.age = 'niraett' THEN '90+ ára'
+                                ELSE NULL
+                            END agegroup
+                    FROM
+                        clips
+                        ) AS agegroups
+                    WHERE
+                        created_at > ?
+                    AND 
+                        created_at < ?
+                GROUP BY agegroup
+                `,
+                [start, end]
+            );
+
+            return ageStats as AgeStat[];
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }, minute);
+
+    getAgeStats = lazyCache(async (pre: boolean = false): Promise<
+        AgeStat[]
+    > => {
+        const start = pre ? dbPreStartTime : dbStartDate;
+        const end = pre ? dbPreEndTime : dbEndDate;
+        try {
+            const [ageStats] = await this.sql.query(
+                `
+                SELECT 
+                    agegroup as age, COUNT(*) as count
+                FROM
+                    (SELECT 
+                        *,
+                            CASE
+                                    WHEN clips.age IN (1,2,3,4,5,6, 7, 8, 9) THEN '0-9 ára'
+                                    WHEN clips.age IN (10, 11, 12) THEN '10-12 ára'
+                                    WHEN clips.age IN (13,14,15,16,17, 'ungur_unglingur') THEN '13-17 ára'
+                                    WHEN clips.age = 'unglingur' THEN '18-19 ára'
                                     WHEN clips.age = 'tvitugt' THEN '20-29 ára'
                                     WHEN clips.age = 'thritugt' THEN '30-39 ára'
                                     WHEN clips.age = 'fertugt' THEN '40-49 ára'
