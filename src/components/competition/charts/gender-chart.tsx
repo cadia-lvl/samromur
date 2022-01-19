@@ -21,7 +21,6 @@ export const options = {
     legend: {
         labels: {
             filter: function (item: any, chart: any) {
-                console.log(item);
                 // Logic to remove a particular legend item goes here
                 return !item.text?.match('HIDELABEL');
             },
@@ -58,7 +57,6 @@ class CompetitionGenderChart extends React.Component<Props, State> {
         const count: any = [];
 
         data.forEach((row: GenderStat) => {
-            console.log(row);
             labels.push(this.fixLabel(row.gender));
             count.push(row.count);
         });
