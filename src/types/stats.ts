@@ -12,3 +12,7 @@ export interface CaptiniStat {
     client_total: number;
     total: number;
 }
+
+export interface CompetitionIndividualStat {
+    client_total: number;
+}
