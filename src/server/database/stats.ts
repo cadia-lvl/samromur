@@ -27,6 +27,7 @@ const dbPreEndTime: string = moment(preEndTime).format('YYYY-MM-DD');
 const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
 const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
 const tenSeconds = 1000 * 10; // 10 seconds
+const twentySeconds = 1000 * 20; // 20 seconds
 
 export default class Clips {
     private sql: Sql;
@@ -509,7 +510,7 @@ export default class Clips {
         });
 
         return data;
-    }, tenSeconds);
+    }, twentySeconds);
 
     fetchCaptiniStatsForClient = async (clientId: string) => {
         const [[row]] = await this.sql.query(

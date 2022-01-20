@@ -26,6 +26,7 @@ const tenMinutes = 1000 * 60 * 10;
 const minute = 1000 * 60;
 const halfMinute = 1000 * 30;
 const tenSeconds = 1000 * 10;
+const twentySeconds = 1000 * 20;
 
 export default class Competition {
     private sql: Sql;
@@ -174,7 +175,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, tenSeconds);
+    }, twentySeconds);
 
     getAgeStats = lazyCache(async (pre: boolean = false): Promise<
         AgeStat[]
@@ -220,7 +221,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, tenSeconds);
+    }, twentySeconds);
 
     getGenderStats = lazyCache(async (pre: boolean = false): Promise<
         GenderStat[]
@@ -246,7 +247,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, tenSeconds);
+    }, twentySeconds);
 
     getTimeline = lazyCache(async (pre: boolean = false): Promise<
         TimelineStat[]
@@ -286,5 +287,5 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, tenSeconds);
+    }, twentySeconds);
 }
