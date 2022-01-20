@@ -328,7 +328,7 @@ class IndexPage extends React.Component<Props> {
                                 !isCompetitionOver() && (
                                     <CTAStats>
                                         Þriðja Lestrarkeppni grunnskólanna hefst
-                                        þann 20 janúar næstkomandi. <br />
+                                        klukkan 15:00 í dag! <br />
                                         <Link href={'/grunnskolakeppni2022'}>
                                             <LinkText>
                                                 Smelltu hérna til að lesa meira.
