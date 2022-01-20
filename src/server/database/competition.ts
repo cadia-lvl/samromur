@@ -174,7 +174,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, minute);
+    }, tenSeconds);
 
     getAgeStats = lazyCache(async (pre: boolean = false): Promise<
         AgeStat[]
@@ -220,7 +220,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, minute);
+    }, tenSeconds);
 
     getGenderStats = lazyCache(async (pre: boolean = false): Promise<
         GenderStat[]
@@ -246,7 +246,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, tenMinutes);
+    }, tenSeconds);
 
     getTimeline = lazyCache(async (pre: boolean = false): Promise<
         TimelineStat[]
@@ -286,5 +286,5 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, halfMinute);
+    }, tenSeconds);
 }
