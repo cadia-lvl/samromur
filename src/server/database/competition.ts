@@ -274,12 +274,13 @@ export default class Competition {
                         clips
                     WHERE
                             created_at >= SUBDATE(?, INTERVAL ? DAY)) AS res ON DATE(res.created_at) = DATE(cal.date)
+                            AND created_at >= ?
                 WHERE
                     cal.date <= ?
                 GROUP BY cal.date
                 ORDER BY cal.date ASC
             `,
-                [last, interval, start, interval, last]
+                [last, interval, start, interval, start, last]
             );
             return timelineStats as TimelineStat[];
         } catch (error) {
