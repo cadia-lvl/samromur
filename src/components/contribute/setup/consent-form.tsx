@@ -56,6 +56,10 @@ const SubmitButton = styled.div<SubmitButtonProps>`
     & span {
         font-size: 0.8rem;
     }
+
+    ${({ theme }) => theme.media.small} {
+        margin-top: 3rem;
+    }
 `;
 
 const Instructions = styled.div`
