@@ -1,5 +1,9 @@
 import Sql from './sql';
-import { CaptiniStat, TimelineStat } from '../../types/stats';
+import {
+    CaptiniStat,
+    CompetitionIndividualStat,
+    TimelineStat,
+} from '../../types/stats';
 import {
     IndividualStat,
     SchoolStat,
@@ -15,7 +19,7 @@ import {
 } from '../../constants/competition';
 import moment from 'moment';
 
-const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
+const dbStartDate: string = moment(startTime).format('YYYY-MM-DD HH');
 const dbEndDate: string = moment(endTime).format('YYYY-MM-DD');
 const dbPreStartTime: string = moment(preStartTime).format('YYYY-MM-DD');
 const dbPreEndTime: string = moment(preEndTime).format('YYYY-MM-DD');
@@ -525,5 +529,27 @@ export default class Clips {
         );
 
         return row as CaptiniStat;
+    };
+
+    fetchGk2022IndividualStats = async (clientId: string) => {
+        const start = dbStartDate;
+        const end = dbEndDate;
+
+        const [[row]] = await this.sql.query(
+            `
+            SELECT 
+                COUNT(*) AS client_total
+            FROM
+                clips
+            WHERE
+                client_id = ?
+                    AND institution IS NOT NULL
+                    AND created_at > ?
+                    AND created_at < ?
+            `,
+            [clientId, start, end]
+        );
+
+        return row as CompetitionIndividualStat;
     };
 }

@@ -15,7 +15,7 @@ import lazyCache from '../lazy-cache';
 import { v4 as uuid } from 'uuid';
 
 // TODO: competition, actual dates
-const dbStartDate: string = moment(startTime).format('YYYY-MM-DD');
+const dbStartDate: string = moment(startTime).format('YYYY-MM-DD HH');
 const dbEndDate: string = moment(endTime).format('YYYY-MM-DD');
 const dbLastDay: string = moment(lastDay).format('YYYY-MM-DD');
 const dbPreStartTime: string = moment(preStartTime).format('YYYY-MM-DD');
