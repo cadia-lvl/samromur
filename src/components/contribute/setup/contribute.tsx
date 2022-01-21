@@ -61,7 +61,7 @@ const Instruction = styled.h2`
     margin-bottom: 2rem;
 `;
 
-const redirectKidsToHerma = true;
+const redirectKidsToHerma = false;
 
 const dispatchProps = {
     resetContribute,
