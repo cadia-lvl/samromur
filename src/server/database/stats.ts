@@ -28,6 +28,7 @@ const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
 const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
 const tenSeconds = 1000 * 10; // 10 seconds
 const twentySeconds = 1000 * 20; // 20 seconds
+const minute = 1000 * 60; // 1 minute
 
 export default class Clips {
     private sql: Sql;
@@ -213,7 +214,7 @@ export default class Clips {
         `
         );
         return rows;
-    }, tenSeconds);
+    }, minute);
 
     getAgeGenderStats = lazyCache(async (): Promise<any> => {
         const [rows] = await this.sql.query(
@@ -326,7 +327,7 @@ export default class Clips {
             `
         );
         return rows;
-    }, tenSeconds);
+    }, minute);
 
     getMileStoneGroups = lazyCache(async (): Promise<any> => {
         const [rows] = await this.sql.query(
@@ -510,7 +511,7 @@ export default class Clips {
         });
 
         return data;
-    }, twentySeconds);
+    }, minute);
 
     fetchCaptiniStatsForClient = async (clientId: string) => {
         const [[row]] = await this.sql.query(
