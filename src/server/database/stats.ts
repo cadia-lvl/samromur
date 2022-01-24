@@ -29,6 +29,7 @@ const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
 const tenSeconds = 1000 * 10; // 10 seconds
 const twentySeconds = 1000 * 20; // 20 seconds
 const minute = 1000 * 60; // 1 minute
+const fiveMinutes = 1000 * 60 * 5;
 
 export default class Clips {
     private sql: Sql;
@@ -511,7 +512,7 @@ export default class Clips {
         });
 
         return data;
-    }, minute);
+    }, fiveMinutes);
 
     fetchCaptiniStatsForClient = async (clientId: string) => {
         const [[row]] = await this.sql.query(
