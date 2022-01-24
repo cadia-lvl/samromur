@@ -482,26 +482,52 @@ export default class Clips {
         const start = pre ? dbPreStartTime : dbStartDate;
         const end = pre ? dbPreEndTime : dbEndDate;
 
+        //     const [rows] = await this.sql.query(
+        //         `
+        //     SELECT
+        //         institutions.name,
+        //         institutions.size,
+        //         COUNT(DISTINCT (client_id)) AS users,
+        //         COUNT(*) AS count
+        //     FROM
+        //         institutions
+        //             JOIN
+        //         clips ON clips.institution = institutions.id
+        //     WHERE
+        //         clips.created_at > ?
+        //             AND
+        //                 clips.created_at < ?
+        //             AND institutions.is_used = 1
+        //             AND institutions.is_primary_school = 1
+        //     GROUP BY institutions.name
+        //     ORDER BY count DESC
+        // `,
+        //         [start, end]
+        //     );
         const [rows] = await this.sql.query(
             `
-        SELECT 
-            institutions.name,
-            institutions.size,
-            COUNT(DISTINCT (client_id)) AS users,
-            COUNT(*) AS count
-        FROM
-            institutions
-                JOIN
-            clips ON clips.institution = institutions.id
-        WHERE
-            clips.created_at > ?
-                AND 
-                    clips.created_at < ?
-                AND institutions.is_used = 1
-                AND institutions.is_primary_school = 1
-        GROUP BY institutions.name
-        ORDER BY count DESC
-    `,
+            SELECT 
+                name, size, users, count
+            FROM
+                (SELECT 
+                    institution,
+                        COUNT(*) AS count,
+                        COUNT(DISTINCT client_id) AS users
+                FROM
+                    clips
+                WHERE
+                    institution IS NOT NULL
+                        AND institution != ''
+                        AND created_at > ?
+                        AND created_at < ?
+                GROUP BY institution
+                ORDER BY count DESC) AS schools
+                    JOIN
+                institutions ON institutions.id = schools.institution
+            WHERE
+                institutions.is_primary_school = 1
+            ORDER BY count DESC
+            `,
             [start, end]
         );
         // Add rank
