@@ -1757,7 +1757,7 @@ export const schoolsAsInstitutions: Array<Institution> = [
         size: 'medium',
     },
     {
-        name: 'Grunnskólinn í Sandgerði',
+        name: 'Sandgerðisskóli',
         id: 'F388D089',
         size: 'medium',
     },
