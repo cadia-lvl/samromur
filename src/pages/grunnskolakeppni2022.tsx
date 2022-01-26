@@ -5,8 +5,11 @@ import Scoreboard from '../components/competition/bootstrap/school-scoreboard';
 import Layout from '../components/layout/layout';
 // import { ReddumTitle } from '../components/competition/ui/reddum-title';
 import {
+    getFakeScores,
     isCompetition,
+    isCompetitionAndSuspenseOver,
     isCompetitionOver,
+    isSuspense,
 } from '../utilities/competition-helper';
 import CompanyList from '../components/competition/company-list';
 import Link from 'next/link';
@@ -185,6 +188,14 @@ const Paragraph = styled.p`
     }
 `;
 
+const Encourage = styled.p`
+    font-weight: 600;
+`;
+
+const Announcement = styled.h3`
+    margin-top: 2rem;
+`;
+
 enum CompanySizes {
     all = 'all',
     small = 'small',
@@ -197,10 +208,9 @@ const Competition: React.FunctionComponent = () => {
     const [selectedSize, setSelectedSize] = useState<CompanySizes | undefined>(
         CompanySizes.all
     );
-    const { data, error } = useSWR(
-        CompetitionTypes.SCHOOL,
-        getCompetitionScores
-    );
+    const { data, error } = isSuspense()
+        ? getFakeScores()
+        : useSWR(CompetitionTypes.SCHOOL, getCompetitionScores);
     const [filteredData, setFilteredData] = useState<
         ScoreboardData[] | undefined
     >(undefined);
@@ -245,8 +255,9 @@ const Competition: React.FunctionComponent = () => {
         <Layout>
             <CompetitionPageContainer>
                 <About>
-                    {isCompetition() && <AboutDuring />}
-                    {isCompetitionOver() && <AboutAfter />}
+                    {isCompetition() && !isSuspense() && <AboutDuring />}
+                    {isSuspense() && <AboutSuspense />}
+                    {isCompetitionAndSuspenseOver() && <AboutAfter />}
                     {!isCompetition() && !isCompetitionOver() && (
                         <AboutBefore />
                     )}
@@ -267,43 +278,55 @@ const Competition: React.FunctionComponent = () => {
                                 Línurit
                             </SelectableH2>
                         </SelectorContainer>
-                        <SelectorButtons>
-                            <SelectButton
-                                onClick={() =>
-                                    onSelectorClick(CompanySizes.all)
-                                }
-                                selected={selectedSize == CompanySizes.all}
-                            >
-                                Allir
-                            </SelectButton>
-                            <SelectButton
-                                onClick={() =>
-                                    onSelectorClick(CompanySizes.large)
-                                }
-                                selected={selectedSize == CompanySizes.large}
-                            >
-                                A
-                            </SelectButton>
-                            <SelectButton
-                                onClick={() =>
-                                    onSelectorClick(CompanySizes.medium)
-                                }
-                                selected={selectedSize == CompanySizes.medium}
-                            >
-                                B
-                            </SelectButton>
-                            <SelectButton
-                                onClick={() =>
-                                    onSelectorClick(CompanySizes.small)
-                                }
-                                selected={selectedSize == CompanySizes.small}
-                            >
-                                C
-                            </SelectButton>
-                        </SelectorButtons>
+                        {!isSuspense() && (
+                            <SelectorButtons>
+                                <SelectButton
+                                    onClick={() =>
+                                        onSelectorClick(CompanySizes.all)
+                                    }
+                                    selected={selectedSize == CompanySizes.all}
+                                >
+                                    Allir
+                                </SelectButton>
+                                <SelectButton
+                                    onClick={() =>
+                                        onSelectorClick(CompanySizes.large)
+                                    }
+                                    selected={
+                                        selectedSize == CompanySizes.large
+                                    }
+                                >
+                                    A
+                                </SelectButton>
+                                <SelectButton
+                                    onClick={() =>
+                                        onSelectorClick(CompanySizes.medium)
+                                    }
+                                    selected={
+                                        selectedSize == CompanySizes.medium
+                                    }
+                                >
+                                    B
+                                </SelectButton>
+                                <SelectButton
+                                    onClick={() =>
+                                        onSelectorClick(CompanySizes.small)
+                                    }
+                                    selected={
+                                        selectedSize == CompanySizes.small
+                                    }
+                                >
+                                    C
+                                </SelectButton>
+                            </SelectorButtons>
+                        )}
                         <ScoreboardStatsContainer>
                             {!showStats && (
-                                <Scoreboard blue data={filteredData} />
+                                <Scoreboard
+                                    blue
+                                    data={filteredData}
+                                    blurred={isSuspense()}
+                                />
                             )}
                             {showStats && <CompetitionStats />}
                         </ScoreboardStatsContainer>
@@ -404,6 +427,21 @@ const AboutDuring: React.FunctionComponent = () => {
                 flokk, en hver þeirra mun fá tvö sett af{' '}
                 <span>Rasberry Pi 400 tölvum</span>.
             </Paragraph>
+
+            {isSuspense() && (
+                <>
+                    <p>
+                        Lestrarkeppni grunskólanna lýkur fimmtudaginn 26. janúar
+                        á miðnætti.
+                    </p>
+                    <Encourage>
+                        Til að auka enn á spennuna mun stigataflan verða hulin
+                        frá kl: 14:00 miðvikudaginn 26. janúar þar til úrslit
+                        verða kynnt á Facebook síðum Samróms og Almannaróms þann
+                        27. janúar kl 11:00.
+                    </Encourage>
+                </>
+            )}
             <p>
                 Smelltu á{' '}
                 <Link href={'/takathatt'} passHref>
@@ -415,10 +453,14 @@ const AboutDuring: React.FunctionComponent = () => {
     );
 };
 
-const AboutAfter: React.FunctionComponent = () => {
+const AboutSuspense: React.FunctionComponent = () => {
     return (
         <>
-            <Title>Hvaða skóli las mest?</Title>
+            {isCompetitionOver() ? (
+                <Title>Hvaða skóli las mest?</Title>
+            ) : (
+                <Title>Hvaða skóli les mest?</Title>
+            )}
             <p>Þriðja Lestrarkeppni grunnskólanna 20 til 26. janúar.</p>
             <p>
                 Nemendur, foreldrar og starfsfólk skóla geta lesið inn fyrir
@@ -439,13 +481,67 @@ const AboutAfter: React.FunctionComponent = () => {
                 flokk, en hver þeirra mun fá tvö sett af{' '}
                 <span>Rasberry Pi 400 tölvum</span>.
             </Paragraph>
-            <p>
-                Smelltu á{' '}
-                <Link href={'/takathatt'} passHref>
-                    <StyledLink>Taka þátt</StyledLink>
-                </Link>{' '}
-                til hjálpa þínum skóla að sigra!
-            </p>
+
+            {isCompetitionOver() ? (
+                <Announcement>
+                    Keppninni er lokið. Úrslit verða kynnt á Facebook síðum{' '}
+                    <Link href={'https://www.facebook.com/samromur'} passHref>
+                        <StyledLink>Samróms</StyledLink>
+                    </Link>{' '}
+                    og{' '}
+                    <Link
+                        href={'https://www.facebook.com/almannaromur'}
+                        passHref
+                    >
+                        <StyledLink>Almannaróms</StyledLink>
+                    </Link>{' '}
+                    þann 27. janúar kl 11:00.
+                </Announcement>
+            ) : (
+                <>
+                    <Paragraph>
+                        <span>
+                            Til að auka enn á spennuna mun stigataflan verða
+                            hulin frá kl: 14:00 miðvikudaginn 26. janúar þar til
+                            úrslit verða kynnt á Facebook síðum{' '}
+                            <Link
+                                href={'https://www.facebook.com/samromur'}
+                                passHref
+                            >
+                                <StyledLink>Samróms</StyledLink>
+                            </Link>{' '}
+                            og{' '}
+                            <Link
+                                href={'https://www.facebook.com/almannaromur'}
+                                passHref
+                            >
+                                <StyledLink>Almannaróms</StyledLink>
+                            </Link>{' '}
+                            þann 27. janúar kl 11:00.
+                        </span>
+                    </Paragraph>
+                    <Announcement>
+                        Keppninni er ekki lokið, endilega haltu áfram að lesa!
+                    </Announcement>
+                </>
+            )}
+        </>
+    );
+};
+
+const AboutAfter: React.FunctionComponent = () => {
+    return (
+        <>
+            <Title>Hvaða skóli las mest?</Title>
+            <Paragraph>
+                Sigurvegari hvers flokks fær vegleg verðlaun frá Elko en hver
+                sigurskóli mun fá{' '}
+                <span>Monoprice MP10 Mini þrívíddar prentara</span> og eitt sett
+                af <span>Rasberry Pi 400 tölvu</span>. Einnig verða veitt
+                verðlaun til þriggja skóla sem skara fram úr, en vinna ekki sinn
+                flokk, en hver þeirra mun fá tvö sett af{' '}
+                <span>Rasberry Pi 400 tölvum</span>.
+            </Paragraph>
         </>
     );
 };

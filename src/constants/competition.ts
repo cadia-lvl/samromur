@@ -13,6 +13,8 @@ export const preEndTime = new Date(2021, 10, 8, 0, 0, 0);
 export const startTime = new Date(2022, 0, 20, 15, 0, 0, 0);
 export const lastDay = new Date(2022, 0, 26, 0, 0, 0);
 export const endTime = new Date(2022, 0, 27, 0, 0, 0);
+export const suspenseTime = new Date(2022, 0, 26, 14, 0, 0);
+export const revealTime = new Date(2022, 0, 27, 13, 0, 0);
 
 export const defaultTimeline: TimelineStat[] = [
     { date: '2022-01-20', count: 0 },

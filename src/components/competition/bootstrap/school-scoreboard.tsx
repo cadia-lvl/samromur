@@ -24,7 +24,11 @@ const Box = styled.div`
     background-color: white;
 `;
 
-const ScoreboardContainer = styled.div`
+interface ScoreboardContainerProps {
+    blurred?: boolean;
+}
+
+const ScoreboardContainer = styled.div<ScoreboardContainerProps>`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -34,6 +38,21 @@ const ScoreboardContainer = styled.div`
     & .table {
         margin-bottom: 0rem;
     }
+
+    ${(props) =>
+        props.blurred &&
+        `   -webkit-filter: blur(5px);
+            -moz-filter: blur(5px);
+            -o-filter: blur(5px);
+            -ms-filter: blur(5px);
+            filter: blur(5px);
+            -webkit-user-select: none; /* Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+            cursor: default;
+            pointer-events: none;
+            `}
 `;
 
 const StyledSelect = styled.select`
@@ -354,6 +373,7 @@ interface Props {
     pre?: boolean;
     blue?: boolean;
     data?: ScoreboardData[];
+    blurred?: boolean;
 }
 
 // Custom hook to detect size of the window
@@ -428,7 +448,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
                     pagination={paginationFactory(getOptions())}
                 >
                     {({ paginationProps, paginationTableProps }) => (
-                        <ScoreboardContainer>
+                        <ScoreboardContainer blurred={props.blurred}>
                             <Box>
                                 {width > 768 ? (
                                     <BootStrapTable
@@ -518,6 +538,7 @@ const ScoreboardWithCustomPagination: React.FunctionComponent<Props> = (
 
 ScoreboardWithCustomPagination.defaultProps = {
     pre: false,
+    blurred: false,
 };
 
 export default ScoreboardWithCustomPagination;
