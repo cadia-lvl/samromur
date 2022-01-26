@@ -27,6 +27,7 @@ const minute = 1000 * 60;
 const halfMinute = 1000 * 30;
 const tenSeconds = 1000 * 10;
 const twentySeconds = 1000 * 20;
+const fiveMinutes = 1000 * 60 * 5;
 
 export default class Competition {
     private sql: Sql;
@@ -221,7 +222,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, minute);
+    }, fiveMinutes);
 
     getGenderStats = lazyCache(async (pre: boolean = false): Promise<
         GenderStat[]
@@ -247,7 +248,7 @@ export default class Competition {
         } catch (error) {
             return Promise.reject(error);
         }
-    }, minute);
+    }, fiveMinutes);
 
     getTimeline = lazyCache(async (pre: boolean = false): Promise<
         TimelineStat[]
@@ -288,4 +289,30 @@ export default class Competition {
             return Promise.reject(error);
         }
     }, minute);
+
+    getLastDay = lazyCache(
+        async (pre: boolean = false): Promise<TimelineStat> => {
+            const last = dbLastDay;
+            const end = dbEndDate;
+            try {
+                const [[lastDay]] = await this.sql.query(
+                    `
+            SELECT 
+                DATE(created_at) AS date, COUNT(id) AS count
+            FROM
+                clips
+            WHERE
+                created_at > ?
+            AND
+                created_at < ?
+        `,
+                    [last, end]
+                );
+                return lastDay as TimelineStat;
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+        fiveMinutes
+    );
 }

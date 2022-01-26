@@ -63,3 +63,12 @@ export enum CompetitionTypes {
     SCHOOL = 'SCHOOL',
     COMPANY = 'COMPANY',
 }
+
+export const gk2022perDay = [
+    { date: '2022-01-20', count: 24082 },
+    { date: '2022-01-21', count: 74613 },
+    { date: '2022-01-22', count: 60960 },
+    { date: '2022-01-23', count: 94637 },
+    { date: '2022-01-24', count: 197682 },
+    { date: '2022-01-25', count: 337638 },
+];
