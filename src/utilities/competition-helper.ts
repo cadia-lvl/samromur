@@ -1,12 +1,20 @@
 import {
     endTime,
+    gk2022ageChart,
+    gk2022genderChart,
+    gk2022timeline,
     preEndTime,
     preStartTime,
     revealTime,
     startTime,
     suspenseTime,
 } from '../constants/competition';
-import { ScoreboardData } from '../types/competition';
+import {
+    AgeStat,
+    GenderStat,
+    ScoreboardData,
+    TimelineStat,
+} from '../types/competition';
 
 export const isCompetition = (): boolean => {
     const now = new Date();
@@ -65,7 +73,28 @@ export const getFakeScores = (): { data: ScoreboardData[]; error: any } => {
     return { data: fakeScores, error: '' };
 };
 
-const fakeScores: ScoreboardData[] = [
+export const getStaticCompetitionGenderStats = (): {
+    data: GenderStat[];
+    error: any;
+} => {
+    return { data: gk2022genderChart, error: '' };
+};
+
+export const getStaticCompetitionAgeStats = (): {
+    data: AgeStat[];
+    error: any;
+} => {
+    return { data: gk2022ageChart, error: '' };
+};
+
+export const getStaticCompetitionTimelineStats = (): {
+    data: TimelineStat[];
+    error: any;
+} => {
+    return { data: gk2022timeline, error: '' };
+};
+
+export const fakeScores: ScoreboardData[] = [
     {
         name: 'Þetta eru bara ',
         size: 'medium',

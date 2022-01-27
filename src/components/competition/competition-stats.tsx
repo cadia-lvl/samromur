@@ -9,6 +9,11 @@ import {
     getPreCompetitionGenderStats,
     getPreCompetitionTimeline,
 } from '../../services/competition-api';
+import {
+    getStaticCompetitionAgeStats,
+    getStaticCompetitionGenderStats,
+    getStaticCompetitionTimelineStats,
+} from '../../utilities/competition-helper';
 import Loader from '../ui/animated/loader';
 import CompetitionAgeChart from './charts/age-chart';
 import CompetitionGenderChart from './charts/gender-chart';
@@ -38,19 +43,15 @@ interface Props {
 export const CompetitionStats: React.FunctionComponent<Props> = (
     props: Props
 ) => {
-    const { data: genderData, error: genderError } = useSWR(
-        'gender',
-        props.pre ? getPreCompetitionGenderStats : getCompetitionGenderStats
-    );
-    const { data: ageData, error: ageError } = useSWR(
-        'age',
-        props.pre ? getPreCompetitionAgeStats : getCompetitionAgeStats
-    );
-    const { data: timelineData, error: timelineError } = useSWR(
-        'timeline',
-        props.pre ? getPreCompetitionTimeline : getCompetitionTimeline
-    );
-
+    const {
+        data: genderData,
+        error: genderError,
+    } = getStaticCompetitionGenderStats();
+    const { data: ageData, error: ageError } = getStaticCompetitionAgeStats();
+    const {
+        data: timelineData,
+        error: timelineError,
+    } = getStaticCompetitionTimelineStats();
     return (
         <StatsContainer>
             {timelineData && (

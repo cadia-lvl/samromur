@@ -5,6 +5,7 @@ import Scoreboard from '../components/competition/bootstrap/school-scoreboard';
 import Layout from '../components/layout/layout';
 // import { ReddumTitle } from '../components/competition/ui/reddum-title';
 import {
+    fakeScores,
     getFakeScores,
     isCompetition,
     isCompetitionAndSuspenseOver,
@@ -26,7 +27,7 @@ import { StyledLink } from '../components/ui/links/link';
 import { pages } from '../constants/paths';
 import AboutCompetition from '../components/competition/about';
 import { AboutReddum } from '../components/competition/reddum-about';
-import { CompetitionTypes } from '../constants/competition';
+import { CompetitionTypes, gk2022scoreboard } from '../constants/competition';
 
 const CompetitionPageContainer = styled.div`
     max-width: ${({ theme }) => theme.layout.desktopWidth};
@@ -208,9 +209,10 @@ const Competition: React.FunctionComponent = () => {
     const [selectedSize, setSelectedSize] = useState<CompanySizes | undefined>(
         CompanySizes.all
     );
-    const { data, error } = isSuspense()
-        ? getFakeScores()
-        : useSWR(CompetitionTypes.SCHOOL, getCompetitionScores);
+    // const { data, error } = isSuspense()
+    //     ? getFakeScores()
+    //     : useSWR(CompetitionTypes.SCHOOL, getCompetitionScores);
+    const data = isSuspense() ? fakeScores : gk2022scoreboard;
     const [filteredData, setFilteredData] = useState<
         ScoreboardData[] | undefined
     >(undefined);
@@ -534,13 +536,28 @@ const AboutAfter: React.FunctionComponent = () => {
         <>
             <Title>Hvaða skóli las mest?</Title>
             <Paragraph>
-                Sigurvegari hvers flokks fær vegleg verðlaun frá Elko en hver
-                sigurskóli mun fá{' '}
-                <span>Monoprice MP10 Mini þrívíddar prentara</span> og eitt sett
-                af <span>Rasberry Pi 400 tölvu</span>. Einnig verða veitt
-                verðlaun til þriggja skóla sem skara fram úr, en vinna ekki sinn
-                flokk, en hver þeirra mun fá tvö sett af{' '}
-                <span>Rasberry Pi 400 tölvum</span>.
+                Lestrarkeppni grunnskóla stóð yfir 20. - 26. janúar 2022.
+                Keppnin var hreint út sagt ótrúleg og allir sem tóku þátt eiga
+                hrós skilið.
+            </Paragraph>
+            <Paragraph>
+                Smá tölulegar upplýsingar, í heildina lásu 5.652 þátttakendur um
+                1,3 milljónir setningar fyrir hönd 118 skóla. Smá tölulegar
+                upplýsingar, í heildina voru lesnar um 1,3 milljónir setningar
+                frá 5652 manns fyrir 118 skóla Verkefnið hefur staðið yfir frá
+                því lok árs 2019 og fram að keppninni höfðum við safnað um 1,5
+                milljónir setningum. Það gerir um 230 setningu á hvern
+                þátttakanda en raunin var að 87 keppendur lásu þúsundir
+                setninga.
+            </Paragraph>
+            <Paragraph>
+                Veitt voru verðlaun til skólanna sem voru í fyrsta sæti í sínum
+                flokki, auk þess fengu þrír skólar sem lásu mest þvert á flokka
+                þar á eftir viðurkenningu fyrir framúrskarandi árangur.
+                Skólarnir sem sigruðu sína flokka voru Salaskóli, Smáraskóli og
+                Höfðaskóli. Skólarnir sem fengur viðurkenningu fyrir
+                framúrskarandi árangur voru Sandgerðisskóli, Öxarfjarðarskóli og
+                Gerðaskóli.
             </Paragraph>
         </>
     );

@@ -3,7 +3,7 @@ import Database, {
     getDatabaseInstance,
 } from '../../../server/database/database';
 import moment from 'moment';
-import { gk2022perDay } from '../../../constants/competition';
+import { gk2022timeline } from '../../../constants/competition';
 
 const db: Database = getDatabaseInstance();
 
@@ -16,12 +16,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-        const last = await db.competition.getLastDay();
-        const stat = {
-            date: moment(last.date).format('YYYY-MM-DD'),
-            count: last.count,
-        };
-        const timelineStats = [...gk2022perDay, stat];
+        // const last = await db.competition.getLastDay();
+        // const stat = {
+        //     date: moment(last.date).format('YYYY-MM-DD'),
+        //     count: last.count,
+        // };
+        const timelineStats = [...gk2022timeline];
         //const timeline = await db.competition.getTimeline();
         // const timelineStats = timeline.map((e) => {
         //     return {
