@@ -1,7 +1,7 @@
 import {
     endTime,
-    gk2022ageChart,
-    gk2022genderChart,
+    gk2022ageStats,
+    gk2022genderStats,
     gk2022timeline,
     preEndTime,
     preStartTime,
@@ -77,14 +77,14 @@ export const getStaticCompetitionGenderStats = (): {
     data: GenderStat[];
     error: any;
 } => {
-    return { data: gk2022genderChart, error: '' };
+    return { data: gk2022genderStats, error: '' };
 };
 
 export const getStaticCompetitionAgeStats = (): {
     data: AgeStat[];
     error: any;
 } => {
-    return { data: gk2022ageChart, error: '' };
+    return { data: gk2022ageStats, error: '' };
 };
 
 export const getStaticCompetitionTimelineStats = (): {

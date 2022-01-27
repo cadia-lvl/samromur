@@ -1281,7 +1281,7 @@ export const gk2022scoreboard = [
     },
 ];
 
-export const gk2022ageChart = [
+export const gk2022ageStats = [
     {
         age: '0-9 ára',
         count: 207055,
@@ -1332,7 +1332,7 @@ export const gk2022ageChart = [
     },
 ];
 
-export const gk2022genderChart = [
+export const gk2022genderStats = [
     {
         gender: 'kona',
         count: 873228,
