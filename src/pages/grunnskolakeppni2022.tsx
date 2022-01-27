@@ -542,13 +542,11 @@ const AboutAfter: React.FunctionComponent = () => {
             </Paragraph>
             <Paragraph>
                 Smá tölulegar upplýsingar, í heildina lásu 5.652 þátttakendur um
-                1,3 milljónir setningar fyrir hönd 118 skóla. Smá tölulegar
-                upplýsingar, í heildina voru lesnar um 1,3 milljónir setningar
-                frá 5652 manns fyrir 118 skóla Verkefnið hefur staðið yfir frá
-                því lok árs 2019 og fram að keppninni höfðum við safnað um 1,5
-                milljónir setningum. Það gerir um 230 setningu á hvern
-                þátttakanda en raunin var að 87 keppendur lásu þúsundir
-                setninga.
+                1,3 milljónir setningar fyrir hönd 118 skóla. Verkefnið hefur
+                staðið yfir frá því lok árs 2019 og fram að keppninni höfðum við
+                safnað um 1,5 milljónir setningum. Það gerir um 230 setningu á
+                hvern þátttakanda en raunin var að 87 keppendur lásu yfir þúsund
+                setninga hver.
             </Paragraph>
             <Paragraph>
                 Veitt voru verðlaun til skólanna sem voru í fyrsta sæti í sínum
