@@ -93,6 +93,7 @@ export default class EmailClient {
                         email: email,
                     },
                 ],
+                list_ids: ['6863179d-0738-4492-a19e-80fd9242a480'], // Samromur list id
             },
         });
         return Promise.resolve();
