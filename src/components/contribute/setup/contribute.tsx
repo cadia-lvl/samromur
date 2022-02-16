@@ -35,6 +35,8 @@ import {
 import { AllGroupsSentences } from '../../../pages/tala';
 import { Demographic } from '../../../types/user';
 import { WithTranslation, withTranslation } from '../../../server/i18n';
+import { isCompetition } from '../../../utilities/competition-helper';
+import { ASSOCIATION_OF_THE_DYSLEXIC } from '../../../constants/competition';
 
 interface ContributeContainerProps {
     expanded: boolean;
@@ -59,6 +61,8 @@ const Instruction = styled.h2`
     margin-bottom: 2rem;
 `;
 
+const redirectKidsToHerma = false;
+
 const dispatchProps = {
     resetContribute,
     setGaming,
@@ -72,6 +76,7 @@ interface ContributeProps {
     clipsToRepeat?: WheelClip[];
     labels?: string[];
     sentencesSource?: string;
+    demo?: boolean;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -150,10 +155,40 @@ class Contribute extends React.Component<Props, State> {
 
     onDemographicsSubmit = async (
         age: Demographic,
-        nativeLanguage: Demographic
+        nativeLanguage: Demographic,
+        institution?: string
     ) => {
-        const { groupedSentences } = this.props;
+        const {
+            user: {
+                client: { id },
+            },
+            demo,
+        } = this.props;
         const ageGroup = getAgeGroup(age.id, nativeLanguage.id);
+
+        // Re-direct kids to herma during competition
+        // Re-direct association of the dyslexic to herma
+        // TODO: decide if this should be always until herma collection goals are met.
+        if (redirectKidsToHerma && !demo) {
+            if (
+                ageGroup == AgeGroups.CHILDREN ||
+                (ageGroup == AgeGroups.TEENAGERS &&
+                    nativeLanguage.id == 'islenska') ||
+                institution == ASSOCIATION_OF_THE_DYSLEXIC
+            ) {
+                const clips = await contributeApi.fetchClipsToRepeat({
+                    count: 20,
+                    clientId: id,
+                });
+                this.setState({ contributeType: ContributeType.REPEAT });
+                this.setState({ clipsToRepeat: clips });
+                this.setState({ demographic: true });
+
+                return;
+            }
+        }
+
+        const { groupedSentences } = this.props;
         const sentences = groupedSentences
             ? groupedSentences[ageGroup]
             : undefined;

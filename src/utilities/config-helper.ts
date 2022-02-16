@@ -18,6 +18,7 @@ export type EmailOptions = {
     SIGNUP_TEMPLATE_ID: string;
     RESET_TEMPLATE_ID: string;
     SENDGRID_KEY: string;
+    REDDUM_TEMPLATE_ID: string;
 };
 
 export type AmazonS3 = {
@@ -61,6 +62,7 @@ const defaults: Config = {
         SIGNUP_TEMPLATE_ID: '',
         RESET_TEMPLATE_ID: '',
         SENDGRID_KEY: '',
+        REDDUM_TEMPLATE_ID: '',
     },
     SPICES: {
         SALT: '',

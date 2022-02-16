@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { theme } from '../../../styles/global';
+import { AgeStat } from '../../../types/competition';
 import { competitionAgeStats } from './age';
 
 const ChartTitle = styled.h5``;
@@ -50,7 +51,9 @@ const samromurColors = [
     theme.colors.blue,
 ];
 
-interface Props {}
+interface Props {
+    chartData: any;
+}
 
 interface State {
     data: any;
@@ -64,8 +67,8 @@ class CompetitionAgeChart extends React.Component<Props, State> {
     }
 
     componentDidMount = async () => {
-        const genderStats = competitionAgeStats;
-        const data = this.generateDataSet(genderStats);
+        const { chartData } = this.props;
+        const data = this.generateDataSet(chartData);
         this.setState({ data });
     };
 
@@ -73,7 +76,7 @@ class CompetitionAgeChart extends React.Component<Props, State> {
         const labels: any = [];
         const count: any = [];
 
-        data.forEach((row: any) => {
+        data.forEach((row: AgeStat) => {
             labels.push(row.age);
             count.push(row.count);
         });
@@ -97,7 +100,7 @@ class CompetitionAgeChart extends React.Component<Props, State> {
         const { data } = this.state;
         return (
             <div>
-                <ChartTitle>Uppökur eftir aldri</ChartTitle>
+                <ChartTitle>Upptökur eftir aldri</ChartTitle>
                 <Bar data={data} options={options} />
             </div>
         );

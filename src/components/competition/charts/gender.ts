@@ -1,14 +1,14 @@
 export const competitionGenderStats = [
     {
-        sex: 'Kona',
+        gender: 'kona',
         count: 522783,
     },
     {
-        sex: 'Karl',
+        gender: 'karl',
         count: 244518,
     },
     {
-        sex: 'Annað',
+        gender: 'annad',
         count: 9344,
     },
 ];

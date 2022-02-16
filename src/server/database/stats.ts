@@ -1,12 +1,33 @@
 import Sql from './sql';
-import { CaptiniStat, TimelineStat } from '../../types/stats';
-import { IndividualStat, SchoolStat } from '../../types/competition';
+import {
+    CaptiniStat,
+    CompetitionIndividualStat,
+    TimelineStat,
+} from '../../types/stats';
+import {
+    IndividualStat,
+    SchoolStat,
+    ScoreboardData,
+} from '../../types/competition';
 import lazyCache from '../lazy-cache';
 import { ContributeType } from '../../types/contribute';
+import {
+    startTime,
+    endTime,
+    preStartTime,
+    preEndTime,
+} from '../../constants/competition';
+import moment from 'moment';
 
-const cacheTimeMS = 1000 * 60 * 10; // 10 minutes
-const cacheTimeMSLong = 100 * 60 * 60; // 1 hour
-const cacheTimeMSLeaderBoard = 1000 * 60; // 1 minute
+const dbStartDate: string = moment(startTime).format('YYYY-MM-DD HH');
+const dbEndDate: string = moment(endTime).format('YYYY-MM-DD');
+const dbPreStartTime: string = moment(preStartTime).format('YYYY-MM-DD');
+const dbPreEndTime: string = moment(preEndTime).format('YYYY-MM-DD');
+
+const minute = 1000 * 60; // 1 minute
+const fiveMinutes = 1000 * 60 * 5; // 5 minutes
+const tenMinutes = 1000 * 60 * 10; // 10 minutes
+const hour = 1000 * 60 * 60; // 1 hour
 
 export default class Clips {
     private sql: Sql;
@@ -58,7 +79,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(rows);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTotalClipsTimeline = lazyCache(async () => {
         const [rows] = await this.sql.query(
@@ -94,7 +115,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(rows);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTotalClips = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -106,7 +127,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTotalValidatedClips = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -120,7 +141,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTotalVotes = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -132,7 +153,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTotalClipsClients = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -144,7 +165,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTodayClips = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -158,7 +179,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchTodayVotes = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
@@ -172,7 +193,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchLeaderboard = lazyCache(async (): Promise<SchoolStat[]> => {
         const [rows] = await this.sql.query(
@@ -192,7 +213,7 @@ export default class Clips {
         `
         );
         return rows;
-    }, cacheTimeMSLeaderBoard);
+    }, minute);
 
     getAgeGenderStats = lazyCache(async (): Promise<any> => {
         const [rows] = await this.sql.query(
@@ -263,7 +284,7 @@ export default class Clips {
             []
         );
         return rows;
-    }, cacheTimeMS);
+    }, tenMinutes);
 
     fetchIndividualLeaderboard = lazyCache(async (): Promise<
         IndividualStat[]
@@ -305,7 +326,7 @@ export default class Clips {
             `
         );
         return rows;
-    }, cacheTimeMSLeaderBoard);
+    }, minute);
 
     getMileStoneGroups = lazyCache(async (): Promise<any> => {
         const [rows] = await this.sql.query(
@@ -389,7 +410,7 @@ export default class Clips {
             []
         );
         return rows;
-    }, cacheTimeMSLong);
+    }, hour);
 
     fetchRepeatStats = async () => {
         const [rows] = await this.sql.query(`
@@ -453,6 +474,70 @@ export default class Clips {
         return rows;
     };
 
+    fetchScoreboard = lazyCache(async (pre: boolean = false): Promise<
+        ScoreboardData[]
+    > => {
+        const start = pre ? dbPreStartTime : dbStartDate;
+        const end = pre ? dbPreEndTime : dbEndDate;
+
+        //     const [rows] = await this.sql.query(
+        //         `
+        //     SELECT
+        //         institutions.name,
+        //         institutions.size,
+        //         COUNT(DISTINCT (client_id)) AS users,
+        //         COUNT(*) AS count
+        //     FROM
+        //         institutions
+        //             JOIN
+        //         clips ON clips.institution = institutions.id
+        //     WHERE
+        //         clips.created_at > ?
+        //             AND
+        //                 clips.created_at < ?
+        //             AND institutions.is_used = 1
+        //             AND institutions.is_primary_school = 1
+        //     GROUP BY institutions.name
+        //     ORDER BY count DESC
+        // `,
+        //         [start, end]
+        //     );
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                name, size, users, count
+            FROM
+                (SELECT 
+                    institution,
+                        COUNT(*) AS count,
+                        COUNT(DISTINCT client_id) AS users
+                FROM
+                    clips
+                WHERE
+                    institution IS NOT NULL
+                        AND institution != ''
+                        AND created_at > ?
+                        AND created_at < ?
+                GROUP BY institution
+                ORDER BY count DESC) AS schools
+                    JOIN
+                institutions ON institutions.id = schools.institution
+            WHERE
+                institutions.is_primary_school = 1
+            ORDER BY count DESC
+            `,
+            [start, end]
+        );
+        // Add rank
+        const data = rows as ScoreboardData[];
+
+        data.forEach((e, i) => {
+            data[i].rank = i + 1;
+        });
+
+        return data;
+    }, fiveMinutes);
+
     fetchCaptiniStatsForClient = async (clientId: string) => {
         const [[row]] = await this.sql.query(
             `
@@ -471,5 +556,27 @@ export default class Clips {
         );
 
         return row as CaptiniStat;
+    };
+
+    fetchGk2022IndividualStats = async (clientId: string) => {
+        const start = dbStartDate;
+        const end = dbEndDate;
+
+        const [[row]] = await this.sql.query(
+            `
+            SELECT 
+                COUNT(*) AS client_total
+            FROM
+                clips
+            WHERE
+                client_id = ?
+                    AND institution IS NOT NULL
+                    AND created_at > ?
+                    AND created_at < ?
+            `,
+            [clientId, start, end]
+        );
+
+        return row as CompetitionIndividualStat;
     };
 }

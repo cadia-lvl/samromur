@@ -22,7 +22,7 @@
     "submit": "Senda",
     "thank-you": "Takk fyrir að gefa í Samróm!",
     "todays-contributions": "Árangur dagsins eru <1>{{ progressToday }}</1> setningar.",
-    "want-to-continue": "Hversu lengi viltu halda áfram?",
-    "how-long-to-continue": "Viltu halda áfram?",
+    "want-to-continue": "Viltu halda áfram?",
+    "how-long-to-continue": "Hversu lengi viltu halda áfram?",
     "contribute-more": "{{contribute}} meira"
 }

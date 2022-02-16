@@ -134,7 +134,7 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
 
     return (
         <CardGrid>
-            {/* <CardContainer
+            <CardContainer
                 onClick={onSpeakClick}
                 disabled={selectedOption && selectedOption !== Options.speak}
             >
@@ -144,19 +144,8 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>{t('speak-action')}</p>
                     <p>{t('speak-info')}</p>
                 </Title>
-            </CardContainer> */}
-
-            <CardContainer
-                onClick={onRepeatClick}
-                disabled={selectedOption && selectedOption !== Options.repeat}
-            >
-                <Volume height={40} width={40} fill={'green'} />
-                <Title>
-                    <h3>{t('repeat')}</h3>
-                    <p>{t('repeat-action')}</p>
-                    <p>{t('repeat-info')}</p>
-                </Title>
             </CardContainer>
+
             <CardContainer
                 onClick={onlistenClick}
                 disabled={selectedOption && selectedOption !== Options.listen}
@@ -168,6 +157,18 @@ export const TypeSelect: React.FunctionComponent<Props> = (props) => {
                     <p>{t('review-info')}</p>
                 </Title>
             </CardContainer>
+
+            {/* <CardContainer
+                onClick={onRepeatClick}
+                disabled={selectedOption && selectedOption !== Options.repeat}
+            >
+                <Volume height={40} width={40} fill={'green'} />
+                <Title>
+                    <h3>{t('repeat')}</h3>
+                    <p>{t('repeat-action')}</p>
+                    <p>{t('repeat-info')}</p>
+                </Title>
+            </CardContainer> */}
             {/* <CardContainer
                 onClick={onConversationClick}
                 disabled={selectedOption ? true : false}

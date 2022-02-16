@@ -15,6 +15,9 @@ import AgeGenderChart from '../dataset/charts/age-gender-chart';
 import CompetitionAgeChart from './charts/age-chart';
 import CompetitionGenderChart from './charts/gender-chart';
 import CompetitionTimeLineChart from './charts/timeline-chart';
+import { competitionGenderStats } from './charts/gender';
+import { competitionAgeStats } from './charts/age';
+import { competitionTimeline } from './charts/timeline';
 
 const LeaderboardContainer = styled.div`
     display: flex;
@@ -833,9 +836,13 @@ class Leaderboard extends React.Component<Props, State> {
                     </div>
                 ) : (
                     <div>
-                        <CompetitionGenderChart />
-                        <CompetitionAgeChart />
-                        <CompetitionTimeLineChart />
+                        <CompetitionGenderChart
+                            chartData={competitionGenderStats}
+                        />
+                        <CompetitionAgeChart chartData={competitionAgeStats} />
+                        <CompetitionTimeLineChart
+                            chartData={competitionTimeline}
+                        />
                     </div>
                 )}
             </LeaderboardContainer>

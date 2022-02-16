@@ -13,7 +13,10 @@ import { Trans } from 'react-i18next';
 import { StyledLink } from '../ui/links';
 import Link from 'next/link';
 import useSWR from 'swr';
-import { getUserCaptiniStats } from '../../services/stats-api';
+import {
+    getUserCaptiniStats,
+    getUserGK2022Stats,
+} from '../../services/stats-api';
 
 const StatsContainer = styled.div`
     display: grid;
@@ -63,28 +66,16 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
 }) => {
     const { t } = useTranslation('my-pages');
     const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
+    const { data: dataGK2022, error: errorGK2022 } = useSWR(
+        id,
+        getUserGK2022Stats
+    );
     const superVotes = votes ? votes.super : 0;
     const total = data ? data.total : 0;
     const clientTotal = data ? (data.client_total ? data.client_total : 0) : 0;
+    const clientCompetitionTotal = dataGK2022 ? dataGK2022.client_total : 0;
     return (
         <StatsContainer>
-            <SuperUserStatItem
-                icon={<GlobeIcon height={35} fill={'gray'} />}
-                title={'Captini'}
-            >
-                <Stat>
-                    <Trans i18nKey="statistics.captini-text" t={t}>
-                        Þú hefur lesið <span>{{ clientTotal }}</span> af
-                        <span> {{ total }}</span> setningum.
-                    </Trans>
-                    <br />
-                    <Link href="/captini" passHref>
-                        <StyledLink>
-                            Smelltu hér til að halda áfram með captini
-                        </StyledLink>
-                    </Link>
-                </Stat>
-            </SuperUserStatItem>
             {isSuperUser && (
                 <SuperUserStatItem
                     icon={<ThumbUpIcon height={35} fill={'gray'} />}
@@ -102,6 +93,18 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
                     </Stat>
                 </SuperUserStatItem>
             )}
+            <SuperUserStatItem
+                icon={<MicIcon height={40} fill={'blue'} />}
+                title={'Grunnskólakepnni 2022'}
+            >
+                <Stats>
+                    <Stat>
+                        Þú hefur lesið inn <span>{clientCompetitionTotal}</span>{' '}
+                        setningar í Grunnskólakeppninni.
+                    </Stat>
+                </Stats>
+            </SuperUserStatItem>
+
             <StatsItem
                 icon={<MicIcon height={40} fill={'blue'} />}
                 title={t('statistics.read-sentences-title')}
@@ -134,6 +137,23 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
                     </Trans>
                 </Stat>
             </StatsItem>
+            <SuperUserStatItem
+                icon={<GlobeIcon height={35} fill={'gray'} />}
+                title={'Captini'}
+            >
+                <Stat>
+                    <Trans i18nKey="statistics.captini-text" t={t}>
+                        Þú hefur lesið <span>{{ clientTotal }}</span> af
+                        <span> {{ total }}</span> setningum.
+                    </Trans>
+                    <br />
+                    <Link href="/captini" passHref>
+                        <StyledLink>
+                            Smelltu hér til að halda áfram með captini
+                        </StyledLink>
+                    </Link>
+                </Stat>
+            </SuperUserStatItem>
         </StatsContainer>
     );
 };

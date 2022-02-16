@@ -1,5 +1,10 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import { CaptiniStat, TimelineStat, TimelineSumStat } from '../types/stats';
+import {
+    CaptiniStat,
+    CompetitionIndividualStat,
+    TimelineStat,
+    TimelineSumStat,
+} from '../types/stats';
 
 import { SSRRequest } from '../types/ssr';
 import { IndividualStat, SchoolStat } from '../types/competition';
@@ -257,6 +262,25 @@ export const getUserCaptiniStats = async (client_id: string) => {
         return res.data as CaptiniStat;
     } catch (error) {
         console.error();
+        return Promise.reject(error);
+    }
+};
+
+export const getUserGK2022Stats = async (client_id: string) => {
+    const url = '/api/stats/user-gk2022';
+
+    try {
+        const res = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                client_id: client_id && encodeURIComponent(client_id),
+            },
+        });
+
+        return res.data as CompetitionIndividualStat;
+    } catch (error) {
+        console.error(error);
         return Promise.reject(error);
     }
 };

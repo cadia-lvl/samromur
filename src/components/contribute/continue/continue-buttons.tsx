@@ -217,13 +217,13 @@ class ContinueButtons extends React.Component<Props, State> {
             case ContributeType.SPEAK:
                 return [
                     hlusta,
-                    herma,
+                    // herma,
                     t('contribute-more', { contribute: tala }),
                 ];
             case ContributeType.LISTEN:
                 return [
-                    // tala,
-                    herma,
+                    tala,
+                    // herma,
                     t('contribute-more', { contribute: hlusta }),
                 ];
             case ContributeType.REPEAT:

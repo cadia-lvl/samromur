@@ -93,6 +93,7 @@ export default class EmailClient {
                         email: email,
                     },
                 ],
+                list_ids: ['6863179d-0738-4492-a19e-80fd9242a480'], // Samromur list id
             },
         });
         return Promise.resolve();
@@ -111,6 +112,23 @@ export default class EmailClient {
             templateId: RESET_TEMPLATE_ID,
             dynamicTemplateData: {
                 URL: url,
+            },
+        });
+    };
+
+    sendSignupInstitutionConfirmEmail = async (
+        email: string,
+        url: string,
+        institution: string
+    ) => {
+        const { FROM_EMAIL, REDDUM_TEMPLATE_ID } = this.emailConfig;
+        return sgMail.send({
+            to: email,
+            from: FROM_EMAIL,
+            templateId: REDDUM_TEMPLATE_ID,
+            dynamicTemplateData: {
+                URL: url,
+                INSTITUTION: institution,
             },
         });
     };

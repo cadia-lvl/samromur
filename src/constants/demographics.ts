@@ -80,6 +80,7 @@ export const nativeLanguages: Array<Demographic> = [
     { id: 'slovenska', name: 'languages.slovenska' },
     { id: 'spaenska', name: 'languages.spaenska' },
     { id: 'svahili', name: 'languages.svahili' },
+    { id: 'svissnesk_thyska', name: 'languages.svissnesk_thyska' },
     { id: 'tailenska', name: 'languages.tailenska' },
     { id: 'tamil', name: 'languages.tamil' },
     { id: 'tekkneska', name: 'languages.tekkneska' },

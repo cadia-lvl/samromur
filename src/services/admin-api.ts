@@ -236,6 +236,6 @@ export const insertVotesFromBatch = async (id: string) => {
         });
         return response.data;
     } catch (error) {
-        return Promise.reject(error.code);
+        return Promise.reject(error);
     }
 };

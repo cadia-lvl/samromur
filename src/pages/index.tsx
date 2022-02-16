@@ -20,6 +20,13 @@ import Layout from '../components/layout/layout';
 import TotalChart from '../components/charts/total-chart';
 import FrontPageStats from '../components/charts/frontpage-stats';
 import MicIcon from '../components/ui/icons/mic';
+import {
+    isCompetition,
+    isCompetitionOver,
+} from '../utilities/competition-helper';
+import { ReddumMalinuWhite } from '../components/ui/logos/reddum-malinu';
+import { theme } from '../styles/global';
+import Link from 'next/link';
 
 const FrontPageContainer = styled.div`
     /*     background: url(/images/wave-footer.png) repeat-x bottom;*/
@@ -177,10 +184,20 @@ const CTAButton = styled.button<ButtonProps>`
     background-color: ${({ color, theme }) => theme.colors[color]};
     color: white;
     cursor: pointer;
-    width: 100%;
+    width: 99%;
     max-width: 30rem;
+    border: 1px solid white;
+
+    transition: color, background-color 0.15s ease-in-out;
+
     & :active {
         transform: translateY(2px);
+    }
+
+    & :hover {
+        background-color: white;
+        color: ${({ color, theme }) => theme.colors[color]};
+        border: 1px solid ${({ color, theme }) => theme.colors[color]};
     }
 `;
 
@@ -215,6 +232,40 @@ const MicButton = styled.div`
         transform: translateY(2px);
     }
 `;
+
+const LogoContainer = styled.div`
+    max-width: 20rem;
+
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    & :hover {
+        transform: scale(1.2);
+    }
+`;
+
+const CTAStats = styled.div`
+    margin: 1rem 0;
+    width: 50rem;
+    max-width: 100%;
+    font-size: 1.3rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+`;
+
+const LinkText = styled.span`
+    font-size: 2.5 rem;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.darkerBlue};
+    cursor: pointer;
+
+    :hover {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.blackOlive};
+    }
+`;
+
 const dispatchProps = {};
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -269,12 +320,38 @@ class IndexPage extends React.Component<Props> {
                 <FrontPageContainer>
                     <FrontPageContent>
                         <CallToAction>
+                            {isCompetition() ? (
+                                <CTATitle>
+                                    Lestrarkeppni grunnskóla er í fullum gangi!
+                                </CTATitle>
+                            ) : (
+                                !isCompetitionOver() && (
+                                    <CTAStats>
+                                        Þriðja Lestrarkeppni grunnskólanna hefst
+                                        klukkan 15:00 í dag! <br />
+                                        <Link href={'/grunnskolakeppni2022'}>
+                                            <LinkText>
+                                                Smelltu hérna til að lesa meira.
+                                            </LinkText>
+                                        </Link>
+                                    </CTAStats>
+                                )
+                            )}
                             <RobotAndTitle>
                                 <MarsContainer>
                                     <Mars />
                                 </MarsContainer>
                                 <TitleContainer>
-                                    <CTATitle>{t('call-to-action')}</CTATitle>
+                                    <CTATitle>
+                                        {isCompetition() ? (
+                                            <p>
+                                                Smelltu á Taka þátt til hjálpa
+                                                þínum skóla að sigra!
+                                            </p>
+                                        ) : (
+                                            t('call-to-action')
+                                        )}
+                                    </CTATitle>
                                     <CTAButton
                                         onClick={() =>
                                             router.push(pages.contribute)
@@ -290,6 +367,7 @@ class IndexPage extends React.Component<Props> {
                                 clips={stats.totalClips}
                             />
                         </CallToAction>
+
                         {/*                         <MiddleContent>
                             
                             <CTAButton onClick={() => router.push(pages.about)} color={'blue'}>Lesa meira um verkefnið</CTAButton>
