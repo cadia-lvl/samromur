@@ -199,7 +199,7 @@ const SignUpForm: React.FunctionComponent = () => {
             case FormError.EMPTY_CONTACT:
                 return 'Vinsamlega sláðu inn tengilið.';
             case FormError.INVALID_EMAIL:
-                return 'Tölvupóstur vantar eða er ógilt.';
+                return 'Tölvupóstfang vantar eða er ógilt.';
             case FormError.INVALID_SIZE:
                 return 'Ógild vinnustaðastærð';
             case FormError.INVALID_KENNITALA:
@@ -255,7 +255,7 @@ const SignUpForm: React.FunctionComponent = () => {
                         placeholder={''}
                     />
                     <TextInput
-                        label={'Tölvupóstur'}
+                        label={'Tölvupóstfang'}
                         onChange={onEmailChanged}
                         placeholder={''}
                     />
