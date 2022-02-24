@@ -110,9 +110,7 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                         talupptökur á íslensku, fáanlegar bæði ás{' '}
                         <StyledLink
                             target={'blank'}
-                            href={
-                                'https://repository.clarin.is/repository/xmlui/handle/20.500.12537/189'
-                            }
+                            href={'http://hdl.handle.net/20.500.12537/189'}
                         >
                             Clarin
                         </StyledLink>{' '}
@@ -138,9 +136,7 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                         bæði á{' '}
                         <StyledLink
                             target={'blank'}
-                            href={
-                                'https://repository.clarin.is/repository/xmlui/handle/20.500.12537/185'
-                            }
+                            href={'http://hdl.handle.net/20.500.12537/185'}
                         >
                             Clarin
                         </StyledLink>{' '}
@@ -165,9 +161,7 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                         staðfestar talupptökur á íslensku, fáanlegar bæði á{' '}
                         <StyledLink
                             target={'blank'}
-                            href={
-                                'https://repository.clarin.is/repository/xmlui/handle/20.500.12537/180'
-                            }
+                            href={'http://hdl.handle.net/20.500.12537/180'}
                         >
                             Clarin
                         </StyledLink>{' '}

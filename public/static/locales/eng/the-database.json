@@ -9,9 +9,9 @@
         "middle": "The database consists of sentences and audio clips from the reading of those sentences as well as metadata. Each entry in the database contains FLAC audio clips and the corresponding text file.",
         "preface-releases": "There are currently three releases of data sets from Samrómur.",
         "samromur-21-05": "This is the first release of the data from the Samrómur collection. The corpus contains 100,000 (145 hours) validated speech-recordings in Icelandic, available both on <2>Clarin</2> and <6>OpenSLR</6>",
-        "samromur-children": "This release of data from the Samrómur collection focuses on children (4-17 years old). It contains more than 137.000 (131 hours) of validated speech recordings uttered by children in Icelandic, available both on <2>Clarin</2> and <6>OpenSLR</6>.",
+        "samromur-children": "This release of data from the Samrómur collection focuses on children (4-17 years old). It contains more than 137,000 (131 hours) of validated speech recordings uttered by children in Icelandic, available both on <2>Clarin</2> and <6>OpenSLR</6>.",
         "samromur-queries": "This release of data from the Samrómur collection focuses on queries. It contains 17,475 (20 hours) of validated speech-recordings in Icelandic,  available both on <2>Clarin</2> and <6>OpenSLR</6>.",
-        "sign-up-for-updates": "Subscribe to the newsletter below to be notified when further datasets becomes accessible."
+        "sign-up-for-updates": "Subscribe to the newsletter below to be notified when further data sets becomes accessible."
     },
     "age-gender-chart-title": "Recordings per age group and gender",
     "age-mother-tounge-chart-title": "Recordings per age group and native tongue",
