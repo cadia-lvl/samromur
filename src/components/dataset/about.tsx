@@ -50,6 +50,12 @@ const AboutContainer = styled.div`
     font-size: 0.9rem;
 `;
 
+const Bold = styled.span`
+    font-weight: bold;
+`;
+
+const Dataset = styled.span``;
+
 interface Props {
     clips: number;
     clients: number;
@@ -92,21 +98,85 @@ export const AboutDataset: React.FunctionComponent<Props> = ({
                 <h2>{t('database.title')}</h2>
                 <span>{t('database.beginning')}</span>
                 <span>{t('database.middle')}</span>
-                <span>
-                    <Trans i18nKey={'database.end'} t={t}>
-                        Fyrsta gagnasafnið með 100.000 setningum hefur verið
-                        gefið út á{' '}
+                <span>{t('database.preface-releases')}</span>
+                <Dataset>
+                    <Bold>
+                        Samrómur 21.05
+                        <br />
+                    </Bold>
+                    <Trans i18nKey={'database.samromur-21-05'} t={t}>
+                        Þetta er fyrsta útgáfan af gögnum úr safni Samróms.
+                        Útgáfan inniheldur 100.000 (145 klst.) staðfestar
+                        talupptökur á íslensku, fáanlegar bæði ás{' '}
+                        <StyledLink
+                            target={'blank'}
+                            href={'http://hdl.handle.net/20.500.12537/189'}
+                        >
+                            Clarin
+                        </StyledLink>{' '}
+                        og{' '}
                         <StyledLink
                             target={'blank'}
                             href={'https://www.openslr.org/112/'}
                         >
                             OpenSLR
                         </StyledLink>
-                        . Skráðu þig á póstlistann hér fyrir neðan til þess að
-                        fá tilkynningu þegar fleiri gagnasöfn verða gerð
-                        aðgengileg.
+                        .
                     </Trans>
-                </span>
+                </Dataset>
+                <Dataset>
+                    <Bold>
+                        Samrómur Children 21.09
+                        <br />
+                    </Bold>
+                    <Trans i18nKey={'database.samromur-children'} t={t}>
+                        Þessi útgáfa gagna úr safni Samróms einblínir á börn
+                        (4-17 ára). Útgáfan inniheldur 137.000 (131 klst.)
+                        staðfestar talupptökur frá börnum á íslensku, fáanlegar
+                        bæði á{' '}
+                        <StyledLink
+                            target={'blank'}
+                            href={'http://hdl.handle.net/20.500.12537/185'}
+                        >
+                            Clarin
+                        </StyledLink>{' '}
+                        og{' '}
+                        <StyledLink
+                            target={'blank'}
+                            href={'https://www.openslr.org/117/'}
+                        >
+                            OpenSLR
+                        </StyledLink>
+                        .
+                    </Trans>
+                </Dataset>
+                <Dataset>
+                    <Bold>
+                        Samrómur Queries 21.12
+                        <br />
+                    </Bold>
+                    <Trans i18nKey={'database.samromur-queries'} t={t}>
+                        Þessi útgáfa gagna úr safni Samróms einblínir á
+                        fyrirspurnir. Útgáfan inniheldur 17.475 (20 klst.)
+                        staðfestar talupptökur á íslensku, fáanlegar bæði á{' '}
+                        <StyledLink
+                            target={'blank'}
+                            href={'http://hdl.handle.net/20.500.12537/180'}
+                        >
+                            Clarin
+                        </StyledLink>{' '}
+                        og{' '}
+                        <StyledLink
+                            target={'blank'}
+                            href={'https://www.openslr.org/116/'}
+                        >
+                            OpenSLR
+                        </StyledLink>
+                        .
+                    </Trans>
+                </Dataset>
+
+                <span>{t('database.sign-up-for-updates')}</span>
             </AboutContainer>
         </AboutDatasetContainer>
     );

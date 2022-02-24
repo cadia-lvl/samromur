@@ -7,7 +7,11 @@
         "title": "Gagnasafnið Samrómur",
         "beginning": "Samrómur er opið og aðgengilegt gagnasafn radda sem öllum er frjálst að nýta við þróun hugbúnaðar á íslensku.",
         "middle": "Gagnasafnið samanstendur af setningum og hljóðbrotum af upplestri þeirra setninga ásamt lýsigögnum. Hver færsla í gagnasafninu inniheldur FLAC-hljóðbrot og samsvarandi textaskrá.",
-        "end": "Fyrsta gagnasafnið með 100.000 setningum hefur verið gefið út á <2>OpenSLR</2>. Skráðu þig á póstlistann hér fyrir neðan til þess að fá tilkynningu þegar fleiri gagnasöfn verða gerð aðgengileg."
+        "preface-releases": "Það eru þrjár útgáfur af gagnasöfnum frá Samróms.",
+        "samromur-21-05": "Þetta er fyrsta útgáfan af gögnum úr safni Samróms. Útgáfan inniheldur 100.000 (145 klst.) staðfestar talupptökur á íslensku, fáanlegar bæði á <2>Clarin</2> og <6>OpenSLR</6>",
+        "samromur-children": "Þessi útgáfa gagna úr safni Samróms einblínir á börn (4-17 ára). Útgáfan inniheldur 137.000 (131 klst.) staðfestar talupptökur frá börnum á íslensku, fáanlegar bæði á <2>Clarin</2> og <6>OpenSLR</6>.",
+        "samromur-queries": "Þessi útgáfa gagna úr safni Samróms einblínir á fyrirspurnir. Útgáfan inniheldur 17.475 (20 klst.) staðfestar talupptökur á íslensku, fáanlegar bæði á <2>Clarin</2> og <6>OpenSLR</6>.",
+        "sign-up-for-updates": "Skráðu þig á póstlistann hér fyrir neðan til þess að fá tilkynningu þegar fleiri gagnasöfn verða gerð aðgengileg."
     },
     "age-gender-chart-title": "Upptökur eftir aldri og kyni",
     "age-mother-tounge-chart-title": "Upptökur eftir aldri og móðurmáli",
