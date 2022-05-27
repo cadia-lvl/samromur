@@ -2,8 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Database, {
     getDatabaseInstance,
 } from '../../../server/database/database';
+import Cors from 'cors';
 
 import { Clip } from '../../../types/samples';
+import { runMiddleware } from '../../../utilities/cors-helper';
+
+const cors = Cors({ methods: ['GET'] });
 
 const db: Database = getDatabaseInstance();
 
@@ -12,6 +16,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (method != 'GET') {
         res.status(400).send('Invalid method.');
     } else {
+        // Cors texting
+
+        await runMiddleware(req, res, cors);
+
         const count = parseInt(req.query.count as string, 10) || 5;
         const batch = decodeURIComponent(req.headers.batch as string) || '';
         const clientId =
