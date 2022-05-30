@@ -7,13 +7,14 @@ import Cors from 'cors';
 import { Clip } from '../../../types/samples';
 import { runMiddleware } from '../../../utilities/cors-helper';
 
-const cors = Cors({ methods: ['GET'] });
+const cors = Cors({ methods: ['GET', 'OPTIONS'] });
 
 const db: Database = getDatabaseInstance();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
-    if (method != 'GET') {
+    let m = method ? method : '';
+    if (!['GET', 'OPTIONS'].includes(m)) {
         res.status(400).send('Invalid method.');
     } else {
         // Cors texting
