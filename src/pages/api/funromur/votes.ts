@@ -42,8 +42,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         let results = undefined;
         try {
-            const client_id = await db.userClients.getClientIdFromEmail(client);
-            results = await db.votes.addVotes(client_id, votes);
+            const clientId = await db.userClients.getClientIdFromEmail(client);
+            results = await db.votes.addVotes(clientId, votes);
         } catch (error) {
             res.status(500).send('A database issue occurred on the server.');
             return;
