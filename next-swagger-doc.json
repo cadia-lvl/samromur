@@ -1,0 +1,11 @@
+{
+    "apiFolder": "src/pages/api",
+    "schemaFolders": ["models"],
+    "definition": {
+        "openapi": "3.0.0",
+        "info": {
+            "title": "Samrómur API",
+            "version": "1.0"
+        }
+    }
+}

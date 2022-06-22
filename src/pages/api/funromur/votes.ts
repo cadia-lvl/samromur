@@ -14,6 +14,37 @@ const db: Database = getDatabaseInstance();
 const acceptedMethods = ['POST', 'OPTIONS'];
 const cors = Cors({ methods: acceptedMethods });
 
+/**
+ * @swagger
+ * /api/funromur/votes:
+ *  post:
+ *    description: Adds a list of votes to the db from a single client. Then returns how many was added.
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *       - in: header
+ *         name: client
+ *         schema:
+ *           type: string
+ *           format: email
+ *           required: true
+ *    requestBody:
+ *       content:
+ *         text/plain:
+ *           schema:
+ *             type: string
+ *           example: '{"votes": [{"vote": "INVALID", "clipId": "8202"}, {"vote": "VALID", "clipId": "8271"}]}'
+ *
+ *    responses:
+ *       200:
+ *         description: String describing the amount of votes added.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Votes added: 2/2"
+ *
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     await runMiddleware(req, res, cors);
 
@@ -24,8 +55,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const data = JSON.stringify(req.body);
-        const parsed = JSON.parse(data);
-        const votes: Array<Vote> = parsed.votes;
+        let parsed = JSON.parse(data);
+
+        let votes: Array<Vote> = parsed.votes;
+
+        if (!votes) {
+            parsed = JSON.parse(req.body);
+            votes = parsed.votes;
+        }
+
         const client = req.headers.client as string;
 
         if (!validClient(client)) {

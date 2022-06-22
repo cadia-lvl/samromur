@@ -579,4 +579,21 @@ export default class Clips {
 
         return row as CompetitionIndividualStat;
     };
+
+    fetchTodayVotesClient = async (client: string): Promise<number> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    COUNT(*) as count
+                FROM
+                    votes
+                WHERE
+                    DATE(created_at) = DATE(NOW())
+                AND
+                    client_id = ?
+            `,
+            [client]
+        );
+        return Promise.resolve(row.count);
+    };
 }
