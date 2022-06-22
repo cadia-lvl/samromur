@@ -6,8 +6,7 @@ import express, {
 import cookieParser from 'cookie-parser';
 
 import * as next from 'next';
-import { default as NextServer } from 'next/dist/next-server/server/next-server';
-
+import { NextServer } from 'next/dist/server/next';
 import nextI18NextMiddleWare from 'next-i18next/middleware';
 import clientIdMiddleware from './middlewares/client-id';
 import authMiddleware from './middlewares/auth';
@@ -76,7 +75,7 @@ class Server {
                 if (error) {
                     reject(error);
                 } else {
-                    resolve();
+                    resolve('Success');
                 }
             });
         });
