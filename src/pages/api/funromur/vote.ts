@@ -9,7 +9,7 @@ import validateEmail from '../../../utilities/validate-email';
 
 const db: Database = getDatabaseInstance();
 
-const acceptedMethods = ['GET', 'OPTIONS'];
+const acceptedMethods = ['POST', 'OPTIONS'];
 const cors = Cors({ methods: acceptedMethods });
 /**
  * @swagger
@@ -25,6 +25,11 @@ const cors = Cors({ methods: acceptedMethods });
  *         name: clip_id
  *         schema:
  *           type: integer
+ *       - in: header
+ *         name: vote
+ *         schema:
+ *           type: string
+ *           example: "VALID"
  *       - in: header
  *         name: is_super
  *         schema:
@@ -47,10 +52,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send('Invalid method.');
     }
 
-    const client = decodeURIComponent(headers.client_id as string) || '';
+    const client = decodeURIComponent(headers.client as string) || '';
     const clipId = parseInt(decodeURIComponent(headers.clip_id as string));
     const isSuper = decodeURIComponent(headers.is_super as string) == 'true';
     const vote = decodeURIComponent(headers.vote as string) as ClipVote;
+    console.log(client, clipId, vote);
 
     if (!validateEmail(client)) return res.status(500).send('Invalid client.');
     if (!clipId) return res.status(500).send('Clip id required.');
@@ -58,10 +64,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const clientId = await db.userClients.getClientIdFromEmail(client);
     try {
-        const voteId = await db.votes.saveVote(clientId, clipId, isSuper, vote);
+        const voteId = await db.votes.saveVote(clientId, clipId, false, vote);
         return res.status(200).send(voteId);
     } catch (error) {
         console.error(error);
-        return res.status(500).json(error);
+        return res.status(500).json('A db error occurred');
     }
 };
