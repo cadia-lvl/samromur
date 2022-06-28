@@ -9,9 +9,36 @@ import validateEmail from '../../../utilities/validate-email';
 
 const db: Database = getDatabaseInstance();
 
-const acceptedMethods = ['POST', 'OPTIONS'];
+const acceptedMethods = ['GET', 'OPTIONS'];
 const cors = Cors({ methods: acceptedMethods });
-
+/**
+ * @swagger
+ * /api/funromur/vote:
+ *   post:
+ *     summary: Posts a vote to the database
+ *     parameters:
+ *       - in: header
+ *         name: client
+ *         schema:
+ *           type: string
+ *       - in: header
+ *         name: clip_id
+ *         schema:
+ *           type: integer
+ *       - in: header
+ *         name: is_super
+ *         schema:
+ *           type: boolean
+ *
+ *     responses:
+ *       200:
+ *         description: The vote id.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: integer
+ *               example: 123
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     await runMiddleware(req, res, cors);
 

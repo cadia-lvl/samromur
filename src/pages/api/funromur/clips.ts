@@ -6,6 +6,7 @@ import Cors from 'cors';
 
 import { Clip } from '../../../types/samples';
 import { runMiddleware } from '../../../utilities/cors-helper';
+import validateEmail from '../../../utilities/validate-email';
 
 const cors = Cors({ methods: ['GET', 'OPTIONS'] });
 
@@ -13,9 +14,9 @@ const db: Database = getDatabaseInstance();
 
 /**
  * @swagger
- * /api/contribute/clips:
+ * /api/funromur/clips:
  *   get:
- *     summary: Gets count amount of unverified clips. Requires client id.
+ *     summary: Gets count amount of unverified clips. Requires client email.
  *     parameters:
  *       - in: query
  *         name: count
@@ -23,8 +24,8 @@ const db: Database = getDatabaseInstance();
  *           type: integer
  *         example: 20
  *       - in: header
- *         name: client_id
- *         type: string
+ *         name: client
+ *         type: email
  *       - in: header
  *         name: batch
  *         schema:
@@ -73,11 +74,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 ? decodeURIComponent(req.headers.batch as string)
                 : '';
 
-        const clientId =
-            decodeURIComponent(req.headers.client_id as string) || '';
+        const email = decodeURIComponent(req.headers.client as string) || '';
+
+        if (!validateEmail(email))
+            return res.status(500).send('Invalid client.');
+
+        const client_id = await db.userClients.getClientIdFromEmail(email);
 
         return db.clips
-            .fetchClips(clientId, count, batch)
+            .fetchClips(client_id, count, batch)
             .then((response: Clip[]) => {
                 res.status(200).json(response);
             })
