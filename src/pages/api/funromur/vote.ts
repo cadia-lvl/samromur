@@ -16,6 +16,8 @@ const cors = Cors({ methods: acceptedMethods });
  * /api/funromur/vote:
  *   post:
  *     summary: Posts a vote to the database
+ *     tags:
+ *      -  funromur
  *     parameters:
  *       - in: header
  *         name: client

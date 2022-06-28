@@ -14,6 +14,8 @@ const cors = Cors({ methods: acceptedMethods });
  * /api/funromur/validated-today-client:
  *  get:
  *    summary: Gets the amount of votes the client posted today.
+ *    tags:
+ *      -  stats
  *    parameters:
  *       - in: header
  *         name: client

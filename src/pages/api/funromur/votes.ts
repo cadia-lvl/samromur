@@ -19,6 +19,8 @@ const cors = Cors({ methods: acceptedMethods });
  * /api/funromur/votes:
  *  post:
  *    description: Adds a list of votes to the db from a single client. Then returns how many was added.
+ *    tags:
+ *      -  funromur
  *    consumes:
  *      - application/json
  *    parameters:

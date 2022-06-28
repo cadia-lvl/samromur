@@ -14,6 +14,8 @@ const cors = Cors({ methods: acceptedMethods });
  * /api/funromur/votes-total:
  *  get:
  *    summary: Gets the total amount of votes from all clients.
+ *    tags:
+ *      -  stats
  *    responses:
  *       200:
  *         description: The number of total votes.

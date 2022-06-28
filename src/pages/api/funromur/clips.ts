@@ -17,6 +17,8 @@ const db: Database = getDatabaseInstance();
  * /api/funromur/clips:
  *   get:
  *     summary: Gets count amount of unverified clips. Requires client email.
+ *     tags:
+ *      -  funromur
  *     parameters:
  *       - in: query
  *         name: count
