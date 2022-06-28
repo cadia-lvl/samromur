@@ -5,6 +5,7 @@ import {
     TimelineStat,
 } from '../../types/stats';
 import {
+    FunromurIndividualStat,
     IndividualStat,
     SchoolStat,
     ScoreboardData,
@@ -596,4 +597,54 @@ export default class Clips {
         );
         return Promise.resolve(row.count);
     };
+    fetchUserScoreboard = lazyCache(
+        async (
+            startDate: string | undefined
+        ): Promise<FunromurIndividualStat[]> => {
+            const [rows] = await this.sql.query(
+                `
+                SELECT 
+                    email, COUNT(*) as count
+                FROM
+                    votes
+                        JOIN
+                    user_clients ON votes.client_id = user_clients.client_id
+                WHERE
+                    email <> ''
+                AND
+                    votes.created_at >= date(?)
+                GROUP BY email
+                order by count desc
+                `,
+                [startDate ? startDate : '2000-01-01']
+            );
+            return rows;
+        },
+        minute
+    );
+
+    fetchMonthlyUserScoreboard = lazyCache(
+        async (): Promise<FunromurIndividualStat[]> => {
+            const [rows] = await this.sql.query(
+                `
+                SELECT 
+                    email, COUNT(*) as count
+                FROM
+                    votes
+                        JOIN
+                    user_clients ON votes.client_id = user_clients.client_id
+                WHERE
+                    email <> ''
+                AND
+                    MONTH(votes.created_at) >= MONTH(CURRENT_DATE())
+                AND
+                    YEAR(votes.created_at) = YEAR(CURRENT_DATE())
+                GROUP BY email
+                order by count desc
+                `
+            );
+            return rows;
+        },
+        minute
+    );
 }
