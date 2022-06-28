@@ -56,7 +56,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const clipId = parseInt(decodeURIComponent(headers.clip_id as string));
     const isSuper = decodeURIComponent(headers.is_super as string) == 'true';
     const vote = decodeURIComponent(headers.vote as string) as ClipVote;
-    console.log(client, clipId, vote);
 
     if (!validateEmail(client)) return res.status(500).send('Invalid client.');
     if (!clipId) return res.status(500).send('Clip id required.');
