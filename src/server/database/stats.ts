@@ -154,7 +154,7 @@ export default class Clips {
             `
         );
         return Promise.resolve(row.count);
-    }, tenMinutes);
+    }, minute);
 
     fetchTotalClipsClients = lazyCache(async (): Promise<number> => {
         const [[row]] = await this.sql.query(
