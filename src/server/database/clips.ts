@@ -117,42 +117,28 @@ export default class Clips {
     ): Promise<TableClip[]> => {
         const [clips] = await this.sql.query(
             `
-            SELECT
+            SELECT 
                 *
-            FROM (
-                SELECT
+            FROM
+                (SELECT 
                     *
                 FROM
-                    (SELECT
-                        clips.id as id, 
-                        clips.original_sentence_id as original_sentence_id,
-                        clips.path as path, 
-                        clips.sentence as sentence,
-                        clips.client_id as client_id,
-                        clips.status as status,
-                        clips.empty as empty
-                    FROM
-                        clips JOIN votes
-                        ON clips.id = votes.clip_id
-                    WHERE 
-                        clips.is_valid IS null
-                    AND 
-                        votes.is_valid IS NOT null) as v
+                    clips
                 WHERE
-                    NOT EXISTS 
-                        (
-                            SELECT * FROM votes WHERE votes.clip_id = id AND client_id = ?
-                        )
-                AND
-                    client_id <> ?
-                AND
-                    status = 'samromur'
-                AND
-                    empty = 0
-                LIMIT ?) as b
-            ORDER BY
-                RAND()
-            LIMIT ?
+                    EXISTS( SELECT 
+                            *
+                        FROM
+                            votes
+                        WHERE
+                            votes.clip_id = clips.id
+                                AND votes.client_id <> ?)
+                        AND clips.is_valid IS NULL
+                        AND client_id <> ?
+                        AND empty = 0
+                        AND status = 'samromur'
+                LIMIT ?) AS c
+            ORDER BY RAND()
+            LIMIT ?;
             `,
             [clientId, clientId, this.SHUFFLE_SIZE, count]
         );

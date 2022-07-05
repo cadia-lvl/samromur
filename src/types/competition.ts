@@ -11,6 +11,11 @@ export interface IndividualStat {
     username: string;
 }
 
+export interface FunromurIndividualStat {
+    email: string;
+    count: number;
+}
+
 const DefaultSchoolStat: SchoolStat = {
     institution: '',
     count: 0,

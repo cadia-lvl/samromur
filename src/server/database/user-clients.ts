@@ -550,4 +550,45 @@ export default class UserClients {
         }
         return false;
     };
+
+    getClientIdFromEmail = async (email: string): Promise<string> => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT
+                    client_id
+                FROM
+                    user_clients
+                WHERE
+                    email = ?
+            `,
+            [email]
+        );
+
+        // If no user create one
+        if (!row) {
+            const clientId = generateGUID();
+            await this.insertUserClientWithEmail(clientId, email);
+            return clientId;
+        }
+        const { client_id } = row;
+
+        return client_id;
+    };
+
+    insertUserClientWithEmail = async (
+        id: string,
+        email: string
+    ): Promise<void> => {
+        return this.sql.query(
+            `
+                INSERT INTO
+                    user_clients (client_id, email)
+                VALUES
+                    (?, ?)
+                ON DUPLICATE KEY UPDATE 
+                    client_id = VALUES(client_id)
+            `,
+            [id, email]
+        );
+    };
 }
