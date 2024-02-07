@@ -168,7 +168,7 @@ export default class Sentences {
                     AND
                         clips.client_id = ?
                 )
-            ORDER BY RAND()
+            ORDER BY created_at
             LIMIT ?
             `,
             [source, clientId ? clientId : 'fakeid', count]
