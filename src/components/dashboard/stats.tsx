@@ -67,7 +67,7 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
 }) => {
     const { t } = useTranslation('my-pages');
     const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
-    const { dataL2, error_l2 } = useSWR(['l2', id], getUserL2Stats);
+    const { data: dataL2, error: errorL2 } = useSWR(['l2', id], getUserL2Stats);
     const { data: dataGK2022, error: errorGK2022 } = useSWR(
         id,
         getUserGK2022Stats
