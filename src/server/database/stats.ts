@@ -1,6 +1,7 @@
 import Sql from './sql';
 import {
     CaptiniStat,
+    L2Stat,
     CompetitionIndividualStat,
     TimelineStat,
 } from '../../types/stats';
@@ -556,6 +557,26 @@ export default class Clips {
         );
 
         return row as CaptiniStat;
+    };
+
+    fetchL2StatsForClient = async (clientId: string) => {
+        const [[row]] = await this.sql.query(
+            `
+            SELECT 
+                SUM(client_id = ?) as client_total,
+                COUNT(DISTINCT (sentences.id)) as total
+            FROM
+                sentences
+                    LEFT JOIN
+                clips ON clips.original_sentence_id = sentences.id
+            WHERE
+                sentences.is_used = 1
+                    AND sentences.source = 'l2'
+            `,
+            [clientId]
+        );
+
+        return row as L2Stat;
     };
 
     fetchGk2022IndividualStats = async (clientId: string) => {

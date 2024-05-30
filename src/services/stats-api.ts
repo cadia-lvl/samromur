@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import {
     CaptiniStat,
+    L2Stat,
     CompetitionIndividualStat,
     TimelineStat,
     TimelineSumStat,
@@ -281,6 +282,24 @@ export const getUserGK2022Stats = async (client_id: string) => {
         return res.data as CompetitionIndividualStat;
     } catch (error) {
         console.error(error);
+        return Promise.reject(error);
+    }
+};
+
+export const getUserL2Stats = async (client_id: string) => {
+    const url = '/api/stats/user-l2';
+    try {
+        const res = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                client_id: client_id && encodeURIComponent(client_id),
+            },
+        });
+
+        return res.data as L2Stat;
+    } catch (error) {
+        console.error();
         return Promise.reject(error);
     }
 };

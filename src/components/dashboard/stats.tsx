@@ -15,6 +15,7 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import {
     getUserCaptiniStats,
+    getUserL2Stats,
     getUserGK2022Stats,
 } from '../../services/stats-api';
 
@@ -66,6 +67,7 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
 }) => {
     const { t } = useTranslation('my-pages');
     const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
+    const { dataL2, error_l2 } = useSWR(['l2', id], getUserL2Stats);
     const { data: dataGK2022, error: errorGK2022 } = useSWR(
         id,
         getUserGK2022Stats
@@ -73,6 +75,8 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
     const superVotes = votes ? votes.super : 0;
     const total = data ? data.total : 0;
     const clientTotal = data ? (data.client_total ? data.client_total : 0) : 0;
+    const totalL2 = dataL2 ? dataL2.total : 0;
+    const clientTotalL2 = dataL2 ? (dataL2.client_total ? dataL2.client_total : 0) : 0;
     const clientCompetitionTotal = dataGK2022 ? dataGK2022.client_total : 0;
     return (
         <StatsContainer>
@@ -150,6 +154,22 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
                     <Link href="/captini" passHref>
                         <StyledLink>
                             Smelltu hér til að halda áfram með captini
+                        </StyledLink>
+                    </Link>
+                </Stat>
+            </SuperUserStatItem>
+            <SuperUserStatItem
+                icon={<GlobeIcon height={35} fill={'gray'} />}
+                title={'L2 Safn'}
+            >
+                <Stat>
+                    <Trans i18nKey="statistics.l2-text" t={t}>
+                        Þú hefur lesið <span>{{ clientTotalL2 }}</span> setningar
+                    </Trans>
+                    <br />
+                    <Link href="/l2" passHref>
+                        <StyledLink>
+                            Smelltu hér til að halda áfram að lesa
                         </StyledLink>
                     </Link>
                 </Stat>

@@ -13,6 +13,11 @@ export interface CaptiniStat {
     total: number;
 }
 
+export interface L2Stat {
+    client_total: number;
+    total: number;
+}
+
 export interface CompetitionIndividualStat {
     client_total: number;
 }

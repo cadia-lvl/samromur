@@ -91,12 +91,21 @@ export default class Sentences {
     ): Promise<any> => {
         const ageGroup = getAgeGroup(age, nativeLanguage);
         if (source) {
-            const sentencesBySource: Array<SimpleSentence> = await this.fetchSentencesFromSource(
-                clientId,
-                count,
-                source
-            );
-            return sentencesBySource;
+            if (source == "l2") {
+                const sentencesBySource: Array<SimpleSentence> = await this.fetchUniqueSentencesFromSource(
+                    clientId,
+                    count,
+                    source
+                );
+                return sentencesBySource;
+            } else {
+                const sentencesBySource: Array<SimpleSentence> = await this.fetchSentencesFromSourceOrdered(
+                    clientId,
+                    count,
+                    source
+                );
+                return sentencesBySource;
+            }
         }
         const [rows] = await this.sql.query(
             `
@@ -142,7 +151,7 @@ export default class Sentences {
      * @param source source to get sentences from
      * @returns
      */
-    fetchSentencesFromSource = async (
+    fetchSentencesFromSourceOrdered = async (
         clientId: string,
         count: number,
         source: string
@@ -172,6 +181,47 @@ export default class Sentences {
             LIMIT ?
             `,
             [source, clientId ? clientId : 'fakeid', count]
+        );
+        return rows;
+    };
+
+    /**
+     * This method was implemented specifically for the H17-L2 project
+     * to get unique sentences from a specific source, disregarding age and
+     * native language in the request
+     * @param clientId client id to filter away already uttered sentences
+     * @param count amount of sentences to get
+     * @param source source to get sentences from
+     * @returns
+     */
+    fetchUniqueSentencesFromSource = async (
+        clientId: string,
+        count: number,
+        source: string
+    ): Promise<Array<SimpleSentence>> => {
+        const [rows] = await this.sql.query(
+            `
+            SELECT 
+                id, text
+            FROM
+                sentences
+            WHERE 
+                source = ?
+            AND
+                is_used = 1
+            AND
+                NOT EXISTS (
+                    SELECT
+                        *
+                    FROM
+                        clips
+                    WHERE
+                        clips.original_sentence_id = sentences.id
+                )
+            ORDER BY RAND()
+            LIMIT ?
+            `,
+            [source, count]
         );
         return rows;
     };
