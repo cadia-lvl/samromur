@@ -9,6 +9,7 @@ export interface Demographics {
     gender: Demographic;
     hasConsent: boolean;
     nativeLanguage: Demographic;
+    icelandicProficiency: Demographic;
     institution: Demographic;
 }
 
@@ -77,6 +78,10 @@ export const initialDemographics: Demographics = {
         name: '',
     },
     institution: {
+        id: '',
+        name: '',
+    },
+    icelandicProficiency: {
         id: '',
         name: '',
     },

@@ -38,6 +38,14 @@ export const genders: Array<Demographic> = [
     { id: 'annad', name: 'genders.other' },
 ];
 
+export const icelandicProficiencies: Array<Demographic> = [
+    { id: 'native', name: 'icelandic-proficiencies.native' },
+    { id: 'cefr-a', name: 'icelandic-proficiencies.cefr-a' },
+    { id: 'cefr-b', name: 'icelandic-proficiencies.cefr-b' },
+    { id: 'cefr-c', name: 'icelandic-proficiencies.cefr-c' },
+    { id: 'other', name: 'icelandic-proficiencies.other' },
+];
+
 export const nativeLanguages: Array<Demographic> = [
     { id: 'albanska', name: 'languages.albanska' },
     { id: 'arabiska', name: 'languages.arabiska' },

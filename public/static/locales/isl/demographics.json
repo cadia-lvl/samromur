@@ -2,11 +2,19 @@
     "age": "Aldur",
     "gender": "Kyn",
     "native-tongue": "Móðurmál",
+    "icelandic-proficiency": "Íslenskukunnátta",
     "why-this-matters": "Hvers vegna skiptir þetta máli?",
     "why-this-matters-text": "Ofantaldar upplýsingar eru notaðar til að meta hversu lýðfræðilega dreift gagnasafnið Samrómur er. Því dreifðara og fjölbreyttara sem það er, því betra. Sjá skilmála og persónuverndaryfirlýsingu verkefnisins hér fyrir neðan til þess að fá frekari upplýsingar.",
     "accept-terms-conditions": "Ég staðfesti að hafa kynnt mér <2>skilmála</2> og <6>persónuverndaryfirlýsingu</5> verkefnisins",
     "consent-confirmed": "Leyfi staðfest",
     "switch-user": "Skipta um notanda",
+    "icelandic-proficiencies": {
+        "native": "Hefur móðurmálsþekkingu",
+        "cefr-a": "Byrjandi (A1-A2)",
+        "cefr-b": "Sjálstæður notandi (B1-B2)",
+        "cefr-c": "Fullfær notandi (C1-C2)",
+        "other": "Annað"
+    },
     "languages": {
         "albanska": "Albanska",
         "arabiska": "Arabíska",
