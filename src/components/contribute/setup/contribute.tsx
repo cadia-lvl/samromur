@@ -156,7 +156,7 @@ class Contribute extends React.Component<Props, State> {
     onDemographicsSubmit = async (
         age: Demographic,
         nativeLanguage: Demographic,
-        institution?: string
+        institution?: string,
     ) => {
         const {
             user: {

@@ -160,7 +160,7 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
             </SuperUserStatItem>
             <SuperUserStatItem
                 icon={<GlobeIcon height={35} fill={'gray'} />}
-                title={'L2 Safn'}
+                title={'Íslenska sem annað mál'}
             >
                 <Stat>
                     <Trans i18nKey="statistics.l2-text" t={t}>

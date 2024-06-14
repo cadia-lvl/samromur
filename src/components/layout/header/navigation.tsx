@@ -105,7 +105,7 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                 </Link>
                 <Link href="/l2" passHref>
                     <NavLink isActive={pathname == '/l2'}>
-                        L2 Safn
+                        Íslenska sem annað mál
                     </NavLink>
                 </Link>
                 {/* <Link href="/grunnskolakeppni2022" passHref>
