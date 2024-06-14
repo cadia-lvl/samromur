@@ -21,6 +21,7 @@ import {
     ages,
     genders,
     nativeLanguages,
+    icelandicProficiencies,
 } from '../../../constants/demographics';
 
 import { schools } from '../../../constants/schools';
@@ -215,6 +216,7 @@ interface State {
     institution: Demographic;
     kennitala: string;
     institutions: Institution[];
+    icelandicProficiency: Demographic;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -297,7 +299,25 @@ class DemographicForm extends React.Component<Props, State> {
         const nativeLanguage = nativeLanguages.find(
             (val: Demographic) => t(val.name) == value
         ) as Demographic;
-        this.setState({ nativeLanguage });
+        // if native language is Icelandic, set proficiency to native
+        if (!!nativeLanguage && nativeLanguage.id == 'islenska') {
+            this.setState({
+                icelandicProficiency: icelandicProficiencies.find(
+                    (val: Demographic) => val.id == 'native'
+                ) as Demographic,
+            });
+        }
+        this.setState({
+            nativeLanguage,
+        });
+    };
+
+    onIcelandicProficiencySelect = (value: string) => {
+        const { t } = this.props;
+        const icelandicProficiency = icelandicProficiencies.find(
+            (val: Demographic) => t(val.name) == value
+        ) as Demographic;
+        this.setState({ icelandicProficiency });
     };
 
     // onSchoolSelect = (value: string) => {
@@ -348,6 +368,7 @@ class DemographicForm extends React.Component<Props, State> {
             gender: empty,
             hasConsent: false,
             nativeLanguage: empty,
+            icelandicProficiency: empty,
             showConsentForm: false,
         });
         resetDemographics();
@@ -362,6 +383,7 @@ class DemographicForm extends React.Component<Props, State> {
             nativeLanguage,
             showConsentForm,
             institution,
+            icelandicProficiency,
         } = this.state;
         if (!agreed || (showConsentForm && !hasConsent)) {
             return;
@@ -380,6 +402,7 @@ class DemographicForm extends React.Component<Props, State> {
             gender,
             hasConsent: age.id == 'barn' ? hasConsent : false,
             nativeLanguage: language,
+            icelandicProficiency,
             institution,
         });
         this.props.setTermsConsent(true);
@@ -435,6 +458,7 @@ class DemographicForm extends React.Component<Props, State> {
             gender,
             hasConsent,
             nativeLanguage,
+            icelandicProficiency,
             showConsentForm,
             institution,
             institutions,
@@ -524,6 +548,18 @@ class DemographicForm extends React.Component<Props, State> {
                     onSelect={this.onNativeLanguageSelect}
                     selected={
                         t(nativeLanguage?.name) || t('languages.islenska')
+                    }
+                />
+                <DropdownButton
+                    content={icelandicProficiencies.map(
+                        (icelandicProficiency: Demographic) =>
+                            t(icelandicProficiency.name)
+                    )}
+                    label={t('icelandic-proficiency')}
+                    onSelect={this.onIcelandicProficiencySelect}
+                    selected={
+                        t(icelandicProficiency?.name) ||
+                        t('icelandic-proficiencies.other')
                     }
                 />
                 <Information title={t('why-this-matters')}>

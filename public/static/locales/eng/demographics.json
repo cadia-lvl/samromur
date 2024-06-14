@@ -2,11 +2,19 @@
     "age": "Age",
     "gender": "Gender",
     "native-tongue": "Native tongue",
+    "icelandic-proficiency": "Proficiency in Icelandic",
     "why-this-matters": "Why this information is important",
     "why-this-matters-text": "The information is used to evaluate how varied the Samrómur database is. The more varied the better, see the terms and privacy documents for more information.",
     "accept-terms-conditions": "I confirm that I have read the <2>terms and conditions</2> and the <6>privacy policy</6> of this project",
     "consent-confirmed": "Consent confirmed",
     "switch-user": "Switch user",
+    "icelandic-proficiencies": {
+        "native": "Native",
+        "cefr-a": "Beginner (A1-A2)",
+        "cefr-b": "Intermediate (B1-B2)",
+        "cefr-c": "Advanced (C1-C2)",
+        "other": "Other"
+    },
     "languages": {
         "albanska": "Albanian",
         "arabiska": "Arabic",
