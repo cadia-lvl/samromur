@@ -218,7 +218,6 @@ export default class Sentences {
                     WHERE
                         clips.original_sentence_id = sentences.id
                 )
-            ORDER BY RAND()
             LIMIT ?
             `,
             [source, count]
