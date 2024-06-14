@@ -199,7 +199,7 @@ export default class Sentences {
         count: number,
         source: string
     ): Promise<Array<SimpleSentence>> => {
-        const [rows] = await this.sql.query(
+        const [allRows] = await this.sql.query(
             `
             SELECT 
                 id, text
@@ -218,11 +218,14 @@ export default class Sentences {
                     WHERE
                         clips.original_sentence_id = sentences.id
                 )
-            ORDER BY RAND()
             LIMIT ?
             `,
-            [source, count]
+            [source, count*20]
         );
+        const rows = [];
+        for (let i=0; i < count; i++) {
+            rows.push(allRows.splice(Math.floor(Math.random()*allRows.length), 1)[0])
+        }
         return rows;
     };
 
