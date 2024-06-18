@@ -256,7 +256,7 @@ export default class Clips {
                     INSERT INTO
                         clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, icelandic_proficiency, institution, user_agent, status, sample_rate, duration, size, dialect, speaker_id, is_repeated)
                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         created_at = NOW();
                 `,
