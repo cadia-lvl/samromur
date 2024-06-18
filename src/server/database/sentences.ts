@@ -91,11 +91,11 @@ export default class Sentences {
     ): Promise<any> => {
         const ageGroup = getAgeGroup(age, nativeLanguage);
         if (source) {
-            if (source == "l2" || nativeLanguage != "islenska") {
+            if (source == "l2" || nativeLanguage !== "islenska") {
                 const sentencesBySource: Array<SimpleSentence> = await this.fetchUniqueSentencesFromSource(
                     clientId,
                     count,
-                    source
+                    "l2"
                 );
                 return sentencesBySource;
             } else {
