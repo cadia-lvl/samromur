@@ -215,6 +215,7 @@ export default class Clips {
             gender,
             dialect,
             age,
+            icelandicProficiency,
             institution,
             nativeLanguage,
             userAgent,
@@ -253,7 +254,7 @@ export default class Clips {
             const [row] = await this.sql.query(
                 `
                     INSERT INTO
-                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, institution, user_agent, status, sample_rate, duration, size, dialect, speaker_id, is_repeated)
+                        clips (client_id, path, sentence, original_sentence_id, sex, age, native_language, icelandic_proficiency, institution, user_agent, status, sample_rate, duration, size, dialect, speaker_id, is_repeated)
                     VALUES
                         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
@@ -267,6 +268,7 @@ export default class Clips {
                     gender,
                     age,
                     nativeLanguage,
+                    icelandicProficiency ? icelandicProficiency : null,
                     institution ? institution : null,
                     userAgent,
                     status ? status : 'samromur',

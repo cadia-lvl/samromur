@@ -21,6 +21,7 @@ export interface ClipMetadata {
     institution?: string;
     age: string;
     nativeLanguage: string;
+    icelandicProficiency?: string;
     status?: string;
     userAgent: string;
     sampleRate?: number;
