@@ -105,7 +105,8 @@ export default class Votes {
                         (?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
                         is_valid = VALUES(is_valid),
-                        is_unsure = VALUES(is_unsure)
+                        is_unsure = VALUES(is_unsure),
+                        created_at = NOW()
                 `,
                 [
                     null,
@@ -392,6 +393,22 @@ export default class Votes {
             votesThatUpdate
         );
         return affectedRows;
+    };
+
+    addVotes = async (client: string, votes: Vote[]) => {
+        let votesAdded = 0;
+        for (const vote of votes) {
+            const insertId = await this.saveVote(
+                client,
+                vote.clipId,
+                vote.isSuper ? vote.isSuper : false,
+                vote.vote
+            );
+            if (insertId) {
+                votesAdded += 1;
+            }
+        }
+        return votesAdded;
     };
 
     /**
