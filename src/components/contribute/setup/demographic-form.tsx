@@ -49,6 +49,8 @@ import { CaptiniSignInHello } from '../../subpages/captini-sign-in-hello';
 import { ParallelSignInHello } from '../../subpages/parallel-sign-in-hello';
 import { L2SignInHello } from '../../subpages/l2-sign-in-hello';
 
+const Container = styled.div``;
+
 const DemographicContainer = styled.div`
     display: grid;
     gap: 1rem;
@@ -470,135 +472,136 @@ class DemographicForm extends React.Component<Props, State> {
         const competitionText = this.getCompetitionText();
         const { t } = this.props;
         return (
-            <DemographicContainer>
-                {isCompetition() && (
-                    // <DropdownButton
-                    //     content={schools
-                    //         .sort((a, b) =>
-                    //             a.name.localeCompare(b.name, 'is-IS')
-                    //         )
-                    //         .map((school: School) => school.name)}
-                    //     label={'Skóli'}
-                    //     onSelect={this.onSchoolSelect}
-                    //     selected={
-                    //         school ? (school.name ? school.name : '') : ''
-                    //     }
-                    // />
-                    <DropdownButton
-                        content={institutions
-                            .sort((a, b) =>
-                                a.name.localeCompare(b.name, 'is-IS')
-                            )
-                            .map((element: Institution) => element.name)}
-                        label={'Skóli'}
-                        onSelect={this.onInstitutionSelect}
-                        selected={
-                            institution
-                                ? institution.name
+            <Container>
+            {!this.isAuthenticated() && isParallel() ? (
+                <DemographicContainer>
+                    <ParallelSignInHello switchUser={this.switchUser} />
+                </DemographicContainer>
+            ) : (
+                <DemographicContainer>
+                    {isCompetition() && (
+                        // <DropdownButton
+                        //     content={schools
+                        //         .sort((a, b) =>
+                        //             a.name.localeCompare(b.name, 'is-IS')
+                        //         )
+                        //         .map((school: School) => school.name)}
+                        //     label={'Skóli'}
+                        //     onSelect={this.onSchoolSelect}
+                        //     selected={
+                        //         school ? (school.name ? school.name : '') : ''
+                        //     }
+                        // />
+                        <DropdownButton
+                            content={institutions
+                                .sort((a, b) =>
+                                    a.name.localeCompare(b.name, 'is-IS')
+                                )
+                                .map((element: Institution) => element.name)}
+                            label={'Skóli'}
+                            onSelect={this.onInstitutionSelect}
+                            selected={
+                                institution
                                     ? institution.name
+                                        ? institution.name
+                                        : ''
                                     : ''
-                                : ''
+                            }
+                        />
+                    )}
+                    {isCompetition() && (
+                        <CompetitionText>
+                            {competitionText}
+                            {/* <Link href="/skra" passHref>
+                                <StyledLink>hér</StyledLink>
+                            </Link> */}
+                        </CompetitionText>
+                    )}
+                    {isL2() && (
+                        <L2SignInHello switchUser={this.switchUser} />
+                    )}
+                    <DropdownButton
+                        content={ages.map((age: Demographic) => age.name)}
+                        label={t('age')}
+                        onSelect={this.onAgeSelect}
+                        selected={selectedAge}
+                    />
+                    <ConsentAndSwitchUserContainer
+                        active={hasConsent}
+                        isCompetition={isCompetition()}
+                        tabIndex={hasConsent ? 0 : -1}
+                    >
+                        <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
+                        <SwitchUser onClick={this.switchUser}>
+                            {t('switch-user')}
+                        </SwitchUser>
+                    </ConsentAndSwitchUserContainer>
+                    <ShowMoreContainer active={showConsentForm && !hasConsent}>
+                        <ConsentForm
+                            onConsent={this.onConsent}
+                            visible={showConsentForm}
+                        />
+                    </ShowMoreContainer>
+                    <DropdownButton
+                        content={genders.map((gender: Demographic) =>
+                            t(gender.name)
+                        )}
+                        label={t('gender')}
+                        onSelect={this.onGenderSelect}
+                        selected={gender ? t(gender.name) : ''}
+                    />
+                    <DropdownButton
+                        content={nativeLanguages.map((language: Demographic) =>
+                            t(language.name)
+                        )}
+                        label={t('native-tongue')}
+                        onSelect={this.onNativeLanguageSelect}
+                        selected={
+                            t(nativeLanguage?.name) || t('languages.islenska')
                         }
                     />
-                )}
-                {isCompetition() && (
-                    <CompetitionText>
-                        {competitionText}
-                        {/* <Link href="/skra" passHref>
-                            <StyledLink>hér</StyledLink>
-                        </Link> */}
-                    </CompetitionText>
-                )}
-                {isL2() && (
-                    <L2SignInHello switchUser={this.switchUser} />
-                )}
+                    <DropdownButton
+                        content={icelandicProficiencies.map(
+                            (icelandicProficiency: Demographic) =>
+                                t(icelandicProficiency.name)
+                        )}
+                        label={t('icelandic-proficiency')}
+                        onSelect={this.onIcelandicProficiencySelect}
+                        selected={
+                            t(icelandicProficiency?.name) ||
+                            t('icelandic-proficiencies.other')
+                        }
+                    />
+                    <Information title={t('why-this-matters')}>
+                        <p>{t('why-this-matters-text')}</p>
+                    </Information>
+                    <AgreeContainer>
+                        <Checkbox checked={agreed} onChange={this.handleAgree} />
+                        <span>
+                            <Trans i18nKey="accept-terms-conditions" t={t}>
+                                Ég staðfesti að hafa kynnt mér{' '}
+                                <StyledLink href="/skilmalar">skilmála</StyledLink>{' '}
+                                og{' '}
+                                <StyledLink href="/personuverndaryfirlysing">
+                                    persónuverndaryfirlýsingu
+                                </StyledLink>{' '}
+                                verkefnisins.
+                            </Trans>
+                        </span>
+                    </AgreeContainer>
+                    <SubmitButton
+                        onClick={this.onSubmit}
+                        disabled={!formIsFilled || (showConsentForm && !hasConsent)}
+                    >
+                        {t('common:continue')}
+                    </SubmitButton>
 
-                {!this.isAuthenticated() && isParallel() ? (
-                    <ParallelSignInHello switchUser={this.switchUser} />
-                ) : (
-                    <div>
-                        <DropdownButton
-                            content={ages.map((age: Demographic) => age.name)}
-                            label={t('age')}
-                            onSelect={this.onAgeSelect}
-                            selected={selectedAge}
-                        />
-                        <ConsentAndSwitchUserContainer
-                            active={hasConsent}
-                            isCompetition={isCompetition()}
-                            tabIndex={hasConsent ? 0 : -1}
-                        >
-                            <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
-                            <SwitchUser onClick={this.switchUser}>
-                                {t('switch-user')}
-                            </SwitchUser>
-                        </ConsentAndSwitchUserContainer>
-                        <ShowMoreContainer active={showConsentForm && !hasConsent}>
-                            <ConsentForm
-                                onConsent={this.onConsent}
-                                visible={showConsentForm}
-                            />
-                        </ShowMoreContainer>
-                        <DropdownButton
-                            content={genders.map((gender: Demographic) =>
-                                t(gender.name)
-                            )}
-                            label={t('gender')}
-                            onSelect={this.onGenderSelect}
-                            selected={gender ? t(gender.name) : ''}
-                        />
-                        <DropdownButton
-                            content={nativeLanguages.map((language: Demographic) =>
-                                t(language.name)
-                            )}
-                            label={t('native-tongue')}
-                            onSelect={this.onNativeLanguageSelect}
-                            selected={
-                                t(nativeLanguage?.name) || t('languages.islenska')
-                            }
-                        />
-                        <DropdownButton
-                            content={icelandicProficiencies.map(
-                                (icelandicProficiency: Demographic) =>
-                                    t(icelandicProficiency.name)
-                            )}
-                            label={t('icelandic-proficiency')}
-                            onSelect={this.onIcelandicProficiencySelect}
-                            selected={
-                                t(icelandicProficiency?.name) ||
-                                t('icelandic-proficiencies.other')
-                            }
-                        />
-                        <Information title={t('why-this-matters')}>
-                            <p>{t('why-this-matters-text')}</p>
-                        </Information>
-                        <AgreeContainer>
-                            <Checkbox checked={agreed} onChange={this.handleAgree} />
-                            <span>
-                                <Trans i18nKey="accept-terms-conditions" t={t}>
-                                    Ég staðfesti að hafa kynnt mér{' '}
-                                    <StyledLink href="/skilmalar">skilmála</StyledLink>{' '}
-                                    og{' '}
-                                    <StyledLink href="/personuverndaryfirlysing">
-                                        persónuverndaryfirlýsingu
-                                    </StyledLink>{' '}
-                                    verkefnisins.
-                                </Trans>
-                            </span>
-                        </AgreeContainer>
-                        <SubmitButton
-                            onClick={this.onSubmit}
-                            disabled={!formIsFilled || (showConsentForm && !hasConsent)}
-                        >
-                            {t('common:continue')}
-                        </SubmitButton>
-                    </div>
-                )}
-
-                {isCaptini() && (
-                    <CaptiniSignInHello switchUser={this.switchUser} />
-                )}
-            </DemographicContainer>
+                    {isCaptini() && (
+                        <CaptiniSignInHello switchUser={this.switchUser} />
+                    )}
+                </DemographicContainer>
+            )}
+            </Container>
         );
     }
 }
