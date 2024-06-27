@@ -86,7 +86,7 @@ class ParallelPage extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <ParallelHeader>Íslenska sem annað mál</ParallelHeader>
+                <ParallelHeader>Samhliða safn til framburðarrannsókna</ParallelHeader>
                 <ContributePage
                     sentencesSource="parallel"
                     contributeType={ContributeType.SPEAK}
