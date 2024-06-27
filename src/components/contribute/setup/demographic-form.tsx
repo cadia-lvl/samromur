@@ -449,10 +449,10 @@ class DemographicForm extends React.Component<Props, State> {
         return '';
     };
 
-    // TODO: remove this?
-    // isCompetition = (): boolean => {
-    //     return false;
-    // };
+    isAuthenticated = (): boolean => {
+        const { user } = this.props;
+        return user.client.isAuthenticated
+    };
 
     render() {
         const {
@@ -513,7 +513,7 @@ class DemographicForm extends React.Component<Props, State> {
                     <L2SignInHello switchUser={this.switchUser} />
                 )}
 
-                {!t.client.isAuthenticated && isParallel() ? (
+                {!this.isAuthenticated() && isParallel() ? (
                     <ParallelSignInHello switchUser={this.switchUser} />
                 ) : (
                     <div>
