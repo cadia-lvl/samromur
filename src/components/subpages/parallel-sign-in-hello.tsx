@@ -24,7 +24,7 @@ export const ParallelSignInHello: React.FC<Props> = (props) => {
         <Container>
             <SignInContainer>
                 Vinsamlegast skráðu þig inn til að taka þátt.
-                <br>
+                <br></br>
                 <Link href={'/innskraning'} passHref>
                     <StyledLink>
                         Smelltu hér til að skrá þig inn eða búa til aðgang.

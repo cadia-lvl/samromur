@@ -28,7 +28,7 @@ export const L2SignInHello: React.FC<Props> = (props) => {
             ) : (
                 <HelloContainer>
                     Þú getur fylgst með framvindu þinni með því að búa til aðgang.
-                    <br>
+                    <br></br>
                     <Link href={'/innskraning'} passHref>
                         <StyledLink>
                             Smelltu hér til að skrá þig inn eða búa til aðgang.
