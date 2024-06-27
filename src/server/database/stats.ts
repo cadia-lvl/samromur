@@ -2,6 +2,7 @@ import Sql from './sql';
 import {
     CaptiniStat,
     L2Stat,
+    ParallelStat,
     CompetitionIndividualStat,
     TimelineStat,
 } from '../../types/stats';
@@ -460,6 +461,22 @@ export default class Clips {
         return row;
     };
 
+    fetchParallelSpeakerStats = async () => {
+        const [[row]] = await this.sql.query(
+            `
+                SELECT 
+                    COUNT(*) AS total,
+                    SUM(is_valid = 1) AS valid,
+                    SUM(is_valid = 0) AS invalid
+                FROM
+                    clips
+                WHERE
+                    sentences.source = 'parallel'
+            `
+        );
+        return row;
+    };
+
     fetchH3QueriesStats = async () => {
         const [rows] = await this.sql.query(
             `
@@ -579,6 +596,25 @@ export default class Clips {
         return row as L2Stat;
     };
 
+    fetchParallelStatsForClient = async (clientId: string) => {
+        const [[row]] = await this.sql.query(
+            `
+            SELECT 
+                SUM(client_id = ?) as client_total,
+                COUNT(DISTINCT (sentences.id)) as total
+            FROM
+                sentences
+                    LEFT JOIN
+                clips ON clips.original_sentence_id = sentences.id
+            WHERE
+                sentences.is_used = 1
+                    AND sentences.source = 'parallel'
+            `,
+            [clientId]
+        );
+
+        return row as ParallelStat;
+    };
     fetchGk2022IndividualStats = async (clientId: string) => {
         const start = dbStartDate;
         const end = dbEndDate;
