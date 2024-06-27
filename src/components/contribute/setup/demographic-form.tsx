@@ -473,10 +473,11 @@ class DemographicForm extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <Container>
+            {isL2() && (
+                <L2SignInHello switchUser={this.switchUser} />
+            )}
             {!this.isAuthenticated() && isParallel() ? (
-                <DemographicContainer>
-                    <ParallelSignInHello switchUser={this.switchUser} />
-                </DemographicContainer>
+                <ParallelSignInHello switchUser={this.switchUser} />
             ) : (
                 <DemographicContainer>
                     {isCompetition() && (
@@ -516,9 +517,6 @@ class DemographicForm extends React.Component<Props, State> {
                                 <StyledLink>hér</StyledLink>
                             </Link> */}
                         </CompetitionText>
-                    )}
-                    {isL2() && (
-                        <L2SignInHello switchUser={this.switchUser} />
                     )}
                     <DropdownButton
                         content={ages.map((age: Demographic) => age.name)}

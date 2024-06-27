@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { StyledLink } from '../ui/links';
 
 const Container = styled.div`
-    padding-top: 5rem;
+    padding-bottom: 2rem;
 `;
 
 const SignInContainer = styled.div``;
