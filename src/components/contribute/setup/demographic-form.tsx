@@ -44,8 +44,10 @@ import {
 } from '../../../utilities/competition-helper';
 import { Institution } from '../../../types/institution';
 import { getCompanies, getSchools } from '../../../services/competition-api';
-import { isCaptini } from '../../../utilities/captini-helper';
-import { CaptiniSignInHello } from '../../captini/captini-sign-in-hello';
+import { isCaptini, isL2, isParallel } from '../../../utilities/subpage-helper';
+import { CaptiniSignInHello } from '../../subpages/captini-sign-in-hello';
+import { ParallelSignInHello } from '../../subpages/parallel-sign-in-hello';
+import { L2SignInHello } from '../../subpages/l2-sign-in-hello';
 
 const DemographicContainer = styled.div`
     display: grid;
@@ -507,84 +509,92 @@ class DemographicForm extends React.Component<Props, State> {
                         </Link> */}
                     </CompetitionText>
                 )}
+                {isL2() && (
+                    <L2SignInHello switchUser={this.switchUser} />
+                )}
 
-                <div />
-                <div />
-                <DropdownButton
-                    content={ages.map((age: Demographic) => age.name)}
-                    label={t('age')}
-                    onSelect={this.onAgeSelect}
-                    selected={selectedAge}
-                />
-                <ConsentAndSwitchUserContainer
-                    active={hasConsent}
-                    isCompetition={isCompetition()}
-                    tabIndex={hasConsent ? 0 : -1}
-                >
-                    <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
-                    <SwitchUser onClick={this.switchUser}>
-                        {t('switch-user')}
-                    </SwitchUser>
-                </ConsentAndSwitchUserContainer>
-                <ShowMoreContainer active={showConsentForm && !hasConsent}>
-                    <ConsentForm
-                        onConsent={this.onConsent}
-                        visible={showConsentForm}
-                    />
-                </ShowMoreContainer>
-                <DropdownButton
-                    content={genders.map((gender: Demographic) =>
-                        t(gender.name)
-                    )}
-                    label={t('gender')}
-                    onSelect={this.onGenderSelect}
-                    selected={gender ? t(gender.name) : ''}
-                />
-                <DropdownButton
-                    content={nativeLanguages.map((language: Demographic) =>
-                        t(language.name)
-                    )}
-                    label={t('native-tongue')}
-                    onSelect={this.onNativeLanguageSelect}
-                    selected={
-                        t(nativeLanguage?.name) || t('languages.islenska')
-                    }
-                />
-                <DropdownButton
-                    content={icelandicProficiencies.map(
-                        (icelandicProficiency: Demographic) =>
-                            t(icelandicProficiency.name)
-                    )}
-                    label={t('icelandic-proficiency')}
-                    onSelect={this.onIcelandicProficiencySelect}
-                    selected={
-                        t(icelandicProficiency?.name) ||
-                        t('icelandic-proficiencies.other')
-                    }
-                />
-                <Information title={t('why-this-matters')}>
-                    <p>{t('why-this-matters-text')}</p>
-                </Information>
-                <AgreeContainer>
-                    <Checkbox checked={agreed} onChange={this.handleAgree} />
-                    <span>
-                        <Trans i18nKey="accept-terms-conditions" t={t}>
-                            Ég staðfesti að hafa kynnt mér{' '}
-                            <StyledLink href="/skilmalar">skilmála</StyledLink>{' '}
-                            og{' '}
-                            <StyledLink href="/personuverndaryfirlysing">
-                                persónuverndaryfirlýsingu
-                            </StyledLink>{' '}
-                            verkefnisins.
-                        </Trans>
-                    </span>
-                </AgreeContainer>
-                <SubmitButton
-                    onClick={this.onSubmit}
-                    disabled={!formIsFilled || (showConsentForm && !hasConsent)}
-                >
-                    {t('common:continue')}
-                </SubmitButton>
+                {!t.client.isAuthenticated && isParallel() ? (
+                    <ParallelSignInHello switchUser={this.switchUser} />
+                ) : (
+                    <div>
+                        <DropdownButton
+                            content={ages.map((age: Demographic) => age.name)}
+                            label={t('age')}
+                            onSelect={this.onAgeSelect}
+                            selected={selectedAge}
+                        />
+                        <ConsentAndSwitchUserContainer
+                            active={hasConsent}
+                            isCompetition={isCompetition()}
+                            tabIndex={hasConsent ? 0 : -1}
+                        >
+                            <ConsentMessage>{t('consent-confirmed')}</ConsentMessage>
+                            <SwitchUser onClick={this.switchUser}>
+                                {t('switch-user')}
+                            </SwitchUser>
+                        </ConsentAndSwitchUserContainer>
+                        <ShowMoreContainer active={showConsentForm && !hasConsent}>
+                            <ConsentForm
+                                onConsent={this.onConsent}
+                                visible={showConsentForm}
+                            />
+                        </ShowMoreContainer>
+                        <DropdownButton
+                            content={genders.map((gender: Demographic) =>
+                                t(gender.name)
+                            )}
+                            label={t('gender')}
+                            onSelect={this.onGenderSelect}
+                            selected={gender ? t(gender.name) : ''}
+                        />
+                        <DropdownButton
+                            content={nativeLanguages.map((language: Demographic) =>
+                                t(language.name)
+                            )}
+                            label={t('native-tongue')}
+                            onSelect={this.onNativeLanguageSelect}
+                            selected={
+                                t(nativeLanguage?.name) || t('languages.islenska')
+                            }
+                        />
+                        <DropdownButton
+                            content={icelandicProficiencies.map(
+                                (icelandicProficiency: Demographic) =>
+                                    t(icelandicProficiency.name)
+                            )}
+                            label={t('icelandic-proficiency')}
+                            onSelect={this.onIcelandicProficiencySelect}
+                            selected={
+                                t(icelandicProficiency?.name) ||
+                                t('icelandic-proficiencies.other')
+                            }
+                        />
+                        <Information title={t('why-this-matters')}>
+                            <p>{t('why-this-matters-text')}</p>
+                        </Information>
+                        <AgreeContainer>
+                            <Checkbox checked={agreed} onChange={this.handleAgree} />
+                            <span>
+                                <Trans i18nKey="accept-terms-conditions" t={t}>
+                                    Ég staðfesti að hafa kynnt mér{' '}
+                                    <StyledLink href="/skilmalar">skilmála</StyledLink>{' '}
+                                    og{' '}
+                                    <StyledLink href="/personuverndaryfirlysing">
+                                        persónuverndaryfirlýsingu
+                                    </StyledLink>{' '}
+                                    verkefnisins.
+                                </Trans>
+                            </span>
+                        </AgreeContainer>
+                        <SubmitButton
+                            onClick={this.onSubmit}
+                            disabled={!formIsFilled || (showConsentForm && !hasConsent)}
+                        >
+                            {t('common:continue')}
+                        </SubmitButton>
+                    </div>
+                )}
+
                 {isCaptini() && (
                     <CaptiniSignInHello switchUser={this.switchUser} />
                 )}
