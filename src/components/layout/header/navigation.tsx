@@ -108,6 +108,11 @@ export const Navigation: React.FunctionComponent<Props> = (props) => {
                         Íslenska sem annað mál
                     </NavLink>
                 </Link>
+                <Link href="/parallel" passHref>
+                    <NavLink isActive={pathname == '/l2'}>
+                        Samhliða safn
+                    </NavLink>
+                </Link>
                 {/* <Link href="/grunnskolakeppni2022" passHref>
                     <NavLink isActive={pathname == '/grunnskolakeppni2022'}>
                         {t('grunnskola-keppni')}

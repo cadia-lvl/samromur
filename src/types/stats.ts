@@ -18,6 +18,11 @@ export interface L2Stat {
     total: number;
 }
 
+export interface ParallelStat {
+    client_total: number;
+    total: number;
+}
+
 export interface CompetitionIndividualStat {
     client_total: number;
 }

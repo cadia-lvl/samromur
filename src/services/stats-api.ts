@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 import {
     CaptiniStat,
     L2Stat,
+    ParallelStat,
     CompetitionIndividualStat,
     TimelineStat,
     TimelineSumStat,
@@ -249,6 +250,17 @@ export const getL2SpeakersStats = async () => {
     }
 };
 
+export const getParallelSpeakersStats = async () => {
+    const url = '/api/stats/parallel-speakers';
+    try {
+        const res: AxiosResponse = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        console.error();
+        return Promise.reject(error);
+    }
+};
+
 export const getUserCaptiniStats = async (client_id: string) => {
     const url = '/api/stats/user-captini';
     try {
@@ -298,6 +310,24 @@ export const getUserL2Stats = async (client_id: string) => {
         });
 
         return res.data as L2Stat;
+    } catch (error) {
+        console.error();
+        return Promise.reject(error);
+    }
+};
+
+export const getUserParallelStats = async (client_id: string) => {
+    const url = '/api/stats/user-parallel';
+    try {
+        const res = await axios({
+            method: 'GET',
+            url,
+            headers: {
+                client_id: client_id && encodeURIComponent(client_id),
+            },
+        });
+
+        return res.data as ParallelStat;
     } catch (error) {
         console.error();
         return Promise.reject(error);
