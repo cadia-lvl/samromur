@@ -91,6 +91,14 @@ export default class Sentences {
     ): Promise<any> => {
         const ageGroup = getAgeGroup(age, nativeLanguage);
         if (source) {
+            if (source == "parallel") {
+                const sentencesBySource: Array<SimpleSentence> = await this.fetchUniqueSentencesFromSource(
+                    clientId,
+                    count,
+                    source
+                );
+                return sentencesBySource;
+            }
             if (source == "l2" || nativeLanguage !== "islenska") {
                 const sentencesBySource: Array<SimpleSentence> = await this.fetchUniqueSentencesFromSource(
                     clientId,
