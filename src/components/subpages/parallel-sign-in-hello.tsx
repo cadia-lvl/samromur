@@ -5,11 +5,14 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { StyledLink } from '../ui/links';
 
-const Container = styled.div`
+const ParallelContainer = styled.div`
     padding-bottom: 2rem;
+    display: block;
 `;
 
-const SignInContainer = styled.div``;
+const SignInContainer = styled.div`
+    border: none;
+`;
 
 interface Props {
     switchUser: () => void;
@@ -21,7 +24,7 @@ export const ParallelSignInHello: React.FC<Props> = (props) => {
     } = useSelector((state: RootState) => state.user);
 
     return (
-        <Container>
+        <ParallelContainer>
             <SignInContainer>
                 Vinsamlegast skráðu þig inn til að taka þátt.
                 <br></br>
@@ -31,6 +34,6 @@ export const ParallelSignInHello: React.FC<Props> = (props) => {
                     </StyledLink>
                 </Link>
             </SignInContainer>
-        </Container>
+        </ParallelContainer>
     );
 };

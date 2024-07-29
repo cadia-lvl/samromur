@@ -4,12 +4,16 @@ import RootState from '../../store/root-state';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { StyledLink } from '../ui/links';
+import {isCompetition} from "../../utilities/competition-helper";
 
-const Container = styled.div`
+const L2Container = styled.div`
     padding-bottom: 2rem;
+    display: block;
 `;
 
-const HelloContainer = styled.div``;
+const HelloContainer = styled.div`
+  border: none;
+`;
 
 interface Props {
     switchUser: () => void;
@@ -21,11 +25,8 @@ export const L2SignInHello: React.FC<Props> = (props) => {
     } = useSelector((state: RootState) => state.user);
 
     return (
-        <Container>
-            {isAuthenticated ? (
-                <HelloContainer>
-                </HelloContainer>
-            ) : (
+        <L2Container>
+            {!isAuthenticated && (
                 <HelloContainer>
                     Þú getur fylgst með framvindu þinni með því að búa til aðgang.
                     <br></br>
@@ -36,6 +37,6 @@ export const L2SignInHello: React.FC<Props> = (props) => {
                     </Link>
                 </HelloContainer>
             )}
-        </Container>
+        </L2Container>
     );
 };
