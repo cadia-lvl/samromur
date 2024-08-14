@@ -69,7 +69,10 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
     const { t } = useTranslation('my-pages');
     const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
     const { data: dataL2, error: errorL2 } = useSWR(['l2', id], getUserL2Stats);
-    const { data: dataParallel, error: errorParallel } = useSWR(['parallel', id], getUserParallelStats);
+    const { data: dataParallel, error: errorParallel } = useSWR(
+        ['parallel', id],
+        getUserParallelStats
+    );
     const { data: dataGK2022, error: errorGK2022 } = useSWR(
         id,
         getUserGK2022Stats
@@ -180,7 +183,8 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
             >
                 <Stat>
                     <Trans i18nKey="statistics.l2-text" t={t}>
-                        Þú hefur lesið <span>{{ clientTotalL2 }}</span> setningar
+                        Þú hefur lesið <span>{{ clientTotalL2 }}</span>{' '}
+                        setningar
                     </Trans>
                     <br />
                     <Link href="/l2" passHref>
@@ -196,7 +200,8 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
             >
                 <Stat>
                     <Trans i18nKey="statistics.l2-text" t={t}>
-                        Þú hefur lesið <span>{{ clientTotalParallel }}</span> setningar
+                        Þú hefur lesið <span>{{ clientTotalParallel }}</span>{' '}
+                        setningar
                     </Trans>
                     <br />
                     <Link href="/parallel" passHref>
