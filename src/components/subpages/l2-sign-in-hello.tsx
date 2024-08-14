@@ -24,6 +24,18 @@ export const L2SignInHello: React.FC<Props> = (props) => {
         client: { isAuthenticated, username },
     } = useSelector((state: RootState) => state.user);
 
+    // State to handle dynamic rendering
+    const [clientRendered, setClientRendered] = React.useState(false);
+
+    React.useEffect(() => {
+        // Set client-rendered state after component mounts
+        setClientRendered(true);
+    }, []);
+
+    if (!clientRendered) {
+        return null;
+    }
+
     return (
         <L2Container>
             {!isAuthenticated && (
