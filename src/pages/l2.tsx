@@ -84,9 +84,10 @@ class L2Page extends React.Component<Props, State> {
     };
 
     render() {
+        const { t } = this.props;
         return (
             <div>
-                <L2Header>Íslenska sem annað mál</L2Header>
+                <L2Header>{t('icelandic-as-a-second-language')}</L2Header>
                 <ContributePage
                     sentencesSource="l2"
                     contributeType={ContributeType.SPEAK}

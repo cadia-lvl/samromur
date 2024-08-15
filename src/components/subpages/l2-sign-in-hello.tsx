@@ -4,7 +4,8 @@ import RootState from '../../store/root-state';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { StyledLink } from '../ui/links';
-import {isCompetition} from "../../utilities/competition-helper";
+import { isCompetition } from '../../utilities/competition-helper';
+import { useTranslation } from 'react-i18next';
 
 const L2Container = styled.div`
     padding-bottom: 2rem;
@@ -12,7 +13,7 @@ const L2Container = styled.div`
 `;
 
 const HelloContainer = styled.div`
-  border: none;
+    border: none;
 `;
 
 interface Props {
@@ -20,6 +21,8 @@ interface Props {
 }
 
 export const L2SignInHello: React.FC<Props> = (props) => {
+    const { t } = useTranslation('l2');
+
     const {
         client: { isAuthenticated, username },
     } = useSelector((state: RootState) => state.user);
@@ -28,12 +31,10 @@ export const L2SignInHello: React.FC<Props> = (props) => {
         <L2Container>
             {!isAuthenticated && (
                 <HelloContainer>
-                    Þú getur fylgst með framvindu þinni með því að búa til aðgang.
+                    {t('sign-in-hello')}
                     <br></br>
                     <Link href={'/innskraning'} passHref>
-                        <StyledLink>
-                            Smelltu hér til að skrá þig inn eða búa til aðgang.
-                        </StyledLink>
+                        <StyledLink>{t('sign-in-hello-link')}</StyledLink>
                     </Link>
                 </HelloContainer>
             )}
