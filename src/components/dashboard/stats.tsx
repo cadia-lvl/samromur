@@ -69,19 +69,34 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
     const { t } = useTranslation('my-pages');
     const { data, error } = useSWR(['captini', id], getUserCaptiniStats);
     const { data: dataL2, error: errorL2 } = useSWR(['l2', id], getUserL2Stats);
-    const { data: dataParallel, error: errorParallel } = useSWR(['parallel', id], getUserParallelStats);
+    const { data: dataParallel, error: errorParallel } = useSWR(
+        ['parallel', id],
+        getUserParallelStats
+    );
     const { data: dataGK2022, error: errorGK2022 } = useSWR(
         id,
         getUserGK2022Stats
     );
-    const superVotes = votes ? votes.super : 0;
-    const total = data ? data.total : 0;
-    const clientTotal = data ? (data.client_total ? data.client_total : 0) : 0;
-    const totalL2 = dataL2 ? dataL2.total : 0;
-    const clientTotalL2 = dataL2 ? (dataL2.client_total ? dataL2.client_total : 0) : 0;
-    const totalParallel = dataParallel ? dataParallel.total : 0;
-    const clientTotalParallel = dataParallel ? (dataParallel.client_total ? dataParallel.client_total : 0) : 0;
-    const clientCompetitionTotal = dataGK2022 ? dataGK2022.client_total : 0;
+    const superVotes = votes ? votes.super : '-';
+    const total = data ? data.total : '-';
+    const clientTotal = data
+        ? data.client_total
+            ? data.client_total
+            : '-'
+        : '-';
+    const totalL2 = dataL2 ? dataL2.total : '-';
+    const clientTotalL2 = dataL2
+        ? dataL2.client_total
+            ? dataL2.client_total
+            : '-'
+        : '-';
+    const totalParallel = dataParallel ? dataParallel.total : '-';
+    const clientTotalParallel = dataParallel
+        ? dataParallel.client_total
+            ? dataParallel.client_total
+            : '-'
+        : '-';
+    const clientCompetitionTotal = dataGK2022 ? dataGK2022.client_total : '-';
     return (
         <StatsContainer>
             {isSuperUser && (
@@ -168,7 +183,8 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
             >
                 <Stat>
                     <Trans i18nKey="statistics.l2-text" t={t}>
-                        Þú hefur lesið <span>{{ clientTotalL2 }}</span> setningar
+                        Þú hefur lesið <span>{{ clientTotalL2 }}</span>{' '}
+                        setningar
                     </Trans>
                     <br />
                     <Link href="/l2" passHref>
@@ -184,7 +200,8 @@ export const DashboardStats: React.FunctionComponent<Props> = ({
             >
                 <Stat>
                     <Trans i18nKey="statistics.l2-text" t={t}>
-                        Þú hefur lesið <span>{{ clientTotalParallel }}</span> setningar
+                        Þú hefur lesið <span>{{ clientTotalParallel }}</span>{' '}
+                        setningar
                     </Trans>
                     <br />
                     <Link href="/parallel" passHref>
