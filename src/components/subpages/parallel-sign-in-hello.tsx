@@ -23,16 +23,52 @@ export const ParallelSignInHello: React.FC<Props> = (props) => {
         client: { isAuthenticated, username },
     } = useSelector((state: RootState) => state.user);
 
+    // State to handle dynamic rendering
+    const [clientRendered, setClientRendered] = React.useState(false);
+
+    React.useEffect(() => {
+        // Set client-rendered state after component mounts
+        setClientRendered(true);
+    }, []);
+
+    if (!clientRendered) {
+        return null;
+    }
+
     return (
         <ParallelContainer>
             <SignInContainer>
-                Vinsamlegast skráðu þig inn til að taka þátt.
+                Samhliða safn til framburðarannsókna er máltækniverkefni sem
+                snýst um að safna hljóðupptökum frá fólki sem talar íslensku sem
+                annað mál og einnig frá fólki sem hefur íslensku sem móðurmál.
+                Þessar hljóðupptökur verða notaðar til að búa til gagnasafn
+                fyrir rannsóknir og þróun á máltækniforritum. Þátttakendur lesa
+                setningar undir Samhliða safn til framburðarannsókna á Samrómi
+                og svara nokkrum spurningum um aldur, kyn og tungumálakunnáttu í
+                GoogleForms-skjali.
                 <br></br>
-                <Link href={'/innskraning'} passHref>
-                    <StyledLink>
-                        Smelltu hér til að skrá þig inn eða búa til aðgang.
-                    </StyledLink>
-                </Link>
+                Til að taka þátt:
+                <br></br>
+                <ol>
+                    <li>
+                        <Link href={'/innskraning'} passHref>
+                            <StyledLink>
+                                Smelltu hér til að skrá þig inn eða búa til
+                                aðgang.
+                            </StyledLink>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href={'https://forms.gle/bwHyc332vbmJa1VT7'}
+                            passHref
+                        >
+                            <StyledLink>
+                                Smelltu hér til að fylla út GoogleForms-skjalið.
+                            </StyledLink>
+                        </Link>
+                    </li>
+                </ol>
             </SignInContainer>
         </ParallelContainer>
     );
