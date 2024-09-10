@@ -4,6 +4,7 @@ import RootState from '../../store/root-state';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { StyledLink } from '../ui/links';
+import { useTranslation } from 'react-i18next';
 
 const ParallelContainer = styled.div`
     padding-bottom: 2rem;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 export const ParallelSignInHello: React.FC<Props> = (props) => {
+    const { t } = useTranslation('parallel');
     const {
         client: { isAuthenticated, username },
     } = useSelector((state: RootState) => state.user);
@@ -38,24 +40,15 @@ export const ParallelSignInHello: React.FC<Props> = (props) => {
     return (
         <ParallelContainer>
             <SignInContainer>
-                Samhliða safn til framburðarannsókna er máltækniverkefni sem
-                snýst um að safna hljóðupptökum frá fólki sem talar íslensku sem
-                annað mál og einnig frá fólki sem hefur íslensku sem móðurmál.
-                Þessar hljóðupptökur verða notaðar til að búa til gagnasafn
-                fyrir rannsóknir og þróun á máltækniforritum. Þátttakendur lesa
-                setningar undir Samhliða safn til framburðarannsókna á Samrómi
-                og svara nokkrum spurningum um aldur, kyn og tungumálakunnáttu í
-                GoogleForms-skjali.
+                {t('parallel-explanation-long')}
                 <br></br>
-                Til að taka þátt:
+                <br></br>
+                {t('to-take-part')}
                 <br></br>
                 <ol>
                     <li>
                         <Link href={'/innskraning'} passHref>
-                            <StyledLink>
-                                Smelltu hér til að skrá þig inn eða búa til
-                                aðgang.
-                            </StyledLink>
+                            <StyledLink>{t('sign-in-hello-link')}</StyledLink>
                         </Link>
                     </li>
                     <li>
@@ -63,9 +56,7 @@ export const ParallelSignInHello: React.FC<Props> = (props) => {
                             href={'https://forms.gle/bwHyc332vbmJa1VT7'}
                             passHref
                         >
-                            <StyledLink>
-                                Smelltu hér til að fylla út GoogleForms-skjalið.
-                            </StyledLink>
+                            <StyledLink>{t('google-form-link')}</StyledLink>
                         </Link>
                     </li>
                 </ol>
