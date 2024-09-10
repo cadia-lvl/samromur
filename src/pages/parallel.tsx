@@ -18,17 +18,6 @@ import ContributePage from '../components/contribute/setup/contribute';
 import { ContributeType, Goal } from '../types/contribute';
 import styled from 'styled-components';
 
-const ParallelHeader = styled.h1`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 1rem;
-    z-index: 1;
-`;
-
 const dispatchProps = {
     resetContribute,
 };
@@ -87,10 +76,8 @@ class ParallelPage extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <div>
-                <ParallelHeader>
-                    {t('parallel-collection-for-pronunciation-research')}
-                </ParallelHeader>
                 <ContributePage
+                    title={t('parallel-collection-for-pronunciation-research')}
                     sentencesSource="parallel"
                     contributeType={ContributeType.SPEAK}
                 />

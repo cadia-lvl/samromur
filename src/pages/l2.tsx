@@ -18,17 +18,6 @@ import ContributePage from '../components/contribute/setup/contribute';
 import { ContributeType, Goal } from '../types/contribute';
 import styled from 'styled-components';
 
-const L2Header = styled.h1`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 1rem;
-    z-index: 1;
-`;
-
 const dispatchProps = {
     resetContribute,
 };
@@ -87,8 +76,8 @@ class L2Page extends React.Component<Props, State> {
         const { t } = this.props;
         return (
             <div>
-                <L2Header>{t('icelandic-as-a-second-language')}</L2Header>
                 <ContributePage
+                    title={t('icelandic-as-a-second-language')}
                     sentencesSource="l2"
                     contributeType={ContributeType.SPEAK}
                 />
