@@ -43,13 +43,7 @@ export const L2SignInHello: React.FC<Props> = (props) => {
         <L2Container>
             {!isAuthenticated && (
                 <HelloContainer>
-                    Þessi söfnun hefur sem markmið að auka fjölbreytni í
-                    íslenskum máltæknigögnum. Máltækni hefur náð langt á
-                    undanförnum árum en mörg talgreiningarkerfi eiga enn erfitt
-                    með að skilja íslensku innflytjenda. Við hvetjum alla sem
-                    eiga íslensku sem annað tungumál að taka þátt, jafnt
-                    byrjendum sem þeim sem tala reiprennandi íslensku. Þetta
-                    safn ætti að ná yfir alls kyns íslensku.
+                    {t('l2-explanation-long')}
                     <br></br>
                     <br></br>
                     {t('sign-in-hello')}
