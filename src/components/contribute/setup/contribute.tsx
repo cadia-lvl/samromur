@@ -77,6 +77,7 @@ interface ContributeProps {
     labels?: string[];
     sentencesSource?: string;
     demo?: boolean;
+    title?: string;
 }
 
 type Props = ReturnType<typeof mapStateToProps> &
@@ -136,7 +137,7 @@ class Contribute extends React.Component<Props, State> {
                 contributeType == ContributeType.REPEAT
             ) {
                 if (!demographic && goal) {
-                    return t('your-voice');
+                    return this.props.title ?? t('your-voice');
                 }
                 return goal
                     ? t('tips')
@@ -156,7 +157,7 @@ class Contribute extends React.Component<Props, State> {
     onDemographicsSubmit = async (
         age: Demographic,
         nativeLanguage: Demographic,
-        institution?: string,
+        institution?: string
     ) => {
         const {
             user: {
@@ -239,6 +240,7 @@ class Contribute extends React.Component<Props, State> {
             user: { client },
             labels,
             sentencesSource,
+            title = this.props.t('your-voice'),
         } = this.props;
 
         return (
