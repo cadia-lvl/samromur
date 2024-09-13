@@ -16,9 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(400).send('Missing header.');
         }
         try {
-            const something = await db.stats.fetchL2StatsForClient(
-                clientId
-            );
+            const something = await db.stats.fetchL2StatsForClient(clientId);
             res.status(200).json(something);
         } catch (error) {
             console.error(error);

@@ -10,11 +10,11 @@ export const isL2 = (): boolean => {
         return window.location.pathname == '/l2';
     }
     return false;
-}
+};
 
 export const isParallel = (): boolean => {
     if (typeof window !== 'undefined') {
         return window.location.pathname == '/parallel';
     }
     return false;
-}
+};

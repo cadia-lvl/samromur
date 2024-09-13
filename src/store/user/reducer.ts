@@ -30,7 +30,7 @@ const defaultDemoGraphics = {
     icelandicProficiency: {
         id: '',
         name: '',
-    }
+    },
 };
 
 const initialState: UserState = {

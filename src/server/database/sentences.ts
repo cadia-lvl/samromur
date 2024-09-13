@@ -91,7 +91,7 @@ export default class Sentences {
     ): Promise<any> => {
         const ageGroup = getAgeGroup(age, nativeLanguage);
         if (source) {
-            if (source == "parallel" || source == "captini") {
+            if (source == 'parallel' || source == 'captini') {
                 const sentencesBySource: Array<SimpleSentence> = await this.fetchSentencesFromSourceOrdered(
                     clientId,
                     count,
@@ -99,11 +99,11 @@ export default class Sentences {
                 );
                 return sentencesBySource;
             }
-            if (source == "l2" || nativeLanguage !== "islenska") {
+            if (source == 'l2' || nativeLanguage !== 'islenska') {
                 const sentencesBySource: Array<SimpleSentence> = await this.fetchUniqueSentencesFromSource(
                     clientId,
                     count,
-                    "l2"
+                    'l2'
                 );
                 return sentencesBySource;
             } else {
@@ -228,11 +228,13 @@ export default class Sentences {
                 )
             LIMIT ?
             `,
-            [source, count*20]
+            [source, count * 20]
         );
         const rows = [];
-        for (let i=0; i < count; i++) {
-            rows.push(allRows.splice(Math.floor(Math.random()*allRows.length), 1)[0])
+        for (let i = 0; i < count; i++) {
+            rows.push(
+                allRows.splice(Math.floor(Math.random() * allRows.length), 1)[0]
+            );
         }
         return rows;
     };

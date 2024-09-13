@@ -144,7 +144,9 @@ export const uploadClip = async (
             gender: encodeURIComponent(gender.id),
             institution: encodeURIComponent(institution.id || ''),
             native_language: encodeURIComponent(demographics.nativeLanguage.id),
-            icelandic_proficiency: encodeURIComponent(demographics.icelandicProficiency.id),
+            icelandic_proficiency: encodeURIComponent(
+                demographics.icelandicProficiency.id
+            ),
             sentence: encodeURIComponent(sentence.text),
             user_agent: encodeURIComponent(userAgent),
             sample_rate: recording.sampleRate,
