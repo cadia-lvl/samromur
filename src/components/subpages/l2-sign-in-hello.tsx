@@ -43,6 +43,14 @@ export const L2SignInHello: React.FC<Props> = (props) => {
         <L2Container>
             {!isAuthenticated && (
                 <HelloContainer>
+                    {t('l2-explanation-long')}
+                    <br></br>
+                    <br></br>
+                    {t('l2-september-prize-intro')}
+                    <ul>
+                        <li>{t('l2-september-prize-300')}</li>
+                        <li>{t('l2-september-prize-700')}</li>
+                    </ul>
                     {t('sign-in-hello')}
                     <br></br>
                     <Link href={'/innskraning'} passHref>
