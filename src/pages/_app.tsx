@@ -101,6 +101,8 @@ class MyApp extends App<Props> {
                 'the-database',
                 'tips',
                 'wheel',
+                'l2',
+                'parallel',
             ],
         });
 
