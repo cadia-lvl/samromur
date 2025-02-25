@@ -10,6 +10,7 @@ if (typeof window !== 'undefined') {
 interface Props {
     className?: string;
     wrapGridArguments: WrapGridArguments;
+    children: any;
 }
 
 export default class Grid extends React.Component<Props> {
